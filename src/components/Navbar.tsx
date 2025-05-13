@@ -46,6 +46,11 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
+            <Link to="/profile">
+              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Profile">
+                <User size={20} />
+              </Button>
+            </Link>
             <Button variant="outline" size="sm">Log In</Button>
             <Button className="bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium">
               Get Started
@@ -79,6 +84,18 @@ const Navbar = () => {
                 <span>{item.label}</span>
               </Link>
             ))}
+            <Link 
+              to="/profile"
+              className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
+                location.pathname === '/profile'
+                  ? 'text-neon-blue bg-dark/70' 
+                  : 'text-gray-400 hover:bg-dark/40 hover:text-white'
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <User size={18} />
+              <span>Profile</span>
+            </Link>
             <div className="flex flex-col gap-2 pt-4 border-t border-dark-border">
               <Button variant="outline" size="sm">Log In</Button>
               <Button className="bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium">
