@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Football, User, Brain, Menu as MenuIcon } from 'lucide-react';
+import { Menu, X, Home, SoccerBall, User, Brain, Menu as MenuIcon } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Home', icon: <Home size={18} /> },
-    { path: '/football', label: 'Football', icon: <Football size={18} /> },
+    { path: '/football', label: 'Football', icon: <SoccerBall size={18} /> },
     { path: '/blackjack', label: 'Blackjack', icon: <MenuIcon size={18} /> },
     { path: '/insights', label: 'Insights', icon: <Brain size={18} /> },
   ];
