@@ -8,6 +8,7 @@ import AuthProvider from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Football from "./pages/Football";
 import Blackjack from "./pages/Blackjack";
+import Social from "./pages/Social";
 import Insights from "./pages/Insights";
 import UserProfile from "./pages/UserProfile";
 import NotFound from "./pages/NotFound";
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/football" element={<Football />} />
             <Route path="/blackjack" element={<Blackjack />} />
+            <Route path="/social" element={<Social />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/profile" element={<UserProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
