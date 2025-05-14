@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Soccer, Dices, CircleUser, MenuIcon, Share2, Brain } from 'lucide-react';
+import { Menu, X, Home, Dumbbell, Dices, CircleUser, MenuIcon, Share2, Brain } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginDialog from '@/components/LoginDialog';
 
@@ -32,9 +31,9 @@ const Navbar = () => {
     { 
       path: '/football', 
       label: 'Sports', 
-      icon: <Soccer size={18} />,
+      icon: <Dumbbell size={18} />,
       subItems: [
-        { path: '/football', label: 'Football', icon: <Soccer size={18} /> },
+        { path: '/football', label: 'Football', icon: <Dumbbell size={18} /> },
         { path: '/basketball', label: 'Basketball', icon: <Dices size={18} /> },
         { path: '/american-football', label: 'American Football', icon: <Dices size={18} /> }
       ]
