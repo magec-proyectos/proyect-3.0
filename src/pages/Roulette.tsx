@@ -14,16 +14,16 @@ const Roulette = () => {
       
       <main className="container px-4 pt-24">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Roulette Advisor</h1>
+          <h1 className="text-3xl font-bold mb-2">European Roulette</h1>
           <p className="text-gray-400 mb-8">
-            Analyze the roulette table and get AI-powered betting recommendations.
+            Experience the classic casino game with AI-powered betting recommendations.
           </p>
           
-          <Tabs defaultValue="advisor" className="mb-8">
+          <Tabs defaultValue="play" className="mb-8">
             <TabsList className="bg-dark-lighter border-dark-border mb-6">
-              <TabsTrigger value="advisor" className="flex items-center gap-2">
+              <TabsTrigger value="play" className="flex items-center gap-2">
                 <Sparkles size={16} />
-                Advisor
+                Play
               </TabsTrigger>
               <TabsTrigger value="stats" className="flex items-center gap-2">
                 <Calculator size={16} />
@@ -35,7 +35,7 @@ const Roulette = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="advisor" className="mt-0">
+            <TabsContent value="play" className="mt-0">
               <RouletteTable />
             </TabsContent>
             
@@ -55,7 +55,7 @@ const Roulette = () => {
                             key={i} 
                             className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${
                               num === 0 ? 'bg-green-600' : 
-                              num % 2 === 0 ? 'bg-red-600' : 'bg-black border border-white/20'
+                              [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num) ? 'bg-red-600' : 'bg-black border border-white/20'
                             }`}
                           >
                             {num}
@@ -151,6 +151,8 @@ const Roulette = () => {
           </Card>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };

@@ -11,30 +11,30 @@ interface ChipSelectorProps {
 const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, increaseChip }) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  // Función para definir el color del chip según su valor
+  // Function to define chip color based on value
   const getChipColor = () => {
     if (chipAmount >= 500) return 'from-yellow-400 to-yellow-600';
     if (chipAmount >= 100) return 'from-blue-400 to-blue-600';
     if (chipAmount >= 50) return 'from-green-400 to-green-600';
     if (chipAmount >= 25) return 'from-red-400 to-red-600';
-    return 'from-neon-blue to-blue-400';
+    return 'from-amber-400 to-amber-600';
   };
   
   return (
     <div className="space-y-3">
-      <h3 className="text-gray-300 font-semibold">Fichas</h3>
+      <h3 className="text-amber-200 font-semibold">Chips</h3>
       <div className="flex items-center justify-center gap-4">
         <Button 
           onClick={decreaseChip} 
           variant="outline" 
-          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-dark-card border-gray-600 hover:bg-dark-lighter"
+          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/50 border-amber-900/50 text-amber-200 hover:bg-black/80"
           disabled={chipAmount <= 10}
         >
           -
         </Button>
         
         <div
-          className={`w-20 h-20 rounded-full flex items-center justify-center text-lg font-bold transform transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}
+          className={`w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold transform transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -48,7 +48,7 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, i
         <Button 
           onClick={increaseChip} 
           variant="outline" 
-          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-dark-card border-gray-600 hover:bg-dark-lighter"
+          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/50 border-amber-900/50 text-amber-200 hover:bg-black/80"
           disabled={chipAmount >= 1000}
         >
           +
@@ -61,26 +61,24 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, i
             key={value}
             onClick={() => {
               if (value <= 1000) {
-                // Establecer directamente el valor del chip
-                const newChipAmount = value;
-                if (newChipAmount !== chipAmount) {
-                  // Simular llamadas de aumento o disminución para actualizar el estado
-                  if (newChipAmount > chipAmount) {
-                    increaseChip();
-                  } else {
-                    decreaseChip();
-                  }
+                // Set chip amount directly 
+                if (value > chipAmount) {
+                  // Simulate multiple increases to reach the desired amount
+                  increaseChip();
+                } else if (value < chipAmount) {
+                  // Simulate multiple decreases to reach the desired amount
+                  decreaseChip();
                 }
               }
             }}
             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border 
-                      ${chipAmount === value ? 'border-white ring-2 ring-white/50' : 'border-gray-600'} 
+                      ${chipAmount === value ? 'border-white ring-2 ring-amber-300/50' : 'border-amber-900/30'} 
                       hover:scale-110 transition-transform ${
               value >= 500 ? 'bg-gradient-to-b from-yellow-400 to-yellow-600' : 
               value >= 100 ? 'bg-gradient-to-b from-blue-400 to-blue-600' : 
               value >= 50 ? 'bg-gradient-to-b from-green-400 to-green-600' : 
               value >= 25 ? 'bg-gradient-to-b from-red-400 to-red-600' : 
-                          'bg-gradient-to-b from-neon-blue to-blue-400'
+                          'bg-gradient-to-b from-amber-400 to-amber-600'
             }`}
           >
             {value}

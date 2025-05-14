@@ -23,6 +23,7 @@ const RouletteTable = () => {
   const [chipAmount, setChipAmount] = useState<number>(10);
   const [betAmount, setBetAmount] = useState<number>(0);
   const [lastSpinResult, setLastSpinResult] = useState<number | undefined>(undefined);
+  const [balance, setBalance] = useState<number>(1000);
   const [gameStats, setGameStats] = useState<GameStatsType>({
     wins: 0,
     losses: 0,
@@ -63,13 +64,31 @@ const RouletteTable = () => {
         totalLosses: prev.totalLosses + (isWin ? 0 : betAmount)
       };
     });
+    
+    // Update balance
+    setBalance(prev => {
+      if (isWin) {
+        return prev + (betAmount * getBetOdds(selectedBet!.type));
+      } else {
+        return prev - betAmount;
+      }
+    });
   };
   
   const spinWheel = () => {
     if (!selectedBet) {
       toast({
-        title: "No hay apuesta seleccionada",
-        description: "Por favor, haga una apuesta antes de girar la ruleta.",
+        title: "No bet selected",
+        description: "Please place a bet before spinning the wheel.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (betAmount > balance) {
+      toast({
+        title: "Insufficient funds",
+        description: "You don't have enough balance for this bet.",
         variant: "destructive",
       });
       return;
@@ -78,102 +97,111 @@ const RouletteTable = () => {
     setIsSpinning(true);
     setLastSpinResult(undefined);
     
-    // Simular el giro de la ruleta
+    // Simulate wheel spin
     setTimeout(() => {
       const newResult = Math.floor(Math.random() * 38); // 0-37 (including 00)
       setLastSpinResult(newResult);
       setPreviousResults([newResult, ...previousResults.slice(0, 4)]);
       setIsSpinning(false);
       
-      // Determinar si la apuesta ganó
+      // Determine if the bet won
       const isWin = evaluateBet(selectedBet, newResult);
       
-      // Actualizar estadísticas
+      // Update statistics
       updateGameStats(isWin);
       
-      // Mostrar resultado en toast
+      // Show result toast
       if (isWin) {
         const winAmount = betAmount * getBetOdds(selectedBet.type);
         toast({
-          title: "¡Has Ganado!",
-          description: `¡Felicitaciones! Has ganado $${winAmount}.`,
+          title: "You Won!",
+          description: `Congratulations! You won $${winAmount}.`,
           variant: "default",
         });
       } else {
         toast({
-          title: "Has Perdido",
-          description: `Mejor suerte la próxima vez. Has perdido $${betAmount}.`,
+          title: "You Lost",
+          description: `Better luck next time. You lost $${betAmount}.`,
           variant: "destructive",
         });
       }
-    }, 3000); // 3 segundos de animación
+    }, 3000); // 3 seconds animation
   };
   
   const recommendation = selectedBet ? getRecommendation(selectedBet) : null;
   
   return (
-    <Card className="bg-dark-card border-dark-border relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-dark/80 to-dark opacity-80 z-0"></div>
+    <Card className="bg-green-900/80 border border-amber-800/50 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/felt-texture.png')] bg-repeat opacity-20 z-0"></div>
       
       <CardHeader className="relative z-10">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-bold text-gradient">Ruleta VIP</CardTitle>
-          <Badge variant="outline" className="bg-dark-card/50 backdrop-blur-sm border border-neon-blue/30 font-medium">
-            Balance: $1000
+          <CardTitle className="text-2xl font-bold text-amber-200">European Roulette</CardTitle>
+          <Badge variant="outline" className="bg-black/50 backdrop-blur-sm border border-amber-500 font-medium text-amber-300">
+            Balance: ${balance}
           </Badge>
         </div>
       </CardHeader>
       
       <CardContent className="relative z-10">
-        {/* Fondo de mesa */}
-        <div className="absolute inset-0 casino-felt rounded-md -z-10"></div>
-        
         <div className="space-y-8 py-4">
-          {/* Estadísticas de sesión */}
-          <GameStats stats={gameStats} />
+          {/* Game Statistics */}
+          <GameStats stats={gameStats} balance={balance} />
           
-          {/* Resultados previos */}
-          <PreviousResults results={previousResults} />
-          
-          {/* Ruleta */}
-          <div className="flex justify-center">
-            <RouletteWheel spinning={isSpinning} lastResult={lastSpinResult} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-1 space-y-4">
+              {/* Previous Results */}
+              <PreviousResults results={previousResults} />
+              
+              {/* Roulette Wheel */}
+              <div className="flex justify-center">
+                <RouletteWheel spinning={isSpinning} lastResult={lastSpinResult} />
+              </div>
+              
+              {/* Chip Selector */}
+              <ChipSelector 
+                chipAmount={chipAmount}
+                decreaseChip={decreaseChip}
+                increaseChip={increaseChip}
+              />
+            </div>
+            
+            <div className="md:col-span-2 space-y-4">
+              {/* Betting Board */}
+              <div className="space-y-3">
+                <h3 className="text-amber-200 font-semibold">Select Your Bet</h3>
+                <BettingBoard onSelectBet={handleSelectBet} />
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Selected Bet */}
+                {selectedBet && (
+                  <div className="md:col-span-1">
+                    <SelectedBet selectedBet={selectedBet} betAmount={betAmount} />
+                  </div>
+                )}
+                
+                {/* Recommendation */}
+                {selectedBet && recommendation && (
+                  <div className="md:col-span-1">
+                    <BetRecommendation recommendation={recommendation} />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          
-          {/* Selección de fichas */}
-          <ChipSelector 
-            chipAmount={chipAmount}
-            decreaseChip={decreaseChip}
-            increaseChip={increaseChip}
-          />
-          
-          {/* Tablero de apuestas */}
-          <div className="space-y-3">
-            <h3 className="text-gray-300 font-semibold">Selecciona tu Apuesta</h3>
-            <BettingBoard onSelectBet={handleSelectBet} />
-          </div>
-          
-          {/* Apuesta seleccionada */}
-          {selectedBet && (
-            <SelectedBet selectedBet={selectedBet} betAmount={betAmount} />
-          )}
-          
-          {/* Cuadro de recomendaciones */}
-          {selectedBet && recommendation && (
-            <BetRecommendation recommendation={recommendation} />
-          )}
         </div>
       </CardContent>
       
-      <CardFooter className="justify-between relative z-10 border-t border-dark-lighter/50">
+      <CardFooter className="justify-between relative z-10 border-t border-amber-800/30">
         <Button 
           variant="ghost" 
           onClick={resetBets} 
-          className="text-gray-400 hover:text-white hover:bg-dark-lighter"
+          className="text-amber-200 hover:text-white hover:bg-green-800"
           disabled={!selectedBet || isSpinning}
         >
           <RefreshCcw className="mr-2 h-4 w-4" />
-          Borrar Apuesta
+          Clear Bet
         </Button>
         
         <div className="flex gap-2">
@@ -187,20 +215,20 @@ const RouletteTable = () => {
               });
             }}
             disabled={!selectedBet || isSpinning}
-            className="border-gray-600 bg-dark-lighter hover:bg-dark/50"
+            className="border-amber-600 bg-green-800/50 hover:bg-green-800 text-amber-200"
           >
             <Settings className="mr-2 h-4 w-4" />
-            Cambiar Apuesta
+            Change Bet
           </Button>
           
           <Button 
             variant="default" 
             onClick={spinWheel}
             disabled={!selectedBet || isSpinning}
-            className={`bg-gradient-to-r from-neon-blue to-blue-500 text-black font-semibold hover:from-neon-blue/90 hover:to-blue-500/90 transition-all
+            className={`bg-gradient-to-r from-amber-600 to-amber-500 text-white font-semibold hover:from-amber-700 hover:to-amber-600 transition-all
                        ${isSpinning ? 'animate-pulse' : ''}`}
           >
-            {isSpinning ? 'Girando...' : 'Girar Ruleta'}
+            {isSpinning ? 'Spinning...' : 'Spin Wheel'}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
