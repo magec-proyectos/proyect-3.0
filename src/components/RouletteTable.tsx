@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { RefreshCcw, HelpCircle } from 'lucide-react';
+import { RefreshCcw, HelpCircle, ArrowRight, Settings } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { toast } from '@/hooks/use-toast';
 
 type BetType = 
   | 'red' | 'black' 
@@ -89,7 +90,7 @@ const getBetOdds = (betType: BetType, specificNumber?: number): number => {
 };
 
 const getBetProbability = (betType: BetType): string => {
-  // European roulette probabilities
+  // American roulette probabilities
   switch (betType) {
     case 'red':
     case 'black':
@@ -117,25 +118,51 @@ const getBetProbability = (betType: BetType): string => {
   }
 };
 
-const RouletteWheel = () => {
-  // Just displaying a simplified representation of the wheel
+const RouletteWheel = ({ spinning, lastResult }: { spinning: boolean; lastResult?: number }) => {
   return (
     <div className="relative w-64 h-64 mx-auto">
       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 via-black to-red-600 border-4 border-gray-700 shadow-xl flex items-center justify-center">
+        {/* Inner ring */}
         <div className="w-48 h-48 rounded-full bg-dark-lighter border-2 border-gray-700 flex items-center justify-center">
-          <div className="w-24 h-24 rounded-full bg-dark/80 border border-gray-600 flex items-center justify-center text-3xl font-bold animate-spin-slow">
-            0
+          {/* Center disc */}
+          <div className={`w-24 h-24 rounded-full bg-dark/80 border border-gray-600 flex items-center justify-center text-3xl font-bold ${spinning ? 'animate-spin' : ''}`}>
+            {lastResult !== undefined ? lastResult : 0}
           </div>
         </div>
       </div>
+      
       {/* Ball indicator */}
-      <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-white shadow-lg animate-bounce-slow"></div>
+      <div className={`absolute top-4 right-4 w-6 h-6 rounded-full bg-white shadow-lg ${spinning ? 'animate-bounce' : ''}`}></div>
+      
+      {/* Number positions around the wheel (simplified) */}
+      <div className="absolute inset-0">
+        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
+          const rad = (angle * Math.PI) / 180;
+          const x = 32 * Math.cos(rad) + 32;
+          const y = 32 * Math.sin(rad) + 32;
+          return (
+            <div 
+              key={i}
+              className="absolute w-6 h-6 flex items-center justify-center text-xs font-bold text-white"
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)'
+              }}
+            >
+              {i % 2 === 0 ? 
+                <span className="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center" /> : 
+                <span className="w-4 h-4 bg-black rounded-full flex items-center justify-center" />
+              }
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
 const BettingBoard = ({ onSelectBet }: { onSelectBet: (type: BetType, number?: number) => void }) => {
-  // Roulette table layout with numbers 0-36 and betting options
   return (
     <div className="w-full max-w-2xl mx-auto">
       <div className="bg-green-800 p-4 rounded-md">
@@ -156,7 +183,7 @@ const BettingBoard = ({ onSelectBet }: { onSelectBet: (type: BetType, number?: n
           </button>
         </div>
         
-        {/* Numbers grid (simplified for display) */}
+        {/* Numbers grid */}
         <div className="grid grid-cols-12 gap-1">
           {Array.from({ length: 36 }, (_, i) => i + 1).map(num => {
             const color = num % 2 === 0 ? 'bg-black' : 'bg-red-600';
@@ -173,7 +200,7 @@ const BettingBoard = ({ onSelectBet }: { onSelectBet: (type: BetType, number?: n
         </div>
         
         {/* Outside bets */}
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-4 gap-2 mt-4">
           <div className="space-y-2">
             <button
               onClick={() => onSelectBet('red')}
@@ -203,6 +230,42 @@ const BettingBoard = ({ onSelectBet }: { onSelectBet: (type: BetType, number?: n
               Even
             </button>
           </div>
+          
+          <div className="space-y-2">
+            <button
+              onClick={() => onSelectBet('1-18')}
+              className="w-full py-2 bg-dark-lighter hover:bg-dark-card text-white font-bold rounded-sm border border-white/20"
+            >
+              1-18
+            </button>
+            <button
+              onClick={() => onSelectBet('19-36')}
+              className="w-full py-2 bg-dark-lighter hover:bg-dark-card text-white font-bold rounded-sm border border-white/20"
+            >
+              19-36
+            </button>
+          </div>
+          
+          <div className="space-y-2">
+            <button
+              onClick={() => onSelectBet('1st12')}
+              className="w-full py-2 bg-dark-lighter hover:bg-dark-card text-white font-bold rounded-sm border border-white/20"
+            >
+              1st 12
+            </button>
+            <button
+              onClick={() => onSelectBet('2nd12')}
+              className="w-full py-2 bg-dark-lighter hover:bg-dark-card text-white font-bold rounded-sm border border-white/20"
+            >
+              2nd 12
+            </button>
+            <button
+              onClick={() => onSelectBet('3rd12')}
+              className="w-full py-2 bg-dark-lighter hover:bg-dark-card text-white font-bold rounded-sm border border-white/20"
+            >
+              3rd 12
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -212,13 +275,125 @@ const BettingBoard = ({ onSelectBet }: { onSelectBet: (type: BetType, number?: n
 const RouletteTable = () => {
   const [selectedBet, setSelectedBet] = useState<{type: BetType, number?: number} | null>(null);
   const [previousResults, setPreviousResults] = useState<number[]>([14, 7, 32, 5, 19]);
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
+  const [chipAmount, setChipAmount] = useState<number>(10);
+  const [betAmount, setBetAmount] = useState<number>(0);
+  const [lastSpinResult, setLastSpinResult] = useState<number | undefined>(undefined);
+  const [gameStats, setGameStats] = useState({
+    wins: 0,
+    losses: 0,
+    totalBets: 0,
+    totalWinnings: 0,
+    totalLosses: 0
+  });
   
   const handleSelectBet = (type: BetType, number?: number) => {
     setSelectedBet({ type, number });
+    setBetAmount(chipAmount);
   };
   
   const resetBets = () => {
     setSelectedBet(null);
+    setBetAmount(0);
+  };
+  
+  const increaseChip = () => {
+    const newAmount = chipAmount < 50 ? chipAmount + 10 : chipAmount + 50;
+    setChipAmount(Math.min(newAmount, 1000));
+  };
+  
+  const decreaseChip = () => {
+    const newAmount = chipAmount > 50 ? chipAmount - 50 : chipAmount - 10;
+    setChipAmount(Math.max(newAmount, 10));
+  };
+  
+  const spinWheel = () => {
+    if (!selectedBet) {
+      toast({
+        title: "No bet selected",
+        description: "Please place a bet before spinning the wheel.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsSpinning(true);
+    setLastSpinResult(undefined);
+    
+    // Simulate wheel spinning
+    setTimeout(() => {
+      const newResult = Math.floor(Math.random() * 38); // 0-37 (including 00)
+      const result = newResult === 37 ? 0 : newResult; // Treat 37 as 00
+      
+      setLastSpinResult(result);
+      setPreviousResults([result, ...previousResults.slice(0, 4)]);
+      setIsSpinning(false);
+      
+      // Determine if bet won
+      const isWin = evaluateBet(selectedBet, result);
+      
+      // Update stats
+      updateGameStats(isWin);
+      
+      // Show result toast
+      if (isWin) {
+        const winAmount = betAmount * getBetOdds(selectedBet.type);
+        toast({
+          title: "You Won!",
+          description: `Congratulations! You've won $${winAmount}.`,
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "You Lost",
+          description: `Better luck next time. You've lost $${betAmount}.`,
+          variant: "destructive",
+        });
+      }
+    }, 3000); // 3 second animation
+  };
+  
+  const evaluateBet = (bet: {type: BetType, number?: number}, result: number): boolean => {
+    const resultColor = result === 0 || result === 0o0 ? 'green' : result % 2 === 0 ? 'black' : 'red';
+    
+    switch (bet.type) {
+      case 'red':
+        return resultColor === 'red';
+      case 'black':
+        return resultColor === 'black';
+      case 'odd':
+        return result !== 0 && result !== 0o0 && result % 2 === 1;
+      case 'even':
+        return result !== 0 && result !== 0o0 && result % 2 === 0;
+      case '1-18':
+        return result >= 1 && result <= 18;
+      case '19-36':
+        return result >= 19 && result <= 36;
+      case '1st12':
+        return result >= 1 && result <= 12;
+      case '2nd12':
+        return result >= 13 && result <= 24;
+      case '3rd12':
+        return result >= 25 && result <= 36;
+      case 'straight':
+        return result === bet.number;
+      default:
+        return false;
+    }
+  };
+  
+  const updateGameStats = (isWin: boolean) => {
+    setGameStats(prev => {
+      const winAmount = isWin ? betAmount * getBetOdds(selectedBet!.type) : 0;
+      
+      return {
+        wins: isWin ? prev.wins + 1 : prev.wins,
+        losses: !isWin ? prev.losses + 1 : prev.losses,
+        totalBets: prev.totalBets + 1,
+        totalWinnings: prev.totalWinnings + winAmount,
+        totalLosses: prev.totalLosses + (isWin ? 0 : betAmount)
+      };
+    });
   };
   
   // Get AI recommendation based on selected bet
@@ -228,18 +403,23 @@ const RouletteTable = () => {
     // Simple recommendations based on bet type
     if (selectedBet.type === 'straight') {
       return {
-        action: "CONSIDER ALTERNATIVES",
-        explanation: "Straight bets have the lowest probability of winning (2.63%). Consider outside bets for more consistent results."
+        action: "HIGH RISK",
+        explanation: "Straight bets have the lowest probability of winning (2.63%). Consider outside bets for more frequent wins."
       };
     } else if (['red', 'black', 'odd', 'even', '1-18', '19-36'].includes(selectedBet.type)) {
       return {
-        action: "REASONABLE CHOICE",
-        explanation: "Outside bets have the highest probability of winning (46.37%). This is a balanced risk option."
+        action: "BALANCED RISK",
+        explanation: "Outside bets have the highest probability of winning (46.37%). This is a good choice for consistent play."
       };
-    } else {
+    } else if (['1st12', '2nd12', '3rd12'].includes(selectedBet.type)) {
       return {
         action: "MEDIUM RISK",
         explanation: `This bet type has a ${getBetProbability(selectedBet.type)} chance of winning with a ${getBetOdds(selectedBet.type)}:1 payout ratio.`
+      };
+    } else {
+      return {
+        action: "CALCULATED RISK",
+        explanation: `This bet type has a ${getBetProbability(selectedBet.type)} chance of winning. Consider your bankroll management.`
       };
     }
   };
@@ -249,7 +429,10 @@ const RouletteTable = () => {
   return (
     <Card className="bg-dark-card border-dark-border">
       <CardHeader>
-        <CardTitle className="text-lg">Roulette Advisor</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg">Roulette Advisor</CardTitle>
+          <Badge variant="outline" className="bg-dark/50">Balance: $1000</Badge>
+        </div>
       </CardHeader>
       
       <CardContent className="relative">
@@ -257,6 +440,30 @@ const RouletteTable = () => {
         <div className="absolute inset-0 bg-green-900/30 rounded-md -z-10"></div>
         
         <div className="space-y-8 py-4">
+          {/* Session stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div className="bg-dark-lighter p-3 rounded-lg text-center">
+              <div className="text-xs text-gray-400">Win/Loss</div>
+              <div className="text-lg font-semibold">{gameStats.wins}/{gameStats.losses}</div>
+            </div>
+            <div className="bg-dark-lighter p-3 rounded-lg text-center">
+              <div className="text-xs text-gray-400">Win Rate</div>
+              <div className="text-lg font-semibold">
+                {gameStats.totalBets > 0 ? `${Math.round((gameStats.wins / gameStats.totalBets) * 100)}%` : '-'}
+              </div>
+            </div>
+            <div className="bg-dark-lighter p-3 rounded-lg text-center">
+              <div className="text-xs text-gray-400">Profit/Loss</div>
+              <div className={`text-lg font-semibold ${gameStats.totalWinnings - gameStats.totalLosses >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                ${gameStats.totalWinnings - gameStats.totalLosses}
+              </div>
+            </div>
+            <div className="bg-dark-lighter p-3 rounded-lg text-center">
+              <div className="text-xs text-gray-400">Total Bets</div>
+              <div className="text-lg font-semibold">{gameStats.totalBets}</div>
+            </div>
+          </div>
+          
           {/* Previous Results */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -265,12 +472,12 @@ const RouletteTable = () => {
             
             <div className="flex gap-2 flex-wrap">
               {previousResults.map((num, index) => {
-                const color = num === 0 || num === 0o0 ? 'bg-green-600' : 
-                              num % 2 === 0 ? 'bg-red-600' : 'bg-black';
+                const color = num === 0 ? 'bg-green-600' : 
+                              num % 2 === 0 ? 'bg-black' : 'bg-red-600';
                 return (
                   <div 
                     key={index} 
-                    className={`w-12 h-12 ${color} rounded-full flex items-center justify-center text-white font-bold border border-white/20`}
+                    className={`w-12 h-12 ${color} rounded-full flex items-center justify-center text-white font-bold border border-white/20 ${index === 0 ? 'ring-2 ring-white/50 ring-offset-2 ring-offset-dark-card' : ''}`}
                   >
                     {num}
                   </div>
@@ -280,7 +487,37 @@ const RouletteTable = () => {
           </div>
           
           {/* Roulette Wheel */}
-          <RouletteWheel />
+          <RouletteWheel spinning={isSpinning} lastResult={lastSpinResult} />
+          
+          {/* Chip Selection */}
+          <div className="space-y-3">
+            <h3 className="text-gray-300">Chip Value</h3>
+            <div className="flex items-center justify-center gap-4">
+              <Button 
+                onClick={decreaseChip} 
+                variant="outline" 
+                className="h-10 w-10 rounded-full p-0 flex items-center justify-center"
+                disabled={chipAmount <= 10}
+              >
+                -
+              </Button>
+              
+              <div 
+                className="w-16 h-16 rounded-full bg-neon-blue flex items-center justify-center text-lg font-bold border-4 border-white/20 shadow-lg shadow-neon-blue/20" 
+              >
+                ${chipAmount}
+              </div>
+              
+              <Button 
+                onClick={increaseChip} 
+                variant="outline" 
+                className="h-10 w-10 rounded-full p-0 flex items-center justify-center"
+                disabled={chipAmount >= 1000}
+              >
+                +
+              </Button>
+            </div>
+          </div>
           
           {/* Betting Board */}
           <div className="space-y-3">
@@ -305,6 +542,9 @@ const RouletteTable = () => {
                 {selectedBet.number !== undefined && (
                   <span className="text-white font-bold">{selectedBet.number}</span>
                 )}
+                <Badge variant="outline" className="ml-auto">
+                  ${betAmount}
+                </Badge>
               </div>
               <div className="grid grid-cols-2 gap-4 mt-2 text-sm">
                 <div>
@@ -351,22 +591,36 @@ const RouletteTable = () => {
           variant="ghost" 
           onClick={resetBets} 
           className="text-gray-400 hover:text-white"
-          disabled={!selectedBet}
+          disabled={!selectedBet || isSpinning}
         >
           <RefreshCcw className="mr-2 h-4 w-4" />
-          Reset Selection
+          Clear Bet
         </Button>
         
         <div className="flex gap-2">
           <Button 
             variant="outline" 
             onClick={() => {
-              // Simulate spinning the wheel
-              const newResult = Math.floor(Math.random() * 37); // 0-36 for European
-              setPreviousResults([newResult, ...previousResults.slice(0, 4)]);
+              setSelectedBet(prevBet => {
+                if (!prevBet) return null;
+                setBetAmount(chipAmount);
+                return prevBet;
+              });
             }}
+            disabled={!selectedBet || isSpinning}
           >
-            Spin Wheel
+            <Settings className="mr-2 h-4 w-4" />
+            Change Bet
+          </Button>
+          
+          <Button 
+            variant="default" 
+            onClick={spinWheel}
+            disabled={!selectedBet || isSpinning}
+            className="bg-neon-blue text-black hover:bg-neon-blue/90"
+          >
+            {isSpinning ? 'Spinning...' : 'Spin Wheel'}
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </CardFooter>
