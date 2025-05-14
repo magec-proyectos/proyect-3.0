@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, X, Home, Dumbbell, Dices, MenuIcon, Share2, Brain } from 'lucide-react';
+import { Menu, X, Home, Dumbbell, Dices, MenuIcon, Share2, Brain, Trophy, Dice } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginDialog from '@/components/LoginDialog';
 import NavbarBrand from './navbar/NavbarBrand';
@@ -32,22 +32,22 @@ const Navbar = () => {
   const navItems = [
     { path: '/', label: 'Home', icon: <Home size={18} /> },
     { 
-      path: '/football', 
+      path: '/sports', 
       label: 'Sports', 
       icon: <Dumbbell size={18} />,
       subItems: [
         { path: '/football', label: 'Football', icon: <Dumbbell size={18} /> },
-        { path: '/basketball', label: 'Basketball', icon: <Dices size={18} /> },
-        { path: '/american-football', label: 'American Football', icon: <Dices size={18} /> }
+        { path: '/basketball', label: 'Basketball', icon: <Dumbbell size={18} /> },
+        { path: '/american-football', label: 'American Football', icon: <Trophy size={18} /> }
       ]
     },
     { 
-      path: '/blackjack', 
+      path: '/casino', 
       label: 'Casino', 
-      icon: <MenuIcon size={18} />,
+      icon: <Dices size={18} />,
       subItems: [
         { path: '/blackjack', label: 'Blackjack', icon: <MenuIcon size={18} /> },
-        { path: '/roulette', label: 'Roulette', icon: <MenuIcon size={18} /> }
+        { path: '/roulette', label: 'Roulette', icon: <Dice size={18} /> }
       ]
     },
     { path: '/social', label: 'Community', icon: <Share2 size={18} /> },

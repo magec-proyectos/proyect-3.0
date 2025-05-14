@@ -1,158 +1,130 @@
-
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
-import BlackjackTable from '@/components/BlackjackTable';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calculator, BookOpen, Sparkles } from 'lucide-react';
+import Footer from '@/components/Footer';
+import { Card, CardContent } from "@/components/ui/card";
 
-const Blackjack = () => {
+const BlackjackContent = () => {
   return (
-    <div className="min-h-screen bg-dark text-white pb-16">
-      <Navbar />
-      
-      <main className="container px-4 pt-24">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Blackjack Advisor</h1>
-          <p className="text-gray-400 mb-8">
-            Enter your cards and get AI-powered recommendations for optimal play.
-          </p>
-          
-          <Tabs defaultValue="advisor" className="mb-8">
-            <TabsList className="bg-dark-lighter border-dark-border mb-6">
-              <TabsTrigger value="advisor" className="flex items-center gap-2">
-                <Sparkles size={16} />
-                Advisor
-              </TabsTrigger>
-              <TabsTrigger value="counter" className="flex items-center gap-2">
-                <Calculator size={16} />
-                Card Counter
-              </TabsTrigger>
-              <TabsTrigger value="strategy" className="flex items-center gap-2">
-                <BookOpen size={16} />
-                Basic Strategy
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="advisor" className="mt-0">
-              <BlackjackTable />
-            </TabsContent>
-            
-            <TabsContent value="counter" className="mt-0">
-              <Card className="bg-dark-card border-dark-border">
-                <CardHeader>
-                  <CardTitle>Card Counter Tool</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center p-6">
-                    <p className="text-gray-400 mb-4">Card counting assistance would be displayed here.</p>
-                    <div className="bg-dark-lighter p-4 rounded-lg">
-                      <div className="text-sm text-gray-400">Current Count</div>
-                      <div className="text-3xl font-bold">+2</div>
-                      <div className="text-sm text-gray-400 mt-1">True Count: +0.5</div>
-                    </div>
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-dark p-6 rounded-xl border border-dark-border">
+          <h2 className="text-xl font-semibold mb-4">Live Blackjack Tables</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { name: "Classic Blackjack", minBet: "$5", maxBet: "$1,000", players: 4, status: "Open" },
+              { name: "VIP Blackjack", minBet: "$100", maxBet: "$10,000", players: 2, status: "Open" },
+              { name: "Speed Blackjack", minBet: "$10", maxBet: "$2,000", players: 3, status: "Open" },
+              { name: "Infinite Blackjack", minBet: "$1", maxBet: "$500", players: 7, status: "Open" },
+            ].map((table, index) => (
+              <div 
+                key={index}
+                className="bg-dark-lighter p-4 rounded-lg border border-dark-border hover:border-neon-lime transition-colors cursor-pointer"
+              >
+                <h3 className="font-medium text-white">{table.name}</h3>
+                <div className="text-sm text-gray-400 mt-1">
+                  <div className="flex justify-between">
+                    <span>Bet range:</span>
+                    <span className="text-white">{table.minBet} - {table.maxBet}</span>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="strategy" className="mt-0">
-              <Card className="bg-dark-card border-dark-border">
-                <CardHeader>
-                  <CardTitle>Basic Strategy Charts</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center p-6">
-                    <p className="text-gray-400 mb-4">Basic strategy charts would be displayed here.</p>
-                    <div className="grid grid-cols-11 gap-1 max-w-lg mx-auto bg-dark-lighter p-4 rounded-lg">
-                      {/* This would be a complete strategy chart, showing a simplified version for now */}
-                      <div className="bg-dark-lighter"></div>
-                      {['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'A'].map(value => (
-                        <div key={value} className="bg-dark-card p-2 text-xs font-bold">
-                          {value}
-                        </div>
-                      ))}
-                      
-                      {['17+', '16', '15', '14', '13', '12', '11', '10', '9', '8'].map(row => (
-                        <React.Fragment key={row}>
-                          <div className="bg-dark-card p-2 text-xs font-bold">
-                            {row}
-                          </div>
-                          {Array(10).fill(null).map((_, i) => {
-                            // Simplified logic for cell colors
-                            let bg = 'bg-red-500/70';
-                            if (row === '17+') bg = 'bg-blue-500/70';
-                            if (row === '11') bg = 'bg-green-500/70';
-                            
-                            return (
-                              <div key={i} className={`p-2 text-xs ${bg}`}>
-                                {row === '17+' ? 'S' : row === '11' ? 'D' : i < 5 ? 'S' : 'H'}
-                              </div>
-                            );
-                          })}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                    <div className="mt-4 flex justify-center gap-4 text-sm">
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-red-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Hit</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-blue-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Stand</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-green-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Double</span>
-                      </div>
-                    </div>
+                  <div className="flex justify-between mt-1">
+                    <span>Players:</span>
+                    <span className="text-white">{table.players}/7</span>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-          
-          <Card className="bg-dark-card border-dark-border">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Blackjack Tips</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium">Basic Strategy</h3>
-                  <ul className="text-sm text-gray-300 space-y-2">
-                    <li>• Always hit hard 8 or less</li>
-                    <li>• Always stand on hard 17 or more</li>
-                    <li>• Double down on 11 when the dealer has 10 or less</li>
-                    <li>• Split Aces and 8s</li>
-                    <li>• Never split 10s or 5s</li>
-                  </ul>
+                  <div className="flex justify-between mt-2">
+                    <span>Status:</span>
+                    <span className="text-neon-lime">{table.status}</span>
+                  </div>
                 </div>
-                
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium">Card Counting Basics</h3>
-                  <ul className="text-sm text-gray-300 space-y-2">
-                    <li>• Hi-Lo system: +1 for 2-6, 0 for 7-9, -1 for 10-A</li>
-                    <li>• True count = Running count ÷ Decks remaining</li>
-                    <li>• Increase bets when true count is positive</li>
-                    <li>• Adjust strategy based on true count</li>
-                  </ul>
-                </div>
+                <button className="w-full mt-3 bg-neon-lime text-black font-medium py-2 rounded hover:bg-neon-lime/90 transition-colors">
+                  Join Table
+                </button>
               </div>
-              
-              <div className="mt-6 p-4 bg-dark-lighter rounded-lg">
-                <p className="text-sm text-gray-400">
-                  <strong className="text-white">Disclaimer:</strong> This tool is for educational and entertainment purposes only.
-                  Please be aware of local regulations regarding gambling and gaming applications.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+            ))}
+          </div>
         </div>
-      </main>
+        
+        <div className="bg-dark p-6 rounded-xl border border-dark-border">
+          <h2 className="text-xl font-semibold mb-4">Blackjack Strategy</h2>
+          <div className="space-y-4">
+            <div className="bg-dark-lighter p-4 rounded-lg border border-dark-border">
+              <h3 className="font-medium mb-2">Basic Strategy Chart</h3>
+              <p className="text-sm text-gray-400 mb-3">Learn the mathematically optimal play for any blackjack situation</p>
+              <button className="w-full bg-dark-border hover:bg-dark-border/70 transition-colors py-2 rounded font-medium">
+                View Strategy Chart
+              </button>
+            </div>
+            
+            <div className="bg-dark-lighter p-4 rounded-lg border border-dark-border">
+              <h3 className="font-medium mb-2">Card Counting Guide</h3>
+              <p className="text-sm text-gray-400 mb-3">Master the Hi-Lo system and improve your edge</p>
+              <button className="w-full bg-dark-border hover:bg-dark-border/70 transition-colors py-2 rounded font-medium">
+                Learn Card Counting
+              </button>
+            </div>
+            
+            <div className="bg-dark-lighter p-4 rounded-lg border border-dark-border">
+              <h3 className="font-medium mb-2">AI Advisor</h3>
+              <p className="text-sm text-gray-400 mb-3">Get real-time advice for optimal decisions</p>
+              <button className="w-full bg-neon-lime text-black font-medium py-2 rounded hover:bg-neon-lime/90 transition-colors">
+                Enable AI Assistant
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-dark p-6 rounded-xl border border-dark-border">
+        <h2 className="text-xl font-semibold mb-4">Blackjack Variants</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {[
+            { name: "Classic Blackjack", rtp: "99.5%", feature: "Standard rules" },
+            { name: "European Blackjack", rtp: "99.6%", feature: "No hole card" },
+            { name: "Double Exposure", rtp: "99.3%", feature: "Both dealer cards visible" },
+            { name: "Spanish 21", rtp: "99.7%", feature: "No 10s in the deck" },
+            { name: "Blackjack Switch", rtp: "99.8%", feature: "Play two hands, switch cards" },
+            { name: "Perfect Pairs", rtp: "99.5%", feature: "Side bet on pairs" },
+            { name: "Free Bet Blackjack", rtp: "99.2%", feature: "Free doubles and splits" },
+            { name: "Pontoon", rtp: "99.6%", feature: "British variation" },
+          ].map((variant, index) => (
+            <div 
+              key={index}
+              className="bg-dark-lighter p-4 rounded-lg border border-dark-border hover:border-neon-lime transition-colors cursor-pointer"
+            >
+              <h3 className="font-medium">{variant.name}</h3>
+              <p className="text-xs text-gray-400 mt-1">RTP: <span className="text-neon-lime">{variant.rtp}</span></p>
+              <p className="text-xs text-gray-400 mt-1">{variant.feature}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
+};
+
+const Blackjack = () => {
+  const location = useLocation();
+  
+  // If we're on the /blackjack direct route, show the full page with navbar and footer
+  if (location.pathname === "/blackjack") {
+    return (
+      <div className="min-h-screen bg-dark text-white">
+        <Navbar />
+        
+        <main className="container px-4 pt-24 pb-16">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-3xl font-bold mb-8">Blackjack Strategy Advisor</h1>
+            <BlackjackContent />
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    );
+  }
+  
+  // Otherwise just return the content for use in the Casino tabs
+  return <BlackjackContent />;
 };
 
 export default Blackjack;
