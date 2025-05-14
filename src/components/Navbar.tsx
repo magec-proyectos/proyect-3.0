@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Football, Basketball, AmericanFootball, MenuIcon, Share2, Brain } from 'lucide-react';
+import { Menu, X, Home, Soccer, Dices, CircleUser, MenuIcon, Share2, Brain } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginDialog from '@/components/LoginDialog';
 
@@ -31,11 +32,11 @@ const Navbar = () => {
     { 
       path: '/football', 
       label: 'Sports', 
-      icon: <Football size={18} />,
+      icon: <Soccer size={18} />,
       subItems: [
-        { path: '/football', label: 'Football', icon: <Football size={18} /> },
-        { path: '/basketball', label: 'Basketball', icon: <Basketball size={18} /> },
-        { path: '/american-football', label: 'American Football', icon: <AmericanFootball size={18} /> }
+        { path: '/football', label: 'Football', icon: <Soccer size={18} /> },
+        { path: '/basketball', label: 'Basketball', icon: <Dices size={18} /> },
+        { path: '/american-football', label: 'American Football', icon: <Dices size={18} /> }
       ]
     },
     { 
@@ -113,7 +114,7 @@ const Navbar = () => {
                   </div>
                   <Link to="/profile">
                     <Button variant="ghost" size="icon" className="rounded-full" aria-label="Profile">
-                      <User size={20} />
+                      <CircleUser size={20} />
                     </Button>
                   </Link>
                   <Button variant="outline" size="sm" onClick={logout}>Log Out</Button>
@@ -189,7 +190,7 @@ const Navbar = () => {
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
-                <User size={18} />
+                <CircleUser size={18} />
                 <span>Profile</span>
               </Link>
               <div className="flex flex-col gap-2 pt-4 border-t border-dark-border">
