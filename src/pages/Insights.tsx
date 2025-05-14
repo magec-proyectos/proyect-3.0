@@ -70,6 +70,81 @@ const Insights = () => {
   const COLORS = ['#00f0ff', '#8884d8', '#aaff00', '#FF8042'];
   const [chartType, setChartType] = useState('area');
 
+  // Helper function to render the appropriate chart
+  const renderPerformanceChart = () => {
+    if (chartType === 'line') {
+      return (
+        <LineChart
+          data={performanceData}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+          <XAxis dataKey="month" stroke="#888" />
+          <YAxis stroke="#888" />
+          <Tooltip content={<ChartTooltipContent />} />
+          <Legend content={<ChartLegendContent />} />
+          <Line 
+            type="monotone" 
+            dataKey="winRate" 
+            name="Win Rate (%)" 
+            stroke="#00f0ff" 
+            strokeWidth={2} 
+            activeDot={{ r: 8 }} 
+          />
+          <Line 
+            type="monotone" 
+            dataKey="profit" 
+            name="Profit ($)" 
+            stroke="#aaff00" 
+            strokeWidth={2} 
+          />
+        </LineChart>
+      );
+    } else if (chartType === 'area') {
+      return (
+        <AreaChart
+          data={performanceData}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+          <XAxis dataKey="month" stroke="#888" />
+          <YAxis stroke="#888" />
+          <Tooltip content={<ChartTooltipContent />} />
+          <Legend content={<ChartLegendContent />} />
+          <Area 
+            type="monotone" 
+            dataKey="winRate" 
+            name="Win Rate (%)" 
+            stroke="#00f0ff" 
+            fill="#00f0ff20" 
+          />
+          <Area 
+            type="monotone" 
+            dataKey="profit" 
+            name="Profit ($)" 
+            stroke="#aaff00" 
+            fill="#aaff0020"
+          />
+        </AreaChart>
+      );
+    } else {
+      return (
+        <BarChart
+          data={performanceData}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+          <XAxis dataKey="month" stroke="#888" />
+          <YAxis stroke="#888" />
+          <Tooltip content={<ChartTooltipContent />} />
+          <Legend content={<ChartLegendContent />} />
+          <Bar dataKey="winRate" name="Win Rate (%)" fill="#00f0ff" />
+          <Bar dataKey="profit" name="Profit ($)" fill="#aaff00" />
+        </BarChart>
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-dark text-white pb-16">
       <Navbar />
@@ -165,75 +240,7 @@ const Insights = () => {
                       profit: { color: '#aaff00' }
                     }}
                   >
-                    {chartType === 'line' && (
-                      <LineChart
-                        data={performanceData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis dataKey="month" stroke="#888" />
-                        <YAxis stroke="#888" />
-                        <Tooltip content={<ChartTooltipContent />} />
-                        <Legend content={<ChartLegendContent />} />
-                        <Line 
-                          type="monotone" 
-                          dataKey="winRate" 
-                          name="Win Rate (%)" 
-                          stroke="#00f0ff" 
-                          strokeWidth={2} 
-                          activeDot={{ r: 8 }} 
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="profit" 
-                          name="Profit ($)" 
-                          stroke="#aaff00" 
-                          strokeWidth={2} 
-                        />
-                      </LineChart>
-                    )}
-                    
-                    {chartType === 'area' && (
-                      <AreaChart
-                        data={performanceData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis dataKey="month" stroke="#888" />
-                        <YAxis stroke="#888" />
-                        <Tooltip content={<ChartTooltipContent />} />
-                        <Legend content={<ChartLegendContent />} />
-                        <Area 
-                          type="monotone" 
-                          dataKey="winRate" 
-                          name="Win Rate (%)" 
-                          stroke="#00f0ff" 
-                          fill="#00f0ff20" 
-                        />
-                        <Area 
-                          type="monotone" 
-                          dataKey="profit" 
-                          name="Profit ($)" 
-                          stroke="#aaff00" 
-                          fill="#aaff0020"
-                        />
-                      </AreaChart>
-                    )}
-                    
-                    {chartType === 'bar' && (
-                      <BarChart
-                        data={performanceData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                        <XAxis dataKey="month" stroke="#888" />
-                        <YAxis stroke="#888" />
-                        <Tooltip content={<ChartTooltipContent />} />
-                        <Legend content={<ChartLegendContent />} />
-                        <Bar dataKey="winRate" name="Win Rate (%)" fill="#00f0ff" />
-                        <Bar dataKey="profit" name="Profit ($)" fill="#aaff00" />
-                      </BarChart>
-                    )}
+                    {renderPerformanceChart()}
                   </ChartContainer>
                 </div>
               </CardContent>

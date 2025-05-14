@@ -43,7 +43,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           name: 'Test User',
           email: 'test@example.com',
           balance: 100.00,
-          socialProvider: 'email'
+          socialProvider: 'email' as const
         };
       } else {
         throw new Error('Invalid credentials');
@@ -76,7 +76,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: name,
         email: email,
         balance: 50.00,
-        socialProvider: 'email'
+        socialProvider: 'email' as const
       };
     },
     onSuccess: (data) => {
