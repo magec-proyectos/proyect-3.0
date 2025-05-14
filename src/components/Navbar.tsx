@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Menu, X, Home, Dumbbell, Dices, MenuIcon, Share2, Brain, Trophy, Dice } from 'lucide-react';
+import { Menu, X, Home, Dumbbell, Dice1, MenuIcon, Share2, Brain, Trophy } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginDialog from '@/components/LoginDialog';
 import NavbarBrand from './navbar/NavbarBrand';
@@ -44,7 +43,7 @@ const Navbar = () => {
     { 
       path: '/casino', 
       label: 'Casino', 
-      icon: <Dices size={18} />,
+      icon: <Dice1 size={18} />,
       subItems: [
         { path: '/blackjack', label: 'Blackjack', icon: <MenuIcon size={18} /> },
         { path: '/roulette', label: 'Roulette', icon: <Dice size={18} /> }

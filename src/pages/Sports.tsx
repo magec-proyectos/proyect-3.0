@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Football, Basketball, Trophy } from 'lucide-react';
+import { Dumbbell, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FootballContent from './Football';
 import BasketballContent from './Basketball';
@@ -42,14 +42,14 @@ const Sports = () => {
                     value="football"
                     className="data-[state=active]:bg-transparent data-[state=active]:text-neon-blue data-[state=active]:border-b-2 data-[state=active]:border-neon-blue rounded-none px-6 h-14"
                   >
-                    <Football className="mr-2" size={18} />
+                    <Dumbbell className="mr-2" size={18} />
                     Football
                   </TabsTrigger>
                   <TabsTrigger 
                     value="basketball"
                     className="data-[state=active]:bg-transparent data-[state=active]:text-neon-blue data-[state=active]:border-b-2 data-[state=active]:border-neon-blue rounded-none px-6 h-14"
                   >
-                    <Basketball className="mr-2" size={18} />
+                    <Dumbbell className="mr-2" size={18} />
                     Basketball
                   </TabsTrigger>
                   <TabsTrigger 

@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dice, MenuIcon } from 'lucide-react';
+import { Dice1, MenuIcon } from 'lucide-react';
 import BlackjackContent from './Blackjack';
 import RouletteContent from './Roulette';
 
@@ -40,7 +39,7 @@ const Casino = () => {
                     value="roulette"
                     className="data-[state=active]:bg-transparent data-[state=active]:text-neon-lime data-[state=active]:border-b-2 data-[state=active]:border-neon-lime rounded-none px-6 h-14"
                   >
-                    <Dice className="mr-2" size={18} />
+                    <Dice1 className="mr-2" size={18} />
                     Roulette
                   </TabsTrigger>
                 </TabsList>
