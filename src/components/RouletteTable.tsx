@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -40,7 +39,7 @@ const rouletteNumbers: RouletteNumber[] = [
   { number: 36, color: 'red' },
   { number: 13, color: 'black' },
   { number: 1, color: 'red' },
-  { number: 00, color: 'green' },
+  { number: 0, color: 'green' }, // Changed from 00 to 0 to represent double zero
   { number: 27, color: 'red' },
   { number: 10, color: 'black' },
   { number: 25, color: 'red' },
@@ -323,7 +322,7 @@ const RouletteTable = () => {
     // Simulate wheel spinning
     setTimeout(() => {
       const newResult = Math.floor(Math.random() * 38); // 0-37 (including 00)
-      const result = newResult === 37 ? 0 : newResult; // Treat 37 as 00
+      const result = newResult === 37 ? 0 : newResult; // Treat 37 as 00 (also using 0 to represent 00)
       
       setLastSpinResult(result);
       setPreviousResults([result, ...previousResults.slice(0, 4)]);
@@ -354,7 +353,7 @@ const RouletteTable = () => {
   };
   
   const evaluateBet = (bet: {type: BetType, number?: number}, result: number): boolean => {
-    const resultColor = result === 0 || result === 0o0 ? 'green' : result % 2 === 0 ? 'black' : 'red';
+    const resultColor = result === 0 ? 'green' : result % 2 === 0 ? 'black' : 'red';
     
     switch (bet.type) {
       case 'red':
@@ -362,9 +361,9 @@ const RouletteTable = () => {
       case 'black':
         return resultColor === 'black';
       case 'odd':
-        return result !== 0 && result !== 0o0 && result % 2 === 1;
+        return result !== 0 && result % 2 === 1;
       case 'even':
-        return result !== 0 && result !== 0o0 && result % 2 === 0;
+        return result !== 0 && result % 2 === 0;
       case '1-18':
         return result >= 1 && result <= 18;
       case '19-36':
