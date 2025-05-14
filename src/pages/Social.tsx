@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -20,7 +21,7 @@ const initialPosts = [
       avatar: 'https://placehold.co/40',
       username: 'alexbet'
     },
-    content: 'Just placed my bet on Liverpool to win 2-1! Who's with me? 🔥⚽️ #PremierLeague',
+    content: "Just placed my bet on Liverpool to win 2-1! Who's with me? 🔥⚽️ #PremierLeague",
     bet: {
       match: 'Liverpool vs Manchester United',
       prediction: 'Liverpool Win (2-1)',
