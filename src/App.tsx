@@ -7,9 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthProvider from "@/contexts/AuthContext";
 import NotificationProvider from "@/contexts/NotificationContext";
 import Index from "./pages/Index";
+import Sports from "./pages/Sports";
 import Football from "./pages/Football";
 import Basketball from "./pages/Basketball";
 import AmericanFootball from "./pages/AmericanFootball";
+import Casino from "./pages/Casino";
 import Blackjack from "./pages/Blackjack";
 import Roulette from "./pages/Roulette";
 import Social from "./pages/Social";
@@ -31,9 +33,11 @@ const App = () => (
             <Sonner />
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/sports" element={<Sports />} />
               <Route path="/football" element={<Football />} />
               <Route path="/basketball" element={<Basketball />} />
               <Route path="/american-football" element={<AmericanFootball />} />
+              <Route path="/casino" element={<Casino />} />
               <Route path="/blackjack" element={<Blackjack />} />
               <Route path="/roulette" element={<Roulette />} />
               <Route path="/social" element={<Social />} />
