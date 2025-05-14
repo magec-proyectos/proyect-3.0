@@ -7,10 +7,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
 import SocialTabs from '@/components/social/SocialTabs';
 import { Post } from '@/components/social/PostItem';
+import { Comment } from '@/components/social/CommentSection'; 
 import { initialPosts } from '@/data/samplePosts';
 
 const Social = () => {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts, setPosts] = useState<Post[]>(initialPosts.map(post => ({
+    ...post,
+    commentList: []
+  })));
   const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [likedPosts, setLikedPosts] = useState<number[]>([]);
   const { user } = useAuth();
@@ -50,6 +54,40 @@ const Social = () => {
       description: `Share ${post.bet.match} prediction with your friends`
     });
   };
+  
+  const handleAddComment = (postId: number, content: string) => {
+    if (!user) {
+      toast.error('Please log in to comment', {
+        description: 'Create an account or log in to interact'
+      });
+      return;
+    }
+    
+    const newComment: Comment = {
+      id: Math.floor(Math.random() * 1000),
+      user: {
+        name: user.name,
+        avatar: 'https://placehold.co/40',
+        username: user.name.toLowerCase().replace(' ', '')
+      },
+      content: content,
+      timestamp: 'Just now'
+    };
+    
+    setPosts(posts.map(post => {
+      if (post.id === postId) {
+        const updatedCommentList = [...(post.commentList || []), newComment];
+        return {
+          ...post,
+          comments: post.comments + 1,
+          commentList: updatedCommentList
+        };
+      }
+      return post;
+    }));
+    
+    toast.success('Comment added!');
+  };
 
   const handleCreatePost = (content: string) => {
     if (!user) {
@@ -81,7 +119,8 @@ const Social = () => {
       likes: 0,
       comments: 0,
       shares: 0,
-      timestamp: 'Just now'
+      timestamp: 'Just now',
+      commentList: []
     };
     
     setPosts([newPost, ...posts]);
@@ -116,6 +155,7 @@ const Social = () => {
             onShare={handleShare}
             onCreatePost={handleCreatePost}
             onCancelPost={() => setIsCreatingPost(false)}
+            onAddComment={handleAddComment}
           />
         </div>
       </main>

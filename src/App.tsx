@@ -15,6 +15,8 @@ import Roulette from "./pages/Roulette";
 import Social from "./pages/Social";
 import Insights from "./pages/Insights";
 import UserProfile from "./pages/UserProfile";
+import Leaderboard from "./pages/Leaderboard";
+import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +39,8 @@ const App = () => (
               <Route path="/social" element={<Social />} />
               <Route path="/insights" element={<Insights />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/legal" element={<Legal />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

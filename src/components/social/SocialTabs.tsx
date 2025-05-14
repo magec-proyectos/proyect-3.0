@@ -13,6 +13,7 @@ interface SocialTabsProps {
   onShare: (post: Post) => void;
   onCreatePost: (content: string) => void;
   onCancelPost: () => void;
+  onAddComment: (postId: number, content: string) => void;
 }
 
 const SocialTabs: React.FC<SocialTabsProps> = ({
@@ -22,7 +23,8 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
   onLike,
   onShare,
   onCreatePost,
-  onCancelPost
+  onCancelPost,
+  onAddComment
 }) => {
   return (
     <Tabs defaultValue="trending" className="mb-8">
@@ -42,6 +44,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           likedPosts={likedPosts}
           onLike={onLike}
           onShare={onShare}
+          onAddComment={onAddComment}
         />
       </TabsContent>
       
@@ -61,6 +64,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           likedPosts={likedPosts}
           onLike={onLike}
           onShare={onShare}
+          onAddComment={onAddComment}
         />
       </TabsContent>
     </Tabs>

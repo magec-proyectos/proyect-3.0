@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import CommentSection, { Comment } from './CommentSection';
 
 interface PostUser {
   name: string;
@@ -27,6 +28,7 @@ export interface Post {
   comments: number;
   shares: number;
   timestamp: string;
+  commentList?: Comment[];
 }
 
 interface PostItemProps {
@@ -34,9 +36,16 @@ interface PostItemProps {
   isLiked: boolean;
   onLike: (postId: number) => void;
   onShare: (post: Post) => void;
+  onAddComment: (postId: number, content: string) => void;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare }) => {
+const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onAddComment }) => {
+  const [showComments, setShowComments] = useState(false);
+  
+  const toggleComments = () => {
+    setShowComments(!showComments);
+  };
+
   return (
     <Card className="bg-dark-card border-dark-border overflow-hidden">
       <CardHeader className="pb-2">
@@ -66,7 +75,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare }) =
         </div>
       </CardContent>
       
-      <CardFooter>
+      <CardFooter className="flex flex-col w-full">
         <div className="flex justify-between items-center w-full">
           <div className="flex gap-5">
             <Button 
@@ -78,9 +87,15 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare }) =
               <Heart size={18} className={isLiked ? 'fill-red-500' : ''} />
               {post.likes}
             </Button>
-            <Button variant="ghost" size="sm" className="flex items-center gap-1.5">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex items-center gap-1.5"
+              onClick={toggleComments}
+            >
               <MessageCircle size={18} />
               {post.comments}
+              {showComments ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </Button>
           </div>
           <Button 
@@ -93,6 +108,14 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare }) =
             {post.shares}
           </Button>
         </div>
+        
+        {showComments && (
+          <CommentSection 
+            postId={post.id} 
+            comments={post.commentList || []} 
+            onAddComment={onAddComment}
+          />
+        )}
       </CardFooter>
     </Card>
   );
