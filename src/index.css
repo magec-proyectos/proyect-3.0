@@ -100,3 +100,34 @@
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(90deg, #00f0ff, #aaff00);
 }
+
+.text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(90deg, #00f0ff, #aaff00);
+}
+
+/* Fondo de mesa de casino */
+.casino-felt {
+  background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Animación de giro para la ruleta */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-wheel {
+  animation: spin 5s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
+}
+
+/* Animación para el brillo de fichas */
+@keyframes chipGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+  50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+}
+
+.chip-glow {
+  animation: chipGlow 2s infinite;
+}

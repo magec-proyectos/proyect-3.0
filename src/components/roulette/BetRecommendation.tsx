@@ -12,9 +12,9 @@ interface BetRecommendationProps {
 
 const BetRecommendation: React.FC<BetRecommendationProps> = ({ recommendation }) => {
   return (
-    <div className="bg-dark-lighter p-4 rounded-lg border-l-4 border-neon-blue mt-6">
+    <div className="bg-gradient-to-br from-dark-lighter to-dark-card p-4 rounded-lg border-l-4 border-neon-blue mt-6 shadow-lg shadow-neon-blue/10">
       <div className="flex items-center gap-2 mb-2">
-        <Badge className="bg-neon-blue text-black">AI ADVICE</Badge>
+        <Badge className="bg-gradient-to-r from-neon-blue to-blue-400 text-black">CONSEJO IA</Badge>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -22,16 +22,27 @@ const BetRecommendation: React.FC<BetRecommendationProps> = ({ recommendation })
                 <HelpCircle className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className="bg-dark-card border-dark-border">
               <p className="max-w-xs text-xs">
-                Based on mathematical probabilities and standard roulette strategies. This is advisory only.
+                Basado en probabilidades matemáticas y estrategias estándar de ruleta. Esto es sólo una recomendación.
               </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div className="text-2xl font-bold mb-1">{recommendation.action}</div>
-      <p className="text-sm text-gray-400">{recommendation.explanation}</p>
+      
+      <div className="relative">
+        <div className="absolute -top-4 -right-4 w-16 h-16 bg-neon-blue/5 rounded-full blur-xl"></div>
+        <div className="text-2xl font-bold mb-1 text-gradient">{recommendation.action}</div>
+        <p className="text-sm text-gray-300">{recommendation.explanation}</p>
+      </div>
+      
+      <div className="mt-3 pt-3 border-t border-dark-border">
+        <div className="text-xs text-gray-400 flex items-center gap-1">
+          <span className="w-2 h-2 bg-neon-blue rounded-full"></span>
+          <span>La IA analiza los patrones pero recuerda: cada giro es independiente.</span>
+        </div>
+      </div>
     </div>
   );
 };
