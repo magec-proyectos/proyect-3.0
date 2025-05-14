@@ -9,12 +9,15 @@ export interface User {
   name: string;
   email: string;
   balance: number;
+  profileImage?: string;
+  socialProvider?: 'google' | 'apple' | 'email';
 }
 
 interface AuthContextProps {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string, name: string) => Promise<boolean>;
+  socialLogin: (provider: 'google' | 'apple') => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -40,6 +43,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           name: 'Test User',
           email: 'test@example.com',
           balance: 100.00,
+          socialProvider: 'email'
         };
       } else {
         throw new Error('Invalid credentials');
@@ -72,6 +76,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name: name,
         email: email,
         balance: 50.00,
+        socialProvider: 'email'
       };
     },
     onSuccess: (data) => {
@@ -86,6 +91,38 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       toast({
         variant: "destructive",
         title: "Registration failed.",
+        description: error.message,
+      })
+    },
+  });
+
+  const { mutateAsync: socialLoginMutateAsync, isPending: isSocialLoginLoading } = useMutation({
+    mutationFn: async (provider: 'google' | 'apple') => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate successful social login
+      return {
+        id: provider === 'google' ? 'g-123' : 'a-456',
+        name: provider === 'google' ? 'Google User' : 'Apple User',
+        email: provider === 'google' ? 'google@example.com' : 'apple@example.com',
+        balance: 75.00,
+        profileImage: `https://placehold.co/100/2f3136/fff?text=${provider === 'google' ? 'G' : 'A'}`,
+        socialProvider: provider
+      };
+    },
+    onSuccess: (data) => {
+      setUser(data);
+      toast({
+        title: "Social login successful!",
+        description: `Welcome, ${data.name}.`,
+      })
+      navigate('/');
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Social authentication failed.",
         description: error.message,
       })
     },
@@ -109,6 +146,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const socialLogin = async (provider: 'google' | 'apple'): Promise<boolean> => {
+    try {
+      await socialLoginMutateAsync(provider);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     toast({
@@ -118,10 +164,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     navigate('/');
   };
 
-  const isLoading = isLoginLoading || isRegisterLoading;
+  const isLoading = isLoginLoading || isRegisterLoading || isSocialLoginLoading;
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, register, socialLogin, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

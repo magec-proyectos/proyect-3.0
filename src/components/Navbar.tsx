@@ -7,6 +7,7 @@ import NavbarBrand from './navbar/NavbarBrand';
 import NavItem from './navbar/NavItem';
 import MobileNav from './navbar/MobileNav';
 import UserMenu from './navbar/UserMenu';
+import NotificationTray from './notifications/NotificationTray';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,12 +69,15 @@ const Navbar = () => {
             </div>
 
             {/* User Menu (Desktop) */}
-            <UserMenu 
-              user={user}
-              logout={logout}
-              openLoginDialog={openLoginDialog}
-              openRegisterDialog={openRegisterDialog}
-            />
+            <div className="hidden md:flex items-center gap-4">
+              {user && <NotificationTray />}
+              <UserMenu 
+                user={user}
+                logout={logout}
+                openLoginDialog={openLoginDialog}
+                openRegisterDialog={openRegisterDialog}
+              />
+            </div>
 
             {/* Mobile menu button */}
             <button 

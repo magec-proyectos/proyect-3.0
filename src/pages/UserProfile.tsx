@@ -1,307 +1,323 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Footer from '@/components/Footer';
+import { 
+  Tabs, 
+  TabsContent, 
+  TabsList, 
+  TabsTrigger 
+} from '@/components/ui/tabs';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { User, Settings, CreditCard, Bell, Shield, History, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNotifications } from '@/contexts/NotificationContext';
+import { toast } from '@/components/ui/sonner';
 
 const UserProfile = () => {
-  // Sample user data
-  const user = {
-    name: 'Alex Johnson',
-    username: 'alexj',
-    email: 'alex@example.com',
-    joined: 'June 2023',
-    balance: 523.50,
-    avatar: null,
-    stats: {
-      totalBets: 246,
-      winRate: 68,
-      favoriteLeague: 'Premier League',
-      favoriteTeam: 'Liverpool'
-    }
-  };
+  const { user, logout } = useAuth();
+  const { notifications, clearAllNotifications } = useNotifications();
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+  });
 
-  // Sample betting history
+  // Redirect if not logged in
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-dark text-white">
+        <Navbar />
+        <div className="container mx-auto px-4 pt-24 pb-16">
+          <Card className="mx-auto max-w-md bg-dark-card border-dark-border text-white">
+            <CardHeader className="text-center">
+              <CardTitle>Please Login</CardTitle>
+              <CardDescription className="text-gray-400">
+                You need to be logged in to view your profile
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Demo betting history
   const bettingHistory = [
-    {
-      id: 1,
-      date: '2023-05-10',
-      match: 'Liverpool vs Manchester United',
-      bet: 'Home Win',
-      odds: 1.85,
-      stake: 50,
-      result: 'Won',
-      profit: 42.5
-    },
-    {
-      id: 2,
-      date: '2023-05-07',
-      match: 'Arsenal vs Chelsea',
-      bet: 'Over 2.5 Goals',
-      odds: 1.70,
-      stake: 30,
-      result: 'Lost',
-      profit: -30
-    },
-    {
-      id: 3,
-      date: '2023-05-05',
-      match: 'Manchester City vs Tottenham',
-      bet: 'BTTS',
-      odds: 1.65,
-      stake: 40,
-      result: 'Won',
-      profit: 26
-    },
+    { id: 'b1', match: 'Liverpool vs Man Utd', prediction: 'Liverpool Win', odds: 1.85, amount: 20, result: 'Won', payout: 37 },
+    { id: 'b2', match: 'Barcelona vs Real Madrid', prediction: 'Draw', odds: 3.5, amount: 15, result: 'Lost', payout: 0 },
+    { id: 'b3', match: 'Bayern vs Dortmund', prediction: 'Bayern Win', odds: 1.45, amount: 30, result: 'Won', payout: 43.5 },
+    { id: 'b4', match: 'Lakers vs Warriors', prediction: 'Lakers Win', odds: 2.1, amount: 25, result: 'Won', payout: 52.5 },
   ];
 
+  const handleSaveProfile = () => {
+    // Would normally save to backend here
+    setIsEditing(false);
+    toast.success('Profile updated successfully');
+  };
+
   return (
-    <div className="min-h-screen bg-dark text-white pb-16">
+    <div className="min-h-screen bg-dark text-white">
       <Navbar />
       
-      <main className="container px-4 pt-24">
+      <main className="container px-4 pt-24 pb-16">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-6 mb-8">
-            <div className="md:w-1/3">
-              <Card className="bg-dark-card border-dark-border">
-                <CardContent className="pt-6">
-                  <div className="flex flex-col items-center text-center">
-                    <Avatar className="w-24 h-24 mb-4">
-                      <AvatarImage src={user.avatar || undefined} />
-                      <AvatarFallback className="bg-neon-blue/20 text-neon-blue text-2xl">
-                        {user.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <h2 className="text-2xl font-bold">{user.name}</h2>
-                    <p className="text-gray-400">@{user.username}</p>
-                    <Badge className="mt-2 bg-dark-lighter">Premium Member</Badge>
-                    
-                    <div className="mt-6 w-full">
-                      <div className="flex items-center justify-between py-3 border-b border-dark-border">
-                        <span className="text-gray-400">Balance</span>
-                        <span className="font-medium text-neon-lime">${user.balance.toFixed(2)}</span>
-                      </div>
-                      <div className="flex items-center justify-between py-3 border-b border-dark-border">
-                        <span className="text-gray-400">Win Rate</span>
-                        <span className="font-medium">{user.stats.winRate}%</span>
-                      </div>
-                      <div className="flex items-center justify-between py-3">
-                        <span className="text-gray-400">Member Since</span>
-                        <span className="font-medium">{user.joined}</span>
-                      </div>
-                    </div>
-                    
-                    <Button className="w-full mt-6 gap-2" variant="outline">
-                      <CreditCard size={16} />
-                      Add Funds
-                    </Button>
+          <div className="mb-8 bg-dark-card border border-dark-border rounded-xl p-6 md:p-8">
+            <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
+              <div className="relative">
+                <Avatar className="w-24 h-24 border-2 border-neon-blue">
+                  <AvatarImage src={user.profileImage || `https://placehold.co/200/2f3136/fff?text=${user.name[0]}`} alt={user.name} />
+                  <AvatarFallback className="text-3xl">{user.name[0]}</AvatarFallback>
+                </Avatar>
+                {user.socialProvider && (
+                  <div className="absolute -bottom-2 -right-2 bg-neon-blue text-black text-xs px-2 py-1 rounded-full">
+                    {user.socialProvider === 'google' ? 'Google' : 
+                     user.socialProvider === 'apple' ? 'Apple' : 'Email'}
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold">{user.name}</h1>
+                <p className="text-gray-400">{user.email}</p>
+                
+                <div className="flex flex-wrap gap-4 mt-4">
+                  <div className="px-4 py-2 bg-dark rounded-lg border border-dark-border">
+                    <span className="block text-sm text-gray-400">Balance</span>
+                    <span className="text-lg font-bold text-neon-blue">${user.balance?.toFixed(2)}</span>
+                  </div>
+                  
+                  <div className="px-4 py-2 bg-dark rounded-lg border border-dark-border">
+                    <span className="block text-sm text-gray-400">Total Bets</span>
+                    <span className="text-lg font-bold">{bettingHistory.length}</span>
+                  </div>
+                  
+                  <div className="px-4 py-2 bg-dark rounded-lg border border-dark-border">
+                    <span className="block text-sm text-gray-400">Win Rate</span>
+                    <span className="text-lg font-bold text-green-500">75%</span>
+                  </div>
+                </div>
+              </div>
+              
+              <Button onClick={logout} variant="outline" className="ml-auto">
+                Log Out
+              </Button>
+            </div>
+          </div>
+          
+          <Tabs defaultValue="bets" className="w-full">
+            <TabsList className="bg-dark-lighter mb-6">
+              <TabsTrigger value="bets">Betting History</TabsTrigger>
+              <TabsTrigger value="notifications">Notifications</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="bets">
+              <Card className="bg-dark-card border-dark-border text-white">
+                <CardHeader>
+                  <CardTitle>Your Betting History</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    View all your past bets and their outcomes
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-dark-border">
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Match</th>
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Prediction</th>
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Odds</th>
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Amount</th>
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Result</th>
+                          <th className="text-left py-3 px-4 text-gray-400 font-medium">Payout</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bettingHistory.map(bet => (
+                          <tr key={bet.id} className="border-b border-dark-border">
+                            <td className="py-3 px-4">{bet.match}</td>
+                            <td className="py-3 px-4">{bet.prediction}</td>
+                            <td className="py-3 px-4">{bet.odds}</td>
+                            <td className="py-3 px-4">${bet.amount}</td>
+                            <td className="py-3 px-4">
+                              <span className={bet.result === 'Won' ? 'text-green-500' : 'text-red-500'}>
+                                {bet.result}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">${bet.payout}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardContent>
               </Card>
-            </div>
+            </TabsContent>
             
-            <div className="md:w-2/3">
-              <Tabs defaultValue="history" className="w-full">
-                <TabsList className="bg-dark-lighter border-dark-border mb-6 w-full grid grid-cols-4">
-                  <TabsTrigger value="history">
-                    <History className="mr-2 h-4 w-4" />
-                    History
-                  </TabsTrigger>
-                  <TabsTrigger value="favorites">
-                    <Heart className="mr-2 h-4 w-4" />
-                    Favorites
-                  </TabsTrigger>
-                  <TabsTrigger value="settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </TabsTrigger>
-                  <TabsTrigger value="security">
-                    <Shield className="mr-2 h-4 w-4" />
-                    Security
-                  </TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="history" className="mt-0">
-                  <Card className="bg-dark-card border-dark-border">
-                    <CardHeader>
-                      <CardTitle>Betting History</CardTitle>
-                      <CardDescription className="text-gray-400">Your recent betting activity</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="overflow-x-auto">
-                        <table className="w-full">
-                          <thead className="border-b border-dark-border">
-                            <tr className="text-left">
-                              <th className="pb-3 text-gray-400">Date</th>
-                              <th className="pb-3 text-gray-400">Match</th>
-                              <th className="pb-3 text-gray-400">Bet</th>
-                              <th className="pb-3 text-gray-400">Odds</th>
-                              <th className="pb-3 text-gray-400">Result</th>
-                              <th className="pb-3 text-gray-400">Profit</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {bettingHistory.map((bet) => (
-                              <tr key={bet.id} className="border-b border-dark-border">
-                                <td className="py-3">{bet.date}</td>
-                                <td className="py-3">{bet.match}</td>
-                                <td className="py-3">{bet.bet}</td>
-                                <td className="py-3">{bet.odds}</td>
-                                <td className="py-3">
-                                  <Badge className={bet.result === 'Won' ? 'bg-green-600' : 'bg-red-600'}>
-                                    {bet.result}
-                                  </Badge>
-                                </td>
-                                <td className={`py-3 ${bet.profit > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                  {bet.profit > 0 ? `+$${bet.profit}` : `-$${Math.abs(bet.profit)}`}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      
-                      <div className="mt-4 flex justify-center">
-                        <Button variant="outline">Load More</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="favorites" className="mt-0">
-                  <Card className="bg-dark-card border-dark-border">
-                    <CardHeader>
-                      <CardTitle>Favorite Teams & Leagues</CardTitle>
-                      <CardDescription className="text-gray-400">Track your favorite teams and leagues for quick access</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="mb-6">
-                        <h3 className="text-lg font-medium mb-3">Favorite Teams</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="flex items-center gap-3 bg-dark-lighter p-3 rounded-lg">
-                            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">LP</div>
-                            <div>
-                              <p className="font-medium">Liverpool</p>
-                              <p className="text-sm text-gray-400">Premier League</p>
-                            </div>
+            <TabsContent value="notifications">
+              <Card className="bg-dark-card border-dark-border text-white">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <div>
+                    <CardTitle>Notifications</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      View and manage your notifications
+                    </CardDescription>
+                  </div>
+                  {notifications.length > 0 && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={clearAllNotifications}
+                    >
+                      Clear All
+                    </Button>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {notifications.length > 0 ? (
+                    <div className="space-y-4">
+                      {notifications.map(notification => (
+                        <div 
+                          key={notification.id} 
+                          className={`p-4 rounded-lg border ${
+                            notification.read ? 'border-dark-border bg-dark' : 'border-neon-blue/40 bg-dark-lighter'
+                          }`}
+                        >
+                          <div className="flex justify-between">
+                            <h4 className="font-medium">{notification.title}</h4>
+                            <span className="text-xs text-gray-400">
+                              {new Date(notification.timestamp).toLocaleString()}
+                            </span>
                           </div>
-                          <div className="flex items-center gap-3 bg-dark-lighter p-3 rounded-lg">
-                            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">MC</div>
-                            <div>
-                              <p className="font-medium">Manchester City</p>
-                              <p className="text-sm text-gray-400">Premier League</p>
-                            </div>
-                          </div>
+                          <p className="text-sm text-gray-400 mt-1">{notification.message}</p>
                         </div>
-                      </div>
-                      
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-400">
+                      No notifications to display
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="settings">
+              <Card className="bg-dark-card border-dark-border text-white">
+                <CardHeader>
+                  <CardTitle>Profile Settings</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Update your profile information
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {isEditing ? (
+                    <div className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-medium mb-3">Favorite Leagues</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="flex items-center gap-3 bg-dark-lighter p-3 rounded-lg">
-                            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">PL</div>
-                            <div>
-                              <p className="font-medium">Premier League</p>
-                              <p className="text-sm text-gray-400">England</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-3 bg-dark-lighter p-3 rounded-lg">
-                            <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">LL</div>
-                            <div>
-                              <p className="font-medium">La Liga</p>
-                              <p className="text-sm text-gray-400">Spain</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="settings" className="mt-0">
-                  <Card className="bg-dark-card border-dark-border">
-                    <CardHeader>
-                      <CardTitle>Account Settings</CardTitle>
-                      <CardDescription className="text-gray-400">Manage your account preferences</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="space-y-2">
-                        <label className="text-gray-400">Display Name</label>
-                        <input 
-                          type="text" 
-                          className="w-full bg-dark-lighter border border-dark-border rounded-md p-2 text-white"
-                          defaultValue={user.name}
+                        <Label htmlFor="name">Name</Label>
+                        <Input 
+                          id="name" 
+                          value={profileData.name} 
+                          onChange={e => setProfileData({...profileData, name: e.target.value})} 
+                          className="bg-dark-lighter border-dark-border"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-gray-400">Email Address</label>
-                        <input 
-                          type="email" 
-                          className="w-full bg-dark-lighter border border-dark-border rounded-md p-2 text-white"
-                          defaultValue={user.email}
+                      <div>
+                        <Label htmlFor="email">Email</Label>
+                        <Input 
+                          id="email" 
+                          value={profileData.email} 
+                          onChange={e => setProfileData({...profileData, email: e.target.value})}
+                          className="bg-dark-lighter border-dark-border" 
+                          disabled={user.socialProvider !== 'email'}
                         />
+                        {user.socialProvider !== 'email' && (
+                          <p className="text-xs text-gray-400 mt-1">Email cannot be changed for social logins</p>
+                        )}
                       </div>
-                      <div className="space-y-2">
-                        <h3 className="font-medium">Notification Preferences</h3>
-                        <div className="flex items-center justify-between bg-dark-lighter p-3 rounded-md">
-                          <div>
-                            <p>Match Reminders</p>
-                            <p className="text-sm text-gray-400">Get notified when matches you're interested in are about to start</p>
-                          </div>
-                          <div className="w-12 h-6 bg-neon-blue rounded-full relative cursor-pointer">
-                            <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
-                          </div>
-                        </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div>
+                        <span className="block text-sm text-gray-400">Name</span>
+                        <span>{profileData.name}</span>
                       </div>
-                      <Button className="w-full">Save Changes</Button>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="security" className="mt-0">
-                  <Card className="bg-dark-card border-dark-border">
-                    <CardHeader>
-                      <CardTitle>Security Settings</CardTitle>
-                      <CardDescription className="text-gray-400">Manage your account security</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div className="space-y-4">
-                        <h3 className="font-medium">Change Password</h3>
-                        <div className="space-y-2">
-                          <label className="text-gray-400">Current Password</label>
-                          <input 
-                            type="password" 
-                            className="w-full bg-dark-lighter border border-dark-border rounded-md p-2 text-white"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-gray-400">New Password</label>
-                          <input 
-                            type="password" 
-                            className="w-full bg-dark-lighter border border-dark-border rounded-md p-2 text-white"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-gray-400">Confirm New Password</label>
-                          <input 
-                            type="password" 
-                            className="w-full bg-dark-lighter border border-dark-border rounded-md p-2 text-white"
-                          />
-                        </div>
+                      <div>
+                        <span className="block text-sm text-gray-400">Email</span>
+                        <span>{profileData.email}</span>
                       </div>
-                      <Button className="w-full">Update Password</Button>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
+                      <div>
+                        <span className="block text-sm text-gray-400">Account Type</span>
+                        <span className="capitalize">{user.socialProvider || 'Email'}</span>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+                <CardFooter className="flex justify-end gap-2">
+                  {isEditing ? (
+                    <>
+                      <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
+                      <Button onClick={handleSaveProfile}>Save Changes</Button>
+                    </>
+                  ) : (
+                    <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
+                  )}
+                </CardFooter>
+              </Card>
+              
+              <Card className="bg-dark-card border-dark-border text-white mt-6">
+                <CardHeader>
+                  <CardTitle>Notification Settings</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Control what notifications you receive
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <label className="flex items-center justify-between">
+                      <span>Match notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
+                    </label>
+                    <Separator className="bg-dark-border" />
+                    <label className="flex items-center justify-between">
+                      <span>Bet result notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
+                    </label>
+                    <Separator className="bg-dark-border" />
+                    <label className="flex items-center justify-between">
+                      <span>Social activity notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
+                    </label>
+                    <Separator className="bg-dark-border" />
+                    <label className="flex items-center justify-between">
+                      <span>Promotion and bonus notifications</span>
+                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
+                    </label>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full">Save Notification Settings</Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };
