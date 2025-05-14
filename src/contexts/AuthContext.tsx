@@ -1,3 +1,4 @@
+
 import { createContext, useContext, ReactNode, useState } from 'react';
 import { toast } from "@/components/ui/use-toast"
 import { useMutation } from '@tanstack/react-query';
@@ -28,8 +29,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   
-  const { mutate: loginMutate, isLoading: isLoginLoading } = useMutation(
-    async ({ email, password }: { email: string, password: string }) => {
+  const { mutateAsync: loginMutateAsync, isPending: isLoginLoading } = useMutation({
+    mutationFn: async ({ email, password }: { email: string, password: string }) => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
@@ -44,27 +45,25 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error('Invalid credentials');
       }
     },
-    {
-      onSuccess: (data) => {
-        setUser(data);
-        toast({
-          title: "Login successful!",
-          description: `Welcome back, ${data.name}.`,
-        })
-        navigate('/');
-      },
-      onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          title: "Authentication failed.",
-          description: error.message,
-        })
-      },
-    }
-  );
+    onSuccess: (data) => {
+      setUser(data);
+      toast({
+        title: "Login successful!",
+        description: `Welcome back, ${data.name}.`,
+      })
+      navigate('/');
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Authentication failed.",
+        description: error.message,
+      })
+    },
+  });
 
-  const { mutate: registerMutate, isLoading: isRegisterLoading } = useMutation(
-    async ({ email, password, name }: { email: string, password: string, name: string }) => {
+  const { mutateAsync: registerMutateAsync, isPending: isRegisterLoading } = useMutation({
+    mutationFn: async ({ email, password, name }: { email: string, password: string, name: string }) => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
@@ -75,28 +74,26 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         balance: 50.00,
       };
     },
-    {
-      onSuccess: (data) => {
-        setUser(data);
-        toast({
-          title: "Registration successful!",
-          description: `Welcome, ${data.name}.`,
-        })
-        navigate('/');
-      },
-      onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          title: "Registration failed.",
-          description: error.message,
-        })
-      },
-    }
-  );
+    onSuccess: (data) => {
+      setUser(data);
+      toast({
+        title: "Registration successful!",
+        description: `Welcome, ${data.name}.`,
+      })
+      navigate('/');
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Registration failed.",
+        description: error.message,
+      })
+    },
+  });
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      await loginMutate({ email, password });
+      await loginMutateAsync({ email, password });
       return true;
     } catch (error) {
       return false;
@@ -105,7 +102,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (email: string, password: string, name: string): Promise<boolean> => {
     try {
-      await registerMutate({ email, password, name });
+      await registerMutateAsync({ email, password, name });
       return true;
     } catch (error) {
       return false;
