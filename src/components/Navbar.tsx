@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Menu, X, Home, Dumbbell, Dice1, MenuIcon, Share2, Brain, Trophy } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -46,7 +47,7 @@ const Navbar = () => {
       icon: <Dice1 size={18} />,
       subItems: [
         { path: '/blackjack', label: 'Blackjack', icon: <MenuIcon size={18} /> },
-        { path: '/roulette', label: 'Roulette', icon: <Dice size={18} /> }
+        { path: '/roulette', label: 'Roulette', icon: <Dice1 size={18} /> }
       ]
     },
     { path: '/social', label: 'Community', icon: <Share2 size={18} /> },
