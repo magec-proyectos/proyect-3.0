@@ -1,122 +1,142 @@
+import { createContext, useContext, ReactNode, useState } from 'react';
+import { toast } from "@/components/ui/use-toast"
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { toast } from '@/components/ui/sonner';
-
-type User = {
+export interface User {
   id: string;
-  email: string;
   name: string;
+  email: string;
   balance: number;
-};
-
-interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
-  register: (email: string, password: string, name: string) => Promise<boolean>;
 }
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+interface AuthContextProps {
+  user: User | null;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string, name: string) => Promise<boolean>;
+  logout: () => void;
+  isLoading: boolean;
+}
 
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Check for existing user session in localStorage
-    const storedUser = localStorage.getItem('bet3_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error('Failed to parse stored user:', error);
-        localStorage.removeItem('bet3_user');
-      }
-    }
-    setIsLoading(false);
-  }, []);
-
-  // Mock login function - would connect to an API in a real app
-  const login = async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 800));
+  const navigate = useNavigate();
+  
+  const { mutate: loginMutate, isLoading: isLoginLoading } = useMutation(
+    async ({ email, password }: { email: string, password: string }) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Simple validation - would be handled by a real auth system
-      if (email && password.length >= 6) {
-        // Mock user data - would come from the API
-        const userData: User = {
-          id: '123456',
-          email,
-          name: email.split('@')[0],
-          balance: 100.00
+      if (email === 'test@example.com' && password === 'password') {
+        return {
+          id: '1',
+          name: 'Test User',
+          email: 'test@example.com',
+          balance: 100.00,
         };
-        
-        setUser(userData);
-        localStorage.setItem('bet3_user', JSON.stringify(userData));
-        toast.success('Login successful!');
-        return true;
       } else {
-        toast.error('Invalid credentials');
-        return false;
+        throw new Error('Invalid credentials');
       }
+    },
+    {
+      onSuccess: (data) => {
+        setUser(data);
+        toast({
+          title: "Login successful!",
+          description: `Welcome back, ${data.name}.`,
+        })
+        navigate('/');
+      },
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: "Authentication failed.",
+          description: error.message,
+        })
+      },
+    }
+  );
+
+  const { mutate: registerMutate, isLoading: isRegisterLoading } = useMutation(
+    async ({ email, password, name }: { email: string, password: string, name: string }) => {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      return {
+        id: '2',
+        name: name,
+        email: email,
+        balance: 50.00,
+      };
+    },
+    {
+      onSuccess: (data) => {
+        setUser(data);
+        toast({
+          title: "Registration successful!",
+          description: `Welcome, ${data.name}.`,
+        })
+        navigate('/');
+      },
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: "Registration failed.",
+          description: error.message,
+        })
+      },
+    }
+  );
+
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      await loginMutate({ email, password });
+      return true;
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Login failed. Please try again.');
       return false;
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const register = async (email: string, password: string, name: string) => {
-    setIsLoading(true);
+  const register = async (email: string, password: string, name: string): Promise<boolean> => {
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // Simple validation
-      if (email && password.length >= 6 && name) {
-        // Mock user registration - would be handled by a real auth system
-        const userData: User = {
-          id: '123456',
-          email,
-          name,
-          balance: 50.00 // New users get $50 bonus
-        };
-        
-        setUser(userData);
-        localStorage.setItem('bet3_user', JSON.stringify(userData));
-        toast.success('Registration successful! $50 bonus added to your account.');
-        return true;
-      } else {
-        toast.error('Invalid registration information');
-        return false;
-      }
+      await registerMutate({ email, password, name });
+      return true;
     } catch (error) {
-      console.error('Registration error:', error);
-      toast.error('Registration failed. Please try again.');
       return false;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('bet3_user');
     setUser(null);
-    toast.success('Logged out successfully');
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    })
+    navigate('/');
   };
 
+  const isLoading = isLoginLoading || isRegisterLoading;
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
+
 export default AuthProvider;
+export { useAuth };
