@@ -14,7 +14,7 @@ const BetRecommendation: React.FC<BetRecommendationProps> = ({ recommendation })
   return (
     <div className="bg-black/30 p-4 rounded-lg border-l-4 border-amber-500 mt-0 border-t border-r border-b border-amber-900/30">
       <div className="flex items-center gap-2 mb-2">
-        <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium">AI TIP</Badge>
+        <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium">ANALYTICS</Badge>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -40,7 +40,7 @@ const BetRecommendation: React.FC<BetRecommendationProps> = ({ recommendation })
       <div className="mt-3 pt-3 border-t border-amber-900/30">
         <div className="text-xs text-amber-200/60 flex items-center gap-1">
           <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-          <span>AI analyzes patterns but remember: each spin is independent.</span>
+          <span>The house edge for European roulette is 2.7%.</span>
         </div>
       </div>
     </div>

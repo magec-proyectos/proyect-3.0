@@ -23,3 +23,15 @@ export type RecommendationType = {
   action: string;
   explanation: string;
 };
+
+export type PatternType = 
+  | 'RANDOM'
+  | 'RED_BIAS'
+  | 'BLACK_BIAS'
+  | 'ODD_BIAS'
+  | 'EVEN_BIAS'
+  | 'LOW_BIAS'
+  | 'HIGH_BIAS'
+  | 'FIRST_DOZEN'
+  | 'SECOND_DOZEN'
+  | 'THIRD_DOZEN';
