@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -10,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
-import { Share2, Heart, MessageCircle, ThumbsUp, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Share2, Heart, MessageCircle, ThumbsUp } from 'lucide-react';
 
 // Sample data for social posts
 const initialPosts = [
