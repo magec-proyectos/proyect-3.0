@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
@@ -92,18 +93,18 @@ const Social = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark text-white pb-16">
+    <div className="min-h-screen bg-dark text-white">
       <Navbar />
       
-      <main className="container px-4 pt-24">
+      <main className="container px-4 pt-24 pb-16">
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Bet Social</h1>
+            <h1 className="text-3xl font-bold">Betting Community</h1>
             <Button 
               className="bg-neon-lime text-black hover:bg-neon-lime/90"
               onClick={() => setIsCreatingPost(true)}
             >
-              Share a Bet
+              Share a Prediction
             </Button>
           </div>
           
@@ -118,6 +119,8 @@ const Social = () => {
           />
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };
