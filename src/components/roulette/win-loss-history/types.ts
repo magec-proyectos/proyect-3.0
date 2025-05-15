@@ -1,5 +1,5 @@
 
-export interface HistoryDataItem {
+export type HistoryDataItem = {
   spin: number;
   number: number;
   color: 'red' | 'black' | 'green';
@@ -8,22 +8,6 @@ export interface HistoryDataItem {
   isLow: boolean;
   isHigh: boolean;
   isZero: boolean;
-}
+};
 
-export interface RollingStatsItem {
-  spin: number;
-  redPercentage: number;
-  blackPercentage: number;
-  oddPercentage: number;
-  evenPercentage: number;
-}
-
-export interface ColorDistributionItem {
-  name: string;
-  value: number;
-}
-
-export interface Streak {
-  type: string;
-  count: number;
-}
+export type HistoryTabType = 'numbers' | 'distributions' | 'trends';
