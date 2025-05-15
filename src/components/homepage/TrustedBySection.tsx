@@ -23,7 +23,7 @@ const TrustedBySection = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 gradient-text">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
             Trusted by <span className="text-white">1 million+ users</span>
           </h2>
           

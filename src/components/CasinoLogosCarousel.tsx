@@ -26,12 +26,17 @@ const CasinoLogosCarousel = () => {
   useEffect(() => {
     if (!api) return;
 
+    // Continuously reset autoplay for smoother experience
+    const interval = setInterval(() => {
+      api.plugins()?.autoplay?.reset();
+    }, 3000);
+
     // Reset to autoplay when user interaction ends
     api.on('pointerUp', () => {
-      setTimeout(() => {
-        api.plugins()?.autoplay?.reset();
-      }, 50);
+      api.plugins()?.autoplay?.play();
     });
+
+    return () => clearInterval(interval);
   }, [api]);
 
   return (
@@ -45,12 +50,14 @@ const CasinoLogosCarousel = () => {
         opts={{
           align: "center",
           loop: true,
+          dragFree: true,
         }}
         plugins={[
           Autoplay({
-            delay: 2000,
+            delay: 1500,
             stopOnInteraction: false,
-            stopOnMouseEnter: true,
+            stopOnMouseEnter: false,
+            playOnInit: true,
           }),
         ]}
         setApi={setApi}
@@ -59,7 +66,7 @@ const CasinoLogosCarousel = () => {
         <CarouselContent className="-ml-4 md:-ml-6">
           {casinoLogos.map((logo) => (
             <CarouselItem key={logo.name} className="pl-4 md:pl-6 basis-1/3 sm:basis-1/4 md:basis-1/5">
-              <div className="flex items-center justify-center h-28 transition-all duration-300">
+              <div className="flex items-center justify-center h-28 transition-all duration-300 hover:scale-110">
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
