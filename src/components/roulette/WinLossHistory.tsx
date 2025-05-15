@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRoulette } from '@/contexts/RouletteContext';
@@ -8,7 +7,11 @@ import {
 } from '@/components/ui/chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell as RechartsCell } from 'recharts';
+import { 
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, 
+  CartesianGrid, Tooltip, ResponsiveContainer, 
+  Cell as RechartsCell 
+} from 'recharts';
 import { 
   ArrowUp, ArrowDown, ChartLine, ChartBar, History, CalendarDays
 } from 'lucide-react';

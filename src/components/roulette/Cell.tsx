@@ -2,12 +2,13 @@
 import React from 'react';
 
 interface CellProps {
-  key: string;
+  // Modified to remove the 'key' prop as it's a reserved React prop name
+  cellKey?: string;
   fill: string;
 }
 
-const Cell: React.FC<CellProps> = ({ key, fill }) => {
-  return <rect key={key} fill={fill} />;
+const Cell: React.FC<CellProps> = ({ cellKey, fill }) => {
+  return <rect key={cellKey} fill={fill} />;
 };
 
 export default Cell;
