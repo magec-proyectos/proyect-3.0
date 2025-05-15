@@ -21,7 +21,7 @@ const RouletteTableInner: React.FC = () => {
       
       <CardHeader className="relative z-10">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold text-amber-200">European Roulette</CardTitle>
+          <CardTitle className="text-2xl font-bold text-amber-200">Roulette Advisor</CardTitle>
           <Badge variant="outline" className="bg-black/50 backdrop-blur-sm border border-amber-500 font-medium text-amber-300 px-3 py-1.5">
             Balance: ${balance}
           </Badge>
@@ -38,10 +38,10 @@ const RouletteTableInner: React.FC = () => {
               {/* Wheel Section */}
               <WheelSection />
               
-              {/* AI Recommendation */}
+              {/* AI Recommendation - Now prominently displayed */}
               <AiRecommendation />
               
-              {/* Win/Loss History - New Component */}
+              {/* Win/Loss History */}
               <WinLossHistory />
             </div>
             

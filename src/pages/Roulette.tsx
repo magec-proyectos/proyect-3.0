@@ -14,16 +14,16 @@ const Roulette = () => {
       
       <main className="container px-4 pt-24">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">European Roulette</h1>
+          <h1 className="text-3xl font-bold mb-2">Roulette Advisor</h1>
           <p className="text-gray-400 mb-8">
-            Experience the classic casino game with AI-powered betting recommendations.
+            Play European Roulette with AI-powered betting recommendations and strategy advice.
           </p>
           
-          <Tabs defaultValue="play" className="mb-8">
+          <Tabs defaultValue="advisor" className="mb-8">
             <TabsList className="bg-dark-lighter border-dark-border mb-6">
-              <TabsTrigger value="play" className="flex items-center gap-2">
+              <TabsTrigger value="advisor" className="flex items-center gap-2">
                 <Sparkles size={16} />
-                Play
+                Advisor
               </TabsTrigger>
               <TabsTrigger value="stats" className="flex items-center gap-2">
                 <Calculator size={16} />
@@ -35,7 +35,7 @@ const Roulette = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="play" className="mt-0">
+            <TabsContent value="advisor" className="mt-0">
               <RouletteTable />
             </TabsContent>
             

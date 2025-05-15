@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useRoulette } from '@/contexts/RouletteContext';
 import { RecommendationType } from './types';
 import { Badge } from '@/components/ui/badge';
-import { Bot, HelpCircle, Sparkles } from 'lucide-react';
+import { Bot, HelpCircle, Sparkles, AlertTriangle, TrendingUp } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const AiRecommendation: React.FC = () => {
@@ -94,7 +94,28 @@ const AiRecommendation: React.FC = () => {
   
   const patternInsight = getPatternInsight();
   
-  if (!aiRecommendation && !patternInsight) return null;
+  // General betting advice based on risk profile
+  const getBettingAdvice = () => {
+    return [
+      {
+        title: "Conservative Strategy",
+        icon: <AlertTriangle className="h-4 w-4 text-amber-300" />,
+        advice: "Stick to outside bets (Red/Black, Odd/Even, 1-18/19-36) for better odds of winning, though with lower payouts."
+      },
+      {
+        title: "Balanced Approach",
+        icon: <TrendingUp className="h-4 w-4 text-amber-300" />,
+        advice: "Mix outside bets with column/dozen bets for a balance of risk and reward."
+      },
+      {
+        title: "Mathematical Insight",
+        icon: <Sparkles className="h-4 w-4 text-amber-300" />,
+        advice: "Remember that each spin is independent. The 'gambler's fallacy' of expecting a change after a streak is mathematically incorrect."
+      }
+    ];
+  };
+  
+  const bettingAdvice = getBettingAdvice();
   
   return (
     <Card className="bg-black/30 border-amber-900/30 overflow-hidden">
@@ -102,7 +123,7 @@ const AiRecommendation: React.FC = () => {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-amber-200 flex items-center gap-2">
             <Bot className="h-5 w-5" />
-            AI Roulette Advisor
+            Roulette Strategy Advisor
           </CardTitle>
           <TooltipProvider>
             <Tooltip>
@@ -126,15 +147,25 @@ const AiRecommendation: React.FC = () => {
         {aiRecommendation && (
           <div className="mb-4 bg-black/20 p-3 rounded-lg border-l-4 border-amber-500 border-t border-r border-b border-amber-900/30">
             <div className="flex items-center gap-2 mb-2">
-              <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium">BET ANALYSIS</Badge>
+              <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium">CURRENT BET ANALYSIS</Badge>
             </div>
             <div className="text-lg font-bold mb-1 text-amber-300">{aiRecommendation.action}</div>
             <p className="text-sm text-amber-200/80">{aiRecommendation.explanation}</p>
           </div>
         )}
         
+        {!aiRecommendation && (
+          <div className="mb-4 bg-black/20 p-3 rounded-lg border-l-4 border-amber-500 border-t border-r border-b border-amber-900/30">
+            <div className="flex items-center gap-2 mb-2">
+              <Badge className="bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium">SELECT A BET</Badge>
+            </div>
+            <div className="text-lg font-bold mb-1 text-amber-300">Waiting for Bet Selection</div>
+            <p className="text-sm text-amber-200/80">Select a bet type to receive personalized advice from the AI advisor.</p>
+          </div>
+        )}
+        
         {patternInsight && (
-          <div className="bg-black/20 p-3 rounded-lg border-l-4 border-amber-700 border-t border-r border-b border-amber-900/30">
+          <div className="bg-black/20 p-3 rounded-lg border-l-4 border-amber-700 border-t border-r border-b border-amber-900/30 mb-4">
             <div className="flex items-center gap-2 mb-2">
               <Badge className="bg-gradient-to-r from-amber-700 to-amber-800 text-amber-200 font-medium">PATTERN ANALYSIS</Badge>
             </div>
@@ -143,6 +174,18 @@ const AiRecommendation: React.FC = () => {
           </div>
         )}
         
+        <div className="space-y-3">
+          {bettingAdvice.map((advice, index) => (
+            <div key={index} className="bg-black/20 p-3 rounded-lg border border-amber-900/30">
+              <div className="flex items-center gap-2 mb-1">
+                {advice.icon}
+                <span className="text-sm font-medium text-amber-300">{advice.title}</span>
+              </div>
+              <p className="text-xs text-amber-200/80">{advice.advice}</p>
+            </div>
+          ))}
+        </div>
+        
         <Button 
           variant="ghost" 
           size="sm" 
@@ -150,15 +193,16 @@ const AiRecommendation: React.FC = () => {
           onClick={() => setDetailedView(!detailedView)}
         >
           <Sparkles className="h-3 w-3" />
-          {detailedView ? "Show Less" : "Detailed AI Analysis"}
+          {detailedView ? "Show Less" : "Advanced Analysis"}
         </Button>
         
         {detailedView && (
           <div className="mt-3 bg-black/20 p-3 rounded-lg text-xs text-amber-200/70 space-y-2">
-            <p>• Roulette wheels follow randomized patterns dictated by physics principles.</p>
-            <p>• Each spin is an independent event, despite apparent patterns.</p>
-            <p>• The expected return for European roulette is -2.7% (house edge).</p>
-            <p>• Best strategy: Place bets with lower house edge and manage your bankroll.</p>
+            <p>• European Roulette house edge: 2.7% (single zero)</p>
+            <p>• American Roulette house edge: 5.26% (with double zero)</p>
+            <p>• Inside bets (single numbers, splits, corners) have higher payouts but lower win probability</p>
+            <p>• Outside bets (red/black, odd/even) have higher win probability but lower payouts</p>
+            <p>• Best mathematical strategy: Use outside bets with proper bankroll management</p>
           </div>
         )}
       </CardContent>
