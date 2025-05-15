@@ -4,7 +4,6 @@ import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import TryItNow from './TryItNow';
 
 const HowItWorksSection = () => {
   const fadeIn = {
@@ -83,9 +82,6 @@ const HowItWorksSection = () => {
             <p className="text-gray-400">Receive data-driven predictions and recommendations to inform your decisions.</p>
           </motion.div>
         </motion.div>
-        
-        {/* Try It Now Component - Placed after the numbered steps */}
-        <TryItNow />
         
         <div className="flex justify-center mb-16 mt-12">
           <Button asChild className="flex items-center gap-2">
