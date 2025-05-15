@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import CasinoLogosCarousel from '@/components/CasinoLogosCarousel';
 
 const Hero = () => {
   const [testMatch, setTestMatch] = useState<string>('');
@@ -211,6 +212,9 @@ const Hero = () => {
               </div>
             </div>
           </motion.div>
+          
+          {/* Add the casino logos carousel here */}
+          <CasinoLogosCarousel />
         </motion.div>
       </div>
     </div>
