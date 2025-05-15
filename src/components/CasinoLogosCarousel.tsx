@@ -22,18 +22,27 @@ const CasinoLogosCarousel = () => {
     { name: 'Stake', src: '/lovable-uploads/603ecc6b-3a6a-4ba3-8781-14c535e78317.png' },
   ];
 
-  // Effect to handle manual scrolling interruption
+  // Effect to ensure continuous movement
   useEffect(() => {
     if (!api) return;
 
-    // Continuously reset autoplay for smoother experience
+    // Create autoplay plugin instance with faster speed
+    const autoplayPlugin = api.plugins()?.autoplay;
+    
+    // Make sure autoplay is always running
     const interval = setInterval(() => {
-      api.plugins()?.autoplay?.reset();
-    }, 3000);
+      if (autoplayPlugin) {
+        autoplayPlugin.play();
+      }
+    }, 1000);
 
-    // Reset to autoplay when user interaction ends
+    // Prevent stopping on interaction
     api.on('pointerUp', () => {
-      api.plugins()?.autoplay?.play();
+      setTimeout(() => {
+        if (autoplayPlugin) {
+          autoplayPlugin.play();
+        }
+      }, 10); // Almost immediately resume
     });
 
     return () => clearInterval(interval);
@@ -51,13 +60,15 @@ const CasinoLogosCarousel = () => {
           align: "center",
           loop: true,
           dragFree: true,
+          speed: 25, // Make movement smoother
         }}
         plugins={[
           Autoplay({
-            delay: 1500,
+            delay: 800, // Much faster autoplay
             stopOnInteraction: false,
             stopOnMouseEnter: false,
             playOnInit: true,
+            rootNode: (emblaRoot) => emblaRoot,
           }),
         ]}
         setApi={setApi}
