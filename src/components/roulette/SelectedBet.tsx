@@ -22,20 +22,20 @@ const SelectedBet: React.FC<SelectedBetProps> = ({ selectedBet, betAmount }) => 
   };
   
   return (
-    <div className="bg-black/30 p-4 rounded-lg border border-amber-900/30">
-      <div className="text-sm text-amber-200/80">Selected Bet</div>
-      <div className="flex items-center gap-3 mt-1">
+    <div className="bg-black/40 p-4 rounded-lg border border-amber-500/20 shadow-inner backdrop-blur-sm animate-fade-in">
+      <div className="text-sm text-amber-100/90 font-medium mb-1">Selected Bet</div>
+      <div className="flex items-center gap-3">
         <Badge 
-          className={`bg-gradient-to-r ${getBetColor()} border border-white/10 text-white`}
+          className={`bg-gradient-to-r ${getBetColor()} border border-white/10 text-white shadow-md`}
         >
           {selectedBet.type === 'straight' ? 'NUMBER' : selectedBet.type.toUpperCase()}
         </Badge>
         {selectedBet.number !== undefined && (
-          <span className="text-white font-bold">
+          <span className="text-white font-bold text-lg">
             {selectedBet.number === 37 ? '00' : selectedBet.number}
           </span>
         )}
-        <Badge variant="outline" className="ml-auto bg-black/50 border-amber-900/50 text-amber-300">
+        <Badge variant="outline" className="ml-auto glass-effect border-amber-500/30 text-amber-300">
           <div className="flex items-center gap-1">
             <div className={`w-3 h-3 rounded-full bg-gradient-to-b ${
               betAmount >= 500 ? 'from-yellow-400 to-yellow-600' : 
@@ -49,16 +49,16 @@ const SelectedBet: React.FC<SelectedBetProps> = ({ selectedBet, betAmount }) => 
         </Badge>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-3 text-sm">
-        <div className="bg-black/20 p-2 rounded">
-          <span className="text-amber-200/80">Payout:</span>
+        <div className="bg-black/20 p-2 rounded shadow-inner">
+          <span className="text-amber-100/80">Payout:</span>
           <span className="text-green-400 ml-2 font-semibold">{getBetOdds(selectedBet.type)}:1</span>
         </div>
-        <div className="bg-black/20 p-2 rounded">
-          <span className="text-amber-200/80">Probability:</span>
+        <div className="bg-black/20 p-2 rounded shadow-inner">
+          <span className="text-amber-100/80">Probability:</span>
           <span className="text-amber-300 ml-2 font-semibold">{getBetProbability(selectedBet.type)}</span>
         </div>
-        <div className="col-span-2 bg-black/20 p-2 rounded text-center">
-          <span className="text-amber-200/80">Potential Win:</span>
+        <div className="col-span-2 bg-black/20 p-2 rounded text-center shadow-inner">
+          <span className="text-amber-100/80">Potential Win:</span>
           <span className="text-green-400 ml-2 font-semibold">${betAmount * getBetOdds(selectedBet.type)}</span>
         </div>
       </div>

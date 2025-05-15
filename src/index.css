@@ -103,7 +103,6 @@
 
 .text-gradient {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #00f0ff, #aaff00);
 }
 
 /* Fondo de mesa de casino */
@@ -130,4 +129,46 @@
 
 .chip-glow {
   animation: chipGlow 2s infinite;
+}
+
+/* New animations and effects for enhanced UI/UX */
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+.bg-dark {
+  background-color: #121212;
+}
+
+.bg-dark-lighter {
+  background-color: #1e1e1e;
+}
+
+.bg-dark-card {
+  background-color: #18181b;
+}
+
+.bg-dark-darker {
+  background-color: #0a0a0a;
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.glass-effect {
+  @apply backdrop-blur-md bg-black/30 border border-amber-500/20;
 }

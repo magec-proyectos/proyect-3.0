@@ -15,7 +15,10 @@ const BettingSection: React.FC = () => {
     <div className="space-y-6">
       {/* Betting Board */}
       <div className="space-y-3">
-        <h3 className="text-amber-200 font-semibold">Select Your Bet</h3>
+        <h3 className="text-amber-100 font-semibold flex items-center">
+          <span className="bg-amber-600 w-2 h-2 rounded-full mr-2"></span>
+          Select Your Bet
+        </h3>
         <BettingBoard onSelectBet={handleSelectBet} />
       </div>
       
@@ -26,7 +29,7 @@ const BettingSection: React.FC = () => {
             <SelectedBet selectedBet={selectedBet} betAmount={betAmount} />
             <Button
               onClick={placeBet}
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium"
+              className="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white font-medium border border-amber-400/20 shadow-lg"
               disabled={!selectedBet || betAmount <= 0}
             >
               <Plus className="mr-2 h-4 w-4" />
@@ -43,7 +46,7 @@ const BettingSection: React.FC = () => {
       
       {/* Recommendation */}
       {selectedBet && (
-        <div className="mt-4">
+        <div className="mt-4 animate-fade-in">
           <BetRecommendation recommendation={{ 
             action: "BALANCED RISK",
             explanation: "This is a common bet with moderate risk and reward." 

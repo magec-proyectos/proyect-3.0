@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRoulette } from '@/contexts/RouletteContext';
@@ -56,9 +57,9 @@ const WinLossHistory: React.FC = () => {
   // Empty state when no data is available
   if (previousResults.length === 0) {
     return (
-      <Card className="bg-black/30 border border-amber-900/30">
+      <Card className="bg-black/30 border border-amber-500/30 shadow-md">
         <CardHeader>
-          <CardTitle className="text-amber-200 flex items-center gap-2">
+          <CardTitle className="text-amber-100 flex items-center gap-2">
             <ChartLine className="h-5 w-5" />
             Results Analysis
           </CardTitle>
@@ -69,10 +70,10 @@ const WinLossHistory: React.FC = () => {
   }
   
   return (
-    <Card className="bg-black/30 border border-amber-900/30">
+    <Card className="bg-black/30 border border-amber-500/30 shadow-md backdrop-blur-sm">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-amber-200 flex items-center gap-2">
+          <CardTitle className="text-amber-100 flex items-center gap-2">
             <ChartLine className="h-5 w-5" />
             Results Analysis
           </CardTitle>
@@ -80,7 +81,7 @@ const WinLossHistory: React.FC = () => {
           <StreakBadge recentStreak={recentStreak} />
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-2">
         <WinLossHistoryContent previousResults={previousResults} />
       </CardContent>
     </Card>

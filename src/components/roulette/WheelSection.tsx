@@ -21,7 +21,7 @@ const WheelSection: React.FC = () => {
       <PreviousResults results={previousResults} />
       
       {/* Roulette Wheel */}
-      <div className="flex justify-center transform hover:scale-105 transition-transform duration-300">
+      <div className="flex justify-center transform hover:scale-105 transition-transform duration-500 cursor-pointer">
         <RouletteWheel spinning={isSpinning} lastResult={lastSpinResult} />
       </div>
       

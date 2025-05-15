@@ -22,12 +22,15 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, i
   
   return (
     <div className="space-y-3">
-      <h3 className="text-amber-200 font-semibold">Chips</h3>
+      <h3 className="text-amber-100 font-semibold flex items-center">
+        <span className="bg-amber-600 w-2 h-2 rounded-full mr-2"></span>
+        Chips
+      </h3>
       <div className="flex items-center justify-center gap-4">
         <Button 
           onClick={decreaseChip} 
           variant="outline" 
-          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/50 border-amber-900/50 text-amber-200 hover:bg-black/80"
+          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/40 border-amber-500/30 text-amber-200 hover:bg-black/60 hover:border-amber-500/50 shadow-md"
           disabled={chipAmount <= 10}
         >
           -
@@ -38,17 +41,17 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, i
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className={`w-full h-full rounded-full bg-gradient-to-b ${getChipColor()} shadow-lg flex items-center justify-center relative`}>
+          <div className={`w-full h-full rounded-full bg-gradient-to-b ${getChipColor()} shadow-xl shadow-black/50 flex items-center justify-center relative ${isHovered ? 'chip-glow' : ''}`}>
             <div className="absolute inset-1 rounded-full border-2 border-dashed border-white/30"></div>
             <div className="absolute inset-3 rounded-full border border-white/20"></div>
-            <span className="text-white font-bold text-xl drop-shadow-md">${chipAmount}</span>
+            <span className="text-white font-bold text-xl drop-shadow-lg">${chipAmount}</span>
           </div>
         </div>
         
         <Button 
           onClick={increaseChip} 
           variant="outline" 
-          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/50 border-amber-900/50 text-amber-200 hover:bg-black/80"
+          className="h-10 w-10 rounded-full p-0 flex items-center justify-center bg-black/40 border-amber-500/30 text-amber-200 hover:bg-black/60 hover:border-amber-500/50 shadow-md"
           disabled={chipAmount >= 1000}
         >
           +
@@ -71,9 +74,9 @@ const ChipSelector: React.FC<ChipSelectorProps> = ({ chipAmount, decreaseChip, i
                 }
               }
             }}
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border 
-                      ${chipAmount === value ? 'border-white ring-2 ring-amber-300/50' : 'border-amber-900/30'} 
-                      hover:scale-110 transition-transform ${
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border shadow-md
+                      ${chipAmount === value ? 'border-white ring-2 ring-amber-300/70 shadow-amber-300/30' : 'border-amber-900/30'} 
+                      hover:scale-110 transition-transform duration-200 ${
               value >= 500 ? 'bg-gradient-to-b from-yellow-400 to-yellow-600' : 
               value >= 100 ? 'bg-gradient-to-b from-blue-400 to-blue-600' : 
               value >= 50 ? 'bg-gradient-to-b from-green-400 to-green-600' : 
