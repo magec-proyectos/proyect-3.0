@@ -19,6 +19,12 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				display: ['Playfair Display', 'serif'],
+				casino: ['Montserrat', 'sans-serif'],
+				accent: ['Roboto Slab', 'serif']
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -56,6 +62,18 @@ export default {
 				neon: {
 					blue: "#00f0ff",
 					lime: "#aaff00",
+					gold: "#FFD700",
+					purple: "#9B30FF"
+				},
+				casino: {
+					red: "#D22929",
+					black: "#1A1A1A",
+					green: "#007F41",
+					gold: "#D4AF37",
+					felt: "#0A5F38",
+					feltDark: "#0A4A2B",
+					accent: "#E6C200",
+					wood: "#8B4513"
 				},
 				dark: {
 					DEFAULT: "#121212",
@@ -97,6 +115,15 @@ export default {
 				"bounce-slow": {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-10px)' },
+				},
+				"scale": {
+					'0%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.05)' },
+					'100%': { transform: 'scale(1)' },
+				},
+				"shine": {
+					'0%': { backgroundPosition: '200% 0' },
+					'100%': { backgroundPosition: '-200% 0' },
 				}
 			},
 			animation: {
@@ -106,7 +133,9 @@ export default {
 				"glow": "glow 2s ease-in-out infinite",
 				"float": "float 3s ease-in-out infinite",
 				"spin-slow": "spin-slow 10s linear infinite",
-				"bounce-slow": "bounce-slow 2s ease-in-out infinite"
+				"bounce-slow": "bounce-slow 2s ease-in-out infinite",
+				"scale": "scale 2s ease-in-out infinite",
+				"shine": "shine 3s linear infinite"
 			}
 		}
 	},

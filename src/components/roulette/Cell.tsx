@@ -28,13 +28,13 @@ const Cell: React.FC<CellProps> = ({
   cellKey,
   highlight = false
 }) => {
-  // Determine background color based on the color prop
+  // Determine background color based on the color prop using casino theme colors
   const bgColor = backgroundColor || (
-    color === 'red' ? 'bg-red-600' : 
-    color === 'black' ? 'bg-black' : 
-    color === 'green' ? 'bg-green-600' : 
-    color === 'transparent' ? 'bg-amber-900/30' : 
-    'bg-amber-900/30'
+    color === 'red' ? 'bg-casino-red' : 
+    color === 'black' ? 'bg-casino-black' : 
+    color === 'green' ? 'bg-casino-green' : 
+    color === 'transparent' ? 'bg-dark/30' : 
+    'bg-dark/30'
   );
 
   const textSizeClass = 
@@ -45,7 +45,7 @@ const Cell: React.FC<CellProps> = ({
 
   // Apply highlight effect if cell is highlighted
   const highlightClass = highlight ? 
-    'ring-2 ring-amber-300 ring-opacity-80 shadow-[0_0_10px_rgba(245,158,11,0.6)] z-10 scale-105' : '';
+    'ring-2 ring-casino-gold ring-opacity-80 shadow-[0_0_10px_rgba(212,175,55,0.6)] z-10 scale-105' : '';
 
   return (
     <button
@@ -53,7 +53,8 @@ const Cell: React.FC<CellProps> = ({
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className={`${bgColor} ${textColor} ${textSizeClass} rounded font-medium flex items-center justify-center border border-amber-500/20 hover:brightness-110 transition-all h-8 ${highlightClass} ${className}`}
+      className={`${bgColor} ${textColor} ${textSizeClass} rounded font-casino font-medium flex items-center justify-center border border-casino-gold/20 
+                hover:brightness-110 hover:border-casino-gold/40 transition-all duration-200 h-8 ${highlightClass} ${className}`}
     >
       {text}
     </button>
