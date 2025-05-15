@@ -24,7 +24,7 @@ const WinLossHistoryContent: React.FC<WinLossHistoryContentProps> = ({ previousR
       return {
         spin: previousResults.length - index,
         number,
-        color: isRed ? 'red' : isBlack ? 'black' : 'green',
+        color: isRed ? 'red' : isBlack ? 'black' : 'green' as 'red' | 'black' | 'green',
         isOdd: number % 2 === 1 && number !== 0,
         isEven: number % 2 === 0 && number !== 0,
         isLow: number >= 1 && number <= 18,
