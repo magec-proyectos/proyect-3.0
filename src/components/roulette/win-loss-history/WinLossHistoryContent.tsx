@@ -7,6 +7,7 @@ import { HistoryDataItem, RollingStatsItem, ColorDistributionItem, Streak } from
 import NumbersTab from './NumbersTab';
 import TrendsTab from './TrendsTab';
 import DistributionTab from './DistributionTab';
+import StreakBadge from './StreakBadge';
 
 interface WinLossHistoryContentProps {
   previousResults: number[];
@@ -24,7 +25,7 @@ const WinLossHistoryContent: React.FC<WinLossHistoryContentProps> = ({ previousR
       return {
         spin: previousResults.length - index,
         number,
-        color: isRed ? 'red' : isBlack ? 'black' : 'green' as 'red' | 'black' | 'green',
+        color: isRed ? 'red' : isBlack ? 'black' : 'green',
         isOdd: number % 2 === 1 && number !== 0,
         isEven: number % 2 === 0 && number !== 0,
         isLow: number >= 1 && number <= 18,
@@ -87,6 +88,8 @@ const WinLossHistoryContent: React.FC<WinLossHistoryContentProps> = ({ previousR
       streakType = 'odd';
     } else if (latest.isEven) {
       streakType = 'even';
+    } else {
+      streakType = 'none';
     }
     
     // Count streak backwards
@@ -107,34 +110,43 @@ const WinLossHistoryContent: React.FC<WinLossHistoryContentProps> = ({ previousR
   }, [historyData]);
 
   return (
-    <Tabs defaultValue="numbers">
-      <TabsList className="bg-black/40 border-b border-amber-900/20 w-full mb-4">
-        <TabsTrigger value="numbers" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
-          <History className="h-4 w-4 mr-2" />
-          Numbers
-        </TabsTrigger>
-        <TabsTrigger value="trends" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
-          <ChartLine className="h-4 w-4 mr-2" />
-          Trends
-        </TabsTrigger>
-        <TabsTrigger value="distribution" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
-          <ChartBar className="h-4 w-4 mr-2" />
-          Distribution
-        </TabsTrigger>
-      </TabsList>
+    <div className="space-y-2">
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-sm text-amber-200 font-medium">History Analysis</h3>
+        {recentStreak.count >= 2 && (
+          <StreakBadge recentStreak={recentStreak} />
+        )}
+      </div>
       
-      <TabsContent value="numbers" className="mt-0">
-        <NumbersTab historyData={historyData} colorDistribution={colorDistribution} />
-      </TabsContent>
-      
-      <TabsContent value="trends" className="mt-0">
-        <TrendsTab rollingStats={rollingStats} />
-      </TabsContent>
-      
-      <TabsContent value="distribution" className="mt-0">
-        <DistributionTab colorDistribution={colorDistribution} historyData={historyData} />
-      </TabsContent>
-    </Tabs>
+      <Tabs defaultValue="numbers">
+        <TabsList className="bg-black/40 border-b border-amber-900/20 w-full mb-4">
+          <TabsTrigger value="numbers" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
+            <History className="h-4 w-4 mr-2" />
+            Numbers
+          </TabsTrigger>
+          <TabsTrigger value="trends" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
+            <ChartLine className="h-4 w-4 mr-2" />
+            Trends
+          </TabsTrigger>
+          <TabsTrigger value="distribution" className="data-[state=active]:bg-amber-900/30 data-[state=active]:text-amber-200">
+            <ChartBar className="h-4 w-4 mr-2" />
+            Distribution
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="numbers" className="mt-0">
+          <NumbersTab historyData={historyData} colorDistribution={colorDistribution} />
+        </TabsContent>
+        
+        <TabsContent value="trends" className="mt-0">
+          <TrendsTab rollingStats={rollingStats} />
+        </TabsContent>
+        
+        <TabsContent value="distribution" className="mt-0">
+          <DistributionTab colorDistribution={colorDistribution} historyData={historyData} />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 };
 

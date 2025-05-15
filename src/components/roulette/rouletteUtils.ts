@@ -1,5 +1,5 @@
 
-import { BetType, RouletteNumber } from './types';
+import { BetType, RouletteNumber, PlacedBet } from './types';
 
 // European roulette wheel numbers and their colors
 export const rouletteNumbers: RouletteNumber[] = [
@@ -42,6 +42,28 @@ export const rouletteNumbers: RouletteNumber[] = [
   { number: 26, color: 'black' }
 ];
 
+// Get neighboring numbers on the wheel
+export const getNeighbors = (number: number, count: number = 2): number[] => {
+  const index = wheelNumbers.indexOf(number);
+  if (index === -1) return [];
+  
+  const neighbors: number[] = [];
+  const len = wheelNumbers.length;
+  
+  for (let i = -count; i <= count; i++) {
+    if (i === 0) continue; // Skip the number itself
+    const neighborIndex = (index + i + len) % len;
+    neighbors.push(wheelNumbers[neighborIndex]);
+  }
+  
+  return neighbors;
+};
+
+// Wheel numbers in European roulette order (same as in RouletteWheel.tsx)
+export const wheelNumbers = [
+  0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
+];
+
 // Get the odds (payout multiplier) for a given bet type
 export const getBetOdds = (betType: BetType): number => {
   switch (betType) {
@@ -66,6 +88,8 @@ export const getBetOdds = (betType: BetType): number => {
       return 5; // 5 to 1 payout
     case 'straight':
       return 35; // 35 to 1 payout
+    case 'neighbors':
+      return 7; // 5 numbers bet includes the central number and two on each side
     default:
       return 0;
   }
@@ -96,6 +120,8 @@ export const getBetProbability = (betType: BetType): string => {
       return '16.22%'; // 6/37 for European roulette
     case 'straight':
       return '2.70%'; // 1/37 for European roulette
+    case 'neighbors':
+      return '13.51%'; // 5/37 for 5 numbers
     default:
       return '0%';
   }
@@ -126,6 +152,10 @@ export const evaluateBet = (bet: {type: BetType, number?: number}, result: numbe
       return result >= 25 && result <= 36;
     case 'straight':
       return result === bet.number;
+    case 'neighbors':
+      if (!bet.number) return false;
+      const neighbors = getNeighbors(bet.number, 2);
+      return result === bet.number || neighbors.includes(result);
     default:
       return false;
   }
@@ -150,6 +180,11 @@ export const getRecommendation = (selectedBet: {type: BetType, number?: number} 
     return {
       action: "MEDIUM RISK",
       explanation: `This bet type has a ${getBetProbability(selectedBet.type)} chance of winning with a ${getBetOdds(selectedBet.type)}:1 payout ratio.`
+    };
+  } else if (selectedBet.type === 'neighbors') {
+    return {
+      action: "STRATEGIC BET",
+      explanation: `Betting on 5 neighboring numbers on the wheel. ${getBetProbability(selectedBet.type)} chance with a ${getBetOdds(selectedBet.type)}:1 payout.`
     };
   } else {
     return {

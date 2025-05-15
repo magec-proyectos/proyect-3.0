@@ -4,7 +4,8 @@ export type BetType =
   | 'odd' | 'even' 
   | '1-18' | '19-36' 
   | '1st12' | '2nd12' | '3rd12' 
-  | 'straight' | 'split' | 'street' | 'corner' | 'sixline';
+  | 'straight' | 'split' | 'street' | 'corner' | 'sixline'
+  | 'neighbors';
 
 export type RouletteNumber = {
   number: number;
@@ -35,3 +36,11 @@ export type PatternType =
   | 'FIRST_DOZEN'
   | 'SECOND_DOZEN'
   | 'THIRD_DOZEN';
+
+export type PlacedBet = {
+  id: string;
+  type: BetType;
+  number?: number;
+  amount: number;
+  position?: { x: number; y: number };
+};

@@ -19,6 +19,7 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
   const [ballAngle, setBallAngle] = useState(0);
   const [ballRadius, setBallRadius] = useState(35);
   const [ballSpeed, setBallSpeed] = useState(0);
+  const [ballBounceFactor, setBallBounceFactor] = useState(0);
   const wheelRef = useRef<HTMLDivElement>(null);
   const [showHighlight, setShowHighlight] = useState(false);
   
@@ -37,9 +38,10 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
       // Set initial ball motion outside the wheel
       setBallRadius(55);
       setBallSpeed(15);
+      setBallBounceFactor(0);
       
       // Generate random starting positions and speeds
-      const randomRotations = 8 + Math.random() * 4; // Between 8 and 12 complete rotations
+      const randomRotations = 8 + Math.random() * 6; // Between 8 and 14 complete rotations
       const targetAngle = rotationAngle + (randomRotations * 360);
       setRotationAngle(targetAngle);
       
@@ -50,19 +52,35 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
       // Simulate ball slowing down and falling into the wheel
       let ballInterval = setInterval(() => {
         setBallSpeed((prev) => {
-          if (prev <= 0.5) {
+          if (prev <= 0.3) {
             clearInterval(ballInterval);
-            return 0.5;
+            return 0.3;
           }
-          return prev * 0.97; // Gradually slow down
+          return prev * 0.98; // Gradually slow down with realistic physics
         });
         
         setBallRadius((prev) => {
           // Ball gradually moves inward
-          if (prev <= 35) return 35;
-          return prev - 0.1;
+          if (prev <= 35) {
+            // Start bouncing when the ball reaches the inner track
+            if (ballBounceFactor === 0) {
+              setBallBounceFactor(0.8);
+              // Play bounce sound
+              const bounceSound = new Audio('/ball-bounce.mp3');
+              bounceSound.volume = 0.2;
+              bounceSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+            return 35;
+          }
+          return prev - 0.15; // More gradual decline for better physics
         });
-      }, 50);
+        
+        if (ballBounceFactor > 0) {
+          // Simulate ball bouncing
+          setBallBounceFactor(prev => Math.max(0, prev - 0.01));
+          setBallRadius(prev => 35 + Math.sin(Date.now() / 100) * 3 * ballBounceFactor);
+        }
+      }, 30);
       
       return () => {
         clearInterval(ballInterval);
@@ -70,18 +88,24 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
     } else if (lastResult !== undefined) {
       // When stopped, align with the result
       const resultPosition = getResultPosition(lastResult);
-      const finalAngle = Math.floor(rotationAngle / 360) * 360 + resultPosition + (Math.random() * 4 - 2);
+      const finalAngle = Math.floor(rotationAngle / 360) * 360 + resultPosition + (Math.random() * 6 - 3);
       setRotationAngle(finalAngle);
       
       // Position the ball in the correct pocket
       setBallAngle(resultPosition);
       setBallRadius(35);
       setBallSpeed(0);
+      setBallBounceFactor(0);
       
       // Show highlight animation after a short delay
       setTimeout(() => {
         setShowHighlight(true);
       }, 500);
+      
+      // Play win highlight sound
+      const winSound = new Audio('/win-highlight.mp3');
+      winSound.volume = 0.3;
+      winSound.play().catch(e => console.log("Audio play failed:", e));
     }
   }, [spinning, lastResult]);
   
@@ -120,8 +144,8 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
           style={{ 
             transform: `rotate(${rotationAngle}deg)`,
             transition: spinning 
-              ? 'transform 6s cubic-bezier(0.2, 0.8, 0.2, 1)' 
-              : 'transform 2s cubic-bezier(0.1, 0.8, 0.2, 1)'
+              ? 'transform 8s cubic-bezier(0.3, 0.1, 0.1, 1)' // Smoother spin with realistic acceleration and deceleration
+              : 'transform 2s cubic-bezier(0.1, 0.9, 0.2, 1)' // Smoother stop
           }}
         >
           {/* Wheel sectors */}
@@ -140,8 +164,8 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
               >
                 <div className={`absolute -left-6 -top-6 w-12 h-12 ${bgColor} flex items-center justify-center
                               text-white text-xs font-bold border-b border-gray-700
-                              ${isWinner && showHighlight ? 'ring-2 ring-yellow-300 ring-opacity-80' : ''}`}>
-                  <span className={`${isWinner && showHighlight ? 'text-glow shadow-yellow-300' : ''}`}>
+                              ${isWinner && showHighlight ? 'ring-4 ring-yellow-300 animate-pulse ring-opacity-80' : ''}`}>
+                  <span className={`${isWinner && showHighlight ? 'text-glow text-yellow-100 text-lg font-bold shadow-yellow-300' : ''}`}>
                     {num}
                   </span>
                 </div>
@@ -225,6 +249,18 @@ const RouletteWheel: React.FC<RouletteWheelProps> = ({ spinning, lastResult }) =
         <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[15px] border-b-yellow-400 mx-auto drop-shadow-lg"></div>
         <div className="w-5 h-2 bg-yellow-400 mx-auto rounded-b drop-shadow-lg"></div>
       </div>
+      
+      {/* Win highlight animation */}
+      {showHighlight && lastResult !== undefined && (
+        <motion.div
+          className="absolute inset-0 rounded-full z-20 pointer-events-none"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: [0, 0.7, 0], scale: [0.8, 1.2, 1.5] }}
+          transition={{ duration: 1.5, repeat: 2, repeatType: "loop" }}
+        >
+          <div className="w-full h-full rounded-full border-4 border-yellow-400/50"></div>
+        </motion.div>
+      )}
     </div>
   );
 };

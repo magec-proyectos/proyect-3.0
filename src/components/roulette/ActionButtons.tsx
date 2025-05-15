@@ -15,13 +15,14 @@ import { Label } from "@/components/ui/label";
 
 const ActionButtons: React.FC = () => {
   const { 
-    selectedBet, 
+    placedBets,
     isSpinning, 
     resetBets, 
     chipAmount, 
     betAmount, 
     updateBetAmount,
-    spinWheel 
+    spinWheel,
+    totalBetAmount 
   } = useRoulette();
   
   const [customBetAmount, setCustomBetAmount] = useState(betAmount.toString());
@@ -44,10 +45,10 @@ const ActionButtons: React.FC = () => {
         variant="ghost" 
         onClick={resetBets} 
         className="text-amber-200 hover:text-white hover:bg-green-800"
-        disabled={!selectedBet || isSpinning}
+        disabled={placedBets.length === 0 || isSpinning}
       >
         <RefreshCcw className="mr-2 h-4 w-4" />
-        Clear Bet
+        Clear All Bets
       </Button>
       
       <div className="flex gap-2">
@@ -55,7 +56,7 @@ const ActionButtons: React.FC = () => {
           <DialogTrigger asChild>
             <Button 
               variant="outline" 
-              disabled={!selectedBet || isSpinning}
+              disabled={isSpinning}
               className="border-amber-600 bg-green-800/50 hover:bg-green-800 text-amber-200"
             >
               <Settings className="mr-2 h-4 w-4" />
@@ -127,11 +128,11 @@ const ActionButtons: React.FC = () => {
         <Button 
           variant="default" 
           onClick={spinWheel}
-          disabled={!selectedBet || isSpinning}
+          disabled={placedBets.length === 0 || isSpinning}
           className={`bg-gradient-to-r from-amber-600 to-amber-500 text-white font-semibold hover:from-amber-700 hover:to-amber-600 transition-all
                      ${isSpinning ? 'animate-pulse' : ''}`}
         >
-          {isSpinning ? 'Spinning...' : 'Spin Wheel'}
+          {isSpinning ? 'Spinning...' : `Spin Wheel ${totalBetAmount > 0 ? '($'+totalBetAmount+')' : ''}`}
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
