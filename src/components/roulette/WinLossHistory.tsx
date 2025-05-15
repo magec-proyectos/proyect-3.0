@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell as RechartsCell } from 'recharts';
 import { 
   ArrowUp, ArrowDown, ChartLine, ChartBar, History, CalendarDays
 } from 'lucide-react';
@@ -272,7 +272,7 @@ const WinLossHistory: React.FC = () => {
                     <Tooltip content={<ChartTooltipContent />} />
                     <Bar dataKey="value" fill="#8884d8" name="Count">
                       {colorDistribution.map((entry, index) => (
-                        <Cell 
+                        <RechartsCell 
                           key={`cell-${index}`} 
                           fill={entry.name === 'Red' ? '#ef4444' : entry.name === 'Black' ? '#1e1e1e' : '#16a34a'} 
                         />
