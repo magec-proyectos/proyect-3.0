@@ -20,13 +20,13 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24">
+    <div className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24 min-h-[90vh] flex items-center">
       {/* Background elements */}
       <HeroBackground />
       
       <div className="container relative z-10">
         <motion.div 
-          className="max-w-3xl mx-auto text-center"
+          className="max-w-3xl mx-auto"
           initial="hidden"
           animate="visible"
           variants={staggerChildren}
