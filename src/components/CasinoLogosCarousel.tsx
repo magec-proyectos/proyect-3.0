@@ -37,19 +37,12 @@ const CasinoLogosCarousel = () => {
     <motion.div 
       className="w-full max-w-5xl mx-auto mt-8 mb-12"
       initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <motion.h4 
-        className="text-gray-400 text-lg text-center mb-6 font-medium"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        viewport={{ once: true }}
-      >
+      <h4 className="text-gray-400 text-lg text-center mb-6 font-medium">
         Used by players from these casinos
-      </motion.h4>
+      </h4>
       <Carousel
         opts={{
           align: "center",
@@ -66,22 +59,15 @@ const CasinoLogosCarousel = () => {
         className="w-full px-4"
       >
         <CarouselContent className="-ml-4 md:-ml-6">
-          {casinoLogos.map((logo, index) => (
+          {casinoLogos.map((logo) => (
             <CarouselItem key={logo.name} className="pl-4 md:pl-6 basis-1/3 sm:basis-1/4 md:basis-1/5">
-              <motion.div 
-                className="flex items-center justify-center h-28 transition-all duration-300"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 * index }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-              >
+              <div className="flex items-center justify-center h-28 transition-all duration-300">
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
                   className="max-h-20 max-w-[85%] transition-all duration-300 mix-blend-multiply"
                 />
-              </motion.div>
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
