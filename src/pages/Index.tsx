@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import TryItNow from '@/components/homepage/TryItNow';
 
 const Index = () => {
   const fadeIn = {
@@ -167,6 +168,9 @@ const Index = () => {
               <h2 className="text-3xl font-bold mb-4">How It Works</h2>
               <p className="text-gray-400">Our AI system analyzes vast amounts of data to provide you with accurate predictions and advice.</p>
             </motion.div>
+            
+            {/* Try It Now Component */}
+            <TryItNow />
             
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
