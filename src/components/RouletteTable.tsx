@@ -9,6 +9,7 @@ import BettingSection from './roulette/BettingSection';
 import GameStats from './roulette/GameStats';
 import ActionButtons from './roulette/ActionButtons';
 import AiRecommendation from './roulette/AiRecommendation';
+import WinLossHistory from './roulette/WinLossHistory';
 
 // Inner component that uses the roulette context
 const RouletteTableInner: React.FC = () => {
@@ -39,6 +40,9 @@ const RouletteTableInner: React.FC = () => {
               
               {/* AI Recommendation */}
               <AiRecommendation />
+              
+              {/* Win/Loss History - New Component */}
+              <WinLossHistory />
             </div>
             
             <div className="md:col-span-2 space-y-6">
