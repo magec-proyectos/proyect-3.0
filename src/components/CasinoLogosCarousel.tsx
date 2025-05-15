@@ -35,14 +35,11 @@ const CasinoLogosCarousel = () => {
 
   return (
     <motion.div 
-      className="w-full max-w-5xl mx-auto mt-8 mb-12"
+      className="w-full max-w-5xl mx-auto mt-8 mb-4"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h4 className="text-gray-400 text-lg text-center mb-6 font-medium">
-        Used by players from these casinos
-      </h4>
       <Carousel
         opts={{
           align: "center",

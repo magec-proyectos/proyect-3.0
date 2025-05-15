@@ -6,7 +6,6 @@ import HeroHeading from './HeroHeading';
 import HeroPredictionCard from './HeroPredictionCard';
 import HeroFeatures from './HeroFeatures';
 import HeroTrustBadge from './HeroTrustBadge';
-import CasinoLogosCarousel from '@/components/CasinoLogosCarousel';
 
 const Hero = () => {
   const staggerChildren = {
@@ -41,9 +40,6 @@ const Hero = () => {
           
           {/* Trust badges */}
           <HeroTrustBadge />
-          
-          {/* Add the casino logos carousel here */}
-          <CasinoLogosCarousel />
         </motion.div>
       </div>
     </div>

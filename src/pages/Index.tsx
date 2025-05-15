@@ -7,6 +7,7 @@ import GameChoiceSection from '@/components/homepage/GameChoiceSection';
 import HowItWorksSection from '@/components/homepage/HowItWorksSection';
 import TestimonialsSection from '@/components/homepage/TestimonialsSection';
 import CtaSection from '@/components/homepage/CtaSection';
+import TrustedBySection from '@/components/homepage/TrustedBySection';
 
 const Index = () => {
   return (
@@ -15,6 +16,9 @@ const Index = () => {
       
       <main>
         <Hero />
+        
+        {/* Trusted By Section */}
+        <TrustedBySection />
         
         {/* Sports vs Casino Section */}
         <GameChoiceSection />
