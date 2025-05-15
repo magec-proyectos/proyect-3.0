@@ -1,13 +1,10 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { HistoryDataItem } from './types';
+import { Streak } from './types';
 
 type StreakBadgeProps = {
-  recentStreak: {
-    type: string;
-    count: number;
-  };
+  recentStreak: Streak;
 };
 
 const StreakBadge: React.FC<StreakBadgeProps> = ({ recentStreak }) => {

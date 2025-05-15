@@ -11,3 +11,21 @@ export type HistoryDataItem = {
 };
 
 export type HistoryTabType = 'numbers' | 'distributions' | 'trends';
+
+export type RollingStatsItem = {
+  spin: number;
+  redPercentage: number;
+  blackPercentage: number;
+  oddPercentage: number;
+  evenPercentage: number;
+};
+
+export type ColorDistributionItem = {
+  name: string;
+  value: number;
+};
+
+export type Streak = {
+  type: string;
+  count: number;
+};
