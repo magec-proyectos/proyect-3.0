@@ -21,6 +21,10 @@ export const useRouletteState = () => {
     totalWinnings: 0,
     totalLosses: 0
   });
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [showBettingSystems, setShowBettingSystem] = useState<boolean>(false);
+  const [animationSpeed, setAnimationSpeed] = useState<'slow' | 'normal' | 'fast'>('normal');
+  const [activeBettingSystem, setActiveBettingSystem] = useState<string | null>(null);
   
   // Update AI recommendation when bet changes
   useEffect(() => {
@@ -33,6 +37,34 @@ export const useRouletteState = () => {
   
   // Calculate total bet amount from all placed bets
   const totalBetAmount = placedBets.reduce((total, bet) => total + bet.amount, 0);
+  
+  // Get a number distribution analysis from previous results
+  const getNumberDistribution = () => {
+    if (previousResults.length === 0) return { red: 0, black: 0, green: 0, odd: 0, even: 0, high: 0, low: 0 };
+    
+    const red = previousResults.filter(num => [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36].includes(num)).length;
+    const green = previousResults.filter(num => num === 0).length;
+    const black = previousResults.length - red - green;
+    
+    const odd = previousResults.filter(num => num !== 0 && num % 2 === 1).length;
+    const even = previousResults.filter(num => num !== 0 && num % 2 === 0).length;
+    
+    const low = previousResults.filter(num => num >= 1 && num <= 18).length;
+    const high = previousResults.filter(num => num >= 19 && num <= 36).length;
+    
+    return {
+      red,
+      black,
+      green,
+      odd,
+      even,
+      high,
+      low,
+      total: previousResults.length
+    };
+  };
+  
+  const distribution = getNumberDistribution();
   
   return {
     selectedBet,
@@ -56,5 +88,14 @@ export const useRouletteState = () => {
     gameStats,
     setGameStats,
     totalBetAmount,
+    soundEnabled,
+    setSoundEnabled,
+    showBettingSystem: showBettingSystems,
+    setShowBettingSystem,
+    animationSpeed,
+    setAnimationSpeed,
+    activeBettingSystem,
+    setActiveBettingSystem,
+    distribution
   };
 };
