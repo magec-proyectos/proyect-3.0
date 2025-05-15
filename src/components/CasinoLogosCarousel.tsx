@@ -63,7 +63,7 @@ const CasinoLogosCarousel = () => {
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
-                  className="max-h-20 max-w-[85%] transition-all duration-300 grayscale hover:grayscale-0"
+                  className="max-h-20 max-w-[85%] transition-all duration-300 brightness-0 invert hover:brightness-110"
                 />
               </div>
             </CarouselItem>
