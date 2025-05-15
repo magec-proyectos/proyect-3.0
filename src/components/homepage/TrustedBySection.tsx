@@ -23,8 +23,9 @@ const TrustedBySection = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-2 gradient-text">Trusted by</h2>
-          <p className="text-3xl md:text-4xl font-bold mb-8">10,000+ users</p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 gradient-text">
+            Trusted by <span className="text-white">1 million+ users</span>
+          </h2>
           
           {/* Casino Logos Carousel */}
           <CasinoLogosCarousel />

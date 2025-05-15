@@ -13,12 +13,13 @@ const CasinoLogosCarousel = () => {
   const [api, setApi] = useState<ReturnType<typeof useEmblaCarousel>[1]>();
   
   const casinoLogos = [
-    { name: '1XBet', src: '/lovable-uploads/7e5d05aa-3c36-4eef-9cd8-202104533843.png' },
-    { name: 'Bet365', src: '/lovable-uploads/7a61cb64-7378-42fe-86f6-9684b829f00f.png' },
-    { name: 'Betway', src: '/lovable-uploads/ef441bef-1632-435d-9221-1c9650713b09.png' },
-    { name: 'Bwin', src: '/lovable-uploads/2418d250-be60-4431-a20f-d5515ca78132.png' },
-    { name: 'Stake', src: '/lovable-uploads/2d29f278-65a7-4deb-8dd7-0c55d3966762.png' },
-    { name: 'Winamax', src: '/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png' },
+    { name: '1XBet', src: '/lovable-uploads/404fc089-1ec6-447a-b228-424708187698.png' },
+    { name: '888casino', src: '/lovable-uploads/a4b5a6bf-eba2-49d0-9d2e-c084094726ff.png' },
+    { name: 'bet365', src: '/lovable-uploads/7b0e3981-9449-4433-bfd3-f8b1b08782d6.png' },
+    { name: 'Betway', src: '/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png' },
+    { name: 'Bwin', src: '/lovable-uploads/57ee4d31-5f2d-4b5d-b546-ad99ab1f37dd.png' },
+    { name: 'Mr Vegas', src: '/lovable-uploads/6b37fcd7-ac29-4070-89cd-c4b2992991fe.png' },
+    { name: 'Stake', src: '/lovable-uploads/603ecc6b-3a6a-4ba3-8781-14c535e78317.png' },
   ];
 
   // Effect to handle manual scrolling interruption
@@ -62,7 +63,7 @@ const CasinoLogosCarousel = () => {
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
-                  className="max-h-20 max-w-[85%] transition-all duration-300 mix-blend-multiply"
+                  className="max-h-20 max-w-[85%] transition-all duration-300 grayscale hover:grayscale-0"
                 />
               </div>
             </CarouselItem>
