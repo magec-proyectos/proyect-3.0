@@ -5,12 +5,13 @@ import { useRoulette } from '@/contexts/RouletteContext';
 import StreakBadge from './win-loss-history/StreakBadge';
 import EmptyState from './win-loss-history/EmptyState';
 import WinLossHistoryContent from './win-loss-history/WinLossHistoryContent';
+import { Streak } from './win-loss-history/types';
 
 const WinLossHistory: React.FC = () => {
   const { previousResults, gameStats } = useRoulette();
   
   // Calculate recent streak for display
-  const recentStreak = React.useMemo(() => {
+  const recentStreak = React.useMemo((): Streak => {
     if (previousResults.length < 2) return { type: 'none', count: 0 };
     
     let streakCount = 1;

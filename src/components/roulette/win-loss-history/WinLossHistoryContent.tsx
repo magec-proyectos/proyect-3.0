@@ -22,10 +22,14 @@ const WinLossHistoryContent: React.FC<WinLossHistoryContentProps> = ({ previousR
       const isBlack = ![0, 37].includes(number) && !isRed;
       const isGreen = number === 0 || number === 37;
       
+      // Explicitly cast the color to the expected union type
+      const color: 'red' | 'black' | 'green' = 
+        isRed ? 'red' : isBlack ? 'black' : 'green';
+      
       return {
         spin: previousResults.length - index,
         number,
-        color: isRed ? 'red' : isBlack ? 'black' : 'green',
+        color,
         isOdd: number % 2 === 1 && number !== 0,
         isEven: number % 2 === 0 && number !== 0,
         isLow: number >= 1 && number <= 18,
