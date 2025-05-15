@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRoulette } from '@/contexts/RouletteContext';
@@ -6,7 +5,7 @@ import StreakBadge from './win-loss-history/StreakBadge';
 import EmptyState from './win-loss-history/EmptyState';
 import WinLossHistoryContent from './win-loss-history/WinLossHistoryContent';
 import { Streak } from './win-loss-history/types';
-import { ChartLineUp } from 'lucide-react';
+import { ChartLine } from 'lucide-react';
 
 const WinLossHistory: React.FC = () => {
   const { previousResults, gameStats } = useRoulette();
@@ -60,7 +59,7 @@ const WinLossHistory: React.FC = () => {
       <Card className="bg-black/30 border border-amber-900/30">
         <CardHeader>
           <CardTitle className="text-amber-200 flex items-center gap-2">
-            <ChartLineUp className="h-5 w-5" />
+            <ChartLine className="h-5 w-5" />
             Results Analysis
           </CardTitle>
         </CardHeader>
@@ -74,7 +73,7 @@ const WinLossHistory: React.FC = () => {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-amber-200 flex items-center gap-2">
-            <ChartLineUp className="h-5 w-5" />
+            <ChartLine className="h-5 w-5" />
             Results Analysis
           </CardTitle>
           
