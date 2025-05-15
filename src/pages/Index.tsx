@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -169,11 +168,11 @@ const Index = () => {
               <p className="text-gray-400">Our AI system analyzes vast amounts of data to provide you with accurate predictions and advice.</p>
             </motion.div>
             
-            {/* Try It Now Component */}
+            {/* Try It Now Component - Now correctly positioned between the section title and the steps */}
             <TryItNow />
             
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 mt-12"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
