@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -20,15 +19,7 @@ const HeroTrustBadge = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
     >
-      <div className="bg-dark-card px-6 py-3 rounded-lg border border-dark-border inline-flex items-center gap-3">
-        <div className="flex -space-x-2">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs text-white border-2 border-dark-card">
-              
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* He eliminado el div que contenía los círculos negros y el recuadro */}
     </motion.div>
   );
 };

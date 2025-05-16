@@ -18,8 +18,8 @@ const CasinoLogosCarousel = () => {
     { name: 'bet365', src: '/lovable-uploads/7b0e3981-9449-4433-bfd3-f8b1b08782d6.png' },
     { name: 'Betway', src: '/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png' },
     { name: 'Bwin', src: '/lovable-uploads/57ee4d31-5f2d-4b5d-b546-ad99ab1f37dd.png' },
-    { name: 'Bovada', src: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png' }, // Updated Bovada logo
-    { name: 'Stake', src: '/lovable-uploads/7c55be5a-2fd6-4846-805f-6abc4132183b.png' }, // Updated Stake logo
+    { name: 'Bovada', src: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png' },
+    { name: 'Stake', src: '/lovable-uploads/8612b727-d03a-4e04-887c-05e6beeda2b1.png' }, // Actualizado con el nuevo logo de Stake
   ];
 
   // Effect to ensure continuous movement
