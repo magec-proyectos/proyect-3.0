@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowRight, Play, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -78,27 +78,6 @@ const TryItNow = () => {
       viewport={{ once: true }}
       variants={containerVariants}
     >
-      <motion.div variants={itemVariants} className="text-center mb-10">
-        <motion.div 
-          className="inline-block mb-3 bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium rounded-full px-4 py-1 text-sm"
-          animate={pulseAnimation}
-        >
-          <Sparkles className="inline-block mr-1 h-4 w-4" /> AI-Powered Predictions
-        </motion.div>
-        <motion.h2 
-          className="text-4xl font-bold mb-2 gradient-text"
-          variants={itemVariants}
-        >
-          See It In Action
-        </motion.h2>
-        <motion.p 
-          className="text-gray-400 max-w-xl mx-auto"
-          variants={itemVariants}
-        >
-          Select from upcoming matches and get instant AI-powered predictions to enhance your betting strategy.
-        </motion.p>
-      </motion.div>
-      
       <motion.div variants={itemVariants}>
         <Card className="overflow-hidden border-none shadow-xl bg-gradient-to-br from-dark-card/50 to-dark-card/30 backdrop-blur-lg">
           <CardContent className="p-0">
@@ -157,12 +136,6 @@ const TryItNow = () => {
                 
                 {/* Football Content */}
                 <TabsContent value="football" className="pt-6 pb-8 px-6 sm:px-8">
-                  <div className="p-4 bg-dark-lighter/50 border border-dark-border rounded-lg mb-6">
-                    <p className="text-sm text-gray-400 mb-2">
-                      <TrendingUp className="inline-block mr-1 h-3 w-3" /> AI has analyzed 347 matches from the last 30 days for more accurate predictions
-                    </p>
-                  </div>
-                
                   <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <div className="flex-1">
                       <label className="text-sm text-gray-400 mb-1.5 block">Select Match</label>
@@ -278,12 +251,6 @@ const TryItNow = () => {
                 
                 {/* Basketball Content */}
                 <TabsContent value="basketball" className="pt-6 pb-8 px-6 sm:px-8">
-                  <div className="p-4 bg-dark-lighter/50 border border-dark-border rounded-lg mb-6">
-                    <p className="text-sm text-gray-400 mb-2">
-                      <TrendingUp className="inline-block mr-1 h-3 w-3" /> AI has analyzed 218 games from the last 30 days for more accurate predictions
-                    </p>
-                  </div>
-                
                   <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <div className="flex-1">
                       <label className="text-sm text-gray-400 mb-1.5 block">Select Game</label>
@@ -399,12 +366,6 @@ const TryItNow = () => {
                 
                 {/* American Football Content */}
                 <TabsContent value="americanFootball" className="pt-6 pb-8 px-6 sm:px-8">
-                  <div className="p-4 bg-dark-lighter/50 border border-dark-border rounded-lg mb-6">
-                    <p className="text-sm text-gray-400 mb-2">
-                      <TrendingUp className="inline-block mr-1 h-3 w-3" /> AI has analyzed 124 games from the last 30 days for more accurate predictions
-                    </p>
-                  </div>
-                
                   <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <div className="flex-1">
                       <label className="text-sm text-gray-400 mb-1.5 block">Select Game</label>
@@ -521,19 +482,6 @@ const TryItNow = () => {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
-      
-      <motion.div 
-        className="mt-10 flex justify-center"
-        variants={itemVariants}
-      >
-        <Button 
-          className="bg-dark-lighter hover:bg-dark/70 border border-dark-border text-gray-300 hover:text-white"
-          onClick={() => window.location.href = '/sports'}
-        >
-          Explore All Sports
-          <ArrowRight size={16} className="ml-2" />
-        </Button>
       </motion.div>
     </motion.div>
   );
