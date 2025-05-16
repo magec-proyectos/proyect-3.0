@@ -68,7 +68,7 @@ const CasinoLogosCarousel = () => {
           align: "center",
           loop: true,
           dragFree: false, // Disable drag functionality
-          duration: 3000, // Significantly increased duration for much slower movement (was 1000)
+          duration: 5000, // Even slower movement (was 3000)
         }}
         plugins={[
           Autoplay({
@@ -90,7 +90,7 @@ const CasinoLogosCarousel = () => {
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
-                  className={`max-h-20 max-w-[85%] transition-all duration-300 brightness-0 invert hover:brightness-110 ${logo.name === 'Bovada' ? 'max-h-24 max-w-[95%]' : ''}`}
+                  className="max-h-20 max-w-[85%] transition-all duration-300 brightness-0 invert hover:brightness-110"
                 />
               </div>
             </CarouselItem>

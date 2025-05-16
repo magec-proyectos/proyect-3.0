@@ -24,7 +24,7 @@ const TrustedBySection = () => {
           variants={fadeIn}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            Trusted by <span className="text-white">1 million+ users</span>
+            Trusted by <span className="text-white">3M+ users</span> of these casinos
           </h2>
           
           {/* Casino Logos Carousel */}
