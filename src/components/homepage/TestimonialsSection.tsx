@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Video } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TestimonialsSection = () => {
@@ -26,17 +26,14 @@ const TestimonialsSection = () => {
   const testimonials = [
     {
       name: "Michael T.",
-      text: "The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it.",
       bgColor: "from-green-600/40 to-green-600/10"
     },
     {
       name: "Jessica L.",
-      text: "The Blackjack advisor helped me understand optimal strategy and has completely changed how I approach the game.",
       bgColor: "from-amber-600/40 to-amber-600/10"
     },
     {
       name: "David W.",
-      text: "I love the community feature - following top predictors and seeing their analysis has been a game-changer.",
       bgColor: "from-blue-600/40 to-blue-600/10"
     },
   ];
@@ -73,15 +70,11 @@ const TestimonialsSection = () => {
               <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
                 {/* Video play button */}
                 <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <Video size={20} className="text-white" />
+                  <Play size={20} className="text-white" />
                 </div>
                 
                 {/* Text content aligned to bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
-                  <p className="text-white text-xl font-medium mb-4 leading-tight">
-                    "{testimonial.text}"
-                  </p>
-                  
                   <div className="flex items-center">
                     <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 flex items-center justify-center text-gray-600 font-bold">
                       {testimonial.name.charAt(0)}
@@ -94,18 +87,6 @@ const TestimonialsSection = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 text-center"
-        >
-          <button className="px-8 py-3 bg-white text-dark font-medium rounded-full hover:bg-white/90 transition-colors">
-            Solicitar una demo
-          </button>
         </motion.div>
       </div>
     </section>
