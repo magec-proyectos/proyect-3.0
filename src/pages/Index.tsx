@@ -10,6 +10,14 @@ const GameChoiceSection = lazy(() => import('@/components/homepage/GameChoiceSec
 const HowItWorksSection = lazy(() => import('@/components/homepage/HowItWorksSection'));
 const TestimonialsSection = lazy(() => import('@/components/homepage/TestimonialsSection'));
 const CtaSection = lazy(() => import('@/components/homepage/CtaSection'));
+const TutorialsSection = lazy(() => import('@/components/homepage/TutorialsSection'));
+const EarningsSection = lazy(() => import('@/components/homepage/EarningsSection'));
+const FeaturesCarousel = lazy(() => import('@/components/homepage/FeaturesCarousel'));
+const EmbedSection = lazy(() => import('@/components/homepage/EmbedSection'));
+const ComparisonTable = lazy(() => import('@/components/homepage/ComparisonTable'));
+const FaqSection = lazy(() => import('@/components/homepage/FaqSection'));
+const LatestNewsSection = lazy(() => import('@/components/homepage/LatestNewsSection'));
+const FinalCta = lazy(() => import('@/components/homepage/FinalCta'));
 
 const Index = () => {
   return (
@@ -29,8 +37,32 @@ const Index = () => {
           {/* Sports vs Casino Section */}
           <GameChoiceSection />
           
+          {/* Tutorial Videos */}
+          <TutorialsSection />
+          
+          {/* Earnings Graphics */}
+          <EarningsSection />
+          
+          {/* Features Carousel */}
+          <FeaturesCarousel />
+          
+          {/* Embed Section */}
+          <EmbedSection />
+          
+          {/* Comparison Table */}
+          <ComparisonTable />
+          
           {/* How It Works Section */}
           <HowItWorksSection />
+          
+          {/* FAQ Section */}
+          <FaqSection />
+          
+          {/* Latest News/Blogs */}
+          <LatestNewsSection />
+          
+          {/* Final CTA */}
+          <FinalCta />
           
           {/* CTA Section */}
           <CtaSection />
