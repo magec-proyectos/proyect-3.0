@@ -60,7 +60,7 @@ const CasinoLogosCarousel = () => {
           align: "center",
           loop: true,
           dragFree: true,
-          speed: 25, // Make movement smoother
+          duration: 25, // Changed from speed to duration for smooth animation
         }}
         plugins={[
           Autoplay({
