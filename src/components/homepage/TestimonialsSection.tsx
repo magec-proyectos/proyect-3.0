@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TestimonialsSection = () => {
@@ -26,24 +26,24 @@ const TestimonialsSection = () => {
   const testimonials = [
     {
       name: "Michael T.",
-      avatar: "https://placehold.co/100/2f3136/fff?text=MT",
-      text: "The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it.",
-      rating: 5,
-      platform: "TikTok"
+      role: "",
+      text: ""The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it."",
+      platform: "TikTok",
+      bgColor: "from-green-600/40 to-green-600/10"
     },
     {
-      name: "Jessica L.",
-      avatar: "https://placehold.co/100/2f3136/fff?text=JL",
-      text: "The Blackjack advisor helped me understand optimal strategy and has completely changed how I approach the game.",
-      rating: 5,
-      platform: "Instagram"
+      name: "Geoffrey Wright",
+      role: "Titular de Soluciones Globales, Mondelez",
+      text: ""El costo de 100 horas de trabajo en 10 minutos. Synthesia reduce las traducciones de video a unos pocos clics."",
+      platform: "Mondelez",
+      bgColor: "from-amber-600/40 to-amber-600/10"
     },
     {
-      name: "David W.",
-      avatar: "https://placehold.co/100/2f3136/fff?text=DW",
-      text: "I love the community feature - following top predictors and seeing their analysis has been a game-changer.",
-      rating: 4,
-      platform: "TikTok"
+      name: "Rosalie Cutugno",
+      role: "Líder de Formación en Ventas global, Moody's",
+      text: ""Lo que solía llevarnos 4 horas crear ahora nos lleva 30 minutos; y las actualizaciones se realizan en segundos."",
+      platform: "Moody's",
+      bgColor: "from-blue-600/40 to-blue-600/10"
     },
   ];
 
@@ -62,7 +62,7 @@ const TestimonialsSection = () => {
         </motion.div>
         
         <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -71,33 +71,64 @@ const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <motion.div 
               key={index}
-              className="bg-dark-card p-6 rounded-xl border border-dark-border"
+              className="rounded-xl overflow-hidden relative"
               variants={fadeIn}
-              whileHover={{ y: -5 }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={testimonial.name} 
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-medium">{testimonial.name}</p>
-                  <p className="text-xs text-gray-400">via {testimonial.platform}</p>
+              <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
+                {/* Video play button */}
+                <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <Play size={20} className="text-white ml-1" />
+                </div>
+                
+                {/* Logo in top right */}
+                <div className="absolute right-4 top-4 text-white font-medium">
+                  {testimonial.platform === "Moody's" ? (
+                    <span className="text-xl font-serif">Moody's</span>
+                  ) : testimonial.platform === "Mondelez" ? (
+                    <span className="text-lg font-sans">Mondelez<span className="text-xs align-super">®</span></span>
+                  ) : (
+                    testimonial.platform
+                  )}
+                </div>
+                
+                {/* Text content aligned to bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
+                  <p className="text-white text-xl font-medium mb-4 leading-tight">
+                    {testimonial.text}
+                  </p>
+                  
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 flex items-center justify-center text-gray-600 font-bold">
+                      {testimonial.name.charAt(0)}
+                    </div>
+                    <div className="text-left">
+                      <p className="font-medium text-white">{testimonial.name}</p>
+                      {testimonial.role && (
+                        <p className="text-sm text-gray-300">{testimonial.role}</p>
+                      )}
+                      {!testimonial.role && testimonial.platform && (
+                        <p className="text-xs text-gray-300">via {testimonial.platform}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex mb-3">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    size={16} 
-                    className={i < testimonial.rating ? "fill-neon-lime text-neon-lime" : "text-gray-600"} 
-                  />
-                ))}
-              </div>
-              <p className="text-gray-300">&ldquo;{testimonial.text}&rdquo;</p>
             </motion.div>
           ))}
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 text-center"
+        >
+          <button className="px-8 py-3 bg-white text-dark font-medium rounded-full hover:bg-white/90 transition-colors">
+            Solicitar una demo
+          </button>
         </motion.div>
       </div>
     </section>
