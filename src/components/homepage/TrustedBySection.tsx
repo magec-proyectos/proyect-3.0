@@ -17,18 +17,19 @@ const TrustedBySection = () => {
     <section className="py-12 bg-dark">
       <div className="container px-4">
         <motion.div 
-          className="max-w-4xl mx-auto text-center"
+          className="flex flex-col md:flex-row items-center justify-between gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold gradient-text whitespace-nowrap">
             Trusted by <span className="text-white">3M+ users</span> of these casinos
           </h2>
           
-          {/* Casino Logos Carousel */}
-          <CasinoLogosCarousel />
+          <div className="w-full max-w-3xl">
+            <CasinoLogosCarousel />
+          </div>
         </motion.div>
       </div>
     </section>
