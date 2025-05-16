@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import HeroBackground from './HeroBackground';
 import { Button } from '@/components/ui/button';
-import { ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TryItNow from '@/components/homepage/TryItNow';
 
@@ -53,21 +53,18 @@ const Hero = () => {
             Our AI analyzes sports and games to give you the edge you need.
           </motion.p>
           
-          {/* Action buttons */}
+          {/* Single action button */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
+            className="flex justify-center mb-10"
             variants={fadeIn}
           >
             <Link to="/football">
-              <Button size="lg" className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium w-full sm:w-auto">
-                Try Sports Analysis
-                <ChevronRight size={16} className="ml-1" />
-              </Button>
-            </Link>
-            <Link to="/blackjack">
-              <Button size="lg" variant="outline" className="border-neon-lime text-neon-lime hover:bg-neon-lime/10 w-full sm:w-auto">
-                Try Casino Advisor
-                <ChevronRight size={16} className="ml-1" />
+              <Button 
+                size="lg" 
+                className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium px-8"
+              >
+                Get started for FREE
+                <ArrowRight size={16} className="ml-2" />
               </Button>
             </Link>
           </motion.div>
