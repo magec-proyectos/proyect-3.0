@@ -34,7 +34,7 @@ const CasinoLogosCarousel = () => {
       if (autoplayPlugin) {
         autoplayPlugin.play();
       }
-    }, 500); // Check more frequently to ensure it's always running
+    }, 500); // Check frequently to ensure it's always running
 
     // Prevent stopping on interaction
     api.on('pointerDown', () => false); // Disable pointer interaction
@@ -67,13 +67,13 @@ const CasinoLogosCarousel = () => {
         opts={{
           align: "center",
           loop: true,
-          dragFree: false, // Disable drag functionality to prevent manual carousel manipulation
-          duration: 20, // Slightly increased speed for more fluidity while maintaining visibility
+          dragFree: false, // Disable drag functionality
+          duration: 70, // Much slower duration for a slower but still fluid movement
         }}
         plugins={[
           Autoplay({
             delay: 0, // No delay between transitions for continuous movement
-            stopOnInteraction: false,
+            stopOnInteraction: false, 
             stopOnMouseEnter: false,
             stopOnFocusIn: false, // Ensure it doesn't stop on focus
             playOnInit: true,
