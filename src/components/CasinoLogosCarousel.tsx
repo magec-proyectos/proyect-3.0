@@ -67,15 +67,15 @@ const CasinoLogosCarousel = () => {
         opts={{
           align: "center",
           loop: true,
-          dragFree: false, // Disable drag functionality
-          duration: 5000, // Even slower movement (was 3000)
+          dragFree: false,
+          duration: 8000, // Even slower movement for better readability
         }}
         plugins={[
           Autoplay({
             delay: 0, // No delay between transitions for continuous movement
             stopOnInteraction: false, 
             stopOnMouseEnter: false,
-            stopOnFocusIn: false, // Ensure it doesn't stop on focus
+            stopOnFocusIn: false,
             playOnInit: true,
             rootNode: (emblaRoot) => emblaRoot,
           }),
@@ -83,14 +83,14 @@ const CasinoLogosCarousel = () => {
         setApi={setApi}
         className="w-full px-4"
       >
-        <CarouselContent className="-ml-4 md:-ml-6">
+        <CarouselContent className="flex items-center">
           {casinoLogos.map((logo) => (
-            <CarouselItem key={logo.name} className="pl-4 md:pl-6 basis-1/3 sm:basis-1/4 md:basis-1/5">
-              <div className="flex items-center justify-center h-28 transition-all duration-300 hover:scale-110">
+            <CarouselItem key={logo.name} className="pl-4 md:pl-6 basis-1/4 md:basis-1/5 lg:basis-1/6">
+              <div className="flex items-center justify-center h-20">
                 <img 
                   src={logo.src} 
                   alt={`${logo.name} logo`} 
-                  className="max-h-20 max-w-[85%] transition-all duration-300 brightness-0 invert hover:brightness-110"
+                  className="w-auto max-h-16 object-contain transition-all duration-300 brightness-0 invert hover:brightness-110 hover:scale-105"
                 />
               </div>
             </CarouselItem>
