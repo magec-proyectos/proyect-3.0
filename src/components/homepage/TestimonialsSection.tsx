@@ -27,22 +27,22 @@ const TestimonialsSection = () => {
     {
       name: "Michael T.",
       role: "",
-      text: ""The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it."",
+      text: "The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it.",
       platform: "TikTok",
       bgColor: "from-green-600/40 to-green-600/10"
     },
     {
-      name: "Geoffrey Wright",
-      role: "Titular de Soluciones Globales, Mondelez",
-      text: ""El costo de 100 horas de trabajo en 10 minutos. Synthesia reduce las traducciones de video a unos pocos clics."",
-      platform: "Mondelez",
+      name: "Jessica L.",
+      role: "",
+      text: "The Blackjack advisor helped me understand optimal strategy and has completely changed how I approach the game.",
+      platform: "Instagram",
       bgColor: "from-amber-600/40 to-amber-600/10"
     },
     {
-      name: "Rosalie Cutugno",
-      role: "Líder de Formación en Ventas global, Moody's",
-      text: ""Lo que solía llevarnos 4 horas crear ahora nos lleva 30 minutos; y las actualizaciones se realizan en segundos."",
-      platform: "Moody's",
+      name: "David W.",
+      role: "",
+      text: "I love the community feature - following top predictors and seeing their analysis has been a game-changer.",
+      platform: "TikTok",
       bgColor: "from-blue-600/40 to-blue-600/10"
     },
   ];
@@ -84,19 +84,13 @@ const TestimonialsSection = () => {
                 
                 {/* Logo in top right */}
                 <div className="absolute right-4 top-4 text-white font-medium">
-                  {testimonial.platform === "Moody's" ? (
-                    <span className="text-xl font-serif">Moody's</span>
-                  ) : testimonial.platform === "Mondelez" ? (
-                    <span className="text-lg font-sans">Mondelez<span className="text-xs align-super">®</span></span>
-                  ) : (
-                    testimonial.platform
-                  )}
+                  {testimonial.platform}
                 </div>
                 
                 {/* Text content aligned to bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
                   <p className="text-white text-xl font-medium mb-4 leading-tight">
-                    {testimonial.text}
+                    "{testimonial.text}"
                   </p>
                   
                   <div className="flex items-center">
