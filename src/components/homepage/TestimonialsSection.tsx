@@ -51,11 +51,18 @@ const TestimonialsSection = () => {
           <h2 className="text-3xl font-bold mb-2">What Our Users Say</h2>
         </motion.div>
         
-        <div className="max-w-4xl mx-auto">
-          <Carousel className="relative">
-            <CarouselContent>
+        <div className="max-w-5xl mx-auto">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+              slidesToScroll: 1,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
               {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <motion.div 
                     className="rounded-xl overflow-hidden relative"
                     variants={fadeIn}
