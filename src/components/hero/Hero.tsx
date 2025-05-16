@@ -53,19 +53,27 @@ const Hero = () => {
             Our AI analyzes sports and games to give you the edge you need.
           </motion.p>
           
-          {/* Single action button */}
+          {/* Enhanced action button */}
           <motion.div 
             className="flex justify-center mb-10"
             variants={fadeIn}
           >
-            <Link to="/football">
-              <Button 
-                size="lg" 
-                className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium px-8"
+            <Link to="/football" className="relative">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="relative"
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                Get started for FREE
-                <ArrowRight size={16} className="ml-2" />
-              </Button>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-neon-blue to-neon-lime rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                <Button 
+                  size="lg" 
+                  className="relative bg-dark-lighter border-2 border-neon-blue hover:bg-dark-card hover:border-neon-lime hover:text-neon-lime text-neon-blue font-medium px-8 py-6 text-lg shadow-lg hover:shadow-neon-blue/20 transition-all duration-300"
+                >
+                  Get started for FREE
+                  <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </motion.div>
             </Link>
           </motion.div>
           
