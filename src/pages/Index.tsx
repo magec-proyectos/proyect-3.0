@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
 import TrustedBySection from '@/components/homepage/TrustedBySection';
+import TryItNow from '@/components/homepage/TryItNow';
 
 // Lazy load components for better performance
 const GameChoiceSection = lazy(() => import('@/components/homepage/GameChoiceSection'));
@@ -25,6 +26,9 @@ const Index = () => {
         <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
           {/* Sports vs Casino Section */}
           <GameChoiceSection />
+          
+          {/* Try It Now Section */}
+          <TryItNow />
           
           {/* How It Works Section */}
           <HowItWorksSection />
