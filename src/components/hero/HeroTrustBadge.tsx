@@ -27,7 +27,6 @@ const HeroTrustBadge = () => {
         </div>
         <div className="text-left">
           <p className="text-sm text-gray-400">Trusted by</p>
-          <p className="text-white font-medium">10,000+ users</p>
         </div>
       </div>
     </motion.div>
