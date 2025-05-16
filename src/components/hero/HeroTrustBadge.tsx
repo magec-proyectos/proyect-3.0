@@ -25,9 +25,6 @@ const HeroTrustBadge = () => {
             </div>
           ))}
         </div>
-        <div className="text-left">
-          <p className="text-sm text-gray-400">Trusted by</p>
-        </div>
       </div>
     </motion.div>
   );
