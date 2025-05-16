@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -10,7 +9,6 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const TestimonialsSection = () => {
   const fadeIn = {
@@ -36,31 +34,27 @@ const TestimonialsSection = () => {
     {
       name: "Michael T.",
       bgColor: "from-green-600/40 to-green-600/10",
-      avatar: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // Sample YouTube embed URL
+      avatar: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png"
     },
     {
       name: "Jessica L.",
       bgColor: "from-amber-600/40 to-amber-600/10",
-      avatar: "/lovable-uploads/c2a9e6cd-258e-479a-9f6b-88c09da13e36.png",
-      videoUrl: "https://www.youtube.com/embed/jNQXAC9IVRw" // Sample YouTube embed URL
+      avatar: "/lovable-uploads/c2a9e6cd-258e-479a-9f6b-88c09da13e36.png"
     },
     {
       name: "David W.",
       bgColor: "from-blue-600/40 to-blue-600/10",
-      avatar: "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png",
-      videoUrl: "https://www.youtube.com/embed/3AtDnEC4zak" // Sample YouTube embed URL
+      avatar: "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png"
     },
     {
       name: "Sofia R.",
       bgColor: "from-purple-600/40 to-purple-600/10",
-      avatar: "/lovable-uploads/1444d86a-8269-4ae4-ab37-fcbd7409eb22.png",
-      videoUrl: "https://www.youtube.com/embed/yXWw0_UfSFg" // Sample YouTube embed URL
+      avatar: "/lovable-uploads/1444d86a-8269-4ae4-ab37-fcbd7409eb22.png"
     }
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [emblaApi, setEmblaApi] = useState<any>(null);
+  const [emblaApi, setEmblaApi] = useState(null);
 
   return (
     <section className="py-16 bg-dark">
@@ -83,7 +77,7 @@ const TestimonialsSection = () => {
           }}
           className="w-full"
           setApi={setEmblaApi}
-          onSelect={(api) => {
+          onSelect={() => {
             if (emblaApi) {
               setCurrentSlide(emblaApi.selectedScrollSnap());
             }
@@ -99,26 +93,10 @@ const TestimonialsSection = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
-                    {/* Video play button with Dialog trigger */}
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <button className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors">
-                          <Play size={20} className="text-white ml-1" />
-                        </button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-3xl max-h-[80vh] p-0 bg-black/80 border-neutral-800">
-                        <div className="aspect-video w-full">
-                          <iframe 
-                            src={testimonial.videoUrl} 
-                            title={`${testimonial.name}'s testimonial`}
-                            className="w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            frameBorder="0"
-                          ></iframe>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    {/* Video play button */}
+                    <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <Play size={20} className="text-white ml-1" />
+                    </div>
                     
                     {/* Text content aligned to bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
