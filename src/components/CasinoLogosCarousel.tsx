@@ -26,7 +26,7 @@ const CasinoLogosCarousel = () => {
   useEffect(() => {
     if (!api) return;
 
-    // Create autoplay plugin instance with faster speed
+    // Create autoplay plugin instance
     const autoplayPlugin = api.plugins()?.autoplay;
     
     // Make sure autoplay is always running
@@ -34,15 +34,23 @@ const CasinoLogosCarousel = () => {
       if (autoplayPlugin) {
         autoplayPlugin.play();
       }
-    }, 1000);
+    }, 500); // Check more frequently to ensure it's always running
 
     // Prevent stopping on interaction
+    api.on('pointerDown', () => false); // Disable pointer interaction
     api.on('pointerUp', () => {
+      if (autoplayPlugin) {
+        autoplayPlugin.play();
+      }
+    });
+
+    // Restart autoplay if it somehow stops
+    api.on('settle', () => {
       setTimeout(() => {
         if (autoplayPlugin) {
           autoplayPlugin.play();
         }
-      }, 10); // Almost immediately resume
+      }, 10);
     });
 
     return () => clearInterval(interval);
@@ -59,14 +67,15 @@ const CasinoLogosCarousel = () => {
         opts={{
           align: "center",
           loop: true,
-          dragFree: true,
-          duration: 25, // Changed from speed to duration for smooth animation
+          dragFree: false, // Disable drag functionality to prevent manual carousel manipulation
+          duration: 20, // Slightly increased speed for more fluidity while maintaining visibility
         }}
         plugins={[
           Autoplay({
-            delay: 800, // Much faster autoplay
+            delay: 0, // No delay between transitions for continuous movement
             stopOnInteraction: false,
             stopOnMouseEnter: false,
+            stopOnFocusIn: false, // Ensure it doesn't stop on focus
             playOnInit: true,
             rootNode: (emblaRoot) => emblaRoot,
           }),
