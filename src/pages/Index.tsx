@@ -1,13 +1,15 @@
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
-import GameChoiceSection from '@/components/homepage/GameChoiceSection';
-import HowItWorksSection from '@/components/homepage/HowItWorksSection';
-import TestimonialsSection from '@/components/homepage/TestimonialsSection';
-import CtaSection from '@/components/homepage/CtaSection';
 import TrustedBySection from '@/components/homepage/TrustedBySection';
+
+// Lazy load components for better performance
+const GameChoiceSection = lazy(() => import('@/components/homepage/GameChoiceSection'));
+const HowItWorksSection = lazy(() => import('@/components/homepage/HowItWorksSection'));
+const TestimonialsSection = lazy(() => import('@/components/homepage/TestimonialsSection'));
+const CtaSection = lazy(() => import('@/components/homepage/CtaSection'));
 
 const Index = () => {
   return (
@@ -20,17 +22,19 @@ const Index = () => {
         {/* Trusted By Section */}
         <TrustedBySection />
         
-        {/* Sports vs Casino Section */}
-        <GameChoiceSection />
-        
-        {/* How It Works Section */}
-        <HowItWorksSection />
-        
-        {/* Testimonials */}
-        <TestimonialsSection />
-        
-        {/* CTA Section */}
-        <CtaSection />
+        <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
+          {/* Sports vs Casino Section */}
+          <GameChoiceSection />
+          
+          {/* How It Works Section */}
+          <HowItWorksSection />
+          
+          {/* Testimonials */}
+          <TestimonialsSection />
+          
+          {/* CTA Section */}
+          <CtaSection />
+        </Suspense>
       </main>
       
       <Footer />

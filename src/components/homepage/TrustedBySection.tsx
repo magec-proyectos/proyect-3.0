@@ -27,7 +27,7 @@ const TrustedBySection = () => {
             <span className="gradient-text">Trusted by</span> <span className="text-white">3M+ users</span> <span className="gradient-text">of these casinos</span>
           </h2>
           
-          {/* Casino Logos Carousel */}
+          {/* Casino Logos Carousel with optimized rendering */}
           <CasinoLogosCarousel />
         </motion.div>
       </div>
