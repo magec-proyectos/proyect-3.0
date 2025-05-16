@@ -23,14 +23,14 @@ const Index = () => {
         <TrustedBySection />
         
         <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
+          {/* Testimonials */}
+          <TestimonialsSection />
+          
           {/* Sports vs Casino Section */}
           <GameChoiceSection />
           
           {/* How It Works Section */}
           <HowItWorksSection />
-          
-          {/* Testimonials */}
-          <TestimonialsSection />
           
           {/* CTA Section */}
           <CtaSection />
