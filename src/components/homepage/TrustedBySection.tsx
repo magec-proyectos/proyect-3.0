@@ -14,7 +14,7 @@ const TrustedBySection = () => {
   };
 
   return (
-    <section className="py-12 bg-dark">
+    <section className="py-10 bg-dark">
       <div className="container px-4">
         <motion.div 
           className="max-w-4xl mx-auto text-center"
@@ -23,7 +23,7 @@ const TrustedBySection = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
             Trusted by <span className="text-white">3M+ users</span> of these casinos
           </h2>
           
