@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -9,6 +10,7 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const TestimonialsSection = () => {
   const fadeIn = {
@@ -34,22 +36,26 @@ const TestimonialsSection = () => {
     {
       name: "Michael T.",
       bgColor: "from-green-600/40 to-green-600/10",
-      avatar: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png"
+      avatar: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
+      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
       name: "Jessica L.",
       bgColor: "from-amber-600/40 to-amber-600/10",
-      avatar: "/lovable-uploads/c2a9e6cd-258e-479a-9f6b-88c09da13e36.png"
+      avatar: "/lovable-uploads/c2a9e6cd-258e-479a-9f6b-88c09da13e36.png",
+      video: "https://www.youtube.com/embed/jNQXAC9IVRw"
     },
     {
       name: "David W.",
       bgColor: "from-blue-600/40 to-blue-600/10",
-      avatar: "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png"
+      avatar: "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png",
+      video: "https://www.youtube.com/embed/M7lc1UVf-VE"
     },
     {
       name: "Sofia R.",
       bgColor: "from-purple-600/40 to-purple-600/10",
-      avatar: "/lovable-uploads/1444d86a-8269-4ae4-ab37-fcbd7409eb22.png"
+      avatar: "/lovable-uploads/1444d86a-8269-4ae4-ab37-fcbd7409eb22.png",
+      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     }
   ];
 
@@ -93,10 +99,27 @@ const TestimonialsSection = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
-                    {/* Video play button */}
-                    <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                      <Play size={20} className="text-white ml-1" />
-                    </div>
+                    {/* Video play button with dialog */}
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
+                          <Play size={20} className="text-white ml-1" />
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-dark-card border-dark-border sm:max-w-[600px]">
+                        <div className="aspect-video w-full">
+                          <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src={testimonial.video} 
+                            title={`${testimonial.name}'s Testimonial`} 
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                     
                     {/* Text content aligned to bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">

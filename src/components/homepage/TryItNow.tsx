@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const TryItNow = () => {
   const [selectedMatch, setSelectedMatch] = useState<string>('');
@@ -16,12 +17,18 @@ const TryItNow = () => {
     }
   };
 
+  const videos = {
+    liverpool_vs_arsenal: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    mancity_vs_chelsea: "https://www.youtube.com/embed/jNQXAC9IVRw",
+    barcelona_vs_realmadrid: "https://www.youtube.com/embed/M7lc1UVf-VE",
+  };
+
   return (
     <motion.div 
-      className="mt-12 mb-6 max-w-2xl mx-auto"
+      className="mb-2 max-w-2xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
     >
       <Card className="bg-dark-card/60 backdrop-blur-md border-dark-border">
         <CardContent className="pt-6">
@@ -67,6 +74,29 @@ const TryItNow = () => {
                   <p className="text-sm text-gray-400">Recommended</p>
                   <p className="text-neon-lime font-medium">Over 2.5 Goals</p>
                 </div>
+
+                {selectedMatch && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="icon" className="ml-2 bg-dark-lighter border-dark-border">
+                        <Play size={16} />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-dark-card border-dark-border sm:max-w-[600px]">
+                      <div className="aspect-video w-full">
+                        <iframe 
+                          width="100%" 
+                          height="100%" 
+                          src={videos[selectedMatch as keyof typeof videos]}
+                          title="Match Analysis" 
+                          frameBorder="0" 
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
             </motion.div>
           )}
