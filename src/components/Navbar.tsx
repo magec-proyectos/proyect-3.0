@@ -35,6 +35,7 @@ const Navbar = () => {
       label: 'Sports', 
       icon: <Dumbbell size={18} />,
       subItems: [
+        { path: '/football', label: 'Football', icon: <Dumbbell size={18} /> },
         { path: '/basketball', label: 'Basketball', icon: <Dumbbell size={18} /> },
         { path: '/american-football', label: 'American Football', icon: <Dumbbell size={18} /> }
       ]

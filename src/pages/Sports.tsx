@@ -13,6 +13,13 @@ const Sports = () => {
   
   const sportsCategories = [
     { 
+      title: 'Football',
+      description: 'Get predictions and analysis for football matches from leagues around the world.',
+      path: '/football',
+      icon: <Dumbbell size={48} className="text-neon-blue" />,
+      color: 'from-neon-blue/20 to-transparent'
+    },
+    { 
       title: 'Basketball',
       description: 'Basketball predictions and stats to help you make informed betting decisions.',
       path: '/basketball',
