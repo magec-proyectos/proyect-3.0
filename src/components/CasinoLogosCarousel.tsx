@@ -68,7 +68,7 @@ const CasinoLogosCarousel = () => {
           align: "center",
           loop: true,
           dragFree: false, // Disable drag functionality
-          duration: 70, // Much slower duration for a slower but still fluid movement
+          duration: 300, // Much slower duration for a very slow movement
         }}
         plugins={[
           Autoplay({
