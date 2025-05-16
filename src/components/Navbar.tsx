@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Menu, X, Home, Dumbbell, Dice1, MenuIcon, Share2, Brain } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -36,7 +35,6 @@ const Navbar = () => {
       label: 'Sports', 
       icon: <Dumbbell size={18} />,
       subItems: [
-        { path: '/football', label: 'Football', icon: <Dumbbell size={18} /> },
         { path: '/basketball', label: 'Basketball', icon: <Dumbbell size={18} /> },
         { path: '/american-football', label: 'American Football', icon: <Dumbbell size={18} /> }
       ]

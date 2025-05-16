@@ -13,13 +13,6 @@ const Sports = () => {
   
   const sportsCategories = [
     { 
-      title: 'Football',
-      description: 'Get predictions and analysis for football matches from leagues around the world.',
-      path: '/football',
-      icon: <Dumbbell size={48} className="text-neon-blue" />,
-      color: 'from-neon-blue/20 to-transparent'
-    },
-    { 
       title: 'Basketball',
       description: 'Basketball predictions and stats to help you make informed betting decisions.',
       path: '/basketball',
@@ -62,7 +55,7 @@ const Sports = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {sportsCategories.map((sport, index) => (
               <motion.div
                 key={sport.title}

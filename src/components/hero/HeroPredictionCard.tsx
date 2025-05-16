@@ -42,7 +42,6 @@ const HeroPredictionCard = () => {
                   <SelectValue placeholder="Select a match" />
                 </SelectTrigger>
                 <SelectContent className="bg-dark border-dark-border text-white">
-                  <SelectItem value="liverpool_vs_arsenal">Liverpool vs Arsenal</SelectItem>
                   <SelectItem value="mancity_vs_chelsea">Man City vs Chelsea</SelectItem>
                   <SelectItem value="barcelona_vs_realmadrid">Barcelona vs Real Madrid</SelectItem>
                 </SelectContent>
