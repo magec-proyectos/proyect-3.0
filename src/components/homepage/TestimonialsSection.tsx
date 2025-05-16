@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TestimonialsSection = () => {
@@ -26,23 +25,17 @@ const TestimonialsSection = () => {
   const testimonials = [
     {
       name: "Michael T.",
-      role: "",
       text: "The football prediction model is incredibly accurate! I've improved my success rate by over 30% since I started using it.",
-      platform: "TikTok",
       bgColor: "from-green-600/40 to-green-600/10"
     },
     {
       name: "Jessica L.",
-      role: "",
       text: "The Blackjack advisor helped me understand optimal strategy and has completely changed how I approach the game.",
-      platform: "Instagram",
       bgColor: "from-amber-600/40 to-amber-600/10"
     },
     {
       name: "David W.",
-      role: "",
       text: "I love the community feature - following top predictors and seeing their analysis has been a game-changer.",
-      platform: "TikTok",
       bgColor: "from-blue-600/40 to-blue-600/10"
     },
   ];
@@ -77,16 +70,6 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.2 }}
             >
               <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
-                {/* Video play button */}
-                <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <Play size={20} className="text-white ml-1" />
-                </div>
-                
-                {/* Logo in top right */}
-                <div className="absolute right-4 top-4 text-white font-medium">
-                  {testimonial.platform}
-                </div>
-                
                 {/* Text content aligned to bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
                   <p className="text-white text-xl font-medium mb-4 leading-tight">
@@ -99,12 +82,6 @@ const TestimonialsSection = () => {
                     </div>
                     <div className="text-left">
                       <p className="font-medium text-white">{testimonial.name}</p>
-                      {testimonial.role && (
-                        <p className="text-sm text-gray-300">{testimonial.role}</p>
-                      )}
-                      {!testimonial.role && testimonial.platform && (
-                        <p className="text-xs text-gray-300">via {testimonial.platform}</p>
-                      )}
                     </div>
                   </div>
                 </div>
