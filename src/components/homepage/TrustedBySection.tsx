@@ -14,16 +14,16 @@ const TrustedBySection = () => {
   };
 
   return (
-    <section className="py-12 bg-dark overflow-hidden">
-      <div className="container px-0 max-w-full"> {/* Full width container with no horizontal padding */}
+    <section className="py-12 bg-dark">
+      <div className="container px-4">
         <motion.div 
-          className="mx-auto text-center mb-8"
+          className="max-w-4xl mx-auto text-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center whitespace-nowrap">
             <span className="gradient-text">Trusted by</span> <span className="text-white">3M+ users</span> <span className="gradient-text">of these casinos</span>
           </h2>
           
