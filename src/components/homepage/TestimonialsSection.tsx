@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Video } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const TestimonialsSection = () => {
@@ -70,6 +71,11 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.2 }}
             >
               <div className={`relative h-[450px] bg-gradient-to-b ${testimonial.bgColor} bg-dark-darker`}>
+                {/* Video play button */}
+                <div className="absolute left-4 top-4 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <Video size={20} className="text-white" />
+                </div>
+                
                 {/* Text content aligned to bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-20">
                   <p className="text-white text-xl font-medium mb-4 leading-tight">
