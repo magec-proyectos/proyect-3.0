@@ -55,6 +55,7 @@ const TestimonialsSection = () => {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [emblaApi, setEmblaApi] = useState(null);
 
   return (
     <section className="py-16 bg-dark">
@@ -76,9 +77,10 @@ const TestimonialsSection = () => {
             loop: true,
           }}
           className="w-full"
-          onSelect={(api) => {
-            if (api) {
-              setCurrentSlide(api.selectedScrollSnap());
+          setApi={setEmblaApi}
+          onSelect={() => {
+            if (emblaApi) {
+              setCurrentSlide(emblaApi.selectedScrollSnap());
             }
           }}
         >
@@ -122,7 +124,7 @@ const TestimonialsSection = () => {
                   currentSlide === index ? "bg-white" : "bg-gray-600"
                 }`}
                 onClick={() => {
-                  // Handle dot click
+                  if (emblaApi) emblaApi.scrollTo(index);
                 }}
               />
             ))}
