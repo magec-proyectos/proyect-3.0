@@ -5,10 +5,11 @@ import { CircleUser } from 'lucide-react';
 import MobileNavItem from './MobileNavItem';
 import UserMenu from './UserMenu';
 import { User } from '@/contexts/AuthContext';
+import { NavItem } from './navConfig';
 
 interface MobileNavProps {
   isOpen: boolean;
-  navItems: any[];
+  navItems: NavItem[];
   user: User | null;
   logout: () => void;
   openLoginDialog: () => void;

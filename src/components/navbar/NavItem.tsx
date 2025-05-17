@@ -1,20 +1,10 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
-interface SubItem {
-  path: string;
-  label: string;
-  icon: React.ReactNode;
-}
+import { NavItem as NavItemType } from './navConfig';
 
 interface NavItemProps {
-  item: {
-    path: string;
-    label: string;
-    icon: React.ReactNode;
-    subItems?: SubItem[];
-  };
+  item: NavItemType;
 }
 
 const NavItem: React.FC<NavItemProps> = ({ item }) => {
