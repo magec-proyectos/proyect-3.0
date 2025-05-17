@@ -6,7 +6,7 @@ export const platforms: Platform[] = [
   {
     id: 1,
     name: "Bet365",
-    logo: "/lovable-uploads/9a24f074-43c8-4c44-8719-5ecf9a5cca19.png",
+    logo: "/lovable-uploads/2a467741-36c3-4389-959d-a689fd162780.png",
   },
   {
     id: 2,
@@ -17,11 +17,6 @@ export const platforms: Platform[] = [
     id: 3,
     name: "Betway Casino",
     logo: "/lovable-uploads/7947049c-9853-47cd-b647-285643900698.png",
-  },
-  {
-    id: 4,
-    name: "Bwin",
-    logo: "/lovable-uploads/e78cb717-5479-413a-8091-27fbad532a45.png",
   },
   {
     id: 5,

@@ -17,7 +17,7 @@ const PlatformCard: React.FC<PlatformCardProps> = ({ platform }) => {
           <img 
             src={platform.logo} 
             alt={platform.name} 
-            className="w-full h-full object-contain" 
+            className="w-full h-full object-contain max-w-[16px] max-h-[16px]" 
           />
         </div>
       </div>
