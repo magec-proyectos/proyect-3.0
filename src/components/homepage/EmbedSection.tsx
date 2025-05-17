@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -106,15 +107,16 @@ const EmbedSection = () => {
               Embed your videos on your favorite platforms
             </h2>
             
-            <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/20 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
-              Explore all integrations 
-              <ArrowRight className="ml-2" />
-            </Button>
+            <div className="flex flex-col items-start">
+              <p className="text-base text-gray-400 mb-3">
+                Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
+              </p>
+              <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/20 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
+                Explore all integrations 
+                <ArrowRight className="ml-2" />
+              </Button>
+            </div>
           </div>
-          
-          <p className="text-lg text-gray-400 mt-4 max-w-2xl">
-            Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
-          </p>
         </motion.div>
         
         {/* Platform Logos Carousel */}
