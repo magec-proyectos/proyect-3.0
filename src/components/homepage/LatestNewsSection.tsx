@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
 const LatestNewsSection = () => {
@@ -44,15 +45,24 @@ const LatestNewsSection = () => {
 
   return (
     <section className="py-16 bg-dark">
-      <div className="container px-4 mx-auto">
+      <div className="container px-4 mx-auto max-w-6xl">
         <motion.div 
-          className="text-center mb-12"
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-4xl font-bold">Latest News</h2>
+          <div>
+            <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm mb-4 border-0">
+              LATEST INSIGHTS
+            </Badge>
+            <h2 className="text-4xl font-bold text-white">Latest News</h2>
+          </div>
+          
+          <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10 rounded-full">
+            View All Articles
+          </Button>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -73,30 +83,25 @@ const LatestNewsSection = () => {
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-neon-blue/90 text-xs font-medium px-2 py-1 rounded-sm text-white">
+                    <Badge className="bg-neon-blue/90 hover:bg-neon-blue/90 text-xs font-medium px-2 py-1 rounded-sm text-white border-0">
                       {blog.category}
-                    </span>
+                    </Badge>
                   </div>
                 </div>
                 
-                <CardContent className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-lg font-semibold mb-2 text-white line-clamp-2 hover:text-neon-blue transition-colors">
+                <CardContent className="p-5 flex flex-col flex-grow">
+                  <div className="text-sm text-gray-400 mb-2">{blog.date} • By {blog.author}</div>
+                  <h3 className="text-lg font-semibold mb-3 text-white line-clamp-2 hover:text-neon-blue transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 text-sm justify-start mt-2">
+                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 text-sm justify-start mt-2 pl-0">
                     Read More <ArrowRight size={14} />
                   </Button>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </div>
-        
-        <div className="text-center mt-10">
-          <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10">
-            View All Articles
-          </Button>
         </div>
       </div>
     </section>
