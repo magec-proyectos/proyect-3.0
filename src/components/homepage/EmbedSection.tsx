@@ -24,46 +24,47 @@ const EmbedSection = () => {
     }
   };
 
+  // Updated platforms with new betting platform logos
   const platforms = [
     {
+      id: 1,
+      name: "Bet365",
+      logo: "/lovable-uploads/9a24f074-43c8-4c44-8719-5ecf9a5cca19.png",
+    },
+    {
       id: 2,
-      name: "Moodle",
-      logo: "/lovable-uploads/b19080fb-48a4-4114-8520-b3033bbbe7a1.png",
+      name: "Betfair",
+      logo: "/lovable-uploads/5cb7a958-a0cd-47d6-b207-b5c15c5a5eae.png",
     },
     {
       id: 3,
-      name: "Docebo",
-      logo: "/lovable-uploads/b9e2b507-bfec-46fe-888f-427d89cef701.png",
+      name: "Betway Casino",
+      logo: "/lovable-uploads/7947049c-9853-47cd-b647-285643900698.png",
     },
     {
       id: 4,
-      name: "HubSpot",
-      logo: "/lovable-uploads/77e0ad3f-f163-4ddc-9071-88dad9b24d85.png",
+      name: "Bwin",
+      logo: "/lovable-uploads/e78cb717-5479-413a-8091-27fbad532a45.png",
     },
     {
       id: 5,
-      name: "Intercom",
-      logo: "/lovable-uploads/816d62f4-7b52-4389-afd5-03dcab68d2da.png",
+      name: "Stake",
+      logo: "/lovable-uploads/ad91f76b-fd88-4cd4-9f40-3ce6de73d1d7.png",
     },
     {
       id: 6,
-      name: "Notion",
-      logo: "/lovable-uploads/efa1c156-ae65-4515-ac2c-74c0b344448a.png",
+      name: "William Hill",
+      logo: "/lovable-uploads/f88fd10a-c8d3-4baf-a7d4-df010dfa3afa.png",
     },
     {
       id: 7,
-      name: "PowerPoint",
-      logo: "/lovable-uploads/bfa1d35c-5296-491e-bb0c-712ddd509eeb.png",
+      name: "888 Casino",
+      logo: "/lovable-uploads/21b9938e-f18f-4379-80b1-9b904248d817.png",
     },
     {
       id: 8,
-      name: "360 Learning",
-      logo: "/lovable-uploads/30282de9-4cf4-47e2-b4ad-909d23f8d222.png",
-    },
-    {
-      id: 9,
-      name: "Nifty",
-      logo: "/lovable-uploads/4ce1582f-5533-44d6-b843-2acb317db4fe.png",
+      name: "1XBet",
+      logo: "/lovable-uploads/d76166a8-55ac-4f7c-a038-07d92b6940df.png",
     }
   ];
 
