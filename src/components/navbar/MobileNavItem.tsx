@@ -13,6 +13,13 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
   const isActive = location.pathname === item.path || 
     (item.subItems && item.subItems.some(sub => sub.path === location.pathname));
   
+  // Render the icon component with its props
+  const renderIcon = (icon: any) => {
+    if (!icon) return null;
+    const IconComponent = icon.type;
+    return <IconComponent {...icon.props} />;
+  };
+  
   return (
     <div>
       <Link 
@@ -25,7 +32,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
         onClick={() => !item.subItems && onItemClick()}
       >
         <span className="transform transition-all duration-300 hover:scale-110">
-          {item.icon}
+          {renderIcon(item.icon)}
         </span>
         <span className="relative">
           {item.label}
@@ -49,7 +56,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
               onClick={onItemClick}
             >
               <span className="transform transition-all duration-300 hover:scale-110">
-                {subItem.icon}
+                {renderIcon(subItem.icon)}
               </span>
               <span>{subItem.label}</span>
             </Link>

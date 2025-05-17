@@ -27,34 +27,42 @@ export interface SubNavItem {
   icon: ReactNode;
 }
 
+// Helper function to create icon elements
+const createIcon = (Icon: any, size: number = 18, className: string = "text-neon-blue") => {
+  return {
+    type: Icon,
+    props: { size, className }
+  };
+};
+
 export const navItems: NavItem[] = [
   { 
     path: '/', 
     label: 'Home', 
-    icon: <Home size={18} className="text-neon-blue" /> 
+    icon: createIcon(Home)
   },
   { 
     path: '/sports', 
     label: 'Sports', 
-    icon: <SportIcon size={18} className="text-neon-blue" />,
+    icon: createIcon(SportIcon),
     subItems: [
-      { path: '/football', label: 'Football', icon: <FootballIcon size={18} className="text-neon-blue" /> },
-      { path: '/basketball', label: 'Basketball', icon: <BasketballIcon size={18} className="text-neon-blue" /> },
-      { path: '/american-football', label: 'American Football', icon: <AmericanFootballIcon size={18} className="text-neon-blue" /> }
+      { path: '/football', label: 'Football', icon: createIcon(FootballIcon) },
+      { path: '/basketball', label: 'Basketball', icon: createIcon(BasketballIcon) },
+      { path: '/american-football', label: 'American Football', icon: createIcon(AmericanFootballIcon) }
     ]
   },
   { 
     path: '/casino', 
     label: 'Casino', 
-    icon: <CasinoIcon size={18} className="text-neon-blue" />,
+    icon: createIcon(CasinoIcon),
     subItems: [
-      { path: '/blackjack', label: 'Blackjack', icon: <BlackjackIcon size={18} className="text-neon-blue" /> },
-      { path: '/roulette', label: 'Roulette', icon: <RouletteIcon size={18} className="text-neon-blue" /> }
+      { path: '/blackjack', label: 'Blackjack', icon: createIcon(BlackjackIcon) },
+      { path: '/roulette', label: 'Roulette', icon: createIcon(RouletteIcon) }
     ]
   },
   { 
     path: '/social', 
     label: 'Community', 
-    icon: <Share2 size={18} className="text-neon-blue" /> 
+    icon: createIcon(Share2)
   },
 ];
