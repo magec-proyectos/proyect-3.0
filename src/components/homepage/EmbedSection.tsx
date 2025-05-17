@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -25,11 +24,6 @@ const EmbedSection = () => {
   };
 
   const platforms = [
-    {
-      id: 1,
-      name: "Articulate",
-      logo: "/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png",
-    },
     {
       id: 2,
       name: "Moodle",
