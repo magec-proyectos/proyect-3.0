@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -99,40 +99,32 @@ const EmbedSection = () => {
           </Badge>
         </motion.div>
         
-        {/* Main Content - Restructured to place text on right side of heading */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
-          {/* Left Column - Heading */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-              Embed your videos on your favorite platforms
-            </h2>
-          </motion.div>
-          
-          {/* Right Column - Text and CTA */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-            className="flex flex-col gap-5"
-          >
-            <p className="text-lg text-gray-600">
-              Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
-            </p>
-            
-            <div>
-              <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/10 px-6 py-6 h-auto text-base flex items-center">
-                Explore all integrations 
-                <ArrowRight className="ml-2" />
-              </Button>
+        {/* Main Content - Redesigned header with button next to heading */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeIn}
+          className="mb-8"
+        >
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Video size={32} className="text-neon-blue" />
+              <h2 className="text-4xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                Embed your videos on your favorite platforms
+              </h2>
             </div>
-          </motion.div>
-        </div>
+            
+            <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/10 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
+              Explore all integrations 
+              <ArrowRight className="ml-2" />
+            </Button>
+          </div>
+          
+          <p className="text-lg text-gray-600 mt-4 max-w-2xl">
+            Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
+          </p>
+        </motion.div>
         
         {/* Platform Logos Carousel */}
         <motion.div 
@@ -161,7 +153,7 @@ const EmbedSection = () => {
             <CarouselContent className="-ml-4">
               {platforms.map((platform) => (
                 <CarouselItem key={platform.id} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
-                  <div className="p-2 flex items-center justify-center h-24 transition-all duration-300 hover:scale-110 bg-white rounded-lg hover:shadow-lg">
+                  <div className="p-4 flex items-center justify-center h-24 transition-all duration-300 hover:scale-110 bg-white rounded-lg hover:shadow-lg">
                     <img 
                       src={platform.logo} 
                       alt={platform.name} 
