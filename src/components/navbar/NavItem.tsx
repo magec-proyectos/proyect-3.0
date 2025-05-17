@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NavItem as NavItemType } from './navConfig';
+import { NavItem as NavItemType, IconDefinition } from './navConfig';
 
 interface NavItemProps {
   item: NavItemType;
@@ -13,7 +13,7 @@ const NavItem: React.FC<NavItemProps> = ({ item }) => {
     (item.subItems && item.subItems.some(sub => sub.path === location.pathname));
   
   // Render the icon component with its props
-  const renderIcon = (icon: any) => {
+  const renderIcon = (icon: IconDefinition) => {
     if (!icon) return null;
     const IconComponent = icon.type;
     return <IconComponent {...icon.props} />;

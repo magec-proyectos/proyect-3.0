@@ -17,18 +17,27 @@ import {
 export interface NavItem {
   path: string;
   label: string;
-  icon: ReactNode;
+  icon: IconDefinition;
   subItems?: SubNavItem[];
 }
 
 export interface SubNavItem {
   path: string;
   label: string;
-  icon: ReactNode;
+  icon: IconDefinition;
+}
+
+// Define a type for our icon definition
+export interface IconDefinition {
+  type: any;
+  props: {
+    size: number;
+    className: string;
+  };
 }
 
 // Helper function to create icon elements
-const createIcon = (Icon: any, size: number = 18, className: string = "text-neon-blue") => {
+const createIcon = (Icon: any, size: number = 18, className: string = "text-neon-blue"): IconDefinition => {
   return {
     type: Icon,
     props: { size, className }

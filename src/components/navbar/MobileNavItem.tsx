@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NavItem } from './navConfig';
+import { NavItem, IconDefinition } from './navConfig';
 
 interface MobileNavItemProps {
   item: NavItem;
@@ -14,7 +14,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
     (item.subItems && item.subItems.some(sub => sub.path === location.pathname));
   
   // Render the icon component with its props
-  const renderIcon = (icon: any) => {
+  const renderIcon = (icon: IconDefinition) => {
     if (!icon) return null;
     const IconComponent = icon.type;
     return <IconComponent {...icon.props} />;
