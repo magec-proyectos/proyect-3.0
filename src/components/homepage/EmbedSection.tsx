@@ -7,9 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext
+  CarouselItem
 } from '@/components/ui/carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -166,7 +164,7 @@ const EmbedSection = () => {
           </motion.div>
         )}
         
-        {/* Platform Logos Carousel with Navigation - Updated for transparent backgrounds */}
+        {/* Platform Logos Carousel - Uniform size, no navigation buttons, continuous autoplay */}
         <motion.div 
           className="w-full"
           initial="hidden"
@@ -174,7 +172,7 @@ const EmbedSection = () => {
           viewport={{ once: true }}
           variants={fadeIn}
         >
-          <div className="relative px-8 py-4">
+          <div className="relative px-4 py-4">
             <Carousel
               opts={{
                 align: "center",
@@ -194,47 +192,31 @@ const EmbedSection = () => {
             >
               <CarouselContent className="-ml-4">
                 {platforms.map((platform) => (
-                  <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-4">
+                  <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-2">
                     <motion.div 
-                      className="flex flex-col items-center justify-center h-48 transition-all duration-300 hover:scale-105 
-                      rounded-xl hover:shadow-lg cursor-pointer relative"
+                      className="flex flex-col items-center justify-center h-40 transition-all duration-300 hover:scale-105 
+                      cursor-pointer relative"
                       onClick={() => handlePlatformClick(platform.name)}
                       whileHover={{ y: -5 }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="flex items-center justify-center h-full w-full p-6">
-                        <img 
-                          src={platform.logo} 
-                          alt={platform.name} 
-                          className="w-full h-full object-contain max-h-28 transition-transform duration-300 hover:scale-110" 
-                        />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-neon-blue/5 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="flex items-center justify-center h-full w-full p-2">
+                        <div className="w-32 h-32 relative flex items-center justify-center">
+                          <img 
+                            src={platform.logo} 
+                            alt={platform.name} 
+                            className="w-full h-full object-contain transition-transform duration-300 hover:scale-110" 
+                          />
+                        </div>
                       </div>
-                      <span className="text-sm text-white bg-neon-blue/20 py-2 px-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-4 flex items-center">
+                      <span className="text-sm text-white bg-neon-blue/20 py-2 px-4 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300 absolute bottom-0 flex items-center">
                         Export to {platform.name} <ExternalLink className="ml-1 w-3 h-3" />
                       </span>
                     </motion.div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              
-              {!isMobile && (
-                <>
-                  <CarouselPrevious className="left-0 bg-transparent hover:bg-dark-lighter border-dark-border text-gray-400" />
-                  <CarouselNext className="right-0 bg-transparent hover:bg-dark-lighter border-dark-border text-gray-400" />
-                </>
-              )}
             </Carousel>
-          </div>
-          
-          {/* Carousel indicators */}
-          <div className="flex justify-center mt-6 gap-2">
-            {Array.from({ length: Math.ceil(platforms.length / 3) }).map((_, index) => (
-              <button
-                key={index}
-                className="w-3 h-3 rounded-full bg-dark-border transition-all duration-300 focus:outline-none hover:bg-neon-blue/70"
-                onClick={() => carouselApi?.scrollTo(index * 3)}
-              />
-            ))}
           </div>
         </motion.div>
       </div>
