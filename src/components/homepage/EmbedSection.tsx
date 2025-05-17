@@ -85,8 +85,8 @@ const EmbedSection = () => {
       
       // Reset the autoplay timer regularly to ensure continuous movement
       const interval = setInterval(() => {
-        if (autoplayPlugin.playIfIdle) {
-          autoplayPlugin.playIfIdle();
+        if (autoplayPlugin) {
+          autoplayPlugin.play();
         }
       }, 2000);
       
