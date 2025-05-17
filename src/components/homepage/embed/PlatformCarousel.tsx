@@ -56,7 +56,8 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
             align: "start",
             loop: true,
             dragFree: true,
-            speed: 30, // Velocidad más lenta para un movimiento más suave
+            slidesToScroll: 1,
+            duration: 30, // Use duration instead of speed for slow, smooth animation
           }}
           plugins={[
             Autoplay({
