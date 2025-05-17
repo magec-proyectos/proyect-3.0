@@ -3,8 +3,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from '@/components/ui/carousel';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const EmbedSection = () => {
+  const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
+  
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -17,50 +26,61 @@ const EmbedSection = () => {
   const platforms = [
     {
       id: 1,
-      name: "Platform 1",
-      logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
+      name: "1XBet",
+      logo: "/lovable-uploads/4c6104c3-e8cc-4051-b1a7-84d7f8a1d5dd.png",
     },
     {
       id: 2,
-      name: "Platform 2",
-      logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
+      name: "888 Casino",
+      logo: "/lovable-uploads/b19080fb-48a4-4114-8520-b3033bbbe7a1.png",
     },
     {
       id: 3,
-      name: "Platform 3",
-      logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
+      name: "Bet365",
+      logo: "/lovable-uploads/b9e2b507-bfec-46fe-888f-427d89cef701.png",
     },
     {
       id: 4,
-      name: "Platform 4",
-      logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
+      name: "Betfair",
+      logo: "/lovable-uploads/77e0ad3f-f163-4ddc-9071-88dad9b24d85.png",
     },
     {
       id: 5,
-      name: "Platform 5",
-      logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
+      name: "Betway Casino",
+      logo: "/lovable-uploads/816d62f4-7b52-4389-afd5-03dcab68d2da.png",
     },
     {
       id: 6,
-      name: "Platform 6",
-      logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
+      name: "Bovada",
+      logo: "/lovable-uploads/efa1c156-ae65-4515-ac2c-74c0b344448a.png",
     },
     {
       id: 7,
-      name: "Platform 7",
-      logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
+      name: "Bwin",
+      logo: "/lovable-uploads/bfa1d35c-5296-491e-bb0c-712ddd509eeb.png",
     },
     {
       id: 8,
-      name: "Platform 8",
-      logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
+      name: "Stake",
+      logo: "/lovable-uploads/30282de9-4cf4-47e2-b4ad-909d23f8d222.png",
     },
     {
       id: 9,
-      name: "Platform 9",
-      logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
+      name: "WinHouse",
+      logo: "/lovable-uploads/4ce1582f-5533-44d6-b843-2acb317db4fe.png",
     }
   ];
+
+  // Effect to ensure carousel autoplay continues
+  React.useEffect(() => {
+    if (!carouselApi) return;
+
+    // Make sure autoplay is always running
+    const autoplayPlugin = carouselApi.plugins()?.autoplay;
+    if (autoplayPlugin) {
+      autoplayPlugin.play();
+    }
+  }, [carouselApi]);
 
   return (
     <section className="py-20 bg-white text-dark">
@@ -113,26 +133,44 @@ const EmbedSection = () => {
           </motion.div>
         </div>
         
-        {/* Platform Logos */}
+        {/* Platform Logos Carousel */}
         <motion.div 
-          className="mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-4 justify-items-center"
+          className="mt-16 w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
         >
-          {platforms.map((platform) => (
-            <div 
-              key={platform.id} 
-              className="p-2 flex items-center justify-center"
-            >
-              <img 
-                src={platform.logo} 
-                alt={platform.name} 
-                className="w-12 h-12 object-contain" 
-              />
-            </div>
-          ))}
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+              dragFree: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 2000,
+                stopOnInteraction: false,
+                stopOnMouseEnter: false,
+              }),
+            ]}
+            setApi={setCarouselApi}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {platforms.map((platform) => (
+                <CarouselItem key={platform.id} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
+                  <div className="p-2 flex items-center justify-center h-24 transition-all duration-300 hover:scale-105">
+                    <img 
+                      src={platform.logo} 
+                      alt={platform.name} 
+                      className="max-h-16 max-w-full object-contain" 
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </motion.div>
       </div>
     </section>
