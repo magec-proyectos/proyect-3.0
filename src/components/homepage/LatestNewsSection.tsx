@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, User, Tag } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -20,7 +20,7 @@ const LatestNewsSection = () => {
       id: 1,
       title: "How AI is Revolutionizing Sports Betting Strategies",
       excerpt: "Discover how machine learning algorithms are changing the way bettors approach sports prediction and analysis.",
-      image: "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png",
+      image: "/lovable-uploads/f3783ec2-a81a-4070-a131-dfb4a9367047.png",
       date: "May 14, 2025",
       author: "Daniel Chen",
       category: "AI Technology"
@@ -29,7 +29,7 @@ const LatestNewsSection = () => {
       id: 2,
       title: "5 Casino Games Where AI Analysis Gives You the Edge",
       excerpt: "Learn which casino games benefit most from AI-powered strategy analysis and how to maximize your advantage.",
-      image: "/lovable-uploads/7c55be5a-2fd6-4846-805f-6abc4132183b.png",
+      image: "/lovable-uploads/662235b7-184c-447e-b1a6-5d796396aaab.png",
       date: "May 10, 2025",
       author: "Sarah Johnson",
       category: "Casino Strategy"
@@ -38,7 +38,7 @@ const LatestNewsSection = () => {
       id: 3,
       title: "Understanding Betting Patterns: What the Data Reveals",
       excerpt: "An in-depth look at common betting patterns and what they can tell us about prediction accuracy and strategy development.",
-      image: "/lovable-uploads/c2a9e6cd-258e-479a-9f6b-88c09da13e36.png",
+      image: "/lovable-uploads/158a61d4-99dd-4969-80d8-1708ade8bb66.png",
       date: "May 5, 2025",
       author: "Michael Rodriguez",
       category: "Data Analysis"
@@ -46,19 +46,19 @@ const LatestNewsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-dark">
+    <section className="py-16 bg-dark">
       <div className="container px-4 mx-auto">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <h2 className="text-5xl font-bold mb-2">Latest News</h2>
+          <h2 className="text-4xl font-bold">Latest News</h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {blogs.map((blog, index) => (
             <motion.div
               key={blog.id}
@@ -68,30 +68,31 @@ const LatestNewsSection = () => {
               variants={fadeIn}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden border border-dark-border rounded-xl bg-transparent hover:shadow-lg transition-all duration-300">
-                <div className="aspect-video overflow-hidden">
+              <Card className="overflow-hidden border border-dark-border rounded-lg bg-transparent hover:shadow-md transition-all duration-300 h-full flex flex-col">
+                <div className="relative overflow-hidden h-48">
                   <img 
                     src={blog.image} 
                     alt={blog.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
+                  <div className="absolute top-3 left-3">
+                    <span className="bg-neon-blue/90 text-xs font-medium px-2 py-1 rounded-sm text-white">
+                      {blog.category}
+                    </span>
+                  </div>
                 </div>
                 
-                <CardContent className="p-6">
-                  <div className="uppercase tracking-wide text-neon-blue font-semibold text-xs mb-4">
-                    {blog.category}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mb-3 text-white hover:text-neon-blue transition-colors">
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <h3 className="text-lg font-semibold mb-2 text-white line-clamp-2 hover:text-neon-blue transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <p className="text-gray-400 mb-5 text-sm">
+                  <p className="text-gray-400 text-sm mb-4 flex-grow">
                     {blog.excerpt}
                   </p>
                   
-                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 font-medium">
-                    Read More <ArrowRight size={16} />
+                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 text-sm justify-start mt-2">
+                    Read More <ArrowRight size={14} />
                   </Button>
                 </CardContent>
               </Card>
