@@ -19,7 +19,6 @@ const LatestNewsSection = () => {
     {
       id: 1,
       title: "How AI is Revolutionizing Sports Betting Strategies",
-      excerpt: "Discover how machine learning algorithms are changing the way bettors approach sports prediction and analysis.",
       image: "/lovable-uploads/f3783ec2-a81a-4070-a131-dfb4a9367047.png",
       date: "May 14, 2025",
       author: "Daniel Chen",
@@ -28,7 +27,6 @@ const LatestNewsSection = () => {
     {
       id: 2,
       title: "5 Casino Games Where AI Analysis Gives You the Edge",
-      excerpt: "Learn which casino games benefit most from AI-powered strategy analysis and how to maximize your advantage.",
       image: "/lovable-uploads/662235b7-184c-447e-b1a6-5d796396aaab.png",
       date: "May 10, 2025",
       author: "Sarah Johnson",
@@ -37,7 +35,6 @@ const LatestNewsSection = () => {
     {
       id: 3,
       title: "Understanding Betting Patterns: What the Data Reveals",
-      excerpt: "An in-depth look at common betting patterns and what they can tell us about prediction accuracy and strategy development.",
       image: "/lovable-uploads/158a61d4-99dd-4969-80d8-1708ade8bb66.png",
       date: "May 5, 2025",
       author: "Michael Rodriguez",
@@ -86,10 +83,6 @@ const LatestNewsSection = () => {
                   <h3 className="text-lg font-semibold mb-2 text-white line-clamp-2 hover:text-neon-blue transition-colors">
                     {blog.title}
                   </h3>
-                  
-                  <p className="text-gray-400 text-sm mb-4 flex-grow">
-                    {blog.excerpt}
-                  </p>
                   
                   <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 text-sm justify-start mt-2">
                     Read More <ArrowRight size={14} />
