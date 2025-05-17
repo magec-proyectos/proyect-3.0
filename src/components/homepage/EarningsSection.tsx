@@ -94,32 +94,35 @@ const EarningsSection = () => {
           >
             <div className="h-80 lg:h-96 w-full bg-dark-card rounded-xl p-4">
               <ChartContainer config={chartConfig} className="w-full h-full">
-                <AreaChart
-                  data={earningsData}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="month" stroke="#888" />
-                  <YAxis stroke="#888" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444' }} />
-                  <Area 
-                    type="monotone" 
-                    dataKey="withAI" 
-                    name="withAI"
-                    stroke="#00f0ff" 
-                    fill="#00f0ff20" 
-                  />
-                  <Area 
-                    type="monotone" 
-                    dataKey="withoutAI" 
-                    name="withoutAI"
-                    stroke="#888" 
-                    fill="#88830" 
-                  />
-                </AreaChart>
-                <ChartLegend>
-                  <ChartLegendContent />
-                </ChartLegend>
+                {/* Wrap multiple child elements with a single fragment */}
+                <>
+                  <AreaChart
+                    data={earningsData}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis dataKey="month" stroke="#888" />
+                    <YAxis stroke="#888" />
+                    <Tooltip contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444' }} />
+                    <Area 
+                      type="monotone" 
+                      dataKey="withAI" 
+                      name="withAI"
+                      stroke="#00f0ff" 
+                      fill="#00f0ff20" 
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="withoutAI" 
+                      name="withoutAI"
+                      stroke="#888" 
+                      fill="#88830" 
+                    />
+                  </AreaChart>
+                  <ChartLegend>
+                    <ChartLegendContent />
+                  </ChartLegend>
+                </>
               </ChartContainer>
               <div className="absolute bottom-6 right-8 bg-dark-lighter p-4 rounded-lg border border-dark-border">
                 <div className="flex items-center gap-2 mb-2">
