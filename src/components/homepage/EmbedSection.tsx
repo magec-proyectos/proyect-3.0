@@ -166,7 +166,7 @@ const EmbedSection = () => {
           </motion.div>
         )}
         
-        {/* Platform Logos Carousel with Navigation - Updated for larger, uniform sized logos */}
+        {/* Platform Logos Carousel with Navigation - Updated for transparent backgrounds */}
         <motion.div 
           className="w-full"
           initial="hidden"
@@ -197,8 +197,7 @@ const EmbedSection = () => {
                   <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-4">
                     <motion.div 
                       className="flex flex-col items-center justify-center h-48 transition-all duration-300 hover:scale-105 
-                      bg-dark-card rounded-xl hover:shadow-lg border border-dark-border hover:border-neon-blue/40 cursor-pointer
-                      hover:bg-dark-card group overflow-hidden relative"
+                      rounded-xl hover:shadow-lg cursor-pointer relative"
                       onClick={() => handlePlatformClick(platform.name)}
                       whileHover={{ y: -5 }}
                     >
@@ -207,7 +206,7 @@ const EmbedSection = () => {
                         <img 
                           src={platform.logo} 
                           alt={platform.name} 
-                          className="w-full h-full object-contain max-h-28 transition-transform duration-300 group-hover:scale-110" 
+                          className="w-full h-full object-contain max-h-28 transition-transform duration-300 hover:scale-110" 
                         />
                       </div>
                       <span className="text-sm text-white bg-neon-blue/20 py-2 px-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-4 flex items-center">
@@ -220,8 +219,8 @@ const EmbedSection = () => {
               
               {!isMobile && (
                 <>
-                  <CarouselPrevious className="left-0 bg-dark-card hover:bg-dark-lighter border-dark-border text-gray-400" />
-                  <CarouselNext className="right-0 bg-dark-card hover:bg-dark-lighter border-dark-border text-gray-400" />
+                  <CarouselPrevious className="left-0 bg-transparent hover:bg-dark-lighter border-dark-border text-gray-400" />
+                  <CarouselNext className="right-0 bg-transparent hover:bg-dark-lighter border-dark-border text-gray-400" />
                 </>
               )}
             </Carousel>
