@@ -104,12 +104,12 @@ const EmbedSection = () => {
         >
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-4xl sm:text-4xl font-bold text-white leading-tight">
-              Embed your videos on your favorite platforms
+              Export bets to your favorite platforms
             </h2>
             
             <div className="flex flex-col items-start">
               <p className="text-base text-gray-400 mb-3">
-                Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
+                Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
               </p>
               <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/20 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
                 Explore all integrations 
