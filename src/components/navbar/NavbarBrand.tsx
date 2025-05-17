@@ -10,7 +10,7 @@ const NavbarBrand: React.FC = () => {
           <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-neon-blue via-white to-white bg-clip-text text-transparent">
             Bet
           </span>
-          <span className="font-black text-xl tracking-tight bg-gradient-to-r from-neon-lime to-neon-blue bg-clip-text text-transparent ml-0.5">
+          <span className="font-black text-xl tracking-tight bg-gradient-to-r from-neon-lime to-neon-blue bg-clip-text text-transparent ml-1">
             <span className="relative top-[-1px]">3.0</span>
           </span>
         </div>
