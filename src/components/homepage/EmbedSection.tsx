@@ -1,15 +1,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from "@/components/ui/carousel";
 
 const EmbedSection = () => {
   const fadeIn = {
@@ -39,19 +32,7 @@ const EmbedSection = () => {
       name: "Betting Platform 3",
       logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
       description: "Automatic odds comparison across multiple providers"
-    },
-    {
-      id: 4,
-      name: "Betting Platform 4",
-      logo: "/lovable-uploads/6b37fcd7-ac29-4070-89cd-c4b2992991fe.png",
-      description: "Real-time synchronization with betting accounts"
-    },
-    {
-      id: 5,
-      name: "Betting Platform 5",
-      logo: "/lovable-uploads/57ee4d31-5f2d-4b5d-b546-ad99ab1f37dd.png",
-      description: "Custom alerts based on your preferred betting sites"
-    },
+    }
   ];
 
   const benefits = [
@@ -89,8 +70,9 @@ const EmbedSection = () => {
               ))}
             </ul>
             
-            <Button className="bg-neon-blue text-black hover:bg-neon-blue/90 mt-4">
+            <Button className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium">
               Connect Your Accounts
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
           
@@ -103,42 +85,46 @@ const EmbedSection = () => {
           >
             <div className="relative bg-dark-card border border-dark-border rounded-xl overflow-hidden p-6">
               <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/5 to-neon-lime/5"></div>
+              
               <div className="relative">
-                <Carousel 
-                  opts={{ 
-                    align: "center",
-                    loop: true,
-                  }}
-                >
-                  <CarouselContent>
-                    {platforms.map(platform => (
-                      <CarouselItem key={platform.id}>
-                        <div className="h-[300px] flex flex-col items-center justify-center text-center p-6">
-                          <img 
-                            src={platform.logo} 
-                            alt={platform.name} 
-                            className="h-16 mb-6 object-contain"
-                          />
-                          <h3 className="text-xl font-bold mb-2">{platform.name}</h3>
-                          <p className="text-gray-400">{platform.description}</p>
-                          
-                          <div className="mt-8 w-full max-w-[320px] p-4 bg-dark-lighter rounded-lg border border-dark-border">
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-sm text-gray-400">Liverpool vs Chelsea</span>
-                              <span className="text-xs bg-neon-blue/20 text-neon-blue px-2 py-1 rounded-full">Recommended</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="font-medium">Over 2.5 Goals</span>
-                              <span className="text-neon-lime">1.95</span>
-                            </div>
-                          </div>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="left-2 bg-dark-lighter border-dark-border" />
-                  <CarouselNext className="right-2 bg-dark-lighter border-dark-border" />
-                </Carousel>
+                {/* Platform Logo and Name */}
+                <div className="flex flex-col items-center text-center mb-8">
+                  <img 
+                    src={platforms[0].logo} 
+                    alt={platforms[0].name} 
+                    className="h-16 mb-4 object-contain"
+                  />
+                  <h3 className="text-xl font-bold">{platforms[0].name}</h3>
+                  <p className="text-gray-400 mt-2">{platforms[0].description}</p>
+                </div>
+                
+                {/* Match Card Preview */}
+                <div className="mb-8 w-full max-w-[400px] mx-auto bg-dark-lighter rounded-lg border border-dark-border p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-gray-400">Liverpool vs Chelsea</span>
+                    <span className="text-xs bg-neon-blue/20 text-neon-blue px-2 py-1 rounded-full">Recommended</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">Over 2.5 Goals</span>
+                    <span className="text-neon-lime">1.95</span>
+                  </div>
+                </div>
+                
+                {/* Platform Icons */}
+                <div className="flex flex-wrap justify-center gap-4 mt-8">
+                  {platforms.map((platform) => (
+                    <div 
+                      key={platform.id} 
+                      className="w-16 h-16 bg-dark-lighter rounded-lg border border-dark-border flex items-center justify-center hover:border-neon-blue/50 transition-colors cursor-pointer"
+                    >
+                      <img 
+                        src={platform.logo} 
+                        alt={platform.name} 
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
