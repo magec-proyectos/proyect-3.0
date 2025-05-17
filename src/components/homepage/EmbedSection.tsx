@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Video } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -84,7 +84,7 @@ const EmbedSection = () => {
   }, [carouselApi]);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-dark">
       <div className="container px-4 max-w-6xl mx-auto">
         {/* Integration Badge */}
         <motion.div
@@ -99,7 +99,7 @@ const EmbedSection = () => {
           </Badge>
         </motion.div>
         
-        {/* Main Content - Redesigned header with button next to heading */}
+        {/* Main Content - Header with button next to heading */}
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -108,20 +108,17 @@ const EmbedSection = () => {
           className="mb-8"
         >
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Video size={32} className="text-neon-blue" />
-              <h2 className="text-4xl sm:text-4xl font-bold text-gray-900 leading-tight">
-                Embed your videos on your favorite platforms
-              </h2>
-            </div>
+            <h2 className="text-4xl sm:text-4xl font-bold text-white leading-tight">
+              Embed your videos on your favorite platforms
+            </h2>
             
-            <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/10 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
+            <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/20 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap">
               Explore all integrations 
               <ArrowRight className="ml-2" />
             </Button>
           </div>
           
-          <p className="text-lg text-gray-600 mt-4 max-w-2xl">
+          <p className="text-lg text-gray-400 mt-4 max-w-2xl">
             Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
           </p>
         </motion.div>
@@ -153,11 +150,11 @@ const EmbedSection = () => {
             <CarouselContent className="-ml-4">
               {platforms.map((platform) => (
                 <CarouselItem key={platform.id} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
-                  <div className="p-4 flex items-center justify-center h-24 transition-all duration-300 hover:scale-110 bg-white rounded-lg hover:shadow-lg">
+                  <div className="p-4 flex items-center justify-center h-24 transition-all duration-300 hover:scale-110 bg-dark-lighter rounded-lg hover:shadow-lg border border-dark-border">
                     <img 
                       src={platform.logo} 
                       alt={platform.name} 
-                      className="max-h-16 max-w-full object-contain" 
+                      className="max-h-16 max-w-full object-contain filter brightness-100" 
                     />
                   </div>
                 </CarouselItem>
