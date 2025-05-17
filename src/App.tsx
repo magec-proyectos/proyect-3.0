@@ -15,7 +15,6 @@ import Casino from "./pages/Casino";
 import Blackjack from "./pages/Blackjack";
 import Roulette from "./pages/Roulette";
 import Social from "./pages/Social";
-import Insights from "./pages/Insights";
 import UserProfile from "./pages/UserProfile";
 import Leaderboard from "./pages/Leaderboard";
 import Legal from "./pages/Legal";
@@ -41,7 +40,6 @@ const App = () => (
               <Route path="/blackjack" element={<Blackjack />} />
               <Route path="/roulette" element={<Roulette />} />
               <Route path="/social" element={<Social />} />
-              <Route path="/insights" element={<Insights />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/legal" element={<Legal />} />

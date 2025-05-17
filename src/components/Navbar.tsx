@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Menu, X, Home, Share2, Brain } from 'lucide-react';
+import { Menu, X, Home, Share2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import LoginDialog from '@/components/LoginDialog';
 import NavbarBrand from './navbar/NavbarBrand';
@@ -25,6 +24,7 @@ const SportIcon = ({ size = 18, className = "" }) => (
     <circle cx="12" cy="12" r="10" />
     <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
     <path d="M2 12h20" />
+    <path d="M8 12c0-4.4 1.8-8 4-8s4 3.6 4 8-1.8 8-4 8-4-3.6-4-8z" />
   </svg>
 );
 
@@ -42,9 +42,11 @@ const FootballIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <circle cx="12" cy="12" r="10" />
-    <path d="m7.92 7.92 8.16 8.16" />
-    <path d="m7.92 16.08 8.16-8.16" />
-    <circle cx="12" cy="12" r="3" />
+    <path d="m7.5 4.27 9 5.15" />
+    <path d="m7.5 19.73 9-5.15" />
+    <path d="m4.5 12 15 .01" />
+    <path d="M12 2v20" />
+    <path d="m12 6 7.5 6-7.5 6-7.5-6Z" />
   </svg>
 );
 
@@ -62,10 +64,10 @@ const BasketballIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <circle cx="12" cy="12" r="10" />
-    <path d="M4.93 4.93a19 19 0 0 1 14.14 14.14" />
-    <path d="M19.07 4.93a19 19 0 0 1-14.14 14.14" />
+    <path d="M4.93 4.93a20 20 0 0 1 14.14 14.14" />
+    <path d="M19.07 4.93a20 20 0 0 0-14.14 14.14" />
     <path d="M12 2a20 20 0 0 0 0 20" />
-    <path d="M2 12a20 20 0 0 0 20 0" />
+    <path d="M2 12h20" />
   </svg>
 );
 
@@ -82,10 +84,12 @@ const AmericanFootballIcon = ({ size = 18, className = "" }) => (
     strokeLinejoin="round" 
     className={className}
   >
-    <path d="M12 2a9.96 9.96 0 0 0-7.071 2.929A9.96 9.96 0 0 0 2 12a9.96 9.96 0 0 0 2.929 7.071A9.96 9.96 0 0 0 12 22a9.96 9.96 0 0 0 7.071-2.929A9.96 9.96 0 0 0 22 12a9.96 9.96 0 0 0-2.929-7.071A9.96 9.96 0 0 0 12 2Z" />
-    <path d="M19 5 5 19" />
-    <path d="M17 7 7 17" />
-    <path d="M15 9 9 15" />
+    <ellipse cx="12" cy="12" rx="9" ry="6" />
+    <path d="M7 12h10" />
+    <path d="M8 8.5v7" />
+    <path d="M16 8.5v7" />
+    <path d="M5 10.5v3" />
+    <path d="M19 10.5v3" />
   </svg>
 );
 
@@ -103,11 +107,10 @@ const CasinoIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <rect x="4" y="4" width="16" height="16" rx="2" />
-    <path d="M9 9h.01" />
-    <path d="M15 9h.01" />
-    <path d="M9 15h.01" />
-    <path d="M15 15h.01" />
-    <path d="M12 12h.01" />
+    <circle cx="9" cy="9" r="1.5" />
+    <circle cx="15" cy="15" r="1.5" />
+    <circle cx="15" cy="9" r="1.5" />
+    <circle cx="9" cy="15" r="1.5" />
   </svg>
 );
 
@@ -125,10 +128,11 @@ const BlackjackIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="M8 10h.01" />
-    <path d="M12 10h.01" />
-    <path d="M16 10h.01" />
-    <path d="m9 14 3-3 3 3" />
+    <path d="M7 9h2v6H7z" />
+    <path d="M11 9h2v6h-2z" />
+    <path d="M15 9h2v6h-2z" />
+    <path d="m6 5-2 4" />
+    <path d="m18 5 2 4" />
   </svg>
 );
 
@@ -146,16 +150,16 @@ const RouletteIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="12" r="6" />
-    <circle cx="12" cy="12" r="2" />
+    <circle cx="12" cy="12" r="5" />
+    <circle cx="12" cy="12" r="1" />
     <path d="M12 2v4" />
     <path d="M12 18v4" />
-    <path d="m4.93 4.93 2.83 2.83" />
-    <path d="m16.24 16.24 2.83 2.83" />
-    <path d="M2 12h4" />
-    <path d="M18 12h4" />
-    <path d="m4.93 19.07 2.83-2.83" />
-    <path d="m16.24 7.76 2.83-2.83" />
+    <path d="M20 12h-4" />
+    <path d="M8 12H4" />
+    <path d="m17 12 1.9-1.9" />
+    <path d="M5.1 13.9 7 12" />
+    <path d="m17 12-1.9-1.9" />
+    <path d="M5.1 10.1 7 12" />
   </svg>
 );
 
@@ -201,7 +205,6 @@ const Navbar = () => {
       ]
     },
     { path: '/social', label: 'Community', icon: <Share2 size={18} className="text-neon-blue" /> },
-    { path: '/insights', label: 'Insights', icon: <Brain size={18} className="text-neon-blue" /> },
   ];
 
   return (
