@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 
 const LatestNewsSection = () => {
   const fadeIn = {
@@ -45,72 +46,63 @@ const LatestNewsSection = () => {
   ];
 
   return (
-    <section className="py-20">
-      <div className="container px-4">
+    <section className="py-20 bg-dark">
+      <div className="container px-4 mx-auto">
         <motion.div 
-          className="flex flex-wrap items-center justify-between mb-12"
+          className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <div>
-            <h2 className="text-3xl font-bold mb-2">Latest News & Insights</h2>
-            <p className="text-gray-400 max-w-2xl">
-              Expert articles and analysis to keep you informed on the latest trends in AI prediction
-            </p>
-          </div>
-          <Button variant="outline" className="mt-4 md:mt-0 border-neon-blue text-neon-blue hover:bg-neon-blue/10">
-            View All Articles
-          </Button>
+          <h2 className="text-5xl font-bold mb-2">Latest News</h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogs.map((blog, index) => (
-            <motion.article
+            <motion.div
               key={blog.id}
-              className="bg-dark-card/60 backdrop-blur-md border border-dark-border rounded-xl overflow-hidden hover-scale"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={fadeIn}
               transition={{ delay: index * 0.1 }}
             >
-              <div className="aspect-video overflow-hidden">
-                <img 
-                  src={blog.image} 
-                  alt={blog.title}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar size={14} />
-                    <span>{blog.date}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <User size={14} />
-                    <span>{blog.author}</span>
-                  </div>
+              <Card className="overflow-hidden border border-dark-border rounded-xl bg-transparent hover:shadow-lg transition-all duration-300">
+                <div className="aspect-video overflow-hidden">
+                  <img 
+                    src={blog.image} 
+                    alt={blog.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
                 </div>
                 
-                <div className="mb-3">
-                  <span className="inline-flex items-center gap-1 text-xs bg-neon-blue/10 text-neon-blue px-2 py-1 rounded-full">
-                    <Tag size={12} />
+                <CardContent className="p-6">
+                  <div className="uppercase tracking-wide text-neon-blue font-semibold text-xs mb-4">
                     {blog.category}
-                  </span>
-                </div>
-                
-                <h3 className="text-xl font-bold mb-3">{blog.title}</h3>
-                <p className="text-gray-400 mb-5">{blog.excerpt}</p>
-                
-                <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 font-medium">
-                  Read Article <ArrowRight size={16} />
-                </Button>
-              </div>
-            </motion.article>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-3 text-white hover:text-neon-blue transition-colors">
+                    {blog.title}
+                  </h3>
+                  
+                  <p className="text-gray-400 mb-5 text-sm">
+                    {blog.excerpt}
+                  </p>
+                  
+                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 font-medium">
+                    Read More <ArrowRight size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
+        </div>
+        
+        <div className="text-center mt-10">
+          <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10">
+            View All Articles
+          </Button>
         </div>
       </div>
     </section>
