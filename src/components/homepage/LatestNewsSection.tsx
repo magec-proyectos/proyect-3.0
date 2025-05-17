@@ -62,6 +62,7 @@ const LatestNewsSection = () => {
           
           <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10 rounded-full">
             View All Articles
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </motion.div>
         

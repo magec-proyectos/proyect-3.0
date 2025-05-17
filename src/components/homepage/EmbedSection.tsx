@@ -94,13 +94,13 @@ const EmbedSection = () => {
           variants={fadeIn}
           className="mb-6"
         >
-          <Badge className="bg-blue-50 hover:bg-blue-50 text-blue-600 font-medium py-1 px-4 rounded-full text-sm border-0">
+          <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
             INTEGRATIONS
           </Badge>
         </motion.div>
         
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        {/* Main Content - Restructured to place text on right side of heading */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
           {/* Left Column - Heading */}
           <motion.div
             initial="hidden"
@@ -108,7 +108,7 @@ const EmbedSection = () => {
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeIn}
           >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-8 text-gray-900 leading-tight">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
               Embed your videos on your favorite platforms
             </h2>
           </motion.div>
@@ -119,14 +119,14 @@ const EmbedSection = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeIn}
-            className="flex flex-col gap-8"
+            className="flex flex-col gap-5"
           >
             <p className="text-lg text-gray-600">
               Embed videos in your favorite creation tool, LMS, LXP and many others to streamline the video generation process.
             </p>
             
             <div>
-              <Button variant="outline" className="rounded-full border-gray-300 hover:bg-gray-50 text-gray-800 px-6 py-6 h-auto text-base flex items-center">
+              <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/10 px-6 py-6 h-auto text-base flex items-center">
                 Explore all integrations 
                 <ArrowRight className="ml-2" />
               </Button>
@@ -136,7 +136,7 @@ const EmbedSection = () => {
         
         {/* Platform Logos Carousel */}
         <motion.div 
-          className="mt-16 w-full"
+          className="w-full"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -161,7 +161,7 @@ const EmbedSection = () => {
             <CarouselContent className="-ml-4">
               {platforms.map((platform) => (
                 <CarouselItem key={platform.id} className="pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
-                  <div className="p-2 flex items-center justify-center h-24 transition-all duration-300 hover:scale-105">
+                  <div className="p-2 flex items-center justify-center h-24 transition-all duration-300 hover:scale-110 bg-white rounded-lg hover:shadow-lg">
                     <img 
                       src={platform.logo} 
                       alt={platform.name} 
