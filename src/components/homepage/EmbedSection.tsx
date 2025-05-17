@@ -1,21 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import SectionHeader from './embed/SectionHeader';
 import PlatformCarousel from './embed/PlatformCarousel';
-import NotificationAlert from './embed/NotificationAlert';
 import { platforms } from './embed/platformsData';
 
 const EmbedSection: React.FC = () => {
   const isMobile = useIsMobile();
-  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
   
-  const handlePlatformClick = (platformName: string) => {
-    setSelectedPlatform(platformName);
-    // In a real application, here we could open a modal with more options
-    setTimeout(() => setSelectedPlatform(null), 3000);
-  };
-
   return (
     <section className="py-20 bg-dark relative overflow-hidden">
       {/* Background gradient effect */}
@@ -27,13 +19,9 @@ const EmbedSection: React.FC = () => {
         {/* Section Header with Title and CTA Button */}
         <SectionHeader />
         
-        {/* Selected Platform Notification */}
-        <NotificationAlert platformName={selectedPlatform} />
-        
         {/* Platform Logos Carousel */}
         <PlatformCarousel 
           platforms={platforms} 
-          onSelectPlatform={handlePlatformClick} 
         />
       </div>
     </section>

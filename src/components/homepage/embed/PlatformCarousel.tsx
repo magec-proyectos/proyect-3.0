@@ -13,10 +13,9 @@ import Autoplay from 'embla-carousel-autoplay';
 
 interface PlatformCarouselProps {
   platforms: Platform[];
-  onSelectPlatform: (platformName: string) => void;
 }
 
-const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms, onSelectPlatform }) => {
+const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
   const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
 
   // Effect to ensure carousel autoplay continues without stopping
@@ -53,13 +52,13 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms, onSelect
       <div className="relative px-4 py-4">
         <Carousel
           opts={{
-            align: "center",
+            align: "start",
             loop: true,
             dragFree: true,
           }}
           plugins={[
             Autoplay({
-              delay: 2000,
+              delay: 1500,
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,
@@ -70,8 +69,8 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms, onSelect
         >
           <CarouselContent className="-ml-4">
             {platforms.map((platform) => (
-              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-2">
-                <PlatformCard platform={platform} onClick={onSelectPlatform} />
+              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
+                <PlatformCard platform={platform} />
               </CarouselItem>
             ))}
           </CarouselContent>
