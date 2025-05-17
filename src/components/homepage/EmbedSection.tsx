@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const EmbedSection = () => {
@@ -17,118 +17,123 @@ const EmbedSection = () => {
   const platforms = [
     {
       id: 1,
-      name: "Betting Platform 1",
+      name: "Platform 1",
       logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
-      description: "Seamlessly integrate predictions with your favorite sportsbook"
     },
     {
       id: 2,
-      name: "Betting Platform 2",
+      name: "Platform 2",
       logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
-      description: "One-click bet placements directly from our platform"
     },
     {
       id: 3,
-      name: "Betting Platform 3",
+      name: "Platform 3",
       logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
-      description: "Automatic odds comparison across multiple providers"
+    },
+    {
+      id: 4,
+      name: "Platform 4",
+      logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
+    },
+    {
+      id: 5,
+      name: "Platform 5",
+      logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
+    },
+    {
+      id: 6,
+      name: "Platform 6",
+      logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
+    },
+    {
+      id: 7,
+      name: "Platform 7",
+      logo: "/lovable-uploads/2e6807d6-c6f9-4f98-be1c-cd7cfee16262.png",
+    },
+    {
+      id: 8,
+      name: "Platform 8",
+      logo: "/lovable-uploads/573d8a50-9af4-4d57-9edb-75fa1eaf9f50.png",
+    },
+    {
+      id: 9,
+      name: "Platform 9",
+      logo: "/lovable-uploads/7524a565-21ca-4ac3-827b-23a205a694d2.png",
     }
   ];
 
-  const benefits = [
-    "Place bets directly from our platform",
-    "Compare odds across multiple providers",
-    "Track your betting history in one place",
-    "Receive notifications for the best odds",
-    "Synchronize your betting portfolio"
-  ];
-
   return (
-    <section className="py-20 bg-dark-darker">
-      <div className="container px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="py-20 bg-white text-dark">
+      <div className="container px-4 max-w-7xl mx-auto">
+        {/* Integration Badge */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+          className="mb-6"
+        >
+          <span className="bg-blue-50 text-blue-600 font-medium py-1 px-4 rounded-full text-sm">
+            INTEGRACIONES
+          </span>
+        </motion.div>
+        
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column - Heading and Description */}
           <motion.div
-            className="order-2 lg:order-1"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeIn}
           >
-            <h2 className="text-3xl font-bold mb-6">Embed Your Bets Into Your Favorite Tools</h2>
-            <p className="text-gray-400 mb-8">
-              Integrate our AI predictions seamlessly with your preferred betting platforms. Get the best of both worlds - powerful predictions and familiar betting interfaces.
-            </p>
-            
-            <ul className="space-y-3 mb-8">
-              {benefits.map((benefit, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-neon-blue/20 flex items-center justify-center flex-shrink-0">
-                    <Check size={12} className="text-neon-blue" />
-                  </div>
-                  <span>{benefit}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <Button className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium">
-              Connect Your Accounts
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <h2 className="text-5xl font-bold mb-8 text-gray-900 leading-tight">
+              Inserta tus videos en tus plataformas favoritas
+            </h2>
           </motion.div>
           
+          {/* Right Column - Text and CTA */}
           <motion.div
-            className="order-1 lg:order-2"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeIn}
+            className="flex flex-col gap-8"
           >
-            <div className="relative bg-dark-card border border-dark-border rounded-xl overflow-hidden p-6">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/5 to-neon-lime/5"></div>
-              
-              <div className="relative">
-                {/* Platform Logo and Name */}
-                <div className="flex flex-col items-center text-center mb-8">
-                  <img 
-                    src={platforms[0].logo} 
-                    alt={platforms[0].name} 
-                    className="h-16 mb-4 object-contain"
-                  />
-                  <h3 className="text-xl font-bold">{platforms[0].name}</h3>
-                  <p className="text-gray-400 mt-2">{platforms[0].description}</p>
-                </div>
-                
-                {/* Match Card Preview */}
-                <div className="mb-8 w-full max-w-[400px] mx-auto bg-dark-lighter rounded-lg border border-dark-border p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-gray-400">Liverpool vs Chelsea</span>
-                    <span className="text-xs bg-neon-blue/20 text-neon-blue px-2 py-1 rounded-full">Recommended</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Over 2.5 Goals</span>
-                    <span className="text-neon-lime">1.95</span>
-                  </div>
-                </div>
-                
-                {/* Platform Icons */}
-                <div className="flex flex-wrap justify-center gap-4 mt-8">
-                  {platforms.map((platform) => (
-                    <div 
-                      key={platform.id} 
-                      className="w-16 h-16 bg-dark-lighter rounded-lg border border-dark-border flex items-center justify-center hover:border-neon-blue/50 transition-colors cursor-pointer"
-                    >
-                      <img 
-                        src={platform.logo} 
-                        alt={platform.name} 
-                        className="w-10 h-10 object-contain"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <p className="text-lg text-gray-600">
+              Inserta los videos en tu herramienta de creación favorita, LMS, LXP y muchas otras para agilizar el proceso de generación de videos.
+            </p>
+            
+            <div>
+              <Button variant="outline" className="rounded-full border-gray-300 hover:bg-gray-50 text-gray-800 px-6 py-6 h-auto text-base flex items-center">
+                Explora todas las integraciones (en ing.) 
+                <ArrowRight className="ml-2" />
+              </Button>
             </div>
           </motion.div>
         </div>
+        
+        {/* Platform Logos */}
+        <motion.div 
+          className="mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-4 justify-items-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+        >
+          {platforms.map((platform) => (
+            <div 
+              key={platform.id} 
+              className="p-2 flex items-center justify-center"
+            >
+              <img 
+                src={platform.logo} 
+                alt={platform.name} 
+                className="w-12 h-12 object-contain" 
+              />
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
