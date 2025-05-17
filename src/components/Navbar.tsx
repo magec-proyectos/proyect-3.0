@@ -28,7 +28,7 @@ const SportIcon = ({ size = 18, className = "" }) => (
   </svg>
 );
 
-// Custom Football Icon
+// Football Icon (Soccer ball)
 const FootballIcon = ({ size = 18, className = "" }) => (
   <svg 
     width={size} 
@@ -42,11 +42,14 @@ const FootballIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <circle cx="12" cy="12" r="10" />
-    <path d="m7.5 4.27 9 5.15" />
-    <path d="m7.5 19.73 9-5.15" />
-    <path d="m4.5 12 15 .01" />
-    <path d="M12 2v20" />
-    <path d="m12 6 7.5 6-7.5 6-7.5-6Z" />
+    <path d="M12 2v4.5" />
+    <path d="M12 17.5v4.5" />
+    <path d="M4.2 5.8l3.2 3.2" />
+    <path d="M16.6 15l3.2 3.2" />
+    <path d="M2 12h4.5" />
+    <path d="M17.5 12h4.5" />
+    <path d="M4.2 18.2l3.2-3.2" />
+    <path d="M16.6 9l3.2-3.2" />
   </svg>
 );
 
@@ -93,7 +96,7 @@ const AmericanFootballIcon = ({ size = 18, className = "" }) => (
   </svg>
 );
 
-// Custom Casino Icon
+// Casino Chip Icon
 const CasinoIcon = ({ size = 18, className = "" }) => (
   <svg 
     width={size} 
@@ -106,15 +109,20 @@ const CasinoIcon = ({ size = 18, className = "" }) => (
     strokeLinejoin="round" 
     className={className}
   >
-    <rect x="4" y="4" width="16" height="16" rx="2" />
-    <circle cx="9" cy="9" r="1.5" />
-    <circle cx="15" cy="15" r="1.5" />
-    <circle cx="15" cy="9" r="1.5" />
-    <circle cx="9" cy="15" r="1.5" />
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <path d="M12 2v4" />
+    <path d="M12 18v4" />
+    <path d="m4.93 4.93 2.83 2.83" />
+    <path d="m16.24 16.24 2.83 2.83" />
+    <path d="M2 12h4" />
+    <path d="M18 12h4" />
+    <path d="m4.93 19.07 2.83-2.83" />
+    <path d="m16.24 7.76 2.83-2.83" />
   </svg>
 );
 
-// Custom Blackjack Icon
+// Playing Cards Icon (Blackjack)
 const BlackjackIcon = ({ size = 18, className = "" }) => (
   <svg 
     width={size} 
@@ -127,16 +135,14 @@ const BlackjackIcon = ({ size = 18, className = "" }) => (
     strokeLinejoin="round" 
     className={className}
   >
-    <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="M7 9h2v6H7z" />
-    <path d="M11 9h2v6h-2z" />
-    <path d="M15 9h2v6h-2z" />
-    <path d="m6 5-2 4" />
-    <path d="m18 5 2 4" />
+    <rect x="3" y="3" width="14" height="18" rx="2" />
+    <path d="m10 7-2.5 2.5L10 12" />
+    <path d="M7.5 9.5H12" />
+    <rect x="7" y="3" width="14" height="18" rx="2" transform="rotate(6 7 3)" />
   </svg>
 );
 
-// Custom Roulette Icon
+// Roulette Wheel Icon
 const RouletteIcon = ({ size = 18, className = "" }) => (
   <svg 
     width={size} 
@@ -150,16 +156,16 @@ const RouletteIcon = ({ size = 18, className = "" }) => (
     className={className}
   >
     <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="12" r="5" />
-    <circle cx="12" cy="12" r="1" />
+    <circle cx="12" cy="12" r="4" />
     <path d="M12 2v4" />
     <path d="M12 18v4" />
-    <path d="M20 12h-4" />
-    <path d="M8 12H4" />
-    <path d="m17 12 1.9-1.9" />
-    <path d="M5.1 13.9 7 12" />
-    <path d="m17 12-1.9-1.9" />
-    <path d="M5.1 10.1 7 12" />
+    <path d="M4 12H2" />
+    <path d="M22 12h-4" />
+    <path d="m6.34 6.34-2.12-2.12" />
+    <path d="m19.78 19.78-2.12-2.12" />
+    <path d="m19.78 4.22-2.12 2.12" />
+    <path d="m6.34 17.66-2.12 2.12" />
+    <path d="M12 12 9 7" />
   </svg>
 );
 
