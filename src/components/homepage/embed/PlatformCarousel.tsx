@@ -18,21 +18,22 @@ interface PlatformCarouselProps {
 const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
   const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
 
-  // Effect to ensure carousel autoplay continues without stopping
+  // Configuración mejorada para asegurar un movimiento continuo
   React.useEffect(() => {
     if (!carouselApi) return;
 
-    // Make sure autoplay is always running and doesn't stop on hover
+    // Asegurarse que el autoplay siempre esté funcionando
     const autoplayPlugin = carouselApi.plugins()?.autoplay;
     if (autoplayPlugin) {
       autoplayPlugin.play();
       
-      // Reset the autoplay timer regularly to ensure continuous movement
+      // Intervalo más corto para reiniciar el autoplay y mantener movimiento constante
       const interval = setInterval(() => {
         if (autoplayPlugin) {
+          autoplayPlugin.reset(); // Reset para un movimiento más continuo
           autoplayPlugin.play();
         }
-      }, 2000);
+      }, 1000);
       
       return () => clearInterval(interval);
     }
@@ -49,16 +50,17 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
       }}
     >
-      <div className="relative px-4 py-4">
+      <div className="relative px-4 py-2">
         <Carousel
           opts={{
             align: "start",
             loop: true,
             dragFree: true,
+            speed: 30, // Velocidad más lenta para un movimiento más suave
           }}
           plugins={[
             Autoplay({
-              delay: 1500,
+              delay: 800, // Intervalo más corto entre desplazamientos
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,
@@ -69,7 +71,7 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
         >
           <CarouselContent className="-ml-4">
             {platforms.map((platform) => (
-              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
+              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/4 md:basis-1/5 lg:basis-1/6 p-1">
                 <PlatformCard platform={platform} />
               </CarouselItem>
             ))}

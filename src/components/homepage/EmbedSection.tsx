@@ -9,7 +9,7 @@ const EmbedSection: React.FC = () => {
   const isMobile = useIsMobile();
   
   return (
-    <section className="py-20 bg-dark relative overflow-hidden">
+    <section className="py-16 bg-dark relative overflow-hidden">
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 to-neon-lime/5 opacity-20"></div>
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-neon-blue/5 rounded-full blur-3xl"></div>
