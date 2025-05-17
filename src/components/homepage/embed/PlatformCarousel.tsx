@@ -1,0 +1,84 @@
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Platform } from './types';
+import PlatformCard from './PlatformCard';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from '@/components/ui/carousel';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+
+interface PlatformCarouselProps {
+  platforms: Platform[];
+  onSelectPlatform: (platformName: string) => void;
+}
+
+const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms, onSelectPlatform }) => {
+  const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
+
+  // Effect to ensure carousel autoplay continues without stopping
+  React.useEffect(() => {
+    if (!carouselApi) return;
+
+    // Make sure autoplay is always running and doesn't stop on hover
+    const autoplayPlugin = carouselApi.plugins()?.autoplay;
+    if (autoplayPlugin) {
+      autoplayPlugin.play();
+      
+      // Reset the autoplay timer regularly to ensure continuous movement
+      const interval = setInterval(() => {
+        if (autoplayPlugin) {
+          autoplayPlugin.play();
+        }
+      }, 2000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [carouselApi]);
+
+  return (
+    <motion.div 
+      className="w-full"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+      }}
+    >
+      <div className="relative px-4 py-4">
+        <Carousel
+          opts={{
+            align: "center",
+            loop: true,
+            dragFree: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 2000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: false,
+              stopOnFocusIn: false,
+            }),
+          ]}
+          setApi={setCarouselApi}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {platforms.map((platform) => (
+              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 p-2">
+                <PlatformCard platform={platform} onClick={onSelectPlatform} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
+    </motion.div>
+  );
+};
+
+export default PlatformCarousel;
