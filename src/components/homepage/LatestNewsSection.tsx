@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, User, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -58,7 +58,7 @@ const LatestNewsSection = () => {
           <h2 className="text-5xl font-bold mb-2">Latest News</h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {blogs.map((blog, index) => (
             <motion.div
               key={blog.id}
@@ -68,7 +68,7 @@ const LatestNewsSection = () => {
               variants={fadeIn}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden border border-gray-200 rounded-xl bg-white hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+              <Card className="overflow-hidden border border-dark-border rounded-xl bg-transparent hover:shadow-lg transition-all duration-300">
                 <div className="aspect-video overflow-hidden">
                   <img 
                     src={blog.image} 
@@ -77,20 +77,20 @@ const LatestNewsSection = () => {
                   />
                 </div>
                 
-                <CardContent className="p-6 flex flex-col flex-grow">
-                  <div className="uppercase tracking-wide text-purple-600 font-semibold text-sm mb-3">
+                <CardContent className="p-6">
+                  <div className="uppercase tracking-wide text-neon-blue font-semibold text-xs mb-4">
                     {blog.category}
                   </div>
                   
-                  <h3 className="text-2xl font-bold mb-4 text-gray-800 hover:text-purple-700 transition-colors">
+                  <h3 className="text-xl font-bold mb-3 text-white hover:text-neon-blue transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6 text-base flex-grow">
+                  <p className="text-gray-400 mb-5 text-sm">
                     {blog.excerpt}
                   </p>
                   
-                  <Button variant="link" className="p-0 h-auto text-purple-600 hover:text-purple-800 flex items-center gap-1.5 font-medium self-start">
+                  <Button variant="link" className="p-0 h-auto text-neon-blue hover:text-neon-blue/80 flex items-center gap-1 font-medium">
                     Read More <ArrowRight size={16} />
                   </Button>
                 </CardContent>
@@ -99,8 +99,8 @@ const LatestNewsSection = () => {
           ))}
         </div>
         
-        <div className="text-center mt-12">
-          <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
+        <div className="text-center mt-10">
+          <Button variant="outline" className="border-neon-blue text-neon-blue hover:bg-neon-blue/10">
             View All Articles
           </Button>
         </div>
