@@ -1,5 +1,8 @@
 
 import React, { lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
@@ -23,6 +26,28 @@ const Index = () => {
       
       <main>
         <Hero />
+        
+        {/* Platform Promotion Section */}
+        <section className="py-16 bg-dark">
+          <div className="container px-4">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neon-blue/10 border border-neon-blue mb-4">
+                <span className="text-3xl">⚽</span>
+              </div>
+              <div className="max-w-lg mx-auto">
+                <h3 className="text-xl font-medium mb-2">Experience the full Smart Bet AI platform</h3>
+                <Button 
+                  variant="default" 
+                  size="lg" 
+                  className="bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:bg-neon-blue text-black mt-4 px-8"
+                >
+                  Try for free
+                  <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Trusted By Section */}
         <TrustedBySection />
