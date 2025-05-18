@@ -17,12 +17,15 @@ interface PlatformCarouselProps {
 
 const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
   const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
+  
+  // Create a duplicated list of platforms to ensure continuous looping
+  const duplicatedPlatforms = [...platforms, ...platforms, ...platforms];
 
-  // Configuración mejorada para asegurar un movimiento continuo
+  // Improved configuration for truly continuous movement
   React.useEffect(() => {
     if (!carouselApi) return;
 
-    // Asegurarse que el autoplay siempre esté funcionando
+    // Ensure autoplay always works without stopping
     const autoplayPlugin = carouselApi.plugins()?.autoplay;
     if (autoplayPlugin) {
       autoplayPlugin.play();
@@ -30,10 +33,10 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
       // Intervalo más corto para reiniciar el autoplay y mantener movimiento constante
       const interval = setInterval(() => {
         if (autoplayPlugin) {
-          autoplayPlugin.reset(); // Reset para un movimiento más continuo
+          autoplayPlugin.reset();
           autoplayPlugin.play();
         }
-      }, 500); // Intervalo más corto para un movimiento más rápido
+      }, 300);
       
       return () => clearInterval(interval);
     }
@@ -57,11 +60,11 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
             loop: true,
             dragFree: true,
             slidesToScroll: 1,
-            duration: 20, // Reduced duration for faster movement
+            duration: 15, // Faster transition between slides
           }}
           plugins={[
             Autoplay({
-              delay: 400, // Shorter delay for faster movement
+              delay: 100, // Very short delay to make it truly continuous
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,
@@ -71,8 +74,8 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
           className="w-full"
         >
           <CarouselContent className="-ml-4">
-            {platforms.map((platform) => (
-              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
+            {duplicatedPlatforms.map((platform, index) => (
+              <CarouselItem key={`${platform.id}-${index}`} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
                 <PlatformCard platform={platform} />
               </CarouselItem>
             ))}
