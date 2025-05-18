@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -154,15 +153,6 @@ const TryItNow = () => {
       variants={containerVariants}
     >
       <motion.div variants={itemVariants}>
-        <motion.h2 
-          className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          Try Our AI Predictions
-        </motion.h2>
-
         <Card className="overflow-hidden border-none shadow-xl bg-gradient-to-br from-dark-card/50 to-dark-card/30 backdrop-blur-lg">
           <CardContent className="p-6">
             {/* Sport selection cards with enhanced component */}

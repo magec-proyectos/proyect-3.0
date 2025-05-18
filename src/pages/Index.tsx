@@ -27,24 +27,21 @@ const Index = () => {
       <main>
         <Hero />
         
-        {/* Platform Promotion Section */}
-        <section className="py-16 bg-dark">
+        {/* Platform Promotion Section - Moved higher and modified layout */}
+        <section className="py-8 bg-dark">
           <div className="container px-4">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neon-blue/10 border border-neon-blue mb-4">
-                <span className="text-3xl">⚽</span>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4">
+              <div className="md:mr-4">
+                <h3 className="text-xl font-medium">Experience the full Smart Bet AI platform</h3>
               </div>
-              <div className="max-w-lg mx-auto">
-                <h3 className="text-xl font-medium mb-2">Experience the full Smart Bet AI platform</h3>
-                <Button 
-                  variant="default" 
-                  size="lg" 
-                  className="bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:bg-neon-blue text-black mt-4 px-8"
-                >
-                  Try for free
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </div>
+              <Button 
+                variant="default" 
+                size="lg" 
+                className="bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:bg-neon-blue text-black px-8"
+              >
+                Try for free
+                <ArrowRight size={16} className="ml-2" />
+              </Button>
             </div>
           </div>
         </section>
