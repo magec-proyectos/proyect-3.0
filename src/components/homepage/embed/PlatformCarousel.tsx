@@ -30,13 +30,13 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
     if (autoplayPlugin) {
       autoplayPlugin.play();
       
-      // Intervalo más largo para mantener un movimiento más lento y constante
+      // Intervalo moderado para mantener un movimiento constante pero no extremadamente rápido
       const interval = setInterval(() => {
         if (autoplayPlugin) {
           autoplayPlugin.reset();
           autoplayPlugin.play();
         }
-      }, 5000);
+      }, 2000);
       
       return () => clearInterval(interval);
     }
@@ -60,11 +60,11 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
             loop: true,
             dragFree: true,
             slidesToScroll: 1,
-            duration: 60, // Much slower transition between slides
+            duration: 25, // Moderately fast transition between slides
           }}
           plugins={[
             Autoplay({
-              delay: 3000, // Much longer delay to make it move slower
+              delay: 1000, // Moderate delay for a balanced speed
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,
