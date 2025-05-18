@@ -43,6 +43,8 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
   chartConfig,
   getPercentageChange 
 }) => {
+  // Enhanced pulse animation for data points
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
   
   // Chart rendering based on active type
   const renderChart = () => {
@@ -54,29 +56,43 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
             className="h-full w-full" 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={getBarChartData()}
                 layout="vertical"
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                onMouseMove={(e) => {
+                  if (e.activeTooltipIndex !== undefined) {
+                    setHoveredPoint(e.activeTooltipIndex);
+                  }
+                }}
+                onMouseLeave={() => setHoveredPoint(null)}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" horizontal={true} vertical={false} />
                 <XAxis type="number" stroke="#888" />
-                <YAxis dataKey="name" type="category" stroke="#888" width={100} />
+                <YAxis dataKey="name" type="category" stroke="#888" width={110} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444' }} 
+                  contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444', borderRadius: '8px', padding: '10px' }} 
                   formatter={(value) => [`$${value}`, '']}
                   labelFormatter={() => ''}
+                  animationDuration={300}
+                  cursor={{fill: 'rgba(255, 255, 255, 0.05)'}}
                 />
-                <Bar dataKey="value" animationDuration={1500} animationBegin={300} isAnimationActive={true}>
+                <Bar dataKey="value" animationDuration={1800} animationBegin={300} isAnimationActive={true}>
                   {getBarChartData().map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.color} 
-                      fillOpacity={0.8}
-                    />
+                      fillOpacity={hoveredPoint === index ? 1 : 0.8}
+                      stroke={hoveredPoint === index ? "#fff" : "none"}
+                      strokeWidth={1}
+                    >
+                      {hoveredPoint === index && (
+                        <animate attributeName="fillOpacity" from="0.8" to="1" dur="0.3s" />
+                      )}
+                    </Cell>
                   ))}
                 </Bar>
               </BarChart>
@@ -93,32 +109,50 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
           className="h-full w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={activeData}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              onMouseMove={(e) => {
+                if (e.activeTooltipIndex !== undefined) {
+                  setHoveredPoint(e.activeTooltipIndex);
+                }
+              }}
+              onMouseLeave={() => setHoveredPoint(null)}
             >
               <defs>
                 <linearGradient id="colorWithBet3" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.3}/>
+                  <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.4}/>
                   <stop offset="95%" stopColor="#00f0ff" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorWithoutBet3" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#888" stopOpacity={0.2}/>
+                  <stop offset="5%" stopColor="#888" stopOpacity={0.25}/>
                   <stop offset="95%" stopColor="#888" stopOpacity={0}/>
                 </linearGradient>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#333" />
               <XAxis dataKey="month" stroke="#888" />
               <YAxis stroke="#888" />
               <Tooltip 
-                contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444' }} 
+                contentStyle={{ 
+                  backgroundColor: '#1e1e1e', 
+                  borderColor: '#444', 
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+                  padding: '10px'
+                }} 
                 formatter={(value: number, name: string) => {
                   const formattedValue = activeChart === 'earnings' ? `$${value}` : `${value}%`;
                   return [formattedValue, name === 'withBet3' ? 'With Bet 3.0' : 'Without Bet 3.0'];
                 }}
+                animationDuration={300}
+                cursor={{stroke: 'rgba(255, 255, 255, 0.2)'}}
               />
               <Area 
                 type="monotone" 
@@ -126,10 +160,18 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
                 name="withBet3"
                 stroke="#00f0ff" 
                 fill="url(#colorWithBet3)" 
-                strokeWidth={2}
+                strokeWidth={3}
                 isAnimationActive={animateChart}
-                animationDuration={1500}
+                animationDuration={2000}
                 animationBegin={300}
+                activeDot={{
+                  stroke: '#fff',
+                  strokeWidth: 2,
+                  r: 6,
+                  fill: '#00f0ff',
+                  filter: 'url(#glow)'
+                }}
+                dot={false}
               />
               <Area 
                 type="monotone" 
@@ -137,9 +179,17 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
                 name="withoutBet3"
                 stroke="#888" 
                 fill="url(#colorWithoutBet3)" 
+                strokeWidth={2}
                 isAnimationActive={animateChart}
-                animationDuration={1500}
+                animationDuration={2000}
                 animationBegin={600}
+                activeDot={{
+                  stroke: '#fff',
+                  strokeWidth: 1,
+                  r: 4,
+                  fill: '#888'
+                }}
+                dot={false}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -166,12 +216,16 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       ? 'Win Rate %' 
       : 'Return on Investment %';
       
+  // Calculate percentage improvement
+  const percentageChange = getPercentageChange();
+      
   return (
     <motion.div 
-      className="h-80 lg:h-96 w-full bg-dark-card rounded-xl p-6 border border-dark-border shadow-xl backdrop-blur-sm relative overflow-hidden"
-      whileHover={{ boxShadow: "0 0 20px rgba(0, 240, 255, 0.2)" }}
+      className="h-96 lg:h-[28rem] w-full bg-dark-card rounded-xl p-6 border border-dark-border shadow-xl backdrop-blur-sm relative overflow-hidden"
+      whileHover={{ boxShadow: "0 0 30px rgba(0, 240, 255, 0.3)" }}
+      transition={{ duration: 0.3 }}
     >
-      {/* Animated background pattern */}
+      {/* Enhanced animated background pattern */}
       <svg className="absolute inset-0 w-full h-full opacity-5 z-0" width="100%" height="100%">
         <pattern id="graph-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
           <motion.path 
@@ -179,7 +233,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
             stroke="currentColor" 
             strokeWidth="1"
             initial={{ opacity: 0.2 }}
-            animate={{ opacity: [0.2, 0.5, 0.2] }}
+            animate={{ opacity: [0.2, 0.6, 0.2] }}
             transition={{ duration: 3, repeat: Infinity }}
           />
         </pattern>
@@ -187,7 +241,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       </svg>
       
       <motion.h3 
-        className="text-xl font-semibold mb-4 relative z-10"
+        className="text-2xl font-semibold mb-4 relative z-10"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -215,7 +269,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
         <motion.div 
           className="flex items-center gap-2 mb-2"
           animate={{ 
-            boxShadow: ["0 0 0px rgba(0, 240, 255, 0)", "0 0 10px rgba(0, 240, 255, 0.3)", "0 0 0px rgba(0, 240, 255, 0)"]
+            boxShadow: ["0 0 0px rgba(0, 240, 255, 0)", "0 0 15px rgba(0, 240, 255, 0.4)", "0 0 0px rgba(0, 240, 255, 0)"]
           }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -224,22 +278,22 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
             <motion.span 
               className="text-neon-blue ml-1"
               animate={{ 
-                textShadow: ["0 0 0px rgba(0, 240, 255, 0)", "0 0 5px rgba(0, 240, 255, 0.8)", "0 0 0px rgba(0, 240, 255, 0)"]
+                textShadow: ["0 0 0px rgba(0, 240, 255, 0)", "0 0 8px rgba(0, 240, 255, 1)", "0 0 0px rgba(0, 240, 255, 0)"]
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              +{getPercentageChange()}%
+              +{percentageChange}%
             </motion.span>
           </p>
         </motion.div>
       </motion.div>
       
-      {/* Animated highlights */}
+      {/* Enhanced animated highlights */}
       <motion.div
         className="absolute inset-0 rounded-xl border-2 border-transparent z-0"
         animate={{ 
-          boxShadow: ["inset 0 0 0px rgba(0, 240, 255, 0)", "inset 0 0 20px rgba(0, 240, 255, 0.1)", "inset 0 0 0px rgba(0, 240, 255, 0)"],
-          borderColor: ["rgba(0, 240, 255, 0)", "rgba(0, 240, 255, 0.15)", "rgba(0, 240, 255, 0)"]
+          boxShadow: ["inset 0 0 0px rgba(0, 240, 255, 0)", "inset 0 0 30px rgba(0, 240, 255, 0.15)", "inset 0 0 0px rgba(0, 240, 255, 0)"],
+          borderColor: ["rgba(0, 240, 255, 0)", "rgba(0, 240, 255, 0.2)", "rgba(0, 240, 255, 0)"]
         }}
         transition={{ duration: 4, repeat: Infinity }}
       />

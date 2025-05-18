@@ -46,14 +46,14 @@ const EarningsSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
-      {/* Animated Background elements */}
+    <section className="py-24 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
+      {/* Enhanced Animated Background elements */}
       <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 to-neon-lime/5 opacity-20"></div>
       <motion.div 
-        className="absolute -top-40 -right-40 w-80 h-80 bg-neon-blue/10 rounded-full blur-3xl"
+        className="absolute -top-40 -right-40 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"
         animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.18, 0.1],
+          scale: [1, 1.3, 1],
+          opacity: [0.1, 0.2, 0.1],
         }}
         transition={{ 
           duration: 8,
@@ -62,10 +62,10 @@ const EarningsSection = () => {
         }}
       />
       <motion.div 
-        className="absolute -bottom-40 -left-40 w-80 h-80 bg-neon-lime/10 rounded-full blur-3xl"
+        className="absolute -bottom-40 -left-40 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"
         animate={{ 
-          scale: [1, 1.3, 1],
-          opacity: [0.1, 0.15, 0.1],
+          scale: [1, 1.4, 1],
+          opacity: [0.1, 0.18, 0.1],
         }}
         transition={{ 
           duration: 10,
@@ -83,15 +83,15 @@ const EarningsSection = () => {
           variants={fadeIn}
         >
           <motion.h2 
-            className="text-4xl sm:text-5xl font-bold mb-5 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+            className="text-5xl sm:text-6xl font-bold mb-5 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
             animate={{ 
-              textShadow: ["0 0 8px rgba(0,240,255,0.3)", "0 0 16px rgba(0,240,255,0.6)", "0 0 8px rgba(0,240,255,0.3)"]
+              textShadow: ["0 0 10px rgba(0,240,255,0.3)", "0 0 20px rgba(0,240,255,0.7)", "0 0 10px rgba(0,240,255,0.3)"]
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
             Boost Your Earnings
           </motion.h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-3xl mx-auto text-xl">
             See the difference our Bet 3.0 prediction system can make to your betting performance
           </p>
         </motion.div>
@@ -103,9 +103,9 @@ const EarningsSection = () => {
           setTimeRange={setTimeRange}
         />
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 gap-10">
           <motion.div 
-            className="relative"
+            className="relative w-full lg:w-5/6 mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -127,8 +127,9 @@ const EarningsSection = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeIn}
-            className="lg:pl-4"
+            className="mt-10"
           >
+            <h3 className="text-3xl font-semibold mb-6 text-center">Why Choose Bet 3.0</h3>
             <InfoTabs />
           </motion.div>
         </div>
