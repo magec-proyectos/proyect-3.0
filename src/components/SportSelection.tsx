@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Football, Basketball, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -53,7 +53,7 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors
                   ${isActive('football') ? 'bg-neon-blue/10 border border-neon-blue' : 'bg-dark-lighter border border-dark-border'}`}
                 >
-                  <Football size={28} className={`${isActive('football') ? 'text-neon-blue' : 'text-white'}`} />
+                  <span className={`text-2xl ${isActive('football') ? 'text-neon-blue' : 'text-white'}`}>⚽</span>
                 </div>
                 <h3 className="text-xl font-medium mb-2">Football</h3>
                 <p className="text-gray-400 text-sm mb-4">Premier League, La Liga & more</p>
@@ -85,7 +85,7 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors
                   ${isActive('basketball') ? 'bg-neon-lime/10 border border-neon-lime' : 'bg-dark-lighter border border-dark-border'}`}
                 >
-                  <Basketball size={28} className={`${isActive('basketball') ? 'text-neon-lime' : 'text-white'}`} />
+                  <span className={`text-2xl ${isActive('basketball') ? 'text-neon-lime' : 'text-white'}`}>🏀</span>
                 </div>
                 <h3 className="text-xl font-medium mb-2">Basketball</h3>
                 <p className="text-gray-400 text-sm mb-4">NBA, Euroleague & international</p>
