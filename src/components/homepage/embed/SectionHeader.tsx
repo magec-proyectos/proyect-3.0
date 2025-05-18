@@ -47,12 +47,12 @@ const SectionHeader: React.FC = () => {
                 <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
               </span>
             </h2>
-            <p className="text-base text-gray-300 max-w-lg">
-              Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
-            </p>
           </div>
           
-          <div className="flex items-start">
+          <div className="flex flex-col items-start">
+            <p className="text-base text-gray-300 max-w-lg mb-4">
+              Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
+            </p>
             <Button 
               variant="outline" 
               className="rounded-full border-neon-blue bg-neon-blue/10 text-neon-blue hover:bg-neon-blue hover:text-white px-8 py-6 h-auto text-lg font-medium flex items-center whitespace-nowrap group transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-neon-blue/20"
