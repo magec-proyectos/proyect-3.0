@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Volume2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -147,33 +147,58 @@ const TryItNow = () => {
 
   return (
     <motion.div 
-      className="my-24 max-w-4xl mx-auto px-4"
+      className="my-24 max-w-5xl mx-auto px-4"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
       variants={containerVariants}
     >
       <motion.div variants={itemVariants}>
-        <motion.h2 
-          className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          Try Our AI Predictions
-        </motion.h2>
+        <motion.div className="flex items-center justify-center mb-6 space-x-2">
+          <Volume2 className="w-6 h-6 text-neon-blue" />
+          <motion.h2 
+            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            Try Our AI Predictions
+          </motion.h2>
+        </motion.div>
 
+        {/* Main content card with glassmorphism effect */}
         <Card className="overflow-hidden border-none shadow-xl bg-gradient-to-br from-dark-card/50 to-dark-card/30 backdrop-blur-lg">
-          <CardContent className="p-6">
+          <CardContent className="p-6 md:p-8">
             {/* Sport selection cards with enhanced component */}
-            <SportSelection
-              className="mb-8"
-              activeSport={activeSport}
-              onSelectSport={(sport) => {
-                setActiveSport(sport);
-                setShowPredictions(prev => ({ ...prev, [sport]: false }));
-              }}
-            />
+            <div className="py-2 px-1 mb-8 rounded-lg">
+              <div className="mb-4 flex justify-center">
+                <div className="inline-flex rounded-full bg-dark-lighter border border-dark-border px-3 py-1 gap-1">
+                  {['football', 'basketball', 'americanFootball'].map((sport) => (
+                    <Button 
+                      key={sport}
+                      variant="ghost" 
+                      className={`text-sm rounded-full px-4 py-1 ${sport === activeSport ? 'bg-dark text-white' : 'text-gray-400'}`}
+                      onClick={() => {
+                        setActiveSport(sport as any);
+                        setShowPredictions(prev => ({ ...prev, [sport]: false }));
+                      }}
+                    >
+                      {sport === 'football' ? 'Football' : 
+                       sport === 'basketball' ? 'Basketball' : 
+                       'American Football'}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              <SportSelection
+                className="mt-6"
+                activeSport={activeSport}
+                onSelectSport={(sport) => {
+                  setActiveSport(sport);
+                  setShowPredictions(prev => ({ ...prev, [sport]: false }));
+                }}
+              />
+            </div>
             
             <div className="border-t border-dark-border pt-8">
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -183,10 +208,10 @@ const TryItNow = () => {
                     onValueChange={(value) => setSelectedMatches(prev => ({ ...prev, [activeSport]: value }))} 
                     value={selectedMatches[activeSport]}
                   >
-                    <SelectTrigger className="bg-dark-lighter border-dark-border h-12">
+                    <SelectTrigger className="bg-dark-lighter border-dark-border h-12 rounded-xl">
                       <SelectValue placeholder={`Choose a ${activeSport === 'americanFootball' ? 'football' : activeSport} match`} />
                     </SelectTrigger>
-                    <SelectContent className="bg-dark border-dark-border text-white">
+                    <SelectContent className="bg-dark border-dark-border text-white rounded-xl">
                       {getMatchOptions()}
                     </SelectContent>
                   </Select>
@@ -196,7 +221,7 @@ const TryItNow = () => {
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       onClick={() => handleGetPrediction(activeSport)}
-                      className={`w-full ${getButtonStyle()} font-medium h-12 transition-all`}
+                      className={`w-full ${getButtonStyle()} font-medium h-12 transition-all rounded-xl`}
                       disabled={!selectedMatches[activeSport]}
                     >
                       Get Prediction
@@ -250,13 +275,13 @@ const TryItNow = () => {
                             <DialogTrigger asChild>
                               <Button 
                                 variant="outline" 
-                                className={`w-full md:w-auto bg-dark-lighter border-dark-border hover:bg-dark hover:text-${getAccentColor()}`}
+                                className="w-full md:w-auto bg-dark-lighter border-dark-border hover:bg-dark hover:text-white rounded-xl"
                               >
                                 <Play size={16} className="mr-2" />
                                 Analysis Video
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="bg-dark-card border-dark-border sm:max-w-[700px]">
+                            <DialogContent className="bg-dark-card border-dark-border sm:max-w-[700px] rounded-2xl">
                               <div className="aspect-video w-full">
                                 <iframe 
                                   width="100%" 
@@ -310,6 +335,13 @@ const TryItNow = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* ElevenLabs style footer */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-400">
+            Powered by <span className="text-white font-medium">SportPredictAI</span>
+          </p>
+        </div>
       </motion.div>
     </motion.div>
   );
