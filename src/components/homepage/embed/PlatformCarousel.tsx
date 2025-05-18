@@ -17,23 +17,24 @@ interface PlatformCarouselProps {
 
 const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
   const [carouselApi, setCarouselApi] = React.useState<ReturnType<typeof useEmblaCarousel>[1]>();
+  
+  // Create a duplicated list of platforms for smoother continuous scrolling
+  const extendedPlatforms = [...platforms, ...platforms, ...platforms];
 
-  // Configuración mejorada para asegurar un movimiento continuo
   React.useEffect(() => {
     if (!carouselApi) return;
 
-    // Asegurarse que el autoplay siempre esté funcionando
+    // Configure continuous autoplay with no stops
     const autoplayPlugin = carouselApi.plugins()?.autoplay;
     if (autoplayPlugin) {
       autoplayPlugin.play();
       
-      // Intervalo más corto para reiniciar el autoplay y mantener movimiento constante
+      // Ensure continuous scrolling by preventing any pauses
       const interval = setInterval(() => {
         if (autoplayPlugin) {
-          autoplayPlugin.reset(); // Reset para un movimiento más continuo
           autoplayPlugin.play();
         }
-      }, 1000);
+      }, 100);
       
       return () => clearInterval(interval);
     }
@@ -41,7 +42,7 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
 
   return (
     <motion.div 
-      className="w-full"
+      className="w-full overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -57,11 +58,11 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
             loop: true,
             dragFree: true,
             slidesToScroll: 1,
-            duration: 30, // Use duration instead of speed for slow, smooth animation
+            duration: 60, // Longer duration for slower, more continuous movement
           }}
           plugins={[
             Autoplay({
-              delay: 800, // Intervalo más corto entre desplazamientos
+              delay: 0, // No delay between scrolls for continuous motion
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,
@@ -71,8 +72,8 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
           className="w-full"
         >
           <CarouselContent className="-ml-4">
-            {platforms.map((platform) => (
-              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
+            {extendedPlatforms.map((platform, index) => (
+              <CarouselItem key={`${platform.id}-${index}`} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
                 <PlatformCard platform={platform} />
               </CarouselItem>
             ))}
