@@ -1,19 +1,15 @@
 
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BenefitsTab from './BenefitsTab';
 
 const InfoTabs: React.FC = () => {
   return (
-    <Tabs defaultValue="benefits" className="w-full">
-      <TabsList className="grid grid-cols-1 mb-6">
-        <TabsTrigger value="benefits" className="data-[state=active]:bg-neon-blue/20 data-[state=active]:text-neon-blue">Why Choose Bet 3.0</TabsTrigger>
-      </TabsList>
-      
-      <TabsContent value="benefits" className="space-y-6 focus-visible:outline-none focus-visible:ring-0">
-        <BenefitsTab />
-      </TabsContent>
-    </Tabs>
+    <div className="w-full">
+      <h3 className="text-3xl font-semibold mb-6 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+        Why Choose Bet 3.0
+      </h3>
+      <BenefitsTab />
+    </div>
   );
 };
 
