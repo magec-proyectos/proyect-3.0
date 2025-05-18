@@ -50,7 +50,7 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
       }}
     >
-      <div className="relative px-4 py-2">
+      <div className="relative px-4 py-4">
         <Carousel
           opts={{
             align: "start",
@@ -72,7 +72,7 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
         >
           <CarouselContent className="-ml-4">
             {platforms.map((platform) => (
-              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/4 md:basis-1/5 lg:basis-1/6 p-1">
+              <CarouselItem key={platform.id} className="pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 p-2">
                 <PlatformCard platform={platform} />
               </CarouselItem>
             ))}

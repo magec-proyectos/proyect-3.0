@@ -38,22 +38,27 @@ const SectionHeader: React.FC = () => {
         variants={fadeIn}
         className="mb-8"
       >
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <h2 className="text-4xl sm:text-4xl font-bold text-white leading-tight relative">
-            Export bets to your 
-            <span className="relative ml-2">
-              <span className="text-neon-blue">favorite platforms</span>
-              <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
-            </span>
-          </h2>
-          
-          <div className="flex flex-col items-start">
-            <p className="text-base text-gray-300 mb-3 max-w-lg">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          <div className="flex flex-col">
+            <h2 className="text-5xl sm:text-5xl font-bold text-white leading-tight relative mb-4">
+              Export bets to your 
+              <span className="relative ml-2">
+                <span className="text-neon-blue">favorite platforms</span>
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
+              </span>
+            </h2>
+            <p className="text-base text-gray-300 max-w-lg">
               Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
             </p>
-            <Button variant="outline" className="rounded-full border-neon-blue text-neon-blue hover:bg-neon-blue/20 px-6 py-6 h-auto text-base flex items-center whitespace-nowrap group transition-all duration-300 hover:scale-105">
+          </div>
+          
+          <div className="flex items-start">
+            <Button 
+              variant="outline" 
+              className="rounded-full border-neon-blue bg-neon-blue/10 text-neon-blue hover:bg-neon-blue hover:text-white px-8 py-6 h-auto text-lg font-medium flex items-center whitespace-nowrap group transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-neon-blue/20"
+            >
               Explore all integrations 
-              <ArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="ml-3 transition-transform duration-300 group-hover:translate-x-2" size={22} />
             </Button>
           </div>
         </div>
