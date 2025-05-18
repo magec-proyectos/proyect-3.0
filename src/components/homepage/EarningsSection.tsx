@@ -27,104 +27,104 @@ const EarningsSection = () => {
 
   const earningsData = {
     '1m': [
-      { month: 'Week 1', withAI: 580, withoutAI: 290 },
-      { month: 'Week 2', withAI: 620, withoutAI: 310 },
-      { month: 'Week 3', withAI: 750, withoutAI: 340 },
-      { month: 'Week 4', withAI: 850, withoutAI: 380 },
+      { month: 'Week 1', withBet3: 580, withoutBet3: 290 },
+      { month: 'Week 2', withBet3: 620, withoutBet3: 310 },
+      { month: 'Week 3', withBet3: 750, withoutBet3: 340 },
+      { month: 'Week 4', withBet3: 850, withoutBet3: 380 },
     ],
     '3m': [
-      { month: 'Jan', withAI: 2400, withoutAI: 1200 },
-      { month: 'Feb', withAI: 3000, withoutAI: 1300 },
-      { month: 'Mar', withAI: 3800, withoutAI: 1600 },
+      { month: 'Jan', withBet3: 2400, withoutBet3: 1200 },
+      { month: 'Feb', withBet3: 3000, withoutBet3: 1300 },
+      { month: 'Mar', withBet3: 3800, withoutBet3: 1600 },
     ],
     '6m': [
-      { month: 'Jan', withAI: 2400, withoutAI: 1200 },
-      { month: 'Feb', withAI: 3000, withoutAI: 1300 },
-      { month: 'Mar', withAI: 2800, withoutAI: 900 },
-      { month: 'Apr', withAI: 3800, withoutAI: 1600 },
-      { month: 'May', withAI: 4000, withoutAI: 1700 },
-      { month: 'Jun', withAI: 4500, withoutAI: 2100 },
+      { month: 'Jan', withBet3: 2400, withoutBet3: 1200 },
+      { month: 'Feb', withBet3: 3000, withoutBet3: 1300 },
+      { month: 'Mar', withBet3: 2800, withoutBet3: 900 },
+      { month: 'Apr', withBet3: 3800, withoutBet3: 1600 },
+      { month: 'May', withBet3: 4000, withoutBet3: 1700 },
+      { month: 'Jun', withBet3: 4500, withoutBet3: 2100 },
     ],
     '1y': [
-      { month: 'Jan', withAI: 2400, withoutAI: 1200 },
-      { month: 'Feb', withAI: 3000, withoutAI: 1300 },
-      { month: 'Mar', withAI: 2800, withoutAI: 900 },
-      { month: 'Apr', withAI: 3800, withoutAI: 1600 },
-      { month: 'May', withAI: 4000, withoutAI: 1700 },
-      { month: 'Jun', withAI: 3500, withoutAI: 1400 },
-      { month: 'Jul', withAI: 4500, withoutAI: 2100 },
-      { month: 'Aug', withAI: 5000, withoutAI: 2400 },
-      { month: 'Sep', withAI: 5200, withoutAI: 2500 },
-      { month: 'Oct', withAI: 5800, withoutAI: 2600 },
-      { month: 'Nov', withAI: 6000, withoutAI: 2700 },
-      { month: 'Dec', withAI: 6500, withoutAI: 2800 },
+      { month: 'Jan', withBet3: 2400, withoutBet3: 1200 },
+      { month: 'Feb', withBet3: 3000, withoutBet3: 1300 },
+      { month: 'Mar', withBet3: 2800, withoutBet3: 900 },
+      { month: 'Apr', withBet3: 3800, withoutBet3: 1600 },
+      { month: 'May', withBet3: 4000, withoutBet3: 1700 },
+      { month: 'Jun', withBet3: 3500, withoutBet3: 1400 },
+      { month: 'Jul', withBet3: 4500, withoutBet3: 2100 },
+      { month: 'Aug', withBet3: 5000, withoutBet3: 2400 },
+      { month: 'Sep', withBet3: 5200, withoutBet3: 2500 },
+      { month: 'Oct', withBet3: 5800, withoutBet3: 2600 },
+      { month: 'Nov', withBet3: 6000, withoutBet3: 2700 },
+      { month: 'Dec', withBet3: 6500, withoutBet3: 2800 },
     ]
   };
 
   const winRateData = {
     '1m': [
-      { month: 'Week 1', withAI: 58, withoutAI: 29 },
-      { month: 'Week 2', withAI: 62, withoutAI: 31 },
-      { month: 'Week 3', withAI: 65, withoutAI: 34 },
-      { month: 'Week 4', withAI: 68, withoutAI: 38 },
+      { month: 'Week 1', withBet3: 58, withoutBet3: 29 },
+      { month: 'Week 2', withBet3: 62, withoutBet3: 31 },
+      { month: 'Week 3', withBet3: 65, withoutBet3: 34 },
+      { month: 'Week 4', withBet3: 68, withoutBet3: 38 },
     ],
     '3m': [
-      { month: 'Jan', withAI: 60, withoutAI: 32 },
-      { month: 'Feb', withAI: 65, withoutAI: 35 },
-      { month: 'Mar', withAI: 68, withoutAI: 38 },
+      { month: 'Jan', withBet3: 60, withoutBet3: 32 },
+      { month: 'Feb', withBet3: 65, withoutBet3: 35 },
+      { month: 'Mar', withBet3: 68, withoutBet3: 38 },
     ],
     '6m': [
-      { month: 'Jan', withAI: 60, withoutAI: 32 },
-      { month: 'Feb', withAI: 65, withoutAI: 35 },
-      { month: 'Mar', withAI: 63, withoutAI: 30 },
-      { month: 'Apr', withAI: 68, withoutAI: 36 },
-      { month: 'May', withAI: 70, withoutAI: 37 },
-      { month: 'Jun', withAI: 72, withoutAI: 39 },
+      { month: 'Jan', withBet3: 60, withoutBet3: 32 },
+      { month: 'Feb', withBet3: 65, withoutBet3: 35 },
+      { month: 'Mar', withBet3: 63, withoutBet3: 30 },
+      { month: 'Apr', withBet3: 68, withoutBet3: 36 },
+      { month: 'May', withBet3: 70, withoutBet3: 37 },
+      { month: 'Jun', withBet3: 72, withoutBet3: 39 },
     ],
     '1y': Array(12).fill(0).map((_, i) => ({
       month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][i],
-      withAI: 60 + Math.floor(Math.random() * 15),
-      withoutAI: 30 + Math.floor(Math.random() * 10)
+      withBet3: 60 + Math.floor(Math.random() * 15),
+      withoutBet3: 30 + Math.floor(Math.random() * 10)
     }))
   };
 
   const roiData = {
     '1m': [
-      { month: 'Week 1', withAI: 15, withoutAI: 5 },
-      { month: 'Week 2', withAI: 18, withoutAI: 6 },
-      { month: 'Week 3', withAI: 20, withoutAI: 8 },
-      { month: 'Week 4', withAI: 22, withoutAI: 10 },
+      { month: 'Week 1', withBet3: 15, withoutBet3: 5 },
+      { month: 'Week 2', withBet3: 18, withoutBet3: 6 },
+      { month: 'Week 3', withBet3: 20, withoutBet3: 8 },
+      { month: 'Week 4', withBet3: 22, withoutBet3: 10 },
     ],
     '3m': [
-      { month: 'Jan', withAI: 18, withoutAI: 8 },
-      { month: 'Feb', withAI: 22, withoutAI: 10 },
-      { month: 'Mar', withAI: 25, withoutAI: 12 },
+      { month: 'Jan', withBet3: 18, withoutBet3: 8 },
+      { month: 'Feb', withBet3: 22, withoutBet3: 10 },
+      { month: 'Mar', withBet3: 25, withoutBet3: 12 },
     ],
     '6m': [
-      { month: 'Jan', withAI: 18, withoutAI: 8 },
-      { month: 'Feb', withAI: 22, withoutAI: 10 },
-      { month: 'Mar', withAI: 20, withoutAI: 6 },
-      { month: 'Apr', withAI: 25, withoutAI: 12 },
-      { month: 'May', withAI: 28, withoutAI: 13 },
-      { month: 'Jun', withAI: 32, withoutAI: 15 },
+      { month: 'Jan', withBet3: 18, withoutBet3: 8 },
+      { month: 'Feb', withBet3: 22, withoutBet3: 10 },
+      { month: 'Mar', withBet3: 20, withoutBet3: 6 },
+      { month: 'Apr', withBet3: 25, withoutBet3: 12 },
+      { month: 'May', withBet3: 28, withoutBet3: 13 },
+      { month: 'Jun', withBet3: 32, withoutBet3: 15 },
     ],
     '1y': Array(12).fill(0).map((_, i) => ({
       month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][i],
-      withAI: 18 + Math.floor(Math.random() * 20),
-      withoutAI: 8 + Math.floor(Math.random() * 10)
+      withBet3: 18 + Math.floor(Math.random() * 20),
+      withoutBet3: 8 + Math.floor(Math.random() * 10)
     }))
   };
 
   const chartConfig = {
-    withAI: {
-      label: "With AI",
+    withBet3: {
+      label: "With Bet 3.0",
       theme: {
         light: "#00f0ff",
         dark: "#00f0ff",
       },
     },
-    withoutAI: {
-      label: "Without AI",
+    withoutBet3: {
+      label: "Without Bet 3.0",
       theme: {
         light: "#555",
         dark: "#888",
@@ -137,7 +137,7 @@ const EarningsSection = () => {
       id: 1,
       icon: <TrendingUp className="text-neon-blue" />,
       title: "Increase Win Rate",
-      description: "Our users report up to 64% higher win rates compared to their previous strategies."
+      description: "Bet 3.0 users report up to 64% higher win rates compared to traditional betting strategies."
     },
     {
       id: 2,
@@ -149,14 +149,14 @@ const EarningsSection = () => {
       id: 3,
       icon: <DollarSign className="text-neon-blue" />,
       title: "Better ROI",
-      description: "Users see an average ROI improvement of 38% in their first 3 months."
+      description: "Users see an average ROI improvement of 38% in their first 3 months with Bet 3.0."
     }
   ];
 
   const activeTutorial = {
-    title: "How to Use AI for Maximum Betting Profits",
+    title: "How to Use Bet 3.0 for Maximum Betting Profits",
     videoUrl: "https://www.youtube.com/embed/jNQXAC9IVRw",
-    description: "Learn how to leverage our AI prediction system to maximize your betting profits and improve your win rate."
+    description: "Learn how to leverage our Bet 3.0 prediction system to maximize your betting profits and improve your win rate."
   };
 
   // Select data based on active chart and time range
@@ -174,9 +174,9 @@ const EarningsSection = () => {
 
   const getPercentageChange = () => {
     const lastIndex = activeData.length - 1;
-    const aiValue = activeData[lastIndex].withAI;
-    const nonAiValue = activeData[lastIndex].withoutAI;
-    const percentageIncrease = ((aiValue - nonAiValue) / nonAiValue) * 100;
+    const bet3Value = activeData[lastIndex].withBet3;
+    const nonBet3Value = activeData[lastIndex].withoutBet3;
+    const percentageIncrease = ((bet3Value - nonBet3Value) / nonBet3Value) * 100;
     return Math.round(percentageIncrease);
   };
 
@@ -199,7 +199,7 @@ const EarningsSection = () => {
             Boost Your Earnings
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            See the difference our AI-powered prediction system can make to your betting performance
+            See the difference our Bet 3.0 prediction system can make to your betting performance
           </p>
         </motion.div>
         
@@ -288,7 +288,7 @@ const EarningsSection = () => {
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                   >
                     <defs>
-                      <linearGradient id="colorWithAI" x1="0" y1="0" x2="0" y2="1">
+                      <linearGradient id="colorWithBet3" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.3}/>
                         <stop offset="95%" stopColor="#00f0ff" stopOpacity={0}/>
                       </linearGradient>
@@ -300,21 +300,21 @@ const EarningsSection = () => {
                       contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444' }} 
                       formatter={(value: number, name: string) => {
                         const formattedValue = activeChart === 'earnings' ? `$${value}` : `${value}%`;
-                        return [formattedValue, name === 'withAI' ? 'With AI' : 'Without AI'];
+                        return [formattedValue, name === 'withBet3' ? 'With Bet 3.0' : 'Without Bet 3.0'];
                       }}
                     />
                     <Area 
                       type="monotone" 
-                      dataKey="withAI" 
-                      name="withAI"
+                      dataKey="withBet3" 
+                      name="withBet3"
                       stroke="#00f0ff" 
-                      fill="url(#colorWithAI)" 
+                      fill="url(#colorWithBet3)" 
                       strokeWidth={2}
                     />
                     <Area 
                       type="monotone" 
-                      dataKey="withoutAI" 
-                      name="withoutAI"
+                      dataKey="withoutBet3" 
+                      name="withoutBet3"
                       stroke="#888" 
                       fill="#88830" 
                     />
@@ -333,7 +333,7 @@ const EarningsSection = () => {
               >
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-neon-blue"></div>
-                  <p className="text-sm font-medium">With AI: <span className="text-neon-blue">+{getPercentageChange()}%</span></p>
+                  <p className="text-sm font-medium">Bet 3.0: <span className="text-neon-blue">+{getPercentageChange()}%</span></p>
                 </div>
               </motion.div>
             </div>
@@ -353,7 +353,7 @@ const EarningsSection = () => {
               </TabsList>
               
               <TabsContent value="benefits" className="space-y-6 focus-visible:outline-none focus-visible:ring-0">
-                <h3 className="text-2xl font-bold mb-6">Why Choose Our AI Predictions?</h3>
+                <h3 className="text-2xl font-bold mb-6">Why Choose Bet 3.0?</h3>
                 
                 <ul className="space-y-6">
                   {benefits.map((benefit, index) => (
@@ -383,7 +383,7 @@ const EarningsSection = () => {
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="text-neon-lime mt-1" size={20} />
                     <p className="text-white">
-                      <span className="font-semibold">87% of our users</span> report making more profitable betting decisions after using our platform for just 4 weeks.
+                      <span className="font-semibold">87% of our users</span> report making more profitable betting decisions after using Bet 3.0 for just 4 weeks.
                     </p>
                   </div>
                 </motion.div>
@@ -466,7 +466,7 @@ const EarningsSection = () => {
               transition={{ delay: 0.6 }}
             >
               <h3 className="text-xl font-bold mb-3">Ready to improve your betting results?</h3>
-              <p className="text-gray-400 mb-4">Start using our AI predictions today and see the difference in your performance.</p>
+              <p className="text-gray-400 mb-4">Start using Bet 3.0 today and see the difference in your performance.</p>
               
               <Button className="bg-neon-blue hover:bg-neon-blue/90 text-black font-medium px-6">
                 Try Free for 7 Days
