@@ -89,7 +89,6 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
       >
         {sportsData.map((sport) => {
           const active = isActive(sport.id);
-          const colorClass = sport.color;
           
           return (
             <TooltipProvider key={sport.id}>
@@ -110,11 +109,11 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                     <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-300 
                       bg-dark-card hover:bg-dark-lighter
                       ${active 
-                        ? `border-2 border-${colorClass} shadow-lg shadow-${colorClass}/20` 
+                        ? `border-2 border-${sport.color} shadow-lg shadow-${sport.color}/20` 
                         : 'border border-dark-border'}`}
                     >
                       {active && (
-                        <div className={`absolute top-0 left-0 w-full h-1 bg-${colorClass}`}></div>
+                        <div className={`absolute top-0 left-0 w-full h-1 bg-${sport.color}`}></div>
                       )}
                       
                       {/* Background pattern specific to sport */}
@@ -129,16 +128,16 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                           <motion.div 
                             className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all
                               ${active 
-                                ? `bg-${colorClass}/10 border border-${colorClass}` 
+                                ? `bg-${sport.color}/10 border border-${sport.color}` 
                                 : 'bg-dark-lighter border border-dark-border'}`}
                             animate={active ? { 
-                              boxShadow: [`0 0 0px rgba(var(--${colorClass}-rgb), 0)`, 
-                                          `0 0 10px rgba(var(--${colorClass}-rgb), 0.5)`, 
-                                          `0 0 0px rgba(var(--${colorClass}-rgb), 0)`] 
+                              boxShadow: [`0 0 0px rgba(var(--${sport.color}-rgb), 0)`, 
+                                          `0 0 10px rgba(var(--${sport.color}-rgb), 0.5)`, 
+                                          `0 0 0px rgba(var(--${sport.color}-rgb), 0)`] 
                             } : {}}
                             transition={{ duration: 2, repeat: Infinity }}
                           >
-                            <span className={`text-2xl ${active ? `text-${colorClass}` : 'text-white'}`}>
+                            <span className={`text-2xl ${active ? `text-${sport.color}` : 'text-white'}`}>
                               {sport.emoji}
                             </span>
                           </motion.div>
@@ -148,7 +147,7 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                           
                           {/* Stats indicator */}
                           <div className={`mb-4 text-xs px-2 py-1 rounded-full 
-                            ${active ? `bg-${colorClass}/10 text-${colorClass}` : 'bg-dark/40 text-gray-400'}`}>
+                            ${active ? `bg-${sport.color}/10 text-${sport.color}` : 'bg-dark/40 text-gray-400'}`}>
                             {sport.stat}
                           </div>
                           
@@ -156,7 +155,7 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                             variant={active ? "default" : "outline"} 
                             size="sm" 
                             className={`mt-2 group ${active 
-                              ? `bg-${colorClass} ${sport.id === 'americanFootball' ? 'text-white' : 'text-black'}` 
+                              ? `bg-${sport.color} ${sport.id === 'americanFootball' ? 'text-white' : 'text-black'}` 
                               : ''}`}
                           >
                             Select
