@@ -7,6 +7,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
+import ChartContentWrapper from './ChartContentWrapper';
 
 interface ChartDisplayProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
@@ -196,10 +197,12 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       
       <div className="h-[75%] w-full relative z-10">
         <ChartContainer config={chartConfig} className="w-full h-full">
-          {renderChart()}
-          <ChartLegend>
-            <ChartLegendContent />
-          </ChartLegend>
+          <ChartContentWrapper>
+            {renderChart()}
+            <ChartLegend>
+              <ChartLegendContent />
+            </ChartLegend>
+          </ChartContentWrapper>
         </ChartContainer>
       </div>
       
