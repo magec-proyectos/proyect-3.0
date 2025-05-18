@@ -30,13 +30,13 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
     if (autoplayPlugin) {
       autoplayPlugin.play();
       
-      // Intervalo moderado para mantener un movimiento constante pero no extremadamente rápido
+      // Faster interval for quicker movement
       const interval = setInterval(() => {
         if (autoplayPlugin) {
           autoplayPlugin.reset();
           autoplayPlugin.play();
         }
-      }, 2000);
+      }, 1500);
       
       return () => clearInterval(interval);
     }
@@ -53,18 +53,22 @@ const PlatformCarousel: React.FC<PlatformCarouselProps> = ({ platforms }) => {
         visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
       }}
     >
-      <div className="relative px-4 py-4">
+      <div className="relative px-4 py-6">
+        {/* Add gradient overlay effects for better visual appeal */}
+        <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-dark to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-dark to-transparent z-10"></div>
+        
         <Carousel
           opts={{
             align: "start",
             loop: true,
             dragFree: true,
             slidesToScroll: 1,
-            duration: 25, // Moderately fast transition between slides
+            duration: 18, // Faster transition between slides
           }}
           plugins={[
             Autoplay({
-              delay: 1000, // Moderate delay for a balanced speed
+              delay: 800, // Shorter delay for faster movement
               stopOnInteraction: false,
               stopOnMouseEnter: false,
               stopOnFocusIn: false,

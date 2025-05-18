@@ -17,7 +17,7 @@ const SectionHeader: React.FC = () => {
 
   return (
     <>
-      {/* Integration Badge */}
+      {/* Integration Badge with enhanced styling */}
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -25,32 +25,38 @@ const SectionHeader: React.FC = () => {
         variants={fadeIn}
         className="mb-6"
       >
-        <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
+        <Badge className="bg-gradient-to-r from-neon-blue/20 to-neon-lime/20 hover:from-neon-blue/30 hover:to-neon-lime/30 text-neon-blue font-medium py-1.5 px-4 rounded-full text-sm border-0 shadow-sm transition-all duration-300">
           INTEGRATIONS
         </Badge>
       </motion.div>
       
-      {/* Main Content - Header with button next to heading */}
+      {/* Main Content - Enhanced header with animated elements */}
       <motion.div 
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={fadeIn}
-        className="mb-8"
+        className="mb-12"
       >
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
           <div className="flex flex-col">
-            <h2 className="text-5xl sm:text-5xl font-bold text-white leading-tight relative mb-4">
+            <h2 className="text-5xl sm:text-6xl font-bold text-white leading-tight relative mb-4">
               Export bets to your 
-              <span className="relative ml-2">
+              <div className="relative inline-block ml-2">
                 <span className="text-neon-blue">favorite platforms</span>
-                <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
-              </span>
+                <motion.span 
+                  className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-neon-blue to-neon-lime/60 rounded-full"
+                  initial={{ width: "0%" }}
+                  whileInView={{ width: "100%" }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  viewport={{ once: true }}
+                ></motion.span>
+              </div>
             </h2>
           </div>
           
           <div className="flex flex-col items-start">
-            <p className="text-base text-gray-300 max-w-lg mb-4">
+            <p className="text-lg text-gray-300 max-w-lg mb-6 leading-relaxed">
               Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
             </p>
             <Button 
