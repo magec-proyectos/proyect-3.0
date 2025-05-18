@@ -36,6 +36,11 @@
     --ring: 183 100% 50%;
 
     --radius: 0.5rem;
+    
+    /* RGB values for glow effects */
+    --neon-blue-rgb: 0, 240, 255;
+    --neon-lime-rgb: 170, 255, 0;
+    --purple-500-rgb: 168, 85, 247;
   }
 }
 
@@ -171,4 +176,25 @@
 
 .glass-effect {
   @apply backdrop-blur-md bg-black/30 border border-amber-500/20;
+}
+
+/* Enhanced card transitions */
+.sport-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sport-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Glow and focus effect for active sport */
+.sport-active {
+  position: relative;
+  z-index: 10;
+}
+
+/* Button hover effects */
+.button-glow:hover {
+  box-shadow: 0 0 15px rgba(var(--color-rgb), 0.6);
 }

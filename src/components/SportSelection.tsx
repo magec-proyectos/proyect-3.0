@@ -4,6 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface SportSelectionProps {
   className?: string;
@@ -28,7 +34,50 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
     visible: { y: 0, opacity: 1 }
   };
 
+  const pulseVariants = {
+    pulse: {
+      scale: [1, 1.03, 1],
+      opacity: [0.9, 1, 0.9],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
   const isActive = (sport: string) => activeSport === sport;
+
+  // Sports data for cleaner rendering
+  const sportsData = [
+    {
+      id: 'football',
+      name: 'Football',
+      emoji: '⚽',
+      description: 'Premier League, La Liga & more',
+      color: 'neon-blue',
+      stat: '320+ matches weekly',
+      tooltipText: 'Get predictions for top football leagues worldwide'
+    },
+    {
+      id: 'basketball',
+      name: 'Basketball',
+      emoji: '🏀',
+      description: 'NBA, Euroleague & international',
+      color: 'neon-lime',
+      stat: '140+ games analyzed',
+      tooltipText: 'NBA and international basketball predictions'
+    },
+    {
+      id: 'americanFootball',
+      name: 'American Football',
+      emoji: '🏈',
+      description: 'NFL, NCAA & major leagues',
+      color: 'purple-500',
+      stat: '70+ matchups covered',
+      tooltipText: 'NFL and college football predictions and analysis'
+    }
+  ];
 
   return (
     <div className={`${className}`}>
@@ -38,101 +87,96 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
         initial="hidden"
         animate="visible"
       >
-        {/* Football Card */}
-        <motion.div 
-          variants={itemVariants} 
-          whileHover={{ scale: 1.03 }} 
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onSelectSport('football')}
-        >
-          <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-200 bg-dark-card hover:bg-dark-lighter
-            ${isActive('football') ? 'border-2 border-neon-blue shadow-md shadow-neon-blue/20' : 'border border-dark-border'}`}
-          >
-            <CardContent className="p-0">
-              <div className="p-6 flex flex-col items-center text-center">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors
-                  ${isActive('football') ? 'bg-neon-blue/10 border border-neon-blue' : 'bg-dark-lighter border border-dark-border'}`}
+        {sportsData.map((sport) => {
+          const active = isActive(sport.id);
+          const colorClass = sport.color;
+          
+          return (
+            <TooltipProvider key={sport.id}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <motion.div 
+                    variants={itemVariants} 
+                    whileHover={{ 
+                      scale: 1.03, 
+                      boxShadow: active ? `0 8px 30px rgba(var(--${sport.color}-rgb), 0.3)` : '0 8px 20px rgba(0,0,0,0.2)'
+                    }} 
+                    whileTap={{ scale: 0.98 }}
+                    animate={active ? "pulse" : ""}
+                    variants={pulseVariants}
+                    onClick={() => onSelectSport(sport.id as any)}
+                    className={`relative overflow-hidden h-full`}
+                  >
+                    <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-300 
+                      bg-dark-card hover:bg-dark-lighter
+                      ${active 
+                        ? `border-2 border-${colorClass} shadow-lg shadow-${colorClass}/20` 
+                        : 'border border-dark-border'}`}
+                    >
+                      {active && (
+                        <div className={`absolute top-0 left-0 w-full h-1 bg-${colorClass}`}></div>
+                      )}
+                      
+                      {/* Background pattern specific to sport */}
+                      <div className={`absolute inset-0 opacity-5 ${
+                        sport.id === 'football' ? 'bg-[url("/pattern-soccer.svg")]' :
+                        sport.id === 'basketball' ? 'bg-[url("/pattern-basketball.svg")]' :
+                        'bg-[url("/pattern-football.svg")]'
+                      }`}></div>
+                      
+                      <CardContent className="p-0">
+                        <div className="p-6 flex flex-col items-center text-center">
+                          <motion.div 
+                            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all
+                              ${active 
+                                ? `bg-${colorClass}/10 border border-${colorClass}` 
+                                : 'bg-dark-lighter border border-dark-border'}`}
+                            animate={active ? { 
+                              boxShadow: [`0 0 0px rgba(var(--${colorClass}-rgb), 0)`, 
+                                          `0 0 10px rgba(var(--${colorClass}-rgb), 0.5)`, 
+                                          `0 0 0px rgba(var(--${colorClass}-rgb), 0)`] 
+                            } : {}}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          >
+                            <span className={`text-2xl ${active ? `text-${colorClass}` : 'text-white'}`}>
+                              {sport.emoji}
+                            </span>
+                          </motion.div>
+                          
+                          <h3 className="text-xl font-medium mb-1">{sport.name}</h3>
+                          <p className="text-gray-400 text-sm mb-2">{sport.description}</p>
+                          
+                          {/* Stats indicator */}
+                          <div className={`mb-4 text-xs px-2 py-1 rounded-full 
+                            ${active ? `bg-${colorClass}/10 text-${colorClass}` : 'bg-dark/40 text-gray-400'}`}>
+                            {sport.stat}
+                          </div>
+                          
+                          <Button 
+                            variant={active ? "default" : "outline"} 
+                            size="sm" 
+                            className={`mt-2 group ${active 
+                              ? `bg-${colorClass} ${sport.id === 'americanFootball' ? 'text-white' : 'text-black'}` 
+                              : ''}`}
+                          >
+                            Select
+                            <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </TooltipTrigger>
+                <TooltipContent 
+                  className="bg-dark-lighter border-dark-border text-white"
+                  side="bottom"
                 >
-                  <span className={`text-2xl ${isActive('football') ? 'text-neon-blue' : 'text-white'}`}>⚽</span>
-                </div>
-                <h3 className="text-xl font-medium mb-2">Football</h3>
-                <p className="text-gray-400 text-sm mb-4">Premier League, La Liga & more</p>
-                <Button 
-                  variant={isActive('football') ? "default" : "outline"} 
-                  size="sm" 
-                  className={`mt-2 group ${isActive('football') ? 'bg-neon-blue text-black' : ''}`}
-                >
-                  Select
-                  <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Basketball Card */}
-        <motion.div 
-          variants={itemVariants} 
-          whileHover={{ scale: 1.03 }} 
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onSelectSport('basketball')}
-        >
-          <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-200 bg-dark-card hover:bg-dark-lighter
-            ${isActive('basketball') ? 'border-2 border-neon-lime shadow-md shadow-neon-lime/20' : 'border border-dark-border'}`}
-          >
-            <CardContent className="p-0">
-              <div className="p-6 flex flex-col items-center text-center">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors
-                  ${isActive('basketball') ? 'bg-neon-lime/10 border border-neon-lime' : 'bg-dark-lighter border border-dark-border'}`}
-                >
-                  <span className={`text-2xl ${isActive('basketball') ? 'text-neon-lime' : 'text-white'}`}>🏀</span>
-                </div>
-                <h3 className="text-xl font-medium mb-2">Basketball</h3>
-                <p className="text-gray-400 text-sm mb-4">NBA, Euroleague & international</p>
-                <Button 
-                  variant={isActive('basketball') ? "default" : "outline"} 
-                  size="sm" 
-                  className={`mt-2 group ${isActive('basketball') ? 'bg-neon-lime text-black' : ''}`}
-                >
-                  Select
-                  <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* American Football Card */}
-        <motion.div 
-          variants={itemVariants} 
-          whileHover={{ scale: 1.03 }} 
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onSelectSport('americanFootball')}
-        >
-          <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-200 bg-dark-card hover:bg-dark-lighter
-            ${isActive('americanFootball') ? 'border-2 border-purple-500 shadow-md shadow-purple-500/20' : 'border border-dark-border'}`}
-          >
-            <CardContent className="p-0">
-              <div className="p-6 flex flex-col items-center text-center">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors
-                  ${isActive('americanFootball') ? 'bg-purple-500/10 border border-purple-500' : 'bg-dark-lighter border border-dark-border'}`}
-                >
-                  <span className={`text-2xl ${isActive('americanFootball') ? 'text-purple-400' : 'text-white'}`}>🏈</span>
-                </div>
-                <h3 className="text-xl font-medium mb-2">American Football</h3>
-                <p className="text-gray-400 text-sm mb-4">NFL, NCAA & major leagues</p>
-                <Button 
-                  variant={isActive('americanFootball') ? "default" : "outline"} 
-                  size="sm" 
-                  className={`mt-2 group ${isActive('americanFootball') ? 'bg-purple-500 text-white' : ''}`}
-                >
-                  Select
-                  <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+                  {sport.tooltipText}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          );
+        })}
       </motion.div>
     </div>
   );

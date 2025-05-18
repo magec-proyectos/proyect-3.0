@@ -165,7 +165,7 @@ const TryItNow = () => {
 
         <Card className="overflow-hidden border-none shadow-xl bg-gradient-to-br from-dark-card/50 to-dark-card/30 backdrop-blur-lg">
           <CardContent className="p-6">
-            {/* Sport selection cards */}
+            {/* Sport selection cards with enhanced component */}
             <SportSelection
               className="mb-8"
               activeSport={activeSport}
