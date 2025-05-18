@@ -41,13 +41,6 @@
     --neon-blue-rgb: 0, 240, 255;
     --neon-lime-rgb: 170, 255, 0;
     --purple-500-rgb: 168, 85, 247;
-
-    /* ElevenLabs design system colors */
-    --elevenlabs-purple: 258 100% 68%;
-    --elevenlabs-purple-light: 258 100% 78%;
-    --elevenlabs-blue: 210 100% 66%;
-    --elevenlabs-dark: 220 14% 15%;
-    --elevenlabs-darker: 220 14% 10%;
   }
 }
 
@@ -115,29 +108,6 @@
 
 .text-gradient {
   @apply bg-clip-text text-transparent;
-}
-
-/* ElevenLabs style glassmorphism */
-.elevenlabs-glass {
-  background: rgba(26, 31, 44, 0.5);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-}
-
-/* ElevenLabs style gradients */
-.elevenlabs-gradient-text {
-  @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, hsl(258, 100%, 78%), hsl(210, 100%, 66%));
-}
-
-.elevenlabs-button-gradient {
-  background: linear-gradient(90deg, hsl(258, 100%, 68%), hsl(210, 100%, 66%));
-}
-
-.elevenlabs-bg-gradient {
-  background: radial-gradient(circle at top right, rgba(155, 135, 245, 0.2), transparent 70%),
-              radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.2), transparent 70%);
 }
 
 /* Fondo de mesa de casino */
@@ -227,17 +197,4 @@
 /* Button hover effects */
 .button-glow:hover {
   box-shadow: 0 0 15px rgba(var(--color-rgb), 0.6);
-}
-
-/* ElevenLabs style voice buttons */
-.voice-button {
-  @apply px-4 py-2 rounded-full flex items-center gap-2 transition-all bg-dark-card border border-dark-border hover:border-white/30;
-}
-
-.voice-button:hover {
-  @apply transform scale-[1.03];
-}
-
-.voice-button-active {
-  @apply bg-gradient-to-r from-neon-blue to-neon-lime border-white/20;
 }

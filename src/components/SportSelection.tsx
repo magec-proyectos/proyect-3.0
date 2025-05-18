@@ -104,10 +104,10 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                     animate={active ? "pulse" : ""}
                     variants={pulseVariants}
                     onClick={() => onSelectSport(sport.id as any)}
-                    className="relative overflow-hidden h-full"
+                    className={`relative overflow-hidden h-full`}
                   >
                     <Card className={`h-full overflow-hidden cursor-pointer transition-all duration-300 
-                      bg-dark-card hover:bg-dark-lighter backdrop-blur-md
+                      bg-dark-card hover:bg-dark-lighter
                       ${active 
                         ? `border-2 border-${sport.color} shadow-lg shadow-${sport.color}/20` 
                         : 'border border-dark-border'}`}
