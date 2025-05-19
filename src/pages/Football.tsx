@@ -10,7 +10,7 @@ import MatchTimeline from '@/components/MatchTimeline';
 import BettingTrends from '@/components/BettingTrends';
 import MatchNews from '@/components/MatchNews';
 import { Button } from '@/components/ui/button';
-import { Search, Calendar, Filter, TrendingUp, News } from 'lucide-react';
+import { Search, Calendar, Filter, TrendingUp, FileText } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { MatchSelectionSkeleton, BetBuilderSkeleton } from '@/components/LoadingStates';
@@ -28,44 +28,44 @@ const Football = () => {
   // Sample data for match events
   const matchEvents = [
     { 
-      type: 'goal', 
+      type: 'goal' as const, 
       time: 23, 
-      team: 'home', 
+      team: 'home' as const, 
       player: 'Mohamed Salah', 
       description: 'Goal from penalty spot after handball' 
     },
     { 
-      type: 'yellow-card', 
+      type: 'yellow-card' as const, 
       time: 38, 
-      team: 'away', 
+      team: 'away' as const, 
       player: 'Bruno Fernandes', 
       description: 'Late tackle on Henderson' 
     },
     { 
-      type: 'goal', 
+      type: 'goal' as const, 
       time: 45, 
-      team: 'away', 
+      team: 'away' as const, 
       player: 'Marcus Rashford', 
       description: 'Counter attack, assisted by Fernandes' 
     },
     { 
-      type: 'substitution', 
+      type: 'substitution' as const, 
       time: 63, 
-      team: 'home', 
+      team: 'home' as const, 
       player: 'Roberto Firmino', 
       description: 'Comes on for Diogo Jota' 
     },
     { 
-      type: 'red-card', 
+      type: 'red-card' as const, 
       time: 78, 
-      team: 'away', 
+      team: 'away' as const, 
       player: 'Harry Maguire', 
       description: 'Second yellow card for dangerous play' 
     },
     { 
-      type: 'goal', 
+      type: 'goal' as const, 
       time: 85, 
-      team: 'home', 
+      team: 'home' as const, 
       player: 'Roberto Firmino', 
       description: 'Header from corner kick' 
     }
@@ -78,19 +78,19 @@ const Football = () => {
       homePercentage: 63,
       drawPercentage: 21,
       awayPercentage: 16,
-      movement: 'up'
+      movement: 'up' as const
     },
     {
       type: 'Both Teams to Score',
       homePercentage: 74, // Yes
       awayPercentage: 26, // No
-      movement: 'stable'
+      movement: 'stable' as const
     },
     {
       type: 'Over/Under 2.5 Goals',
       homePercentage: 58, // Over
       awayPercentage: 42, // Under
-      movement: 'down'
+      movement: 'down' as const
     }
   ];
 
@@ -102,7 +102,7 @@ const Football = () => {
       summary: "Liverpool's midfielder Thiago Alcantara will miss the big game against Manchester United due to hamstring injury sustained in training.",
       source: 'Sky Sports',
       date: '2 hours ago',
-      category: 'injury'
+      category: 'injury' as const
     },
     {
       id: 'n2',
@@ -110,7 +110,7 @@ const Football = () => {
       summary: "Manchester United forward Marcus Rashford has recovered from his minor knock and has been training with the squad since Tuesday.",
       source: 'BBC Sport',
       date: '5 hours ago',
-      category: 'injury'
+      category: 'injury' as const
     },
     {
       id: 'n3',
@@ -118,7 +118,7 @@ const Football = () => {
       summary: "This weekend's clash between the arch-rivals could have major implications for the top four race.",
       source: 'Guardian',
       date: '1 day ago',
-      category: 'preview'
+      category: 'preview' as const
     }
   ];
   
@@ -556,7 +556,7 @@ const Football = () => {
                   <div className="flex justify-between">
                     <CardTitle>Latest News & Updates</CardTitle>
                     <Button variant="outline" size="sm" className="gap-1">
-                      <News size={14} />
+                      <FileText size={14} />
                       <span>See All News</span>
                     </Button>
                   </div>

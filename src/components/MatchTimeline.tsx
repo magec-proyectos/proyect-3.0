@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Goal, Card, UserRoundCog } from 'lucide-react';
+import { Trophy, AlertTriangle, UserMinus } from 'lucide-react';
 
 interface MatchEvent {
   type: 'goal' | 'yellow-card' | 'red-card' | 'substitution';
@@ -30,15 +30,15 @@ const MatchTimeline: React.FC<MatchTimelineProps> = ({ events, homeTeam, awayTea
   const getEventIcon = (type: string) => {
     switch (type) {
       case 'goal':
-        return <Goal size={18} className="text-neon-blue" />;
+        return <Trophy size={18} className="text-neon-blue" />;
       case 'yellow-card':
-        return <Card size={18} className="text-yellow-500" />;
+        return <AlertTriangle size={18} className="text-yellow-500" />;
       case 'red-card':
-        return <Card size={18} className="text-red-500" />;
+        return <AlertTriangle size={18} className="text-red-500" />;
       case 'substitution':
-        return <UserRoundCog size={18} className="text-purple-500" />;
+        return <UserMinus size={18} className="text-purple-500" />;
       default:
-        return <Goal size={18} />;
+        return <Trophy size={18} />;
     }
   };
 

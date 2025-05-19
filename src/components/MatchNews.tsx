@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { News, Calendar } from 'lucide-react';
+import { Calendar, FileText } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 interface NewsItem {
@@ -43,7 +43,7 @@ const MatchNews: React.FC<MatchNewsProps> = ({ news, isLoading = false }) => {
   if (!news || news.length === 0) {
     return (
       <div className="p-6 text-center text-gray-400">
-        <News className="mx-auto mb-2" size={24} />
+        <FileText className="mx-auto mb-2" size={24} />
         <p>No relevant news available for this match</p>
       </div>
     );
@@ -67,7 +67,7 @@ const MatchNews: React.FC<MatchNewsProps> = ({ news, isLoading = false }) => {
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-lg font-semibold">Latest News</h3>
         <Badge variant="outline" className="bg-dark-lighter">
-          <News className="mr-1" size={14} />
+          <FileText className="mr-1" size={14} />
           <span>{news.length} updates</span>
         </Badge>
       </div>
