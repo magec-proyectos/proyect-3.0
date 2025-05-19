@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -11,10 +10,9 @@ import {
   TabsTrigger 
 } from '@/components/ui/tabs';
 import { useBasketballMatches } from '@/services/sportsDataApi';
-import { basketball } from 'lucide-react'; // Changed from Basketball to lowercase basketball
 import { motion } from 'framer-motion';
 import { useToast } from '@/components/ui/use-toast';
-import { BasketballIcon } from '@/components/navbar/NavbarIcons'; // Import from our custom icons
+import { BasketballIcon } from '@/components/navbar/NavbarIcons'; // Using only our custom icon
 
 const Basketball = () => {
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
