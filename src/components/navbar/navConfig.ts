@@ -1,77 +1,63 @@
-
-import { ReactNode } from 'react';
-import { 
-  Home, 
-  Share2 
+import {
+  Home,
+  Gamepad2,
+  Dices,
+  Users,
+  Trophy,
+  Book,
+  Settings,
 } from 'lucide-react';
-import { 
-  SportIcon, 
-  FootballIcon, 
-  BasketballIcon, 
-  AmericanFootballIcon, 
-  CasinoIcon, 
-  BlackjackIcon, 
-  RouletteIcon 
-} from './NavbarIcons';
 
-export interface NavItem {
-  path: string;
+interface NavItem {
   label: string;
-  icon: IconDefinition;
-  subItems?: SubNavItem[];
-}
-
-export interface SubNavItem {
   path: string;
-  label: string;
-  icon: IconDefinition;
+  icon: keyof typeof Icons;
 }
 
-// Define a type for our icon definition
-export interface IconDefinition {
-  type: any;
-  props: {
-    size: number;
-    className: string;
-  };
-}
-
-// Helper function to create icon elements
-const createIcon = (Icon: any, size: number = 18, className: string = "text-neon-blue"): IconDefinition => {
-  return {
-    type: Icon,
-    props: { size, className }
-  };
+const Icons = {
+  Home,
+  Gamepad2,
+  Dices,
+  Users,
+  Trophy,
+  Book,
+  Settings,
 };
 
-export const navItems: NavItem[] = [
-  { 
-    path: '/', 
-    label: 'Home', 
-    icon: createIcon(Home)
+export const navItems = [
+  {
+    label: 'Home',
+    path: '/',
+    icon: 'Home'
   },
-  { 
-    path: '/sports', 
-    label: 'Sports', 
-    icon: createIcon(SportIcon),
-    subItems: [
-      { path: '/football', label: 'Football', icon: createIcon(FootballIcon) },
-      { path: '/basketball', label: 'Basketball', icon: createIcon(BasketballIcon) },
-      { path: '/american-football', label: 'American Football', icon: createIcon(AmericanFootballIcon) }
-    ]
+  {
+    label: 'Sports',
+    path: '/sports',
+    icon: 'Gamepad2'
   },
-  { 
-    path: '/casino', 
-    label: 'Casino', 
-    icon: createIcon(CasinoIcon),
-    subItems: [
-      { path: '/blackjack', label: 'Blackjack', icon: createIcon(BlackjackIcon) },
-      { path: '/roulette', label: 'Roulette', icon: createIcon(RouletteIcon) }
-    ]
+  {
+    label: 'Casino',
+    path: '/casino',
+    icon: 'Dices'
   },
-  { 
-    path: '/social', 
-    label: 'Community', 
-    icon: createIcon(Share2)
+  {
+    label: 'Social',
+    path: '/social',
+    icon: 'Users'
   },
+  {
+    label: 'Leaderboard',
+    path: '/leaderboard',
+    icon: 'Trophy'
+  },
+  {
+    label: 'Legal',
+    path: '/legal',
+    icon: 'Book'
+  },
+  {
+    label: 'Admin',
+    path: '/admin',
+    icon: 'Settings'
+  }
 ];
