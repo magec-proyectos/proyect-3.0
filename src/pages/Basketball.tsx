@@ -11,9 +11,10 @@ import {
   TabsTrigger 
 } from '@/components/ui/tabs';
 import { useBasketballMatches } from '@/services/sportsDataApi';
-import { Basketball as BasketballIcon } from 'lucide-react';
+import { basketball } from 'lucide-react'; // Changed from Basketball to lowercase basketball
 import { motion } from 'framer-motion';
 import { useToast } from '@/components/ui/use-toast';
+import { BasketballIcon } from '@/components/navbar/NavbarIcons'; // Import from our custom icons
 
 const Basketball = () => {
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
