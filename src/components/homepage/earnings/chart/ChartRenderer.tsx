@@ -65,7 +65,14 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
               <XAxis type="number" stroke="#888" />
               <YAxis dataKey="name" type="category" stroke="#888" width={110} />
               <Tooltip 
-                contentStyle={{ backgroundColor: '#1e1e1e', borderColor: '#444', borderRadius: '8px', padding: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }} 
+                contentStyle={{ 
+                  backgroundColor: '#1e1e1e', 
+                  borderColor: '#444', 
+                  borderRadius: '8px', 
+                  padding: '10px', 
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+                  backdropFilter: 'blur(8px)'
+                }} 
                 formatter={(value) => [`$${value}`, '']}
                 labelFormatter={() => ''}
                 animationDuration={300}
@@ -120,11 +127,11 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
           >
             <defs>
               <linearGradient id="colorWithBet3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.5}/>
-                <stop offset="95%" stopColor="#00f0ff" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#00f0ff" stopOpacity={0.1}/>
               </linearGradient>
               <linearGradient id="colorWithoutBet3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#888" stopOpacity={0.25}/>
+                <stop offset="5%" stopColor="#888" stopOpacity={0.3}/>
                 <stop offset="95%" stopColor="#888" stopOpacity={0}/>
               </linearGradient>
               <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -132,7 +139,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
                 <feComposite in="SourceGraphic" in2="blur" operator="over" />
               </filter>
               <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-                <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#00f0ff" floodOpacity="0.3"/>
+                <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#00f0ff" floodOpacity="0.5"/>
               </filter>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#333" />
@@ -152,7 +159,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
                 return [formattedValue, name === 'withBet3' ? 'With Bet 3.0' : 'Without Bet 3.0'];
               }}
               animationDuration={300}
-              cursor={{stroke: 'rgba(255, 255, 255, 0.2)'}}
+              cursor={{stroke: 'rgba(255, 255, 255, 0.3)', strokeWidth: 2}}
             />
             <Area 
               type="monotone" 
@@ -164,6 +171,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
               isAnimationActive={animateChart}
               animationDuration={2000}
               animationBegin={300}
+              filter="url(#shadow)"
               activeDot={{
                 stroke: '#fff',
                 strokeWidth: 2,

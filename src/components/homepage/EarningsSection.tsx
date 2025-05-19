@@ -74,6 +74,54 @@ const EarningsSection = () => {
         }}
       />
       
+      {/* Particle effect background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-neon-blue/40"
+            initial={{ 
+              x: Math.random() * 100 + '%', 
+              y: Math.random() * 100 + '%',
+              opacity: 0.2,
+              scale: 0.5
+            }}
+            animate={{ 
+              y: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
+              opacity: [0.2, 0.8, 0.2],
+              scale: [0.5, 1.5, 0.5]
+            }}
+            transition={{ 
+              duration: 15 + Math.random() * 20,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <motion.div
+            key={`lime-${i}`}
+            className="absolute w-1 h-1 rounded-full bg-neon-lime/40"
+            initial={{ 
+              x: Math.random() * 100 + '%', 
+              y: Math.random() * 100 + '%',
+              opacity: 0.2,
+              scale: 0.5
+            }}
+            animate={{ 
+              y: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
+              opacity: [0.2, 0.8, 0.2],
+              scale: [0.5, 1.5, 0.5]
+            }}
+            transition={{ 
+              duration: 15 + Math.random() * 20,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+      </div>
+      
       <div className="container px-4 relative z-10">
         <motion.div 
           className="text-center mb-16"

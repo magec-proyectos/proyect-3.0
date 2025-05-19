@@ -41,11 +41,18 @@ const ChartControls: React.FC<ChartControlsProps> = ({
             <Button
               variant={activeChart === chartType ? 'default' : 'outline'}
               onClick={() => setActiveChart(chartType as 'earnings' | 'winRate' | 'roi')}
-              className={activeChart === chartType 
-                ? 'bg-neon-blue text-black hover:bg-neon-blue/90' 
-                : 'border-neon-blue/30 text-neon-blue hover:bg-neon-blue/10'}
+              className={`transition-all duration-300 shadow-lg ${activeChart === chartType 
+                ? 'bg-neon-blue text-black hover:bg-neon-blue/90 shadow-neon-blue/20' 
+                : 'border-neon-blue/30 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue/60'}`}
             >
-              {chartType === 'earnings' ? 'Earnings' : chartType === 'winRate' ? 'Win Rate %' : 'ROI %'}
+              <motion.span 
+                animate={activeChart === chartType ? {
+                  textShadow: ["0 0 0px rgba(0,0,0,0)", "0 0 2px rgba(0,0,0,0.5)", "0 0 0px rgba(0,0,0,0)"]
+                } : {}}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {chartType === 'earnings' ? 'Earnings' : chartType === 'winRate' ? 'Win Rate %' : 'ROI %'}
+              </motion.span>
             </Button>
           </motion.div>
         ))}
@@ -62,7 +69,7 @@ const ChartControls: React.FC<ChartControlsProps> = ({
               variant={timeRange === range ? 'secondary' : 'ghost'}
               onClick={() => setTimeRange(range as '1m' | '3m' | '6m' | '1y')}
               size="sm"
-              className="text-xs"
+              className={`text-xs transition-all ${timeRange === range ? 'bg-neon-lime/20 text-neon-lime hover:bg-neon-lime/30' : 'text-gray-400 hover:text-white'}`}
             >
               {range.toUpperCase()}
             </Button>
