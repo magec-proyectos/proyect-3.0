@@ -46,7 +46,7 @@ const LatestNewsSection = () => {
           variants={fadeIn}
         >
           <div>
-            <h2 className="text-4xl font-bold text-white">Latest News</h2>
+            <h2 className="text-4xl font-bold text-white"></h2>
           </div>
         </motion.div>
         

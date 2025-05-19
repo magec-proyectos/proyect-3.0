@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { CheckCircle } from 'lucide-react';
 
 const FinalCta = () => {
   const fadeIn = {
@@ -32,19 +31,6 @@ const FinalCta = () => {
       
       <div className="container px-4 relative z-10">
         <div className="max-w-4xl mx-auto p-8 md:p-12 bg-dark-card/80 backdrop-blur-md border border-dark-border rounded-2xl">
-          <motion.div
-            className="text-center mb-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
-          >
-            <h2 className="text-4xl font-bold mb-4">Start Making Smarter Predictions Today</h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Join thousands of users who have transformed their betting approach with our AI-powered platform
-            </p>
-          </motion.div>
-          
           <motion.div
             className="flex flex-col md:flex-row gap-8 items-center mb-10"
             initial="hidden"
@@ -84,10 +70,6 @@ const FinalCta = () => {
                   <span>Community Features</span>
                   <span className="font-medium">Included</span>
                 </div>
-                
-                <Button className="mt-4 bg-gradient-to-r from-neon-blue to-neon-lime hover:opacity-90 text-black font-medium">
-                  Create Free Account <ArrowRight size={16} className="ml-2" />
-                </Button>
               </div>
             </div>
           </motion.div>
