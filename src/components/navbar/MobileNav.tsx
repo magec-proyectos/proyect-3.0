@@ -5,7 +5,7 @@ import { CircleUser } from 'lucide-react';
 import MobileNavItem from './MobileNavItem';
 import UserMenu from './UserMenu';
 import { User } from '@/contexts/AuthContext';
-import { navItems, NavItem } from './navConfig';
+import { NavItem } from './navConfig';
 
 interface MobileNavProps {
   isOpen: boolean;
