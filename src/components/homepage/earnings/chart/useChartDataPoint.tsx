@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 interface UseChartDataPointProps {
   activeData: any[];
@@ -10,38 +10,23 @@ export const useChartDataPoint = ({ activeData, animateChart }: UseChartDataPoin
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
   const [animatingDataPoint, setAnimatingDataPoint] = useState(false);
   
-  // Function to animate a random data point
-  const animateRandomPoint = useCallback(() => {
-    if (!activeData.length) return;
-    
-    const randomPoint = Math.floor(Math.random() * activeData.length);
-    setAnimatingDataPoint(true);
-    setHoveredPoint(randomPoint);
-    
-    // Stop animation after a short delay
-    setTimeout(() => {
-      setAnimatingDataPoint(false);
-      setHoveredPoint(null);
-    }, 2000);
-  }, [activeData.length]);
-  
   // Randomly highlight a data point every few seconds
   useEffect(() => {
     if (!animateChart) return;
     
-    // Initial animation after a short delay
-    const initialTimer = setTimeout(() => {
-      animateRandomPoint();
-    }, 2000);
+    const interval = setInterval(() => {
+      const randomPoint = Math.floor(Math.random() * activeData.length);
+      setAnimatingDataPoint(true);
+      setHoveredPoint(randomPoint);
+      
+      setTimeout(() => {
+        setAnimatingDataPoint(false);
+        setHoveredPoint(null);
+      }, 2000);
+    }, 6000);
     
-    // Set up interval for repeated animations
-    const interval = setInterval(animateRandomPoint, 6000);
-    
-    return () => {
-      clearTimeout(initialTimer);
-      clearInterval(interval);
-    };
-  }, [activeData.length, animateChart, animateRandomPoint]);
+    return () => clearInterval(interval);
+  }, [activeData.length, animateChart]);
 
   return {
     hoveredPoint,

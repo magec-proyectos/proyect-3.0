@@ -55,32 +55,12 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
   
   // Calculate percentage improvement
   const percentageChange = getPercentageChange();
-  
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
       
   return (
     <motion.div 
-      className="h-[32rem] lg:h-[36rem] xl:h-[40rem] w-full bg-dark-card rounded-xl p-6 border border-dark-border shadow-2xl backdrop-blur-sm relative overflow-hidden"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      whileHover={{ 
-        boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)",
-        scale: 1.01,
-        transition: { duration: 0.5 }
-      }}
+      className="h-[32rem] lg:h-[36rem] w-full bg-dark-card rounded-xl p-6 border border-dark-border shadow-2xl backdrop-blur-sm relative overflow-hidden"
+      whileHover={{ boxShadow: "0 0 40px rgba(0, 240, 255, 0.3)" }}
+      transition={{ duration: 0.5 }}
     >
       {/* Chart decorations (background pattern, floating elements) */}
       <ChartDecorations percentageChange={percentageChange} />
