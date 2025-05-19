@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -102,7 +101,6 @@ const SportSelection = ({ className, activeSport, onSelectSport }: SportSelectio
                     }} 
                     whileTap={{ scale: 0.98 }}
                     animate={active ? "pulse" : ""}
-                    variants={pulseVariants}
                     onClick={() => onSelectSport(sport.id as any)}
                     className="relative overflow-hidden h-full"
                   >
