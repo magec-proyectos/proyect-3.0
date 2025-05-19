@@ -2,7 +2,8 @@
 import { ReactNode } from 'react';
 import { 
   Home, 
-  Share2 
+  Share2,
+  Square
 } from 'lucide-react';
 import { 
   SportIcon, 
@@ -14,64 +15,43 @@ import {
   RouletteIcon 
 } from './NavbarIcons';
 
-export interface NavItem {
-  path: string;
-  label: string;
-  icon: IconDefinition;
-  subItems?: SubNavItem[];
-}
-
 export interface SubNavItem {
   path: string;
   label: string;
-  icon: IconDefinition;
+  icon: ReactNode;
 }
 
-// Define a type for our icon definition
-export interface IconDefinition {
-  type: any;
-  props: {
-    size: number;
-    className: string;
-  };
+export interface NavItem {
+  path: string;
+  label: string;
+  icon: ReactNode;
+  subItems?: SubNavItem[];
 }
-
-// Helper function to create icon elements
-const createIcon = (Icon: any, size: number = 18, className: string = "text-neon-blue"): IconDefinition => {
-  return {
-    type: Icon,
-    props: { size, className }
-  };
-};
 
 export const navItems: NavItem[] = [
   { 
     path: '/', 
     label: 'Home', 
-    icon: createIcon(Home)
+    icon: <Home size={18} className="text-neon-blue" /> 
   },
   { 
-    path: '/sports', 
-    label: 'Sports', 
-    icon: createIcon(SportIcon),
-    subItems: [
-      { path: '/football', label: 'Football', icon: createIcon(FootballIcon) },
-      { path: '/basketball', label: 'Basketball', icon: createIcon(BasketballIcon) },
-      { path: '/american-football', label: 'American Football', icon: createIcon(AmericanFootballIcon) }
-    ]
+    path: '/football', 
+    label: 'Football', 
+    icon: <FootballIcon size={18} className="text-neon-blue" />
   },
   { 
-    path: '/casino', 
-    label: 'Casino', 
-    icon: createIcon(CasinoIcon),
-    subItems: [
-      { path: '/blackjack', label: 'Blackjack', icon: createIcon(BlackjackIcon) },
-      { path: '/roulette', label: 'Roulette', icon: createIcon(RouletteIcon) }
-    ]
+    path: '/basketball', 
+    label: 'Basketball', 
+    icon: <BasketballIcon size={18} className="text-neon-blue" />
   },
   { 
-    path: '/social', 
-    label: 'Community', 
-    icon: createIcon(Share2)
+    path: '/american-football', 
+    label: 'American Football', 
+    icon: <AmericanFootballIcon size={18} className="text-neon-blue" />
+  },
+  { 
+    path: '/square', 
+    label: 'Square', 
+    icon: <Square size={18} className="text-neon-blue" />
   },
 ];

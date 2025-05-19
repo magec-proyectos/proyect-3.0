@@ -19,6 +19,7 @@ import UserProfile from "./pages/UserProfile";
 import Leaderboard from "./pages/Leaderboard";
 import Legal from "./pages/Legal";
 import NotFound from "./pages/NotFound";
+import Square from "./pages/Square";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/blackjack" element={<Blackjack />} />
               <Route path="/roulette" element={<Roulette />} />
               <Route path="/social" element={<Social />} />
+              <Route path="/square" element={<Square />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/legal" element={<Legal />} />
