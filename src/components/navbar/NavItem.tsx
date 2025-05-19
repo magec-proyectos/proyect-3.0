@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NavItem as NavItemType, IconDefinition } from './navConfig';
+import { NavItem as NavItemType, Icons } from './navConfig';
 
 interface NavItemProps {
   item: NavItemType;
@@ -12,12 +12,8 @@ const NavItem: React.FC<NavItemProps> = ({ item }) => {
   const isActive = location.pathname === item.path || 
     (item.subItems && item.subItems.some(sub => sub.path === location.pathname));
   
-  // Render the icon component with its props
-  const renderIcon = (icon: IconDefinition) => {
-    if (!icon) return null;
-    const IconComponent = icon.type;
-    return <IconComponent {...icon.props} />;
-  };
+  // Render the icon component
+  const IconComponent = item.icon ? Icons[item.icon] : null;
   
   return (
     <div className="relative group">
@@ -30,7 +26,7 @@ const NavItem: React.FC<NavItemProps> = ({ item }) => {
         }`}
       >
         <span className="transition-transform duration-300 group-hover:scale-110">
-          {renderIcon(item.icon)}
+          {IconComponent && <IconComponent size={18} className="text-neon-blue" />}
         </span>
         <span className="relative">
           {item.label}
@@ -52,7 +48,7 @@ const NavItem: React.FC<NavItemProps> = ({ item }) => {
                 }`}
               >
                 <span className="transition-transform duration-300 hover:scale-110">
-                  {renderIcon(subItem.icon)}
+                  {subItem.icon}
                 </span>
                 <span>{subItem.label}</span>
               </Link>

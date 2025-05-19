@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { NavItem, IconDefinition } from './navConfig';
+import { NavItem, Icons } from './navConfig';
 
 interface MobileNavItemProps {
   item: NavItem;
@@ -13,12 +13,8 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
   const isActive = location.pathname === item.path || 
     (item.subItems && item.subItems.some(sub => sub.path === location.pathname));
   
-  // Render the icon component with its props
-  const renderIcon = (icon: IconDefinition) => {
-    if (!icon) return null;
-    const IconComponent = icon.type;
-    return <IconComponent {...icon.props} />;
-  };
+  // Render the icon component
+  const IconComponent = item.icon ? Icons[item.icon] : null;
   
   return (
     <div>
@@ -32,7 +28,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
         onClick={() => !item.subItems && onItemClick()}
       >
         <span className="transform transition-all duration-300 hover:scale-110">
-          {renderIcon(item.icon)}
+          {IconComponent && <IconComponent size={18} className="text-neon-blue" />}
         </span>
         <span className="relative">
           {item.label}
@@ -55,8 +51,9 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({ item, onItemClick }) => {
               }`}
               onClick={onItemClick}
             >
+              {/* Adjust subitem icon rendering */}
               <span className="transform transition-all duration-300 hover:scale-110">
-                {renderIcon(subItem.icon)}
+                {subItem.icon}
               </span>
               <span>{subItem.label}</span>
             </Link>

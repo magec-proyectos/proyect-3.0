@@ -1,3 +1,4 @@
+
 import {
   Home,
   Gamepad2,
@@ -8,13 +9,13 @@ import {
   Settings,
 } from 'lucide-react';
 
-interface NavItem {
+export interface NavItem {
   label: string;
   path: string;
   icon: keyof typeof Icons;
 }
 
-const Icons = {
+export const Icons = {
   Home,
   Gamepad2,
   Dices,
