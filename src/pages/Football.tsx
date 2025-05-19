@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -100,7 +99,7 @@ const Football = () => {
     {
       id: 'n1',
       title: 'Thiago ruled out for the weekend clash',
-      summary: 'Liverpool's midfielder Thiago Alcantara will miss the big game against Manchester United due to hamstring injury sustained in training.',
+      summary: "Liverpool's midfielder Thiago Alcantara will miss the big game against Manchester United due to hamstring injury sustained in training.",
       source: 'Sky Sports',
       date: '2 hours ago',
       category: 'injury'
@@ -108,7 +107,7 @@ const Football = () => {
     {
       id: 'n2',
       title: 'Rashford back in full training ahead of Liverpool clash',
-      summary: 'Manchester United forward Marcus Rashford has recovered from his minor knock and has been training with the squad since Tuesday.',
+      summary: "Manchester United forward Marcus Rashford has recovered from his minor knock and has been training with the squad since Tuesday.",
       source: 'BBC Sport',
       date: '5 hours ago',
       category: 'injury'
@@ -116,7 +115,7 @@ const Football = () => {
     {
       id: 'n3',
       title: 'Premier League Classic: Liverpool vs Man United - Preview',
-      summary: 'This weekend's clash between the arch-rivals could have major implications for the top four race.',
+      summary: "This weekend's clash between the arch-rivals could have major implications for the top four race.",
       source: 'Guardian',
       date: '1 day ago',
       category: 'preview'
