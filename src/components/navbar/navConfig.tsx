@@ -2,8 +2,7 @@
 import { ReactNode } from 'react';
 import { 
   Home, 
-  Share2,
-  Square
+  Share2 
 } from 'lucide-react';
 import { 
   SportIcon, 
@@ -15,17 +14,17 @@ import {
   RouletteIcon 
 } from './NavbarIcons';
 
-export interface SubNavItem {
-  path: string;
-  label: string;
-  icon: ReactNode;
-}
-
 export interface NavItem {
   path: string;
   label: string;
   icon: ReactNode;
   subItems?: SubNavItem[];
+}
+
+export interface SubNavItem {
+  path: string;
+  label: string;
+  icon: ReactNode;
 }
 
 export const navItems: NavItem[] = [
@@ -35,23 +34,27 @@ export const navItems: NavItem[] = [
     icon: <Home size={18} className="text-neon-blue" /> 
   },
   { 
-    path: '/football', 
-    label: 'Football', 
-    icon: <FootballIcon size={18} className="text-neon-blue" />
+    path: '/sports', 
+    label: 'Sports', 
+    icon: <SportIcon size={18} className="text-neon-blue" />,
+    subItems: [
+      { path: '/football', label: 'Football', icon: <FootballIcon size={18} className="text-neon-blue" /> },
+      { path: '/basketball', label: 'Basketball', icon: <BasketballIcon size={18} className="text-neon-blue" /> },
+      { path: '/american-football', label: 'American Football', icon: <AmericanFootballIcon size={18} className="text-neon-blue" /> }
+    ]
   },
   { 
-    path: '/basketball', 
-    label: 'Basketball', 
-    icon: <BasketballIcon size={18} className="text-neon-blue" />
+    path: '/casino', 
+    label: 'Casino', 
+    icon: <CasinoIcon size={18} className="text-neon-blue" />,
+    subItems: [
+      { path: '/blackjack', label: 'Blackjack', icon: <BlackjackIcon size={18} className="text-neon-blue" /> },
+      { path: '/roulette', label: 'Roulette', icon: <RouletteIcon size={18} className="text-neon-blue" /> }
+    ]
   },
   { 
-    path: '/american-football', 
-    label: 'American Football', 
-    icon: <AmericanFootballIcon size={18} className="text-neon-blue" />
-  },
-  { 
-    path: '/square', 
-    label: 'Square', 
-    icon: <Square size={18} className="text-neon-blue" />
+    path: '/social', 
+    label: 'Community', 
+    icon: <Share2 size={18} className="text-neon-blue" /> 
   },
 ];
