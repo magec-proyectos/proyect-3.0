@@ -54,7 +54,7 @@ export const navItems: NavItem[] = [
   },
   { 
     path: '/social', 
-    label: 'Community', 
+    label: 'Social', 
     icon: <Share2 size={18} className="text-neon-blue" /> 
   },
 ];

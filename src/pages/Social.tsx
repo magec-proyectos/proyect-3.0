@@ -33,12 +33,30 @@ const Social = () => {
       setPosts(posts.map(post => 
         post.id === postId ? { ...post, likes: post.likes - 1 } : post
       ));
+      
+      // Animate the like change
+      const postElement = document.getElementById(`post-${postId}`);
+      if (postElement) {
+        postElement.classList.add('animate-pulse');
+        setTimeout(() => {
+          postElement.classList.remove('animate-pulse');
+        }, 500);
+      }
     } else {
       // Like post
       setLikedPosts([...likedPosts, postId]);
       setPosts(posts.map(post => 
         post.id === postId ? { ...post, likes: post.likes + 1 } : post
       ));
+      
+      // Animate the like change
+      const postElement = document.getElementById(`post-${postId}`);
+      if (postElement) {
+        postElement.classList.add('animate-pulse');
+        setTimeout(() => {
+          postElement.classList.remove('animate-pulse');
+        }, 500);
+      }
     }
   };
 
@@ -138,9 +156,9 @@ const Social = () => {
       <main className="container px-4 pt-24 pb-16">
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Betting Community</h1>
+            <h1 className="text-3xl font-bold">Betting Social</h1>
             <Button 
-              className="bg-neon-lime text-black hover:bg-neon-lime/90"
+              className="bg-neon-lime text-black hover:bg-neon-lime/90 animate-pulse hover:animate-none transition-all"
               onClick={() => setIsCreatingPost(true)}
             >
               Share a Prediction

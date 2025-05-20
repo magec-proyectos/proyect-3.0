@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Heart, MessageCircle, Share2, ChevronDown, ChevronUp, BarChart, Award } from 'lucide-react';
 import CommentSection, { Comment } from './CommentSection';
 
 interface PostUser {
@@ -46,11 +46,17 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
     setShowComments(!showComments);
   };
 
+  // Calculate confidence score based on odds and likes
+  const confidenceScore = Math.min(95, Math.round((post.likes * 5) + (100 / post.bet.odds)));
+
   return (
-    <Card className="bg-dark-card border-dark-border overflow-hidden">
+    <Card 
+      id={`post-${post.id}`} 
+      className="bg-dark-card border-dark-border overflow-hidden hover:border-neon-blue/30 transition-all duration-300"
+    >
       <CardHeader className="pb-2">
         <div className="flex items-center gap-3">
-          <Avatar>
+          <Avatar className="hover:ring-2 hover:ring-neon-blue transition-all">
             <AvatarImage src={post.user.avatar} alt={post.user.name} />
             <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
           </Avatar>
@@ -64,7 +70,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
       <CardContent className="pb-2 space-y-3">
         <p>{post.content}</p>
         
-        <div className="bg-dark-lighter p-3 rounded-lg border border-dark-border">
+        <div className="bg-dark-lighter p-3 rounded-lg border border-dark-border hover:shadow-md hover:shadow-neon-blue/10 transition-all">
           <div className="text-sm text-gray-400">Bet prediction:</div>
           <div className="font-medium">{post.bet.match}</div>
           <div className="font-medium text-neon-blue">{post.bet.prediction}</div>
@@ -72,6 +78,31 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <span>@{post.bet.odds.toFixed(2)}</span>
             <span>${post.bet.amount} stake</span>
           </div>
+          <div className="mt-2 pt-2 border-t border-dark-border flex items-center gap-2">
+            <BarChart size={14} className="text-neon-blue" />
+            <div className="text-xs text-gray-400">Community confidence: </div>
+            <div className="flex-1 bg-dark h-2 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-neon-blue rounded-full transition-all duration-500"
+                style={{ width: `${confidenceScore}%` }}
+              />
+            </div>
+            <span className="text-xs font-medium">{confidenceScore}%</span>
+          </div>
+          {post.likes > 20 && (
+            <div className="mt-2 flex items-center gap-2 text-xs">
+              <Award size={14} className="text-yellow-500" />
+              <span className="text-yellow-500">Trending prediction</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex flex-wrap gap-2">
+          {post.content.split(' ').filter(word => word.startsWith('#')).map((tag, index) => (
+            <span key={index} className="text-xs bg-dark-lighter px-2 py-1 rounded-full text-neon-blue hover:bg-neon-blue/10 cursor-pointer transition-all">
+              {tag}
+            </span>
+          ))}
         </div>
       </CardContent>
       
@@ -81,16 +112,19 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <Button 
               variant="ghost" 
               size="sm" 
-              className={`flex items-center gap-1.5 ${isLiked ? 'text-red-500' : ''}`}
+              className={`flex items-center gap-1.5 transition-all ${isLiked ? 'text-red-500 hover:text-red-600' : 'hover:text-red-400'}`}
               onClick={() => onLike(post.id)}
             >
-              <Heart size={18} className={isLiked ? 'fill-red-500' : ''} />
-              {post.likes}
+              <Heart 
+                size={18} 
+                className={`transition-transform duration-300 ${isLiked ? 'fill-red-500 scale-110' : 'scale-100'}`}
+              />
+              <span className="transition-all duration-300">{post.likes}</span>
             </Button>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="flex items-center gap-1.5"
+              className="flex items-center gap-1.5 hover:text-neon-blue transition-all"
               onClick={toggleComments}
             >
               <MessageCircle size={18} />
@@ -101,7 +135,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 hover:text-neon-blue transition-all"
             onClick={() => onShare(post)}
           >
             <Share2 size={18} />
