@@ -1,24 +1,49 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import BlackjackTable from '@/components/BlackjackTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calculator, BookOpen, Sparkles } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Calculator, BookOpen, Sparkles, Info } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
+import StrategyChart from '@/components/blackjack/StrategyChart';
+import CardCounter from '@/components/blackjack/CardCounter';
+import BlackjackTips from '@/components/blackjack/BlackjackTips';
+import { Separator } from '@/components/ui/separator';
 
 const Blackjack = () => {
+  const [activeTab, setActiveTab] = useState('advisor');
+  
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
     <div className="min-h-screen bg-dark text-white pb-16">
       <Navbar />
       
       <main className="container px-4 pt-24">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Blackjack Advisor</h1>
-          <p className="text-gray-400 mb-8">
-            Enter your cards and get AI-powered recommendations for optimal play.
-          </p>
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2 gradient-text">Blackjack Advisor</h1>
+            <p className="text-gray-400">
+              Enter your cards and get AI-powered recommendations for optimal play.
+            </p>
+          </div>
           
-          <Tabs defaultValue="advisor" className="mb-8">
+          <Tabs 
+            defaultValue="advisor" 
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="mb-8"
+          >
             <TabsList className="bg-dark-lighter border-dark-border mb-6">
               <TabsTrigger value="advisor" className="flex items-center gap-2">
                 <Sparkles size={16} />
@@ -32,125 +57,82 @@ const Blackjack = () => {
                 <BookOpen size={16} />
                 Basic Strategy
               </TabsTrigger>
+              <TabsTrigger value="tips" className="flex items-center gap-2">
+                <Info size={16} />
+                Tips
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="advisor" className="mt-0">
-              <BlackjackTable />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <BlackjackTable />
+              </motion.div>
             </TabsContent>
             
             <TabsContent value="counter" className="mt-0">
-              <Card className="bg-dark-card border-dark-border">
-                <CardHeader>
-                  <CardTitle>Card Counter Tool</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center p-6">
-                    <p className="text-gray-400 mb-4">Card counting assistance would be displayed here.</p>
-                    <div className="bg-dark-lighter p-4 rounded-lg">
-                      <div className="text-sm text-gray-400">Current Count</div>
-                      <div className="text-3xl font-bold">+2</div>
-                      <div className="text-sm text-gray-400 mt-1">True Count: +0.5</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <CardCounter />
+              </motion.div>
             </TabsContent>
             
             <TabsContent value="strategy" className="mt-0">
-              <Card className="bg-dark-card border-dark-border">
-                <CardHeader>
-                  <CardTitle>Basic Strategy Charts</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center p-6">
-                    <p className="text-gray-400 mb-4">Basic strategy charts would be displayed here.</p>
-                    <div className="grid grid-cols-11 gap-1 max-w-lg mx-auto bg-dark-lighter p-4 rounded-lg">
-                      {/* This would be a complete strategy chart, showing a simplified version for now */}
-                      <div className="bg-dark-lighter"></div>
-                      {['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'A'].map(value => (
-                        <div key={value} className="bg-dark-card p-2 text-xs font-bold">
-                          {value}
-                        </div>
-                      ))}
-                      
-                      {['17+', '16', '15', '14', '13', '12', '11', '10', '9', '8'].map(row => (
-                        <React.Fragment key={row}>
-                          <div className="bg-dark-card p-2 text-xs font-bold">
-                            {row}
-                          </div>
-                          {Array(10).fill(null).map((_, i) => {
-                            // Simplified logic for cell colors
-                            let bg = 'bg-red-500/70';
-                            if (row === '17+') bg = 'bg-blue-500/70';
-                            if (row === '11') bg = 'bg-green-500/70';
-                            
-                            return (
-                              <div key={i} className={`p-2 text-xs ${bg}`}>
-                                {row === '17+' ? 'S' : row === '11' ? 'D' : i < 5 ? 'S' : 'H'}
-                              </div>
-                            );
-                          })}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                    <div className="mt-4 flex justify-center gap-4 text-sm">
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-red-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Hit</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-blue-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Stand</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="w-4 h-4 bg-green-500/70 rounded mr-1"></span>
-                        <span className="text-gray-300">Double</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <StrategyChart />
+              </motion.div>
+            </TabsContent>
+            
+            <TabsContent value="tips" className="mt-0">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <BlackjackTips />
+              </motion.div>
             </TabsContent>
           </Tabs>
           
-          <Card className="bg-dark-card border-dark-border">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Blackjack Tips</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium">Basic Strategy</h3>
-                  <ul className="text-sm text-gray-300 space-y-2">
-                    <li>• Always hit hard 8 or less</li>
-                    <li>• Always stand on hard 17 or more</li>
-                    <li>• Double down on 11 when the dealer has 10 or less</li>
-                    <li>• Split Aces and 8s</li>
-                    <li>• Never split 10s or 5s</li>
-                  </ul>
-                </div>
-                
-                <div className="space-y-3">
-                  <h3 className="text-lg font-medium">Card Counting Basics</h3>
-                  <ul className="text-sm text-gray-300 space-y-2">
-                    <li>• Hi-Lo system: +1 for 2-6, 0 for 7-9, -1 for 10-A</li>
-                    <li>• True count = Running count ÷ Decks remaining</li>
-                    <li>• Increase bets when true count is positive</li>
-                    <li>• Adjust strategy based on true count</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div className="mt-6 p-4 bg-dark-lighter rounded-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mt-8"
+          >
+            <Card className="bg-dark-card border-dark-border overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-neon-blue/5 to-transparent z-0 rounded-lg"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="text-lg font-medium flex items-center">
+                  <span className="gradient-text">Blackjack</span>
+                  <span className="ml-2">Simulator Coming Soon</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="relative z-10">
                 <p className="text-sm text-gray-400">
-                  <strong className="text-white">Disclaimer:</strong> This tool is for educational and entertainment purposes only.
-                  Please be aware of local regulations regarding gambling and gaming applications.
+                  Our full blackjack simulator with betting functionality will be available soon. 
+                  Practice your strategy with virtual chips in realistic casino conditions.
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+              <CardFooter className="relative z-10 text-xs text-gray-500 pt-0">
+                Stay tuned for updates!
+              </CardFooter>
+            </Card>
+          </motion.div>
+        </motion.div>
       </main>
+      
+      <Footer />
     </div>
   );
 };
