@@ -114,9 +114,9 @@ const BlackjackTips = () => {
               <div className="space-y-6">
                 <TipItem title="Advanced Strategy Adjustments">
                   <ul className="space-y-2">
-                    <li>• Stand on 16 vs 10 when true count {`>`} 0</li>
-                    <li>• Stand on 15 vs 10 when true count {`>`} 4</li>
-                    <li>• Take insurance when true count {`>`} 3</li>
+                    <li>• Stand on 16 vs 10 when true count > 0</li>
+                    <li>• Stand on 15 vs 10 when true count > 4</li>
+                    <li>• Take insurance when true count > 3</li>
                     <li>• Double hard 9 vs 2 when true count ≥ 1</li>
                     <li>• Surrender 15 vs A when available</li>
                   </ul>
