@@ -15,11 +15,10 @@ const HeroHeading = () => {
   return (
     <>
       <motion.h1 
-        className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
+        className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white"
         variants={fadeIn}
       >
-        <span className="gradient-text">Smarter Predictions</span><br className="hidden md:block" />
-        For Smarter Bets
+        Smarter Predictions For Smarter Bets
       </motion.h1>
       <motion.p 
         className="text-lg md:text-xl text-gray-300 mb-8"
