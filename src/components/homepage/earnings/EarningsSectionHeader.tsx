@@ -1,0 +1,55 @@
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
+
+const EarningsSectionHeader: React.FC = () => {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+  
+  return (
+    <motion.div 
+      className="text-center mb-16"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeIn}
+    >
+      <motion.div 
+        className="mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
+          PERFORMANCE
+        </Badge>
+      </motion.div>
+      
+      <motion.h2 
+        className="text-5xl sm:text-5xl font-bold mb-4 text-white leading-tight relative"
+        animate={{ 
+          textShadow: ["0 0 10px rgba(0,240,255,0.3)", "0 0 20px rgba(0,240,255,0.7)", "0 0 10px rgba(0,240,255,0.3)"]
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+      >
+        Boost Your 
+        <span className="relative ml-2">
+          <span className="text-neon-blue">Earnings</span>
+          <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
+        </span>
+      </motion.h2>
+      
+      <p className="text-gray-400 max-w-3xl mx-auto text-xl">
+        See the difference our Bet 3.0 prediction system can make to your betting performance
+      </p>
+    </motion.div>
+  );
+};
+
+export default EarningsSectionHeader;
