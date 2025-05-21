@@ -20,13 +20,6 @@ const HeroHeading = () => {
       >
         <span className="gradient-text">Smarter Predictions</span> with AI.
       </motion.h1>
-      
-      <motion.p 
-        className="text-gray-400 text-lg md:text-xl mb-8 md:mb-10"
-        variants={fadeIn}
-      >
-        Advanced AI algorithms analyze sports data to give you the winning edge.
-      </motion.p>
     </>
   );
 };
