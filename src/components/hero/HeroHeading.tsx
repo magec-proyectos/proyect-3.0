@@ -18,16 +18,14 @@ const HeroHeading = () => {
         className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
         variants={fadeIn}
       >
-        <span className="gradient-text">Smarter Predictions</span> with AI.<br />
-        <span className="text-white">Analyze, Predict, Win.</span>
+        <span className="gradient-text">Smarter Predictions</span> with AI.
       </motion.h1>
       
       <motion.p 
         className="text-gray-400 text-lg md:text-xl mb-8 md:mb-10"
         variants={fadeIn}
       >
-        Advanced AI algorithms analyze sports data and card games to give you the winning edge.
-        Make informed decisions backed by real-time statistics.
+        Advanced AI algorithms analyze sports data to give you the winning edge.
       </motion.p>
     </>
   );
