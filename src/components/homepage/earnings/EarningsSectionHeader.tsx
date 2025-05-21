@@ -33,14 +33,10 @@ const EarningsSectionHeader: React.FC = () => {
       
       <motion.h2 
         className="text-5xl sm:text-5xl font-bold mb-4 text-white leading-tight relative"
-        animate={{ 
-          textShadow: ["0 0 10px rgba(0,240,255,0.3)", "0 0 20px rgba(0,240,255,0.7)", "0 0 10px rgba(0,240,255,0.3)"]
-        }}
-        transition={{ duration: 3, repeat: Infinity }}
       >
         Boost Your 
-        <span className="relative ml-2">
-          <span className="text-neon-blue">Earnings</span>
+        <span className="relative ml-2 text-white">
+          Earnings
           <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
         </span>
       </motion.h2>
