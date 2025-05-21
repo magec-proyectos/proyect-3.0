@@ -3,13 +3,13 @@
 export const getButtonStyle = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black";
+      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black shadow-md shadow-neon-blue/20";
     case 'basketball':
-      return "bg-gradient-to-r from-neon-lime to-neon-lime/70 hover:from-neon-lime hover:to-neon-lime text-black";
+      return "bg-gradient-to-r from-neon-lime to-neon-lime/70 hover:from-neon-lime hover:to-neon-lime text-black shadow-md shadow-neon-lime/20";
     case 'americanFootball':
-      return "bg-gradient-to-r from-purple-500 to-purple-500/70 hover:from-purple-500 hover:to-purple-500 text-white";
+      return "bg-gradient-to-r from-purple-500 to-purple-500/70 hover:from-purple-500 hover:to-purple-500 text-white shadow-md shadow-purple-500/20";
     default:
-      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black";
+      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black shadow-md shadow-neon-blue/20";
   }
 };
 
@@ -70,26 +70,77 @@ export const getPredictionConfidence = (activeSport: 'football' | 'basketball' |
   }
 };
 
-// Animation variants
+// Animation variants - Enhanced for better UX
 export const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1, 
     transition: { 
-      staggerChildren: 0.1,
-      delayChildren: 0.2
+      staggerChildren: 0.12,
+      delayChildren: 0.2,
+      ease: "easeOut"
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: 20,
+    transition: {
+      ease: "easeInOut"
     }
   }
 };
 
 export const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: { y: 0, opacity: 1 }
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  },
+  hover: {
+    y: -5,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut"
+    }
+  }
 };
 
 export const resultVariants = {
-  initial: { opacity: 0, scale: 0.95 },
-  animate: { opacity: 1, scale: 1 },
-  transition: { type: "spring", stiffness: 300, damping: 25 }
+  initial: { opacity: 0, scale: 0.95, y: 10 },
+  animate: { opacity: 1, scale: 1, y: 0 },
+  transition: { type: "spring", stiffness: 300, damping: 25 },
+  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } }
 };
 
+export const pulseAnimation = {
+  animate: {
+    boxShadow: [
+      "0 0 0 0 rgba(var(--color-rgb), 0)",
+      "0 0 0 10px rgba(var(--color-rgb), 0.2)",
+      "0 0 0 0 rgba(var(--color-rgb), 0)"
+    ],
+  },
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }
+};
+
+// Utility function for sports background patterns
+export const getSportPattern = (activeSport: 'football' | 'basketball' | 'americanFootball') => {
+  switch (activeSport) {
+    case 'football':
+      return "url('/pattern-soccer.svg')";
+    case 'basketball':
+      return "url('/pattern-basketball.svg')";
+    case 'americanFootball':
+      return "url('/pattern-football.svg')";
+    default:
+      return "url('/pattern-soccer.svg')";
+  }
+};
