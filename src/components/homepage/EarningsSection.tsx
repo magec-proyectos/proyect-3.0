@@ -5,7 +5,6 @@ import { earningsData, winRateData, roiData, chartConfig } from './earnings/Char
 import EarningsSectionBackground from './earnings/EarningsSectionBackground';
 import EarningsSectionHeader from './earnings/EarningsSectionHeader';
 import ChartSection from './earnings/ChartSection';
-import InfoTabsSection from './earnings/InfoTabsSection';
 import FloatingStats from './earnings/FloatingStats';
 
 const EarningsSection: React.FC = () => {
@@ -55,21 +54,16 @@ const EarningsSection: React.FC = () => {
           setTimeRange={setTimeRange}
         />
         
-        <div className="grid grid-cols-1 gap-16">
-          {/* Chart display with integrated calculator */}
-          <ChartSection 
-            activeChart={activeChart}
-            timeRange={timeRange}
-            chartKey={chartKey}
-            animateChart={animateChart}
-            activeData={activeData}
-            chartConfig={chartConfig}
-            getPercentageChange={getPercentageChange}
-          />
-          
-          {/* Info tabs - Simplified */}
-          <InfoTabsSection />
-        </div>
+        {/* Chart display with integrated calculator */}
+        <ChartSection 
+          activeChart={activeChart}
+          timeRange={timeRange}
+          chartKey={chartKey}
+          animateChart={animateChart}
+          activeData={activeData}
+          chartConfig={chartConfig}
+          getPercentageChange={getPercentageChange}
+        />
       </div>
       
       {/* Floating statistics */}
