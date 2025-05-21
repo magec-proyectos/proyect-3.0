@@ -41,7 +41,11 @@ const SectionHeader: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div className="flex flex-col">
             <h2 className="text-5xl sm:text-5xl font-bold text-white leading-tight relative mb-4">
-              Export bets to your favorite platforms
+              Export bets to your 
+              <span className="relative ml-2">
+                <span className="text-neon-blue">favorite platforms</span>
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
+              </span>
             </h2>
           </div>
           

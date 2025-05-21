@@ -39,21 +39,15 @@ const LatestNewsSection = () => {
     <section className="py-16 bg-dark">
       <div className="container px-4 mx-auto max-w-6xl">
         <motion.div 
-          className="text-center mb-12"
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
-          <div className="mb-6">
-            <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
-              INSIGHTS
-            </Badge>
+          <div>
+            <h2 className="text-4xl font-bold text-white"></h2>
           </div>
-          <h2 className="text-5xl font-bold mb-4 text-white leading-tight">Latest News & Insights</h2>
-          <p className="text-gray-400 max-w-3xl mx-auto text-xl">
-            Expert analysis and updates from the world of sports betting and AI
-          </p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

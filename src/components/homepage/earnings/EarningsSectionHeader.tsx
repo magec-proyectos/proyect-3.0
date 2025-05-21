@@ -34,7 +34,11 @@ const EarningsSectionHeader: React.FC = () => {
       <motion.h2 
         className="text-5xl sm:text-5xl font-bold mb-4 text-white leading-tight relative"
       >
-        Boost Your Earnings
+        Boost Your 
+        <span className="relative ml-2 text-white">
+          Earnings
+          <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
+        </span>
       </motion.h2>
       
       <p className="text-gray-400 max-w-3xl mx-auto text-xl">

@@ -66,7 +66,7 @@ const ChartHeader: React.FC<ChartHeaderProps> = ({ activeChart }) => {
         </div>
         
         <motion.h3
-          className="text-xl sm:text-2xl font-bold text-white"
+          className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
           layout
           layoutId="chart-title"
           key={title}
