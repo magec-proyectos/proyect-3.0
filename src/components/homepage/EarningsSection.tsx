@@ -5,6 +5,7 @@ import ChartDisplay from './earnings/ChartDisplay';
 import ChartControls from './earnings/ChartControls';
 import InfoTabs from './earnings/InfoTabs';
 import { earningsData, winRateData, roiData, chartConfig } from './earnings/ChartData';
+import { Badge } from '@/components/ui/badge';
 
 const EarningsSection = () => {
   const [activeChart, setActiveChart] = useState<'earnings' | 'winRate' | 'roi'>('earnings');
@@ -130,15 +131,31 @@ const EarningsSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
         >
+          {/* Updated title styling to match other section titles */}
+          <motion.div 
+            className="mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
+              PERFORMANCE
+            </Badge>
+          </motion.div>
+          
           <motion.h2 
-            className="text-5xl sm:text-6xl font-bold mb-5 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+            className="text-5xl sm:text-5xl font-bold mb-4 text-white leading-tight relative"
             animate={{ 
               textShadow: ["0 0 10px rgba(0,240,255,0.3)", "0 0 20px rgba(0,240,255,0.7)", "0 0 10px rgba(0,240,255,0.3)"]
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            Boost Your Earnings
+            Boost Your 
+            <span className="relative ml-2">
+              <span className="text-neon-blue">Earnings</span>
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
+            </span>
           </motion.h2>
+          
           <p className="text-gray-400 max-w-3xl mx-auto text-xl">
             See the difference our Bet 3.0 prediction system can make to your betting performance
           </p>
