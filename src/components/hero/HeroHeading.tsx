@@ -15,7 +15,7 @@ const HeroHeading = () => {
   return (
     <>
       <motion.h1 
-        className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+        className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
         variants={fadeIn}
       >
         <span className="gradient-text">Smarter Predictions</span><br className="hidden md:block" />
