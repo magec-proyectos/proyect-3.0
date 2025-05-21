@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,6 @@ const TryItNow = () => {
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [quickDemoActive, setQuickDemoActive] = useState(false);
 
   // Effect for the fake analysis progress bar
   useEffect(() => {
@@ -46,22 +44,9 @@ const TryItNow = () => {
       return () => clearInterval(interval);
     }
   }, [isAnalyzing]);
-
-  // Effect to automatically show a demo prediction on first visit
-  useEffect(() => {
-    const hasSeenDemo = localStorage.getItem('hasSeenPredictionDemo');
-    
-    if (!hasSeenDemo && !quickDemoActive) {
-      const timer = setTimeout(() => {
-        handleQuickDemo();
-      }, 1500);
-      
-      return () => clearTimeout(timer);
-    }
-  }, []);
   
   const handleGetPrediction = (sport: 'football' | 'basketball' | 'americanFootball') => {
-    if (selectedMatches[sport] || quickDemoActive) {
+    if (selectedMatches[sport]) {
       setIsAnalyzing(true);
       setProgress(0);
       
@@ -72,13 +57,6 @@ const TryItNow = () => {
         localStorage.setItem('hasSeenPredictionDemo', 'true');
       }, 2000);
     }
-  };
-
-  const handleQuickDemo = () => {
-    setQuickDemoActive(true);
-    setActiveSport('football');
-    setSelectedMatches(prev => ({...prev, football: 'liverpool_vs_arsenal'}));
-    handleGetPrediction('football');
   };
 
   const videos = {
@@ -245,23 +223,6 @@ const TryItNow = () => {
       <motion.div variants={itemVariants}>
         <Card className="overflow-hidden border-none shadow-2xl bg-gradient-to-br from-dark-card/80 to-dark-card/50 backdrop-blur-lg">
           <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold mb-2 sm:mb-0">Try Our Prediction AI</h2>
-              
-              {/* Quick Demo Button for first-time users */}
-              {!quickDemoActive && !showPredictions[activeSport] && (
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="bg-dark-lighter border-dark-border text-neon-blue hover:bg-dark hover:text-neon-lime"
-                  onClick={handleQuickDemo}
-                >
-                  <Timer size={16} className="mr-2 animate-pulse" />
-                  Quick Demo
-                </Button>
-              )}
-            </div>
-            
             {/* Sport selection cards */}
             <SportSelection
               className="mb-8"
@@ -269,7 +230,6 @@ const TryItNow = () => {
               onSelectSport={(sport) => {
                 setActiveSport(sport);
                 setShowPredictions(prev => ({ ...prev, [sport]: false }));
-                setQuickDemoActive(false);
               }}
             />
             
@@ -392,38 +352,12 @@ const TryItNow = () => {
                         className="bg-transparent border-dark-border hover:bg-dark-lighter"
                         onClick={() => {
                           setShowPredictions(prev => ({ ...prev, [activeSport]: false }));
-                          setQuickDemoActive(false);
                         }}
                       >
                         Try Another Match
                       </Button>
                       
                       <div className="flex gap-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button 
-                              variant="outline" 
-                              className={`bg-dark-lighter border-dark-border hover:bg-dark hover:text-${getAccentColor()}`}
-                            >
-                              <Play size={16} className="mr-2" />
-                              Analysis Video
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="bg-dark-card border-dark-border sm:max-w-[700px]">
-                            <div className="aspect-video w-full">
-                              <iframe 
-                                width="100%" 
-                                height="100%" 
-                                src={videos[selectedMatches[activeSport] as keyof typeof videos]}
-                                title="Match Analysis" 
-                                frameBorder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowFullScreen
-                              ></iframe>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                        
                         <Button 
                           className={`bg-${getAccentColor()} ${activeSport === 'americanFootball' ? 'text-white' : 'text-black'}`}
                         >
