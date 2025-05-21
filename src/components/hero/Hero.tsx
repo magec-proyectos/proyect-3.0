@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TryItNow from '@/components/homepage/TryItNow';
+import HeroHeading from './HeroHeading';
 
 const Hero = () => {
   const fadeIn = {
@@ -18,7 +19,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative overflow-hidden pt-20 pb-8 md:pt-24 md:pb-12">
+    <div className="relative overflow-hidden pt-20 pb-0 md:pt-24">
       {/* Background elements */}
       <HeroBackground />
       
@@ -37,28 +38,15 @@ const Hero = () => {
             }
           }}
         >
-          {/* Simplified hero heading */}
-          <motion.h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
-            variants={fadeIn}
-          >
-            <span className="gradient-text">Smarter Predictions</span> <br />
-            <span className="text-white">For Smarter Bets</span>
-          </motion.h1>
-          
-          <motion.p 
-            className="text-gray-400 text-lg md:text-xl mb-8 md:mb-10"
-            variants={fadeIn}
-          >
-            Our AI analyzes sports and games to give you the edge you need.
-          </motion.p>
+          {/* Use HeroHeading component for main heading */}
+          <HeroHeading />
           
           {/* Enhanced action button */}
           <motion.div 
-            className="flex justify-center mb-10"
+            className="flex justify-center mb-2" 
             variants={fadeIn}
           >
-            <Link to="/football" className="relative">
+            <Link to="/sports" className="relative">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
@@ -76,11 +64,18 @@ const Hero = () => {
               </motion.div>
             </Link>
           </motion.div>
-          
-          {/* Try it now section placed directly below the hero */}
-          <TryItNow />
         </motion.div>
       </div>
+      
+      {/* Dedicated section for the TryItNow component with smooth transition */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.8 }}
+        className="mt-10"
+      >
+        <TryItNow />
+      </motion.div>
     </div>
   );
 };
