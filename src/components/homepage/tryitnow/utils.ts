@@ -69,3 +69,27 @@ export const getPredictionConfidence = (activeSport: 'football' | 'basketball' |
       return { value: 75, label: 'High', color: 'text-neon-blue' };
   }
 };
+
+// Animation variants
+export const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1, 
+    transition: { 
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+export const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 }
+};
+
+export const resultVariants = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: { opacity: 1, scale: 1 },
+  transition: { type: "spring", stiffness: 300, damping: 25 }
+};
+

@@ -1,9 +1,11 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star } from 'lucide-react';
 import PredictionVisualizer from '@/components/PredictionVisualizer';
+import { resultVariants } from './utils';
 
 interface PredictionResultsProps {
   activeSport: 'football' | 'basketball' | 'americanFootball';
@@ -25,7 +27,11 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
   const confidenceData = getPredictionConfidence();
   
   return (
-    <div>
+    <motion.div
+      initial={resultVariants.initial}
+      animate={resultVariants.animate}
+      transition={resultVariants.transition}
+    >
       <div className="bg-dark/50 rounded-lg p-4 mb-4 flex flex-wrap justify-between items-center">
         <div>
           <Badge className={`bg-${getAccentColor()}/20 text-${getAccentColor()} mb-2`}>
@@ -68,7 +74,7 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
