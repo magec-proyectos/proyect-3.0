@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 interface ChartControlsProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
   setActiveChart: (chart: 'earnings' | 'winRate' | 'roi') => void;
-  timeRange: '1m' | '3m' | '6m' | '1y';
-  setTimeRange: (range: '1m' | '3m' | '6m' | '1y') => void;
+  timeRange: '1m' | '6m' | '1y';
+  setTimeRange: (range: '1m' | '6m' | '1y') => void;
 }
 
 const ChartControls: React.FC<ChartControlsProps> = ({ 
@@ -49,17 +49,16 @@ const ChartControls: React.FC<ChartControlsProps> = ({
     },
   ];
   
-  // Define time ranges with their label and gradient
+  // Define time ranges with their label and gradient - Simplificado a solo 3 opciones
   const timeRanges = [
-    { id: '1m', label: '1M', gradient: 'from-neon-blue/20 to-neon-blue/5' },
-    { id: '3m', label: '3M', gradient: 'from-neon-blue/30 to-neon-blue/10' },
-    { id: '6m', label: '6M', gradient: 'from-neon-blue/40 to-neon-blue/20' },
-    { id: '1y', label: '1Y', gradient: 'from-neon-blue/50 to-neon-blue/30' },
+    { id: '1m', label: '1 Month', gradient: 'from-neon-blue/20 to-neon-blue/5' },
+    { id: '6m', label: '6 Months', gradient: 'from-neon-blue/40 to-neon-blue/20' },
+    { id: '1y', label: '1 Year', gradient: 'from-neon-blue/50 to-neon-blue/30' },
   ];
 
   return (
     <motion.div 
-      className="mb-12"
+      className="mb-8"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -103,84 +102,45 @@ const ChartControls: React.FC<ChartControlsProps> = ({
                   : 'bg-dark-card/50 border-neon-blue/20 text-neon-blue hover:bg-neon-blue/10 hover:border-neon-blue/40 hover:text-white'
                 }`}
               >
-                <motion.span 
-                  initial={{ rotate: 0 }}
-                  animate={activeChart === chart.id ? { rotate: 360 } : { rotate: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className={activeChart === chart.id ? "text-black" : "text-neon-blue"}
-                >
+                <span className={activeChart === chart.id ? "text-black" : "text-neon-blue"}>
                   {chart.icon}
-                </motion.span>
-                <motion.span 
-                  animate={activeChart === chart.id ? {
-                    textShadow: ["0 0 0px rgba(0,0,0,0)", "0 0 2px rgba(0,0,0,0.5)", "0 0 0px rgba(0,0,0,0)"]
-                  } : {}}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
+                </span>
+                <span>
                   {chart.label}
-                </motion.span>
+                </span>
               </Button>
             </motion.div>
           ))}
         </div>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
+      <div className="flex justify-center gap-2 mb-6">
         <div className="flex overflow-hidden rounded-lg border border-dark-border bg-dark-card/50 p-1">
           {timeRanges.map((range) => (
-            <motion.div
+            <Button
               key={range.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              layout
+              variant="ghost"
+              onClick={() => setTimeRange(range.id as '1m' | '6m' | '1y')}
+              size="sm"
+              className={`text-sm px-4 py-1 transition-all relative ${
+                timeRange === range.id 
+                ? 'text-black font-medium' 
+                : 'text-gray-400 hover:text-white'
+              }`}
             >
-              <Button
-                variant="ghost"
-                onClick={() => setTimeRange(range.id as '1m' | '3m' | '6m' | '1y')}
-                size="sm"
-                className={`text-sm px-4 py-1 transition-all relative ${
-                  timeRange === range.id 
-                  ? 'text-black font-medium' 
-                  : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {timeRange === range.id && (
-                  <motion.div 
-                    className={`absolute inset-0 rounded-md bg-gradient-to-r ${range.gradient}`}
-                    layoutId="timerange-indicator"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                <span className="relative z-10">{range.label}</span>
-              </Button>
-            </motion.div>
+              {timeRange === range.id && (
+                <motion.div 
+                  className={`absolute inset-0 rounded-md bg-gradient-to-r ${range.gradient}`}
+                  layoutId="timerange-indicator"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+              <span className="relative z-10">{range.label}</span>
+            </Button>
           ))}
         </div>
-      </div>
-      
-      {/* Added badges showing new stats */}
-      <div className="flex flex-wrap justify-center gap-3 mb-2">
-        <motion.div 
-          className="text-xs text-gray-400 bg-dark-card/50 px-3 py-1 rounded-full border border-dark-border flex items-center gap-1.5"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-        >
-          <span className="block w-1.5 h-1.5 rounded-full bg-neon-blue"></span>
-          Latest data: May 2025
-        </motion.div>
-        
-        <motion.div 
-          className="text-xs text-gray-400 bg-dark-card/50 px-3 py-1 rounded-full border border-dark-border flex items-center gap-1.5"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
-          <span className="block w-1.5 h-1.5 rounded-full bg-neon-lime"></span>
-          22,486 bettors analyzed
-        </motion.div>
       </div>
     </motion.div>
   );
