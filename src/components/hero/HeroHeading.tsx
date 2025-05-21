@@ -18,8 +18,15 @@ const HeroHeading = () => {
         className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
         variants={fadeIn}
       >
-        <span className="gradient-text">Smarter Predictions</span> with AI.
+        <span className="gradient-text">Smarter Predictions</span><br className="hidden md:block" />
+        For Smarter Bets
       </motion.h1>
+      <motion.p 
+        className="text-lg md:text-xl text-gray-300 mb-8"
+        variants={fadeIn}
+      >
+        Our AI analyzes sports and games to give you the edge you need.
+      </motion.p>
     </>
   );
 };
