@@ -3,7 +3,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const SectionHeader: React.FC = () => {
   const fadeIn = {
@@ -17,19 +16,6 @@ const SectionHeader: React.FC = () => {
 
   return (
     <>
-      {/* Integration Badge */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeIn}
-        className="mb-6"
-      >
-        <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
-          INTEGRATIONS
-        </Badge>
-      </motion.div>
-      
       {/* Main Content - Header with button next to heading */}
       <motion.div 
         initial="hidden"

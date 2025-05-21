@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/badge';
 
 const EarningsSectionHeader: React.FC = () => {
   const fadeIn = {
@@ -21,16 +20,6 @@ const EarningsSectionHeader: React.FC = () => {
       viewport={{ once: true, margin: "-100px" }}
       variants={fadeIn}
     >
-      <motion.div 
-        className="mb-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <Badge className="bg-neon-blue/10 hover:bg-neon-blue/10 text-neon-blue font-medium py-1 px-4 rounded-full text-sm border-0">
-          PERFORMANCE
-        </Badge>
-      </motion.div>
-      
       <motion.h2 
         className="text-4xl sm:text-5xl font-bold mb-4 text-white leading-tight"
       >
