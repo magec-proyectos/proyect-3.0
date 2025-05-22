@@ -29,30 +29,14 @@ const ChartSection: React.FC<ChartSectionProps> = ({
   const isMobile = useIsMobile();
   const [monthlyBets, setMonthlyBets] = useState(20);
   const [averageBet, setAverageBet] = useState(50);
-  const [currentWinRate, setCurrentWinRate] = useState(40);
   const [showCalculator, setShowCalculator] = useState(!isMobile);
   
-  // Update default win rate based on chart data
-  useEffect(() => {
-    if (activeChart === 'winRate') {
-      const lastDataPoint = activeData[activeData.length - 1];
-      setCurrentWinRate(Math.round(lastDataPoint.withoutBet3));
-    }
-  }, [activeChart, activeData]);
-  
   // Calculate potential earnings
-  const currentMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, currentWinRate);
-  let enhancedWinRate = currentWinRate;
+  const currentMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, 40); // Using fixed win rate of 40%
   
-  // Adjust enhanced win rate based on actual improvement percentage from chart data
+  // Adjust based on percentage improvement from chart data
   const percentageImprovement = getPercentageChange();
-  if (activeChart === 'winRate') {
-    enhancedWinRate = Math.min(95, Math.round(currentWinRate * (1 + percentageImprovement / 100)));
-  } else {
-    enhancedWinRate = Math.min(95, Math.round(currentWinRate * (1 + percentageImprovement / 100)));
-  }
-  
-  const enhancedMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, enhancedWinRate);
+  const enhancedMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, 40 * (1 + percentageImprovement / 100));
   const earningsIncrease = enhancedMonthlyEarnings - currentMonthlyEarnings;
   const percentageIncrease = Math.round((earningsIncrease / Math.max(1, currentMonthlyEarnings)) * 100);
   
@@ -149,21 +133,6 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                     />
                   </div>
                   
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <label className="text-gray-300">Your win rate</label>
-                      <span className="text-white font-medium">{currentWinRate}%</span>
-                    </div>
-                    <Slider 
-                      value={[currentWinRate]} 
-                      min={20} 
-                      max={60} 
-                      step={1} 
-                      onValueChange={(value) => setCurrentWinRate(value[0])}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  
                   <div className="space-y-3 bg-dark-lighter p-3 rounded-lg">
                     <div className="flex justify-between items-center">
                       <div className="text-sm text-gray-300">Current monthly</div>
@@ -173,7 +142,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                     </div>
                     
                     <div className="flex justify-between items-center">
-                      <div className="text-sm text-gray-300">With Bet 3.0</div>
+                      <div className="text-sm text-gray-300">Enhanced monthly</div>
                       <div className="text-neon-blue text-lg font-bold">
                         +{enhancedMonthlyEarnings}$
                       </div>
@@ -196,26 +165,6 @@ const ChartSection: React.FC<ChartSectionProps> = ({
               </Button>
             </div>
           )}
-        </div>
-      </div>
-
-      <div className="mt-4 flex flex-col sm:flex-row items-center gap-4 justify-center">
-        <div className="bg-dark-card/80 py-2 px-3 rounded-lg border border-dark-border flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-neon-blue"></div>
-          <span className="text-white text-xs">With Bet 3.0</span>
-        </div>
-        
-        <motion.div 
-          className="text-xl sm:text-2xl font-bold text-white flex items-center"
-          animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-        >
-          {getPercentageChange()}% better
-        </motion.div>
-        
-        <div className="bg-dark-card/80 py-2 px-3 rounded-lg border border-dark-border flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-gray-500"></div>
-          <span className="text-white text-xs">Without Bet 3.0</span>
         </div>
       </div>
     </motion.div>
