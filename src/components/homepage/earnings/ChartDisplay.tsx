@@ -112,11 +112,11 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       <div className="absolute bottom-3 left-4 right-4 flex justify-center gap-4 text-xs">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-neon-blue"></div>
-          <span className="text-white">Con Bet 3.0</span>
+          <span className="text-white">With Bet 3.0</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-gray-500"></div>
-          <span className="text-gray-300">Sin Bet 3.0</span>
+          <span className="text-gray-300">Without Bet 3.0</span>
         </div>
       </div>
     </motion.div>
