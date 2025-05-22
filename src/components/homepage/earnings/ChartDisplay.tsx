@@ -10,6 +10,7 @@ import ChartContentWrapper from './ChartContentWrapper';
 import ChartRenderer from './chart/ChartRenderer';
 import ChartHeader from './chart/ChartHeader';
 import { useChartDataPoint } from './chart/useChartDataPoint';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface ChartDisplayProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
@@ -57,6 +58,9 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
     setHoveredPoint,
     animatingDataPoint
   } = useChartDataPoint({ activeData, animateChart });
+  
+  const percentageChange = getPercentageChange();
+  const isPositive = percentageChange > 0;
       
   return (
     <motion.div 
@@ -70,6 +74,18 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
         monthlyBets={monthlyBets}
         averageBet={averageBet}
       />
+      
+      {/* Performance indicator */}
+      <div className="absolute top-4 right-4 flex items-center gap-2 bg-dark-lighter px-3 py-1 rounded-full text-sm">
+        {isPositive ? (
+          <TrendingUp className="h-4 w-4 text-neon-blue" />
+        ) : (
+          <TrendingDown className="h-4 w-4 text-red-500" />
+        )}
+        <span className={isPositive ? "text-neon-blue font-medium" : "text-red-500 font-medium"}>
+          {isPositive ? "+" : ""}{percentageChange}%
+        </span>
+      </div>
       
       <div className="h-[90%] w-full relative z-10">
         <ChartContainer config={chartConfig} className="w-full h-full">
@@ -90,6 +106,18 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
             </ChartLegend>
           </ChartContentWrapper>
         </ChartContainer>
+      </div>
+      
+      {/* Chart description legend */}
+      <div className="absolute bottom-3 left-4 right-4 flex justify-center gap-4 text-xs">
+        <div className="flex items-center gap-1">
+          <div className="h-3 w-3 rounded-full bg-neon-blue"></div>
+          <span className="text-white">Con Bet 3.0</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="h-3 w-3 rounded-full bg-gray-500"></div>
+          <span className="text-gray-300">Sin Bet 3.0</span>
+        </div>
       </div>
     </motion.div>
   );

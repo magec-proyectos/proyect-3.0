@@ -5,16 +5,18 @@ import { earningsData, winRateData, roiData, chartConfig } from './earnings/Char
 import EarningsSectionBackground from './earnings/EarningsSectionBackground';
 import EarningsSectionHeader from './earnings/EarningsSectionHeader';
 import ChartSection from './earnings/ChartSection';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const EarningsSection: React.FC = () => {
   const [activeChart, setActiveChart] = useState<'earnings' | 'winRate' | 'roi'>('earnings');
   const [timeRange, setTimeRange] = useState<'1m' | '6m' | '1y'>('6m');
   const [animateChart, setAnimateChart] = useState(true);
   const [chartKey, setChartKey] = useState(0);
+  const isMobile = useIsMobile();
   
   // Calculator state elevated to parent component
-  const [monthlyBets, setMonthlyBets] = useState(20);
-  const [averageBet, setAverageBet] = useState(50);
+  const [monthlyBets, setMonthlyBets] = useState(isMobile ? 20 : 30);
+  const [averageBet, setAverageBet] = useState(isMobile ? 30 : 50);
   
   // Reset animation when chart type or time range changes
   useEffect(() => {
@@ -84,6 +86,11 @@ const EarningsSection: React.FC = () => {
           averageBet={averageBet}
           setAverageBet={setAverageBet}
         />
+        
+        {/* Additional explanation text */}
+        <div className="text-center mt-8 text-sm text-gray-400 max-w-2xl mx-auto">
+          <p>* Los cálculos se basan en el rendimiento histórico promedio y pueden variar según los patrones de apuestas individuales. Bet 3.0 utiliza tecnología avanzada de IA para mejorar las decisiones de apuestas.</p>
+        </div>
       </div>
     </section>
   );
