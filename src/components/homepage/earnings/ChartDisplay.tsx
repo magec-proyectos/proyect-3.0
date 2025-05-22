@@ -13,51 +13,35 @@ import { useChartDataPoint } from './chart/useChartDataPoint';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface ChartDisplayProps {
-  activeChart: 'earnings' | 'winRate' | 'roi';
+  data: any[];
+  config: any;
+  animate: boolean;
+  chartType: 'earnings' | 'winRate' | 'roi';
   timeRange: '1m' | '6m' | '1y';
-  chartKey: number;
-  animateChart: boolean;
-  activeData: any[];
-  chartConfig: {
-    withBet3: {
-      label: string;
-      theme: {
-        light: string;
-        dark: string;
-      };
-    };
-    withoutBet3: {
-      label: string;
-      theme: {
-        light: string;
-        dark: string;
-      };
-    };
-  };
-  getPercentageChange: () => number;
-  // Calculator props
-  monthlyBets?: number;
-  averageBet?: number;
 }
 
 const ChartDisplay: React.FC<ChartDisplayProps> = ({ 
-  activeChart, 
+  chartType, 
   timeRange, 
-  chartKey, 
-  animateChart, 
-  activeData,
-  chartConfig,
-  getPercentageChange,
-  // Calculator props
-  monthlyBets = 20,
-  averageBet = 50
+  animate, 
+  data,
+  config,
 }) => {
   // Use custom hook for data point highlighting
   const {
     hoveredPoint,
     setHoveredPoint,
     animatingDataPoint
-  } = useChartDataPoint({ activeData, animateChart });
+  } = useChartDataPoint({ activeData: data, animateChart: animate });
+  
+  // Calculate percentage change
+  const getPercentageChange = () => {
+    if (data.length === 0) return 0;
+    const lastIndex = data.length - 1;
+    const bet3Value = data[lastIndex].withBet3;
+    const nonBet3Value = data[lastIndex].withoutBet3;
+    return Math.round(((bet3Value - nonBet3Value) / nonBet3Value) * 100);
+  };
   
   const percentageChange = getPercentageChange();
   const isPositive = percentageChange > 0;
@@ -70,9 +54,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
     >      
       {/* Chart header showing the title */}
       <ChartHeader 
-        activeChart={activeChart}
-        monthlyBets={monthlyBets}
-        averageBet={averageBet}
+        activeChart={chartType}
       />
       
       {/* Performance indicator */}
@@ -88,18 +70,16 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       </div>
       
       <div className="h-[90%] w-full relative z-10">
-        <ChartContainer config={chartConfig} className="w-full h-full">
+        <ChartContainer config={config} className="w-full h-full">
           <ChartContentWrapper>
             <ChartRenderer 
-              activeChart={activeChart}
-              chartKey={chartKey}
-              animateChart={animateChart}
-              activeData={activeData}
+              activeChart={chartType}
+              chartKey={Date.now()} // Use current timestamp as key
+              animateChart={animate}
+              activeData={data}
               hoveredPoint={hoveredPoint}
               setHoveredPoint={setHoveredPoint}
               animatingDataPoint={animatingDataPoint}
-              monthlyBets={monthlyBets}
-              averageBet={averageBet}
             />
             <ChartLegend>
               <ChartLegendContent />

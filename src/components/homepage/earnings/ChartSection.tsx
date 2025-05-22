@@ -47,19 +47,17 @@ const ChartSection: React.FC<ChartSectionProps> = ({
           {/* Chart Display */}
           <div className="lg:col-span-2">
             <ChartDisplay
-              key={chartKey} 
-              data={activeData}
-              config={chartConfig}
-              animate={animateChart}
               chartType={activeChart}
               timeRange={timeRange}
+              animate={animateChart}
+              data={activeData}
+              config={chartConfig}
             />
           </div>
           
           {/* Calculator Widget */}
           <div className="lg:col-span-1">
             <EarningsCalculator
-              chartType={activeChart}
               monthlyBets={monthlyBets}
               setMonthlyBets={setMonthlyBets}
               averageBet={averageBet}

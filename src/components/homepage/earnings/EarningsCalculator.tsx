@@ -6,12 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
 interface EarningsCalculatorProps {
-  onClose: () => void;
+  monthlyBets: number;
+  setMonthlyBets: (value: number) => void;
+  averageBet: number;
+  setAverageBet: (value: number) => void;
+  percentIncrease: number;
+  chartType?: 'earnings' | 'winRate' | 'roi';
+  onClose?: () => void;
 }
 
-const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
-  const [monthlyBets, setMonthlyBets] = useState(20);
-  const [averageBet, setAverageBet] = useState(50);
+const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ 
+  monthlyBets,
+  setMonthlyBets,
+  averageBet,
+  setAverageBet,
+  percentIncrease,
+  chartType = 'earnings',
+  onClose
+}) => {
   const [currentWinRate, setCurrentWinRate] = useState(40);
   
   // Calculate potential earnings
@@ -36,14 +48,16 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
     >
-      <Button 
-        variant="ghost" 
-        size="icon"
-        className="absolute right-4 top-4 text-gray-400 hover:text-white"
-        onClick={onClose}
-      >
-        <X className="w-5 h-5" />
-      </Button>
+      {onClose && (
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="absolute right-4 top-4 text-gray-400 hover:text-white"
+          onClick={onClose}
+        >
+          <X className="w-5 h-5" />
+        </Button>
+      )}
       
       <div className="flex items-center gap-3 mb-6">
         <Sparkles className="text-neon-blue w-5 h-5" />
