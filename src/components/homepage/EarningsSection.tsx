@@ -17,6 +17,7 @@ const EarningsSection: React.FC = () => {
   // Calculator state elevated to parent component
   const [monthlyBets, setMonthlyBets] = useState(isMobile ? 20 : 30);
   const [averageBet, setAverageBet] = useState(isMobile ? 30 : 50);
+  const [percentageChange, setPercentageChange] = useState(0);
   
   // Reset animation when chart type or time range changes
   useEffect(() => {
@@ -54,6 +55,11 @@ const EarningsSection: React.FC = () => {
     return Math.round(percentageIncrease);
   };
 
+  // Calculate and update percentage change whenever relevant data changes
+  useEffect(() => {
+    setPercentageChange(getPercentageChange());
+  }, [activeData, activeChart, timeRange, monthlyBets, averageBet]);
+
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
       {/* Background elements */}
@@ -85,6 +91,7 @@ const EarningsSection: React.FC = () => {
           setMonthlyBets={setMonthlyBets}
           averageBet={averageBet}
           setAverageBet={setAverageBet}
+          percentageChange={percentageChange}
         />
         
         {/* Additional explanation text */}
