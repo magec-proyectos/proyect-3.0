@@ -24,6 +24,8 @@ interface ChartRendererProps {
   hoveredPoint: number | null;
   setHoveredPoint: (point: number | null) => void;
   animatingDataPoint: boolean;
+  monthlyBets?: number;
+  averageBet?: number;
 }
 
 const ChartRenderer: React.FC<ChartRendererProps> = ({ 
@@ -33,7 +35,9 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
   activeData,
   hoveredPoint,
   setHoveredPoint,
-  animatingDataPoint
+  animatingDataPoint,
+  monthlyBets = 20,
+  averageBet = 50
 }) => {
   // Prepare bar chart data if needed
   const getBarChartData = () => {
@@ -65,6 +69,27 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
   };
   
   const averages = getAverageValues();
+
+  // Create custom tooltip formatter to show calculator values
+  const formatTooltip = (value: number, name: string) => {
+    const formattedValue = activeChart === 'earnings' ? 
+      `$${value}` : 
+      `${value}%`;
+    
+    let tooltipLabel;
+    if (name === 'withBet3') {
+      tooltipLabel = 'Enhanced';
+    } else {
+      tooltipLabel = 'Standard';
+    }
+    
+    return [formattedValue, tooltipLabel];
+  };
+
+  // Format tooltip title to include calculator context
+  const formatTooltipTitle = (label: string) => {
+    return `${label} (${monthlyBets} bets at $${averageBet})`;
+  };
 
   // Render bar chart for earnings
   if (activeChart === 'earnings' && animateChart) {
@@ -106,7 +131,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
                   backdropFilter: 'blur(8px)'
                 }} 
                 formatter={(value) => [`$${value}`, '']}
-                labelFormatter={() => ''}
+                labelFormatter={() => `${monthlyBets} bets at $${averageBet}`}
                 animationDuration={300}
                 cursor={{fill: 'rgba(255, 255, 255, 0.05)'}}
               />
@@ -167,7 +192,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
                 ifOverflow="extendDomain"
               >
                 <Label 
-                  value={`${Math.round((getBarChartData()[1].value / getBarChartData()[0].value - 1) * 100)}% increase`} 
+                  value={`${Math.round((getBarChartData()[1].value / getBarChartData()[0].value - 1) * 100)}% increase with ${monthlyBets} bets at $${averageBet}`} 
                   position="insideBottomLeft" 
                   fill="#00f0ff" 
                   fontSize={12}
@@ -237,10 +262,8 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
                 backdropFilter: 'blur(8px)',
                 padding: '10px'
               }} 
-              formatter={(value: number, name: string) => {
-                const formattedValue = activeChart === 'earnings' ? `$${value}` : `${value}%`;
-                return [formattedValue, name === 'withBet3' ? 'With Bet 3.0' : 'Without Bet 3.0'];
-              }}
+              formatter={formatTooltip}
+              labelFormatter={formatTooltipTitle}
               animationDuration={300}
               cursor={{stroke: 'rgba(255, 255, 255, 0.3)', strokeWidth: 2}}
               wrapperStyle={{ zIndex: 100 }}
@@ -254,7 +277,7 @@ const ChartRenderer: React.FC<ChartRendererProps> = ({
               strokeWidth={1}
             >
               <Label 
-                value="Bet 3.0 avg" 
+                value={`Enhanced avg (${monthlyBets} bets)`} 
                 position="right" 
                 fill="#00f0ff" 
                 fontSize={11}

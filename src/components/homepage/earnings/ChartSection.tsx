@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import ChartDisplay from './ChartDisplay';
 import { Calculator, ChevronDown, ChevronUp } from 'lucide-react';
@@ -15,6 +15,11 @@ interface ChartSectionProps {
   activeData: any[];
   chartConfig: any;
   getPercentageChange: () => number;
+  // Calculator state props
+  monthlyBets: number;
+  setMonthlyBets: (value: number) => void;
+  averageBet: number;
+  setAverageBet: (value: number) => void;
 }
 
 const ChartSection: React.FC<ChartSectionProps> = ({ 
@@ -24,11 +29,14 @@ const ChartSection: React.FC<ChartSectionProps> = ({
   animateChart, 
   activeData, 
   chartConfig,
-  getPercentageChange 
+  getPercentageChange,
+  // Calculator state props
+  monthlyBets,
+  setMonthlyBets,
+  averageBet,
+  setAverageBet
 }) => {
   const isMobile = useIsMobile();
-  const [monthlyBets, setMonthlyBets] = useState(20);
-  const [averageBet, setAverageBet] = useState(50);
   const [showCalculator, setShowCalculator] = useState(!isMobile);
   
   // Calculate potential earnings
@@ -75,6 +83,9 @@ const ChartSection: React.FC<ChartSectionProps> = ({
             activeData={activeData}
             chartConfig={chartConfig}
             getPercentageChange={getPercentageChange}
+            // Pass calculator values for chart annotations
+            monthlyBets={monthlyBets}
+            averageBet={averageBet}
           />
         </div>
         

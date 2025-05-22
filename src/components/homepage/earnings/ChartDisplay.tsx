@@ -34,6 +34,9 @@ interface ChartDisplayProps {
     };
   };
   getPercentageChange: () => number;
+  // Calculator props
+  monthlyBets?: number;
+  averageBet?: number;
 }
 
 const ChartDisplay: React.FC<ChartDisplayProps> = ({ 
@@ -43,7 +46,10 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
   animateChart, 
   activeData,
   chartConfig,
-  getPercentageChange 
+  getPercentageChange,
+  // Calculator props
+  monthlyBets = 20,
+  averageBet = 50
 }) => {
   // Use custom hook for data point highlighting
   const {
@@ -59,7 +65,11 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       transition={{ duration: 0.3 }}
     >      
       {/* Chart header showing the title */}
-      <ChartHeader activeChart={activeChart} />
+      <ChartHeader 
+        activeChart={activeChart}
+        monthlyBets={monthlyBets}
+        averageBet={averageBet}
+      />
       
       <div className="h-[90%] w-full relative z-10">
         <ChartContainer config={chartConfig} className="w-full h-full">
@@ -72,6 +82,8 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
               hoveredPoint={hoveredPoint}
               setHoveredPoint={setHoveredPoint}
               animatingDataPoint={animatingDataPoint}
+              monthlyBets={monthlyBets}
+              averageBet={averageBet}
             />
             <ChartLegend>
               <ChartLegendContent />

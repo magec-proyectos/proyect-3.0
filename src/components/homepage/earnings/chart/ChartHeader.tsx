@@ -3,17 +3,23 @@ import React from 'react';
 
 interface ChartHeaderProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
+  monthlyBets?: number;
+  averageBet?: number;
 }
 
-const ChartHeader: React.FC<ChartHeaderProps> = ({ activeChart }) => {
+const ChartHeader: React.FC<ChartHeaderProps> = ({ 
+  activeChart,
+  monthlyBets = 20,
+  averageBet = 50
+}) => {
   const getTitle = () => {
     switch (activeChart) {
       case 'earnings':
-        return 'Earnings Comparison';
+        return `Earnings Comparison (${monthlyBets} bets at $${averageBet})`;
       case 'winRate':
-        return 'Win Rate Improvement';
+        return `Win Rate Improvement (${monthlyBets} bets at $${averageBet})`;
       case 'roi':
-        return 'Return on Investment';
+        return `Return on Investment (${monthlyBets} bets at $${averageBet})`;
       default:
         return '';
     }

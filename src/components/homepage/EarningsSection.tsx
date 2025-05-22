@@ -12,6 +12,10 @@ const EarningsSection: React.FC = () => {
   const [animateChart, setAnimateChart] = useState(true);
   const [chartKey, setChartKey] = useState(0);
   
+  // Calculator state elevated to parent component
+  const [monthlyBets, setMonthlyBets] = useState(20);
+  const [averageBet, setAverageBet] = useState(50);
+  
   // Reset animation when chart type or time range changes
   useEffect(() => {
     setAnimateChart(false);
@@ -22,11 +26,23 @@ const EarningsSection: React.FC = () => {
   }, [activeChart, timeRange]);
 
   // Select data based on active chart and time range
-  const activeData = activeChart === 'earnings' 
+  const baseData = activeChart === 'earnings' 
     ? earningsData[timeRange] 
     : activeChart === 'winRate' 
       ? winRateData[timeRange] 
       : roiData[timeRange];
+  
+  // Apply calculator values to modify chart data
+  const activeData = baseData.map(item => {
+    // Scale factor based on calculator inputs
+    const scaleFactor = (monthlyBets / 20) * (averageBet / 50);
+    
+    return {
+      ...item,
+      withBet3: Math.round(item.withBet3 * scaleFactor),
+      withoutBet3: Math.round(item.withoutBet3 * scaleFactor)
+    };
+  });
 
   const getPercentageChange = () => {
     const lastIndex = activeData.length - 1;
@@ -62,6 +78,11 @@ const EarningsSection: React.FC = () => {
           activeData={activeData}
           chartConfig={chartConfig}
           getPercentageChange={getPercentageChange}
+          // Pass calculator state and setters
+          monthlyBets={monthlyBets}
+          setMonthlyBets={setMonthlyBets}
+          averageBet={averageBet}
+          setAverageBet={setAverageBet}
         />
       </div>
     </section>
