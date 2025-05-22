@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/chart";
 import ChartContentWrapper from './ChartContentWrapper';
 import ChartRenderer from './chart/ChartRenderer';
-import ChartDecorations from './chart/ChartDecorations';
 import ChartHeader from './chart/ChartHeader';
 import { useChartDataPoint } from './chart/useChartDataPoint';
 
@@ -55,17 +54,14 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({
       
   return (
     <motion.div 
-      className="h-[28rem] w-full bg-dark-card rounded-xl p-6 border border-dark-border shadow-2xl backdrop-blur-sm relative overflow-hidden"
-      whileHover={{ boxShadow: "0 0 40px rgba(0, 240, 255, 0.2)" }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Chart decorations (background pattern, floating elements) */}
-      <ChartDecorations percentageChange={getPercentageChange()} />
-      
+      className="h-[280px] sm:h-[320px] md:h-[400px] w-full bg-dark-card rounded-xl p-4 border border-dark-border shadow-lg relative overflow-hidden"
+      whileHover={{ boxShadow: "0 0 20px rgba(0, 240, 255, 0.15)" }}
+      transition={{ duration: 0.3 }}
+    >      
       {/* Chart header showing the title */}
       <ChartHeader activeChart={activeChart} />
       
-      <div className="h-[80%] w-full relative z-10">
+      <div className="h-[90%] w-full relative z-10">
         <ChartContainer config={chartConfig} className="w-full h-full">
           <ChartContentWrapper>
             <ChartRenderer 

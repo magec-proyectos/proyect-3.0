@@ -5,7 +5,6 @@ import { earningsData, winRateData, roiData, chartConfig } from './earnings/Char
 import EarningsSectionBackground from './earnings/EarningsSectionBackground';
 import EarningsSectionHeader from './earnings/EarningsSectionHeader';
 import ChartSection from './earnings/ChartSection';
-import FloatingStats from './earnings/FloatingStats';
 
 const EarningsSection: React.FC = () => {
   const [activeChart, setActiveChart] = useState<'earnings' | 'winRate' | 'roi'>('earnings');
@@ -38,7 +37,7 @@ const EarningsSection: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
       {/* Background elements */}
       <EarningsSectionBackground />
       
@@ -65,9 +64,6 @@ const EarningsSection: React.FC = () => {
           getPercentageChange={getPercentageChange}
         />
       </div>
-      
-      {/* Floating statistics */}
-      <FloatingStats />
     </section>
   );
 };

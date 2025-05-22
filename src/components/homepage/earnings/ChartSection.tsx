@@ -1,10 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ChartDisplay from './ChartDisplay';
-import { Calculator, TrendingUp } from 'lucide-react';
+import { Calculator, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ChartSectionProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
@@ -25,22 +26,41 @@ const ChartSection: React.FC<ChartSectionProps> = ({
   chartConfig,
   getPercentageChange 
 }) => {
+  const isMobile = useIsMobile();
   const [monthlyBets, setMonthlyBets] = useState(20);
   const [averageBet, setAverageBet] = useState(50);
   const [currentWinRate, setCurrentWinRate] = useState(40);
+  const [showCalculator, setShowCalculator] = useState(!isMobile);
+  
+  // Update default win rate based on chart data
+  useEffect(() => {
+    if (activeChart === 'winRate') {
+      const lastDataPoint = activeData[activeData.length - 1];
+      setCurrentWinRate(Math.round(lastDataPoint.withoutBet3));
+    }
+  }, [activeChart, activeData]);
   
   // Calculate potential earnings
   const currentMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, currentWinRate);
-  const enhancedWinRate = currentWinRate + 25; // Bet 3.0 improvement
+  let enhancedWinRate = currentWinRate;
+  
+  // Adjust enhanced win rate based on actual improvement percentage from chart data
+  const percentageImprovement = getPercentageChange();
+  if (activeChart === 'winRate') {
+    enhancedWinRate = Math.min(95, Math.round(currentWinRate * (1 + percentageImprovement / 100)));
+  } else {
+    enhancedWinRate = Math.min(95, Math.round(currentWinRate * (1 + percentageImprovement / 100)));
+  }
+  
   const enhancedMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, enhancedWinRate);
   const earningsIncrease = enhancedMonthlyEarnings - currentMonthlyEarnings;
-  const percentageIncrease = Math.round((earningsIncrease / currentMonthlyEarnings) * 100);
+  const percentageIncrease = Math.round((earningsIncrease / Math.max(1, currentMonthlyEarnings)) * 100);
   
   function calculateEarnings(bets: number, avgBet: number, winRate: number) {
     const wins = bets * (winRate / 100);
     const losses = bets - wins;
     // Assuming average odds of 2.0 for simplicity
-    return (wins * avgBet * 2) - (bets * avgBet);
+    return Math.round((wins * avgBet * 2) - (bets * avgBet));
   }
 
   const fadeIn = {
@@ -52,134 +72,150 @@ const ChartSection: React.FC<ChartSectionProps> = ({
     }
   };
 
-  const percentageChange = getPercentageChange();
-
   return (
     <motion.div 
-      className="relative w-full mx-auto"
+      className="w-full mx-auto"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={fadeIn}
     >
-      <div className="flex flex-col gap-6">
-        <div className="bg-gradient-to-r from-neon-blue/10 to-transparent p-4 rounded-lg border border-neon-blue/30 mb-2 flex items-center gap-3">
-          <TrendingUp className="text-neon-blue w-5 h-5" />
-          <div className="flex-1">
-            <span className="text-white">With our AI predictions, you could increase your {activeChart === 'earnings' ? 'earnings' : activeChart === 'winRate' ? 'win rate' : 'ROI'} by</span>{' '}
-            <span className="text-neon-blue font-bold">{percentageChange}%</span>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6 mb-4">
+        {/* Chart area - 3/5 width on desktop */}
+        <div className="lg:col-span-3">
+          <ChartDisplay 
+            activeChart={activeChart}
+            timeRange={timeRange}
+            chartKey={chartKey}
+            animateChart={animateChart}
+            activeData={activeData}
+            chartConfig={chartConfig}
+            getPercentageChange={getPercentageChange}
+          />
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Chart area - 2/3 width on desktop */}
-          <div className="lg:col-span-2">
-            <ChartDisplay 
-              activeChart={activeChart}
-              timeRange={timeRange}
-              chartKey={chartKey}
-              animateChart={animateChart}
-              activeData={activeData}
-              chartConfig={chartConfig}
-              getPercentageChange={getPercentageChange}
-            />
-          </div>
-          
-          {/* Integrated calculator - 1/3 width on desktop */}
-          <div className="bg-dark-card border border-neon-blue/30 rounded-xl p-5 h-full flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <Calculator className="text-neon-blue w-5 h-5" />
-                <h3 className="text-lg font-bold text-white">Earnings Calculator</h3>
+        
+        {/* Integrated calculator - 2/5 width on desktop */}
+        <div className="lg:col-span-2 h-full">
+          {isMobile && (
+            <Button 
+              variant="outline" 
+              className="w-full mb-3 flex items-center justify-between bg-dark-card border border-neon-blue/30"
+              onClick={() => setShowCalculator(!showCalculator)}
+            >
+              <div className="flex items-center">
+                <Calculator className="text-neon-blue w-4 h-4 mr-2" />
+                <span>{showCalculator ? 'Hide Calculator' : 'Show Calculator'}</span>
               </div>
-              
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-gray-300">Monthly bets</label>
-                    <span className="text-white font-medium">{monthlyBets} bets</span>
-                  </div>
-                  <Slider 
-                    value={[monthlyBets]} 
-                    min={5} 
-                    max={100} 
-                    step={5} 
-                    onValueChange={(value) => setMonthlyBets(value[0])}
-                  />
+              {showCalculator ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </Button>
+          )}
+          
+          {(!isMobile || showCalculator) && (
+            <div className="bg-dark-card border border-neon-blue/30 rounded-xl p-4 lg:p-5 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Calculator className="text-neon-blue w-4 h-4" />
+                  <h3 className="text-base lg:text-lg font-bold text-white">Your Potential</h3>
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-gray-300">Average bet size</label>
-                    <span className="text-white font-medium">${averageBet}</span>
-                  </div>
-                  <Slider 
-                    value={[averageBet]} 
-                    min={5} 
-                    max={500} 
-                    step={5} 
-                    onValueChange={(value) => setAverageBet(value[0])}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-gray-300">Your win rate</label>
-                    <span className="text-white font-medium">{currentWinRate}%</span>
-                  </div>
-                  <Slider 
-                    value={[currentWinRate]} 
-                    min={20} 
-                    max={60} 
-                    step={1} 
-                    onValueChange={(value) => setCurrentWinRate(value[0])}
-                  />
-                </div>
-                
-                <div className="space-y-3 bg-dark-lighter p-3 rounded-lg">
-                  <div className="flex justify-between items-center">
-                    <div className="text-gray-300">Current profit</div>
-                    <div className={`font-medium ${currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      {currentMonthlyEarnings >= 0 ? '+' : ''}{currentMonthlyEarnings.toFixed(0)}$
+                <div className="space-y-4 lg:space-y-5">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <label className="text-gray-300">Monthly bets</label>
+                      <span className="text-white font-medium">{monthlyBets}</span>
                     </div>
+                    <Slider 
+                      value={[monthlyBets]} 
+                      min={5} 
+                      max={100} 
+                      step={5} 
+                      onValueChange={(value) => setMonthlyBets(value[0])}
+                      className="cursor-pointer"
+                    />
                   </div>
                   
-                  <div className="flex justify-between items-center">
-                    <div className="text-gray-300">With Bet 3.0</div>
-                    <div className="text-neon-blue text-xl font-bold">
-                      +{enhancedMonthlyEarnings.toFixed(0)}$
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <label className="text-gray-300">Average bet size</label>
+                      <span className="text-white font-medium">${averageBet}</span>
+                    </div>
+                    <Slider 
+                      value={[averageBet]} 
+                      min={5} 
+                      max={500} 
+                      step={5} 
+                      onValueChange={(value) => setAverageBet(value[0])}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <label className="text-gray-300">Your win rate</label>
+                      <span className="text-white font-medium">{currentWinRate}%</span>
+                    </div>
+                    <Slider 
+                      value={[currentWinRate]} 
+                      min={20} 
+                      max={60} 
+                      step={1} 
+                      onValueChange={(value) => setCurrentWinRate(value[0])}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                  
+                  <div className="space-y-3 bg-dark-lighter p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <div className="text-sm text-gray-300">Current monthly</div>
+                      <div className={`font-medium text-sm ${currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {currentMonthlyEarnings >= 0 ? '+' : ''}{currentMonthlyEarnings}$
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-between items-center">
+                      <div className="text-sm text-gray-300">With Bet 3.0</div>
+                      <div className="text-neon-blue text-lg font-bold">
+                        +{enhancedMonthlyEarnings}$
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2 border-t border-gray-700/50 mt-1">
+                      <div className="flex justify-between items-center">
+                        <div className="text-sm text-white">Improvement</div>
+                        <div className="text-neon-blue font-medium">+{percentageIncrease}%</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              
+              <Button 
+                className="mt-4 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-2 h-auto rounded-lg text-sm font-medium"
+              >
+                Try Bet 3.0 Free
+              </Button>
             </div>
-            
-            <Button 
-              className="mt-4 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-2 h-auto rounded-lg text-base font-medium"
-            >
-              Try Bet 3.0 Free
-            </Button>
-          </div>
+          )}
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
-        <div className="bg-dark-card/80 p-3 rounded-lg border border-dark-border flex items-center gap-3 min-w-[180px]">
+      <div className="mt-4 flex flex-col sm:flex-row items-center gap-4 justify-center">
+        <div className="bg-dark-card/80 py-2 px-3 rounded-lg border border-dark-border flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-neon-blue"></div>
-          <span className="text-white text-sm">With Bet 3.0</span>
+          <span className="text-white text-xs">With Bet 3.0</span>
         </div>
         
         <motion.div 
-          className="text-3xl font-bold text-white flex items-center"
+          className="text-xl sm:text-2xl font-bold text-white flex items-center"
           animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
         >
-          {percentageChange}% better
+          {getPercentageChange()}% better
         </motion.div>
         
-        <div className="bg-dark-card/80 p-3 rounded-lg border border-dark-border flex items-center gap-3 min-w-[180px]">
+        <div className="bg-dark-card/80 py-2 px-3 rounded-lg border border-dark-border flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-gray-500"></div>
-          <span className="text-white text-sm">Without Bet 3.0</span>
+          <span className="text-white text-xs">Without Bet 3.0</span>
         </div>
       </div>
     </motion.div>
