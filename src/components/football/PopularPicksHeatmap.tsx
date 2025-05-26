@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -250,7 +249,7 @@ const PopularPicksHeatmap = () => {
                 
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs text-gray-400">
-                    {viewMode}: {item[viewMode]}{viewMode === 'odds' ? '' : viewMode === 'volume' ? '' : '%'}
+                    {viewMode}: {item[viewMode]}{viewMode === 'volume' ? '' : '%'}
                   </span>
                   <span className="text-xs text-neon-lime font-medium">
                     {item.odds.toFixed(2)}
