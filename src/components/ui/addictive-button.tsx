@@ -19,6 +19,7 @@ const addictiveButtonVariants = cva(
         excitement: "gradient-excitement text-white font-bold hover:scale-105",
         mystery: "bg-mystery text-white font-medium hover:bg-mystery/90",
         focus: "bg-focus text-white font-medium hover:bg-focus/90",
+        energy: "bg-energy text-black font-bold hover:bg-energy/90 shadow-lg",
         
         // Enhanced original variants
         default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25",

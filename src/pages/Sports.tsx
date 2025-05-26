@@ -24,6 +24,72 @@ const Sports = () => {
     xpToNext: 760,
   };
 
+  // Mock data for FootballTabs
+  const mockHomeTeam = {
+    id: '1',
+    name: 'Arsenal',
+    logo: '/placeholder.svg',
+    form: ['W', 'W', 'D', 'W', 'L'] as ('w' | 'l' | 'd' | 'W' | 'L' | 'D')[],
+    stats: {
+      goals: { for: 25, against: 12 },
+      possession: 58,
+      xG: 2.1,
+      shots: 14,
+      shotsOnTarget: 6,
+      corners: 7
+    }
+  };
+
+  const mockAwayTeam = {
+    id: '2',
+    name: 'Chelsea',
+    logo: '/placeholder.svg',
+    form: ['W', 'L', 'W', 'W', 'D'] as ('w' | 'l' | 'd' | 'W' | 'L' | 'D')[],
+    stats: {
+      goals: { for: 20, against: 15 },
+      possession: 52,
+      xG: 1.8,
+      shots: 12,
+      shotsOnTarget: 4,
+      corners: 5
+    }
+  };
+
+  const mockPrediction = {
+    homeScore: 2,
+    awayScore: 1,
+    winProbability: { home: 45, draw: 25, away: 30 },
+    btts: { yes: 65, no: 35 },
+    over: { value: 2.5, probability: 70 },
+    confidence: 0.85,
+    bets: [
+      { type: 'Match Result', pick: 'Arsenal Win', odds: 2.1, confidence: 85 },
+      { type: 'Total Goals', pick: 'Over 2.5', odds: 1.8, confidence: 70 }
+    ]
+  };
+
+  const mockMatchEvents = [
+    { type: 'goal' as const, time: 15, team: 'home' as const, player: 'Gabriel Jesus', description: 'Great finish from close range' },
+    { type: 'yellow-card' as const, time: 32, team: 'away' as const, player: 'Enzo Fernandez', description: 'Tactical foul' }
+  ];
+
+  const mockBettingTrends = [
+    { type: 'Match Result', homePercentage: 45, drawPercentage: 25, awayPercentage: 30, movement: 'up' as const },
+    { type: 'Total Goals', homePercentage: 70, awayPercentage: 30, movement: 'stable' as const }
+  ];
+
+  const mockMatchNews = [
+    {
+      id: '1',
+      title: 'Arsenal vs Chelsea: Team News and Injury Updates',
+      summary: 'Latest updates on team lineups and player availability for the big London derby.',
+      source: 'Sky Sports',
+      date: '2024-01-15',
+      category: 'preview' as const,
+      imageUrl: '/placeholder.svg'
+    }
+  ];
+
   const todaysPicks = [
     { 
       match: 'Arsenal vs Chelsea', 
@@ -211,7 +277,15 @@ const Sports = () => {
       {/* Main Content Tabs */}
       <section className="py-8">
         <div className="container mx-auto px-4">
-          <FootballTabs />
+          <FootballTabs
+            isLoading={false}
+            homeTeam={mockHomeTeam}
+            awayTeam={mockAwayTeam}
+            prediction={mockPrediction}
+            matchEvents={mockMatchEvents}
+            bettingTrends={mockBettingTrends}
+            matchNews={mockMatchNews}
+          />
         </div>
       </section>
     </div>
