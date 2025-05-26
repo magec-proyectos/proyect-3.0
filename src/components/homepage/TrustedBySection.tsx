@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import CasinoLogosCarousel from '@/components/CasinoLogosCarousel';
+import SportsLogosCarousel from '@/components/SportsLogosCarousel';
 
 const TrustedBySection = React.memo(() => {
   const fadeIn = React.useMemo(() => ({
@@ -24,15 +24,15 @@ const TrustedBySection = React.memo(() => {
           variants={fadeIn}
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Trusted by <span className="text-white">3M+ users</span>
+            Trusted Across the <span className="text-white">World's Biggest Leagues</span>
           </h2>
           
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            Join millions of players who use our AI predictions with these leading casino platforms
+            We analyze data from 20+ top competitions so you don't have to
           </p>
           
-          {/* Casino Logos Carousel with optimized rendering */}
-          <CasinoLogosCarousel />
+          {/* Sports Logos Carousel with optimized rendering */}
+          <SportsLogosCarousel />
         </motion.div>
       </div>
     </section>
