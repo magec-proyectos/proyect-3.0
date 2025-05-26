@@ -2,15 +2,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  MessageCircle, 
   X, 
   Send, 
   Bot, 
   User, 
   Plus,
-  Settings,
   Minimize2,
-  Maximize2
+  Maximize2,
+  Headphones
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -102,7 +101,9 @@ const GlobalChatbot: React.FC = () => {
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-dark-border">
                 <div className="flex items-center gap-2">
-                  <Bot className="text-soft-blue" size={20} />
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan flex items-center justify-center">
+                    <Headphones className="text-white" size={16} />
+                  </div>
                   <div>
                     <h3 className="text-white font-medium text-sm">
                       {currentAgent?.name || 'AI Assistant'}
@@ -258,12 +259,14 @@ const GlobalChatbot: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Button
               onClick={() => setIsOpen(true)}
-              className="w-14 h-14 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan shadow-lg hover:shadow-xl"
+              className="w-16 h-16 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan shadow-2xl hover:shadow-3xl border-2 border-white/20 transition-all duration-300"
             >
-              <MessageCircle size={24} />
+              <Headphones size={28} className="text-white" />
             </Button>
           </motion.div>
         )}
