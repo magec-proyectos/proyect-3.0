@@ -165,7 +165,7 @@
 }
 
 .hover-scale {
-  @apply transition-transform duration-300 hover:scale-102; /* Menos scaling */
+  @apply transition-transform duration-300 hover:scale-105; /* Subtle scaling effect */
 }
 
 .bg-dark {
