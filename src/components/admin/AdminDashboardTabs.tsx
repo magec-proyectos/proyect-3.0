@@ -16,11 +16,29 @@ import ContentManagement from './ContentManagement';
 import SystemSettings from './SystemSettings';
 import ChatbotManagement from './ChatbotManagement';
 
-interface AdminDashboardTabsProps {
-  activeTab?: string;
+interface AdminUser {
+  id: string;
+  username: string;
+  created_at: string;
+  last_login: string | null;
+  is_active: boolean;
 }
 
-const AdminDashboardTabs: React.FC<AdminDashboardTabsProps> = ({ activeTab = 'overview' }) => {
+interface AdminDashboardTabsProps {
+  activeTab?: string;
+  adminUser?: AdminUser;
+}
+
+const AdminDashboardTabs: React.FC<AdminDashboardTabsProps> = ({ 
+  activeTab = 'overview',
+  adminUser = {
+    id: 'default',
+    username: 'admin',
+    created_at: new Date().toISOString(),
+    last_login: null,
+    is_active: true
+  }
+}) => {
   return (
     <Tabs defaultValue={activeTab} className="space-y-4">
       <TabsList className="grid w-full grid-cols-6 bg-dark-card">
@@ -51,7 +69,7 @@ const AdminDashboardTabs: React.FC<AdminDashboardTabsProps> = ({ activeTab = 'ov
       </TabsList>
 
       <TabsContent value="overview">
-        <AdminOverview />
+        <AdminOverview adminUser={adminUser} />
       </TabsContent>
 
       <TabsContent value="analytics">

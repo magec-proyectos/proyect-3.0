@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -113,7 +112,12 @@ export const useChatbot = () => {
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      return data || [];
+      
+      // Ensure proper typing for message roles
+      return (data || []).map(msg => ({
+        ...msg,
+        role: msg.role as 'user' | 'assistant' | 'system'
+      }));
     },
     enabled: !!currentConversationId
   });
