@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Clock, Star, Trophy } from 'lucide-react';
+import { TrendingUp, Clock, Star, Zap, Target, Trophy } from 'lucide-react';
 
 interface QuickAccessButtonsProps {
   onTagClick: (tag: string) => void;
@@ -12,26 +12,45 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
     { 
       label: 'Live Matches', 
       icon: Clock, 
+      gradient: 'from-red-500 to-red-600',
+      pulse: true,
       color: 'text-red-400',
       bgHover: 'hover:bg-red-500/10'
     },
     { 
       label: 'Champions League', 
       icon: Trophy, 
+      gradient: 'from-blue-500 to-purple-600',
       color: 'text-blue-400',
       bgHover: 'hover:bg-blue-500/10'
     },
     { 
       label: 'Premier League', 
       icon: Star, 
+      gradient: 'from-purple-500 to-pink-600',
       color: 'text-purple-400',
       bgHover: 'hover:bg-purple-500/10'
     },
     { 
       label: 'High Odds', 
       icon: TrendingUp, 
+      gradient: 'from-green-500 to-emerald-600',
       color: 'text-green-400',
       bgHover: 'hover:bg-green-500/10'
+    },
+    { 
+      label: 'Sure Bets', 
+      icon: Target, 
+      gradient: 'from-yellow-500 to-orange-600',
+      color: 'text-yellow-400',
+      bgHover: 'hover:bg-yellow-500/10'
+    },
+    { 
+      label: 'AI Picks', 
+      icon: Zap, 
+      gradient: 'from-cyan-500 to-blue-600',
+      color: 'text-cyan-400',
+      bgHover: 'hover:bg-cyan-500/10'
     }
   ];
 
@@ -76,8 +95,13 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
           }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onTagClick(tag.label)}
-          className={`group relative px-6 py-3 glass-effect border border-dark-border rounded-xl text-sm text-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl ${tag.bgHover} hover:border-opacity-50 overflow-hidden whitespace-nowrap flex-shrink-0`}
+          className={`group relative px-4 py-3 glass-effect border border-dark-border rounded-xl text-sm text-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl ${tag.bgHover} hover:border-opacity-50 overflow-hidden whitespace-nowrap flex-shrink-0 ${
+            tag.pulse ? 'animate-pulse' : ''
+          }`}
         >
+          {/* Background gradient on hover */}
+          <div className={`absolute inset-0 bg-gradient-to-r ${tag.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+          
           <div className="relative z-10 flex items-center gap-2">
             <div className={tag.color}>
               <tag.icon className="h-4 w-4" />
