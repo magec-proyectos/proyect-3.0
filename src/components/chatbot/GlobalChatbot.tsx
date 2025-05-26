@@ -21,7 +21,7 @@ import { useChatbot } from '@/hooks/useChatbot';
 import { useAuth } from '@/contexts/AuthContext';
 
 const GlobalChatbot: React.FC = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const {
     isOpen,
     setIsOpen,
@@ -41,7 +41,19 @@ const GlobalChatbot: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
   const [showAgentSelection, setShowAgentSelection] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Debug logging
+  useEffect(() => {
+    console.log('GlobalChatbot Debug:', {
+      authLoading,
+      user: !!user,
+      settings: !!settings,
+      settingsEnabled: settings?.global_enabled,
+      shouldRender: !authLoading && (!!settings?.global_enabled || settings === undefined)
+    });
+  }, [authLoading, user, settings]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -51,14 +63,31 @@ const GlobalChatbot: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Don't render if chatbot is disabled or user is not authenticated
-  if (!settings?.global_enabled || !user) {
+  // Show chatbot if:
+  // 1. Auth is not loading AND
+  // 2. Either settings are enabled OR settings haven't loaded yet (default behavior)
+  const shouldShowChatbot = !authLoading && (settings?.global_enabled !== false);
+
+  console.log('Chatbot render decision:', {
+    authLoading,
+    settingsEnabled: settings?.global_enabled,
+    shouldShowChatbot
+  });
+
+  if (!shouldShowChatbot) {
+    console.log('Chatbot not rendering - conditions not met');
     return null;
   }
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
+
+    // Check if user is authenticated for sending messages
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
 
     const messageToSend = inputMessage;
     setInputMessage('');
@@ -72,8 +101,20 @@ const GlobalChatbot: React.FC = () => {
   };
 
   const handleNewConversation = async (agentId?: string) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    
     setShowAgentSelection(false);
     await startNewConversation(agentId);
+  };
+
+  const handleOpenChatbot = () => {
+    setIsOpen(true);
+    if (!user) {
+      setShowLoginPrompt(true);
+    }
   };
 
   const currentAgent = agents?.find(agent => 
@@ -137,48 +178,75 @@ const GlobalChatbot: React.FC = () => {
 
               {!isMinimized && (
                 <>
-                  {/* Conversation Selector */}
-                  <div className="p-2 border-b border-dark-border">
-                    <div className="flex items-center gap-2">
+                  {/* Login Prompt for Unauthenticated Users */}
+                  {showLoginPrompt && !user && (
+                    <div className="p-4 bg-dark-lighter border-b border-dark-border">
+                      <div className="text-center text-sm text-gray-300 mb-3">
+                        Please log in to use the AI assistant
+                      </div>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setShowAgentSelection(!showAgentSelection)}
-                        className="border-dark-border text-gray-400 hover:text-white flex-1"
+                        onClick={() => {
+                          setShowLoginPrompt(false);
+                          setIsOpen(false);
+                          // You can trigger login dialog here if needed
+                        }}
+                        className="w-full border-dark-border text-gray-400 hover:text-white"
                       >
-                        <Plus size={16} className="mr-1" />
-                        New Chat
+                        Log In
                       </Button>
                     </div>
+                  )}
 
-                    {showAgentSelection && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-2 space-y-1"
-                      >
-                        {agents?.map(agent => (
-                          <Button
-                            key={agent.id}
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleNewConversation(agent.id)}
-                            className="w-full justify-start text-left text-gray-300 hover:text-white"
-                          >
-                            <div>
-                              <div className="font-medium">{agent.name}</div>
-                              <div className="text-xs text-gray-500">{agent.description}</div>
-                            </div>
-                          </Button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </div>
+                  {/* Conversation Selector - Only show if user is authenticated */}
+                  {user && (
+                    <div className="p-2 border-b border-dark-border">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowAgentSelection(!showAgentSelection)}
+                          className="border-dark-border text-gray-400 hover:text-white flex-1"
+                        >
+                          <Plus size={16} className="mr-1" />
+                          New Chat
+                        </Button>
+                      </div>
+
+                      {showAgentSelection && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="mt-2 space-y-1"
+                        >
+                          {agents?.map(agent => (
+                            <Button
+                              key={agent.id}
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleNewConversation(agent.id)}
+                              className="w-full justify-start text-left text-gray-300 hover:text-white"
+                            >
+                              <div>
+                                <div className="font-medium">{agent.name}</div>
+                                <div className="text-xs text-gray-500">{agent.description}</div>
+                              </div>
+                            </Button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Messages */}
                   <ScrollArea className="flex-1 p-4">
-                    {messagesLoading ? (
+                    {!user ? (
+                      <div className="text-center text-gray-400 text-sm py-8">
+                        Welcome! Please log in to start chatting with our AI assistant.
+                      </div>
+                    ) : messagesLoading ? (
                       <div className="flex items-center justify-center h-20">
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-soft-blue"></div>
                       </div>
@@ -226,20 +294,20 @@ const GlobalChatbot: React.FC = () => {
                     )}
                   </ScrollArea>
 
-                  {/* Input */}
+                  {/* Input - Always show but handle authentication in submit */}
                   <form onSubmit={handleSendMessage} className="p-4 border-t border-dark-border">
                     <div className="flex gap-2">
                       <Input
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
-                        placeholder="Type your message..."
+                        placeholder={user ? "Type your message..." : "Please log in to chat..."}
                         className="bg-dark-lighter border-dark-border text-white placeholder-gray-400"
-                        disabled={isSendingMessage || isCreatingConversation}
+                        disabled={!user || isSendingMessage || isCreatingConversation}
                       />
                       <Button
                         type="submit"
                         size="sm"
-                        disabled={!inputMessage.trim() || isSendingMessage || isCreatingConversation}
+                        disabled={!user || !inputMessage.trim() || isSendingMessage || isCreatingConversation}
                         className="bg-soft-blue hover:bg-soft-blue/80"
                       >
                         {isSendingMessage || isCreatingConversation ? (
@@ -263,7 +331,7 @@ const GlobalChatbot: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <Button
-              onClick={() => setIsOpen(true)}
+              onClick={handleOpenChatbot}
               className="w-16 h-16 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan shadow-2xl hover:shadow-3xl border-2 border-white/20 transition-all duration-300"
             >
               <Headphones size={28} className="text-white" />
