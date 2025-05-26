@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import SearchInput from './search/SearchInput';
 import QuickAccessButtons from './search/QuickAccessButtons';
 import FilterPanel from './search/FilterPanel';
+import PopularPicks from './PopularPicks';
 
 interface EnhancedSearchBarProps {
   onFilterToggle?: () => void;
@@ -46,6 +47,13 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onFilterToggle })
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
       />
+
+      {/* Popular Picks Section */}
+      {query === '' && (
+        <div className="mt-16">
+          <PopularPicks />
+        </div>
+      )}
     </div>
   );
 };
