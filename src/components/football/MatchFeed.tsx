@@ -38,7 +38,8 @@ const MatchFeed = () => {
       odds: { home: '2.50', draw: '3.10', away: '2.80' },
       percentages: { home: '40%', draw: '25%', away: '35%' },
       isLive: false,
-      isHot: true
+      isHot: true,
+      score: undefined
     },
     {
       id: 'upcoming-2',
@@ -49,7 +50,8 @@ const MatchFeed = () => {
       odds: { home: '1.85', draw: '3.80', away: '4.20' },
       percentages: { home: '55%', draw: '25%', away: '20%' },
       isLive: false,
-      isHot: false
+      isHot: false,
+      score: undefined
     },
     {
       id: 'upcoming-3',
@@ -60,7 +62,8 @@ const MatchFeed = () => {
       odds: { home: '2.20', draw: '3.20', away: '3.40' },
       percentages: { home: '42%', draw: '28%', away: '30%' },
       isLive: false,
-      isHot: false
+      isHot: false,
+      score: undefined
     }
   ];
 
@@ -88,7 +91,8 @@ const MatchFeed = () => {
       away: `${match.predictions.winProbability.away}%` 
     },
     isLive: match.status === 'live',
-    isHot: match.predictions.confidence > 70
+    isHot: match.predictions.confidence > 70,
+    score: match.status === 'live' ? { home: 0, away: 0 } : undefined
   })) : enhancedFallbackMatches;
 
   const dataSource = filteredMatches.length > 0 ? 'live' : (isLoading ? 'loading' : 'preview');
