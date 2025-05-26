@@ -30,7 +30,7 @@ const FootballContent = () => {
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
           
           <div className="container mx-auto px-4 relative z-10">
-            {/* New Layout: Sidebar left, Search bar right */}
+            {/* Layout: Sidebar left, Search bar right */}
             <div className="flex gap-8 items-start max-w-7xl mx-auto">
               {/* Left Sidebar - Competitions */}
               <div className="w-80 flex-shrink-0">
@@ -48,12 +48,12 @@ const FootballContent = () => {
         {/* Main Content Area - Dark Theme */}
         <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
-            {/* Center Content */}
-            <div className="max-w-6xl mx-auto">
-              {/* Popular Picks Carousel */}
+            {/* Center Content - positioned under the search bar area */}
+            <div className="max-w-4xl mx-auto ml-auto mr-auto" style={{ marginLeft: '320px' }}>
+              {/* Popular Picks Carousel - debajo del buscador */}
               <PopularPicksCarousel />
               
-              {/* Match Feed below Popular Picks */}
+              {/* Match Feed - debajo de Popular Picks */}
               <MatchFeed />
             </div>
           </div>
