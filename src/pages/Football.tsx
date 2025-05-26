@@ -23,41 +23,32 @@ const FootballContent = () => {
       <Navbar />
       
       <main className="pt-16">
-        {/* Top Section - Enhanced Search Bar with Dark Theme */}
-        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-12 relative overflow-hidden">
-          {/* Background glow effects */}
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            {/* Layout: Sidebar left, Search bar right */}
-            <div className="flex gap-8 items-start max-w-7xl mx-auto">
-              {/* Left Sidebar - Competitions */}
+        {/* Single Flex Container for entire layout */}
+        <div className="bg-dark-darker min-h-screen">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex gap-8 max-w-7xl mx-auto">
+              {/* Left Sidebar - Fixed Width */}
               <div className="w-80 flex-shrink-0">
                 <CompetitionsSidebar />
               </div>
 
-              {/* Right Side - Search Bar */}
+              {/* Right Column - Search Bar, Popular Picks, and Match Feed */}
               <div className="flex-1">
-                <EnhancedSearchBar onFilterToggle={handleFilterToggle} />
-              </div>
-            </div>
-          </div>
-        </div>
+                {/* Enhanced Search Bar */}
+                <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border border-dark-border rounded-lg p-6 mb-6 relative overflow-hidden">
+                  {/* Background glow effects */}
+                  <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
+                  
+                  <div className="relative z-10">
+                    <EnhancedSearchBar onFilterToggle={handleFilterToggle} />
+                  </div>
+                </div>
 
-        {/* Content Area - Popular Picks and Match Feed a la derecha del sidebar */}
-        <div className="bg-dark-darker min-h-screen">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex gap-8 max-w-7xl mx-auto">
-              {/* Left space to maintain alignment with sidebar */}
-              <div className="w-80 flex-shrink-0"></div>
-              
-              {/* Right Content - Popular Picks and Match Feed */}
-              <div className="flex-1">
-                {/* Popular Picks Carousel - a la derecha del sidebar */}
+                {/* Popular Picks Carousel */}
                 <PopularPicksCarousel />
                 
-                {/* Match Feed - debajo de Popular Picks, a la derecha del sidebar */}
+                {/* Match Feed */}
                 <MatchFeed />
               </div>
             </div>
