@@ -47,15 +47,15 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
       
       <div className="flex items-center gap-3 mb-6">
         <Sparkles className="text-neon-blue w-5 h-5" />
-        <h3 className="text-2xl font-bold text-white">Earnings Calculator</h3>
+        <h3 className="text-2xl font-bold text-white">Calculadora de Ganancias</h3>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-6">
           <div className="space-y-3">
             <div className="flex justify-between">
-              <label className="text-gray-300">Monthly bets</label>
-              <span className="text-white font-medium">{monthlyBets} bets</span>
+              <label className="text-gray-300">Apuestas mensuales</label>
+              <span className="text-white font-medium">{monthlyBets} apuestas</span>
             </div>
             <Slider 
               value={[monthlyBets]} 
@@ -68,7 +68,7 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
           
           <div className="space-y-3">
             <div className="flex justify-between">
-              <label className="text-gray-300">Average bet size</label>
+              <label className="text-gray-300">Tamaño promedio de apuesta</label>
               <span className="text-white font-medium">${averageBet}</span>
             </div>
             <Slider 
@@ -82,7 +82,7 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
           
           <div className="space-y-3">
             <div className="flex justify-between">
-              <label className="text-gray-300">Your current win rate</label>
+              <label className="text-gray-300">Tu tasa de victoria actual</label>
               <span className="text-white font-medium">{currentWinRate}%</span>
             </div>
             <Slider 
@@ -97,18 +97,18 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
         
         <div className="bg-dark-lighter rounded-lg p-6 flex flex-col justify-between">
           <div>
-            <h4 className="text-gray-300 mb-4">Your potential earnings</h4>
+            <h4 className="text-gray-300 mb-4">Tus ganancias potenciales</h4>
             
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <div className="text-gray-400">Current monthly profit</div>
+                <div className="text-gray-400">Ganancia mensual actual</div>
                 <div className={`text-lg font-medium ${currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                   {currentMonthlyEarnings >= 0 ? '+' : ''}{currentMonthlyEarnings.toFixed(0)}$
                 </div>
               </div>
               
               <div className="flex justify-between items-center">
-                <div className="text-gray-400">With Bet 3.0 (estimated)</div>
+                <div className="text-gray-400">Con Bet 3.0 (estimado)</div>
                 <div className="text-neon-blue text-xl font-bold">
                   +{enhancedMonthlyEarnings.toFixed(0)}$
                 </div>
@@ -116,7 +116,7 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
               
               <div className="pt-4 border-t border-gray-700">
                 <div className="flex justify-between items-center">
-                  <div className="text-white">Improvement</div>
+                  <div className="text-white">Mejora</div>
                   <div className="text-neon-blue font-bold">+{percentageIncrease}%</div>
                 </div>
               </div>
@@ -126,14 +126,14 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({ onClose }) => {
           <Button 
             className="mt-6 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-6 h-auto rounded-lg text-base font-medium group"
           >
-            Try Bet 3.0 Free For 7 Days
+            Prueba Bet 3.0 Gratis por 7 Días
             <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
         </div>
       </div>
       
       <div className="mt-6 text-sm text-gray-400 text-center">
-        * Calculations are based on average historical performance and may vary based on individual betting patterns.
+        * Los cálculos se basan en el rendimiento histórico promedio y pueden variar según los patrones de apuestas individuales.
       </div>
     </motion.div>
   );
