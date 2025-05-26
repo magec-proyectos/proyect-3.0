@@ -76,6 +76,7 @@ export const useChatbotConversations = () => {
         .eq('user_id', user.id);
 
       if (error) throw error;
+      return { conversationId, title };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-conversations'] });
@@ -94,8 +95,9 @@ export const useChatbotConversations = () => {
         .eq('user_id', user.id);
 
       if (error) throw error;
+      return conversationId;
     },
-    onSuccess: (conversationId) => {
+    onSuccess: (_, conversationId) => {
       if (currentConversationId === conversationId) {
         setCurrentConversationId(null);
       }
@@ -108,7 +110,8 @@ export const useChatbotConversations = () => {
     currentConversationId,
     setCurrentConversationId,
     createConversation: createConversationMutation.mutateAsync,
-    updateConversation: updateConversationMutation.mutateAsync,
+    updateConversation: (conversationId: string, title: string) => 
+      updateConversationMutation.mutateAsync({ conversationId, title }),
     deleteConversation: deleteConversationMutation.mutateAsync,
     isCreatingConversation: createConversationMutation.isPending
   };
