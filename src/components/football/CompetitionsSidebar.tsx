@@ -22,7 +22,7 @@ const CompetitionsSidebar = () => {
   ];
 
   const quickActions = [
-    { icon: Calendar, label: 'Próximos partidos (calendario)', active: false },
+    { icon: Calendar, label: 'Upcoming matches (calendar)', active: false },
     { icon: Trophy, label: 'Swipe', active: false },
     { icon: Trophy, label: 'Promos', active: false }
   ];
@@ -35,7 +35,7 @@ const CompetitionsSidebar = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-neon-blue" />
             <Input
-              placeholder="Buscar"
+              placeholder="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-dark-lighter border-dark-border text-white placeholder-gray-400 rounded-full focus:border-neon-blue"
@@ -66,7 +66,7 @@ const CompetitionsSidebar = () => {
       {/* Featured Competitions */}
       <Card className="glass-effect border-dark-border">
         <CardHeader className="pb-3">
-          <h3 className="font-semibold gradient-text">Competiciones destacadas</h3>
+          <h3 className="font-semibold gradient-text">Featured competitions</h3>
         </CardHeader>
         <CardContent className="p-0">
           {featuredCompetitions.map((comp, index) => (
@@ -98,10 +98,10 @@ const CompetitionsSidebar = () => {
       {/* Sports Categories */}
       <Card className="glass-effect border-dark-border">
         <CardHeader className="pb-3">
-          <h3 className="font-semibold gradient-text">Deportes</h3>
+          <h3 className="font-semibold gradient-text">Sports</h3>
         </CardHeader>
         <CardContent className="p-0">
-          {['Fútbol', 'Baloncesto', 'Tenis', 'Hockey', 'Balonmano'].map((sport, index) => (
+          {['Football', 'Basketball', 'Tennis', 'Hockey', 'Handball'].map((sport, index) => (
             <Button
               key={sport}
               variant="ghost"

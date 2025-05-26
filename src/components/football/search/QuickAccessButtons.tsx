@@ -7,7 +7,7 @@ interface QuickAccessButtonsProps {
 }
 
 const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) => {
-  const quickTags = ['En directo', 'Champions League', 'La Liga', 'Premier League', 'Próximos partidos'];
+  const quickTags = ['Live', 'Champions League', 'La Liga', 'Premier League', 'Upcoming matches'];
 
   return (
     <motion.div 

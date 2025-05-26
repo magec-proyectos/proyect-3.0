@@ -38,10 +38,10 @@ const FootballContent = () => {
               className="text-center mb-10"
             >
               <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-                ¿En qué puedo ayudarte hoy?
+                How can I help you today?
               </h1>
               <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                Utiliza nuestra IA para encontrar las mejores apuestas y análisis de partidos
+                Use our AI to find the best bets and match analysis
               </p>
             </motion.div>
             
@@ -64,16 +64,16 @@ const FootballContent = () => {
                 <div className="glass-effect rounded-lg border border-dark-border p-1">
                   <div className="flex gap-1">
                     <button className="px-6 py-2 bg-neon-lime text-black rounded-md font-medium text-sm hover:bg-neon-lime/90 transition-colors">
-                      Inicio
+                      Home
                     </button>
                     <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      En directo
+                      Live
                     </button>
                     <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Mis apuestas
+                      My bets
                     </button>
                     <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Estadísticas
+                      Statistics
                     </button>
                   </div>
                 </div>

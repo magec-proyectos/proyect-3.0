@@ -20,7 +20,7 @@ const ImprovedBetBuilder = () => {
     {
       id: '1',
       match: 'Al Fateh - Al Nassr Riyadh',
-      bet: 'Resultado Empate',
+      bet: 'Draw Result',
       odds: 6.00
     }
   ]);
@@ -48,7 +48,7 @@ const ImprovedBetBuilder = () => {
     <Card className="glass-effect border-dark-border h-full">
       <CardHeader className="border-b border-dark-border">
         <div className="flex items-center justify-between">
-          <span className="font-semibold gradient-text">1 selección</span>
+          <span className="font-semibold gradient-text">1 selection</span>
           <Button
             variant="ghost"
             size="sm"
@@ -69,21 +69,21 @@ const ImprovedBetBuilder = () => {
               onClick={() => setBetType('single')}
               className={`text-xs py-2 ${betType === 'single' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
             >
-              Simple (1)
+              Single (1)
             </Button>
             <Button
               variant={betType === 'combinada' ? 'default' : 'ghost'}
               onClick={() => setBetType('combinada')}
               className={`text-xs py-2 ${betType === 'combinada' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
             >
-              Combinada
+              Combo
             </Button>
             <Button
               variant={betType === 'sistema' ? 'default' : 'ghost'}
               onClick={() => setBetType('sistema')}
               className={`text-xs py-2 ${betType === 'sistema' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
             >
-              Sistema
+              System
             </Button>
           </div>
         </div>
@@ -122,7 +122,7 @@ const ImprovedBetBuilder = () => {
 
           {betSlip.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-              <div className="text-sm">No hay selecciones</div>
+              <div className="text-sm">No selections</div>
             </div>
           )}
         </div>
@@ -133,7 +133,7 @@ const ImprovedBetBuilder = () => {
             {/* Stake Amount */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-300">Importe</span>
+                <span className="text-sm font-medium text-gray-300">Amount</span>
                 <span className="text-sm text-neon-blue">€</span>
               </div>
               <Input
@@ -164,13 +164,13 @@ const ImprovedBetBuilder = () => {
             {/* Potential Winnings */}
             <div className="bg-dark-lighter rounded-lg p-3 mb-4 border border-dark-border">
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Cuota:</span>
+                <span className="text-gray-400">Odds:</span>
                 <span className="font-bold text-neon-lime">
                   {calculateTotalOdds().toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-300 font-medium">Ganancias potenciales</span>
+                <span className="text-gray-300 font-medium">Potential winnings</span>
                 <span className="text-2xl font-bold gradient-text">
                   {calculatePotentialReturn().toFixed(2)} €
                 </span>
@@ -179,7 +179,7 @@ const ImprovedBetBuilder = () => {
 
             {/* Place Bet Button */}
             <Button className="w-full bg-gradient-to-r from-neon-blue to-neon-lime hover:from-neon-blue/80 hover:to-neon-lime/80 text-black font-bold py-3 text-base rounded-lg shadow-lg hover:shadow-neon-blue/25 transition-all">
-              Conéctate y apuesta
+              Login and bet
             </Button>
           </div>
         )}

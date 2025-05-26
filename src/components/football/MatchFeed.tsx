@@ -51,13 +51,13 @@ const MatchFeed = () => {
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-400">Partidos</span>
+          <span className="text-sm font-medium text-gray-400">Matches</span>
           <Badge variant="outline" className="border-dark-border text-gray-400">
-            Competición
+            Competition
           </Badge>
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>1 selección</span>
+          <span>1 selection</span>
           <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-red-400">
             🗑️
           </Button>
@@ -127,7 +127,7 @@ const MatchFeed = () => {
                     className="bg-neon-lime text-black border-0 hover:bg-neon-lime/80 rounded-lg font-bold text-center p-3 transition-all"
                   >
                     <div>
-                      <div className="text-xs">Empate</div>
+                      <div className="text-xs">Draw</div>
                       <div className="text-lg">{match.odds.draw}</div>
                     </div>
                   </Button>

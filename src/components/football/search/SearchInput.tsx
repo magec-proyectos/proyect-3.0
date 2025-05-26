@@ -82,7 +82,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
               className="bg-gradient-to-r from-neon-blue to-neon-lime hover:from-neon-blue/80 hover:to-neon-lime/80 text-black rounded-xl px-6 py-2 shadow-lg hover:shadow-neon-blue/25 transition-all font-bold"
             >
               <Search className="h-4 w-4 mr-2" />
-              Buscar
+              Search
             </Button>
           </div>
         </div>

@@ -15,12 +15,12 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onFilterToggle })
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const suggestions = [
-    "Próximos partidos del Real Madrid",
-    "Mejores cuotas Champions League",
-    "Partidos con más de 2.5 goles",
-    "Equipos con mejor racha en casa",
-    "Apuestas con mayor probabilidad",
-    "Estadísticas Liverpool vs Arsenal"
+    "Upcoming Real Madrid matches",
+    "Best Champions League odds",
+    "Matches with over 2.5 goals",
+    "Teams with best home form",
+    "Highest probability bets",
+    "Liverpool vs Arsenal statistics"
   ];
 
   const { typedText } = useTypingAnimation({
