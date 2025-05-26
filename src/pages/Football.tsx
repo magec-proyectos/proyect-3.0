@@ -9,6 +9,7 @@ import MatchFeed from '@/components/football/MatchFeed';
 import InteractiveBetField from '@/components/football/InteractiveBetField';
 import SmartFilters from '@/components/football/SmartFilters';
 import BetSlip from '@/components/football/BetSlip';
+import PopularPicksHeatmap from '@/components/football/PopularPicksHeatmap';
 import { toast } from '@/components/ui/sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { FootballProvider, useFootball } from '@/contexts/FootballContext';
@@ -56,11 +57,20 @@ const FootballContent = () => {
             <SmartFilters />
           </motion.div>
           
-          {/* Match Feed */}
+          {/* Popular Picks Heatmap */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+          >
+            <PopularPicksHeatmap />
+          </motion.div>
+          
+          {/* Match Feed */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
           >
             <MatchFeed />
           </motion.div>
@@ -69,7 +79,7 @@ const FootballContent = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.4 }}
           >
             <InteractiveBetField />
           </motion.div>
@@ -78,7 +88,7 @@ const FootballContent = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               className="space-y-8"
             >
               <FootballTabs
