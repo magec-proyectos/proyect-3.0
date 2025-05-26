@@ -3,17 +3,22 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Clock, Star, Play } from 'lucide-react';
+import { TrendingUp, Clock, Star, Play, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFootball } from '@/contexts/FootballContext';
 import CompetitionMenu from './CompetitionMenu';
 
 const MatchFeed = () => {
-  const { filteredMatches, selectedMatch, setSelectedMatch } = useFootball();
+  const { filteredMatches, selectedMatch, setSelectedMatch, isLoading, error, triggerDataRefresh } = useFootball();
 
-  const matches = [
+  console.log('MatchFeed - filteredMatches:', filteredMatches);
+  console.log('MatchFeed - isLoading:', isLoading);
+  console.log('MatchFeed - error:', error);
+
+  // Fallback hardcoded data for when no real data is available
+  const fallbackMatches = [
     {
-      id: 1,
+      id: 'fallback-1',
       league: 'Saudi Pro League • J34',
       time: '19:00',
       homeTeam: { name: 'Al Fateh', logo: '🔵' },
@@ -24,7 +29,7 @@ const MatchFeed = () => {
       isHot: true
     },
     {
-      id: 2,
+      id: 'fallback-2',
       league: 'Saudi Pro League • J34',
       time: '19:00',
       homeTeam: { name: 'Al-Ittihad FC', logo: '🟡' },
@@ -35,7 +40,7 @@ const MatchFeed = () => {
       isHot: false
     },
     {
-      id: 3,
+      id: 'fallback-3',
       league: 'Saudi Pro League • J34',
       time: '19:00',
       homeTeam: { name: 'Al-Hilal', logo: '🔵' },
@@ -47,30 +52,93 @@ const MatchFeed = () => {
     }
   ];
 
+  // Use real data if available, otherwise fall back to hardcoded data
+  const displayMatches = filteredMatches.length > 0 ? filteredMatches.map(match => ({
+    id: match.id,
+    league: `${match.league} • Live`,
+    time: match.time,
+    homeTeam: { 
+      name: match.homeTeam.name, 
+      logo: '🏠' // Default icon for home team
+    },
+    awayTeam: { 
+      name: match.awayTeam.name, 
+      logo: '🚀' // Default icon for away team
+    },
+    odds: { 
+      home: match.homeOdds.toFixed(2), 
+      draw: match.drawOdds.toFixed(2), 
+      away: match.awayOdds.toFixed(2) 
+    },
+    percentages: { 
+      home: `${match.predictions.winProbability.home}%`, 
+      draw: `${match.predictions.winProbability.draw}%`, 
+      away: `${match.predictions.winProbability.away}%` 
+    },
+    isLive: match.status === 'live',
+    isHot: match.predictions.confidence > 70
+  })) : fallbackMatches;
+
+  const dataSource = filteredMatches.length > 0 ? 'real' : 'fallback';
+
   return (
     <div className="space-y-4">
       {/* Competition Menu */}
       <CompetitionMenu />
 
-      {/* Section Header */}
+      {/* Section Header with Data Status */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-gray-400">Matches</span>
           <Badge variant="outline" className="border-dark-border text-gray-400">
-            Competition
+            {dataSource === 'real' ? 'Live Data' : 'Demo Data'}
           </Badge>
+          {dataSource === 'fallback' && (
+            <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">
+              <AlertCircle className="h-3 w-3 mr-1" />
+              No Live Data
+            </Badge>
+          )}
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>1 selection</span>
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-red-400">
-            🗑️
-          </Button>
+          <span>{displayMatches.length} matches</span>
+          {dataSource === 'fallback' && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={triggerDataRefresh}
+              disabled={isLoading}
+              className="h-6 text-xs text-neon-blue hover:text-neon-blue/80"
+            >
+              {isLoading ? 'Loading...' : 'Load Live Data'}
+            </Button>
+          )}
         </div>
       </div>
 
-      {/* Match Cards - Dark Theme */}
+      {/* Error Message */}
+      {error && (
+        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="h-4 w-4" />
+            Error loading data: {error}
+          </div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="text-center py-8">
+          <div className="inline-flex items-center gap-2 text-neon-blue">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-neon-blue"></div>
+            Loading live matches...
+          </div>
+        </div>
+      )}
+
+      {/* Match Cards */}
       <div className="space-y-3">
-        {matches.map((match, index) => (
+        {displayMatches.map((match, index) => (
           <motion.div
             key={match.id}
             initial={{ opacity: 0, y: 20 }}
@@ -92,7 +160,12 @@ const MatchFeed = () => {
                   </div>
                   {match.isHot && (
                     <Badge className="bg-neon-lime text-black text-xs font-bold">
-                      HOT (9)
+                      HOT
+                    </Badge>
+                  )}
+                  {match.isLive && (
+                    <Badge className="bg-red-500 text-white text-xs font-bold animate-pulse">
+                      LIVE
                     </Badge>
                   )}
                 </div>
@@ -119,6 +192,7 @@ const MatchFeed = () => {
                   <Button 
                     variant="outline" 
                     className="bg-dark-lighter text-white border-dark-border hover:bg-neon-blue hover:text-black rounded-lg font-bold text-center p-3 transition-all"
+                    onClick={() => setSelectedMatch(match.id)}
                   >
                     <div>
                       <div className="text-xs text-gray-400">{match.homeTeam.name}</div>
@@ -129,6 +203,7 @@ const MatchFeed = () => {
                   <Button 
                     variant="outline" 
                     className="bg-neon-lime text-black border-0 hover:bg-neon-lime/80 rounded-lg font-bold text-center p-3 transition-all"
+                    onClick={() => setSelectedMatch(match.id)}
                   >
                     <div>
                       <div className="text-xs">Draw</div>
@@ -139,6 +214,7 @@ const MatchFeed = () => {
                   <Button 
                     variant="outline" 
                     className="bg-dark-lighter text-white border-dark-border hover:bg-neon-blue hover:text-black rounded-lg font-bold text-center p-3 transition-all"
+                    onClick={() => setSelectedMatch(match.id)}
                   >
                     <div>
                       <div className="text-xs text-gray-400">{match.awayTeam.name}</div>
@@ -167,6 +243,22 @@ const MatchFeed = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Empty State when no matches */}
+      {!isLoading && displayMatches.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-gray-400 mb-4">
+            <Clock className="h-12 w-12 mx-auto mb-2 opacity-50" />
+            <p>No matches available at the moment</p>
+          </div>
+          <Button 
+            onClick={triggerDataRefresh}
+            className="bg-neon-blue hover:bg-neon-blue/90 text-black"
+          >
+            Refresh Data
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

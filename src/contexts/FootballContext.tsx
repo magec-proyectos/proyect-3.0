@@ -109,20 +109,37 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Update last update time when new data comes in
   useEffect(() => {
     if (updates.length > 0) {
+      console.log('Real-time update received:', updates[updates.length - 1]);
       setLastUpdate(new Date());
       // Invalidate queries to refetch data
       matchesQuery.refetch();
     }
   }, [updates, matchesQuery]);
 
+  // Set initial last update time when data is first loaded
+  useEffect(() => {
+    if (matchesQuery.data && matchesQuery.data.length > 0 && !lastUpdate) {
+      setLastUpdate(new Date());
+    }
+  }, [matchesQuery.data, lastUpdate]);
+
   const matches = matchesQuery.data || [];
   const leagues = leaguesQuery.data || [];
   const isLoading = matchesQuery.isLoading || leaguesQuery.isLoading;
   const error = matchesQuery.error?.message || leaguesQuery.error?.message || null;
 
+  // Log data for debugging
+  useEffect(() => {
+    console.log('FootballContext - matches updated:', matches.length, 'matches');
+    console.log('FootballContext - isLoading:', isLoading);
+    console.log('FootballContext - error:', error);
+  }, [matches, isLoading, error]);
+
   // Filter matches based on search and filters
   const filteredMatches = React.useMemo(() => {
     let filtered = matches;
+
+    console.log('Filtering matches - total:', filtered.length);
 
     // Search filter
     if (searchQuery) {
@@ -131,22 +148,26 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         match.awayTeam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         match.league.toLowerCase().includes(searchQuery.toLowerCase())
       );
+      console.log('After search filter:', filtered.length);
     }
 
     // Date filter
     if (filters.date) {
       filtered = filtered.filter(match => match.date === filters.date);
+      console.log('After date filter:', filtered.length);
     }
 
     // Odds filter
     filtered = filtered.filter(match => 
       match.homeOdds >= filters.minOdds && match.homeOdds <= filters.maxOdds
     );
+    console.log('After odds filter:', filtered.length);
 
     // Confidence filter
     filtered = filtered.filter(match => 
       (match.predictions.confidence) >= filters.confidence
     );
+    console.log('After confidence filter:', filtered.length);
 
     return filtered;
   }, [matches, searchQuery, filters]);
@@ -179,9 +200,9 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const triggerDataRefresh = async () => {
     try {
       console.log('Triggering manual data refresh...');
-      await triggerSportsScraping();
       await matchesQuery.refetch();
       setLastUpdate(new Date());
+      console.log('Data refresh completed');
     } catch (error) {
       console.error('Error refreshing data:', error);
     }
