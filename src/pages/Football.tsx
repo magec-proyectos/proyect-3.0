@@ -11,18 +11,13 @@ import LiveMatches from '@/components/football/LiveMatches';
 import CompetitionsSidebar from '@/components/football/CompetitionsSidebar';
 import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
 import MatchFeed from '@/components/football/MatchFeed';
-import FootballStatsNavigation from '@/components/football/FootballStatsNavigation';
 
 const FootballContent = () => {
-  const [selectedView, setSelectedView] = useState<'goalscorers' | 'players' | 'corners' | 'fouls'>('goalscorers');
+  const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFilterToggle = () => {
     setIsFilterOpen(!isFilterOpen);
-  };
-
-  const handleTabChange = (tab: 'goalscorers' | 'players' | 'corners' | 'fouls') => {
-    setSelectedView(tab);
   };
 
   return (
@@ -62,48 +57,25 @@ const FootballContent = () => {
 
               {/* Center Content */}
               <div className="flex-1 space-y-6">
-                {/* Enhanced Football Statistics Navigation */}
-                <FootballStatsNavigation 
-                  selectedTab={selectedView}
-                  onTabChange={handleTabChange}
-                />
-
-                {/* Content based on selected tab */}
-                <div className="space-y-6">
-                  {selectedView === 'goalscorers' && (
-                    <div className="glass-effect rounded-lg border border-dark-border p-6">
-                      <h2 className="text-2xl font-bold mb-4 text-neon-blue">Top Goalscorers</h2>
-                      <p className="text-gray-400">Leading goalscorers across all competitions</p>
-                      {/* Goalscorers content will be added here */}
-                    </div>
-                  )}
-                  
-                  {selectedView === 'players' && (
-                    <div className="glass-effect rounded-lg border border-dark-border p-6">
-                      <h2 className="text-2xl font-bold mb-4 text-neon-lime">Player Statistics</h2>
-                      <p className="text-gray-400">Comprehensive player performance data</p>
-                      {/* Players stats content will be added here */}
-                    </div>
-                  )}
-                  
-                  {selectedView === 'corners' && (
-                    <div className="glass-effect rounded-lg border border-dark-border p-6">
-                      <h2 className="text-2xl font-bold mb-4 text-purple-400">Corner Statistics</h2>
-                      <p className="text-gray-400">Corner kicks analysis and trends</p>
-                      {/* Corners content will be added here */}
-                    </div>
-                  )}
-                  
-                  {selectedView === 'fouls' && (
-                    <div className="glass-effect rounded-lg border border-dark-border p-6">
-                      <h2 className="text-2xl font-bold mb-4 text-orange-400">Foul Statistics</h2>
-                      <p className="text-gray-400">Disciplinary records and foul analysis</p>
-                      {/* Fouls content will be added here */}
-                    </div>
-                  )}
+                {/* Navigation Tabs - Dark Theme */}
+                <div className="glass-effect rounded-lg border border-dark-border p-1">
+                  <div className="flex gap-1">
+                    <button className="px-6 py-2 bg-neon-lime text-black rounded-md font-medium text-sm hover:bg-neon-lime/90 transition-colors">
+                      Home
+                    </button>
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Live
+                    </button>
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      My bets
+                    </button>
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Statistics
+                    </button>
+                  </div>
                 </div>
 
-                {/* Match Cards - Always visible below stats */}
+                {/* Match Cards - Dark Theme */}
                 <MatchFeed />
               </div>
 
