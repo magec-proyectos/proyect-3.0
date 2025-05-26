@@ -27,6 +27,16 @@ const featuredCompetitions = [
   { name: 'Serie A', flag: '🇮🇹', isLive: true }
 ];
 
+// Countries data
+const countries = [
+  { name: 'Germany', flag: '🇩🇪' },
+  { name: 'Argentina', flag: '🇦🇷' },
+  { name: 'Spain', flag: '🇪🇸' },
+  { name: 'France', flag: '🇫🇷' },
+  { name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  { name: 'Italy', flag: '🇮🇹' }
+];
+
 // Sports data with their competitions
 const sportsData = [
   {
@@ -43,7 +53,8 @@ const sportsData = [
       { name: 'Segunda División', flag: '🇪🇸' },
       { name: 'Allsvenskan', flag: '🇸🇪' },
       { name: 'MultiFootball', icon: '⚽' }
-    ]
+    ],
+    hasCountries: true
   },
   {
     name: 'Tennis',
@@ -52,7 +63,8 @@ const sportsData = [
     competitions: [
       { name: 'ATP - Roland Garros', flag: '🇫🇷' },
       { name: 'WTA - Roland Garros', flag: '🇫🇷' }
-    ]
+    ],
+    hasCountries: false
   },
   {
     name: 'Basketball',
@@ -66,77 +78,79 @@ const sportsData = [
       { name: 'BBL', flag: '🇩🇪' },
       { name: 'Pro A', flag: '🇫🇷' },
       { name: 'LegaBasket Serie A', flag: '🇮🇹' }
-    ]
+    ],
+    hasCountries: true
   },
   {
     name: 'Motor Racing',
     icon: '🏎️',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Handball',
     icon: '🤾',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Baseball',
     icon: '⚾',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Biathlon',
     icon: '🎿',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Boxing',
     icon: '🥊',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Cycling',
     icon: '🚴',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Cricket',
     icon: '🏏',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Darts',
     icon: '🎯',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'Specials',
     icon: '✨',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   },
   {
     name: 'ESports',
     icon: '🎮',
     expanded: false,
-    competitions: []
+    competitions: [],
+    hasCountries: false
   }
-];
-
-const countries = [
-  { name: 'Germany', flag: '🇩🇪' },
-  { name: 'Argentina', flag: '🇦🇷' },
-  { name: 'Spain', flag: '🇪🇸' },
-  { name: 'France', flag: '🇫🇷' },
-  { name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  { name: 'Italy', flag: '🇮🇹' }
 ];
 
 const EnhancedSidebar = () => {
@@ -152,9 +166,12 @@ const EnhancedSidebar = () => {
     );
   };
 
-  const toggleCountries = () => {
+  const toggleCountries = (sportName: string) => {
+    const countryKey = `${sportName}-countries`;
     setExpandedCountries(prev => 
-      prev.length > 0 ? [] : ['countries']
+      prev.includes(countryKey) 
+        ? prev.filter(name => name !== countryKey)
+        : [...prev, countryKey]
     );
   };
 
@@ -175,33 +192,44 @@ const EnhancedSidebar = () => {
           </div>
         </div>
 
-        {/* Shortcuts Section */}
+        {/* Quick Access Menu */}
         <div className="p-4 border-b border-dark-border">
           <h3 className="text-white font-semibold mb-3 text-sm">Quick access</h3>
-          <div className="flex gap-2">
+          <div className="space-y-1">
             <Button
               variant="ghost"
-              size="sm"
-              className="flex-1 bg-dark-lighter hover:bg-dark text-gray-300 hover:text-white"
+              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
             >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Trending
+              <div className="flex items-center gap-3">
+                <TrendingUp className="h-4 w-4 text-green-400" />
+                <span className="text-gray-300 text-sm group-hover:text-white">Trending</span>
+              </div>
+              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
             </Button>
+            
             <Button
               variant="ghost"
-              size="sm"
-              className="flex-1 bg-dark-lighter hover:bg-dark text-gray-300 hover:text-white"
+              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
             >
-              <Save className="h-4 w-4 mr-2" />
-              Save
+              <div className="flex items-center gap-3">
+                <Save className="h-4 w-4 text-blue-400" />
+                <span className="text-gray-300 text-sm group-hover:text-white">Favorites</span>
+              </div>
+              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
             </Button>
+            
             <Button
               variant="ghost"
-              size="sm"
-              className="flex-1 bg-dark-lighter hover:bg-dark text-gray-300 hover:text-white"
+              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
             >
-              <Zap className="h-4 w-4 mr-2" />
-              Live
+              <div className="flex items-center gap-3">
+                <Zap className="h-4 w-4 text-red-400" />
+                <span className="text-gray-300 text-sm group-hover:text-white">Live</span>
+                <Badge variant="destructive" className="text-xs px-1.5 py-0.5 ml-1">
+                  24
+                </Badge>
+              </div>
+              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
             </Button>
           </div>
         </div>
@@ -234,7 +262,7 @@ const EnhancedSidebar = () => {
         </div>
 
         {/* Sports Section */}
-        <div className="p-4 border-b border-dark-border">
+        <div className="p-4">
           <h3 className="text-white font-semibold mb-3 text-sm">Sports</h3>
           
           <div className="space-y-1">
@@ -257,7 +285,7 @@ const EnhancedSidebar = () => {
                   )}
                 </Button>
 
-                {/* Competitions */}
+                {/* Competitions and Countries */}
                 <AnimatePresence>
                   {expandedSports.includes(sport.name) && sport.competitions.length > 0 && (
                     <motion.div
@@ -267,6 +295,7 @@ const EnhancedSidebar = () => {
                       className="overflow-hidden"
                     >
                       <div className="pl-4 py-1 space-y-0.5">
+                        {/* Competitions */}
                         {sport.competitions.map((competition, index) => (
                           <Button
                             key={index}
@@ -289,6 +318,56 @@ const EnhancedSidebar = () => {
                             )}
                           </Button>
                         ))}
+                        
+                        {/* Countries Section for sports that have it */}
+                        {sport.hasCountries && (
+                          <>
+                            <Separator className="my-2 bg-dark-border" />
+                            <Button
+                              variant="ghost"
+                              onClick={() => toggleCountries(sport.name)}
+                              className="w-full justify-between p-1.5 h-auto text-left hover:bg-dark/50"
+                            >
+                              <div className="flex items-center gap-2">
+                                <MapPin className="h-3 w-3 text-gray-400" />
+                                <span className="text-gray-400 text-xs font-medium">Countries</span>
+                              </div>
+                              {expandedCountries.includes(`${sport.name}-countries`) ? 
+                                <ChevronUp className="h-3 w-3 text-gray-400" /> : 
+                                <ChevronDown className="h-3 w-3 text-gray-400" />
+                              }
+                            </Button>
+
+                            <AnimatePresence>
+                              {expandedCountries.includes(`${sport.name}-countries`) && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="pl-4 space-y-0.5">
+                                    {countries.map((country, index) => (
+                                      <Button
+                                        key={index}
+                                        variant="ghost"
+                                        className="w-full justify-between p-1 h-auto text-left hover:bg-dark/30 group"
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-xs">{country.flag}</span>
+                                          <span className="text-gray-500 text-xs group-hover:text-gray-400">
+                                            {country.name}
+                                          </span>
+                                        </div>
+                                        <ChevronDown className="h-2 w-2 text-gray-500" />
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
                       </div>
                     </motion.div>
                   )}
@@ -296,53 +375,6 @@ const EnhancedSidebar = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Countries Section */}
-        <div className="p-4">
-          <Button
-            variant="ghost"
-            onClick={toggleCountries}
-            className="w-full justify-between p-2 h-auto text-left hover:bg-dark-lighter mb-3"
-          >
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-gray-400" />
-              <span className="text-gray-300 text-sm font-medium">Countries</span>
-            </div>
-            {expandedCountries.includes('countries') ? 
-              <ChevronUp className="h-3 w-3 text-gray-400" /> : 
-              <ChevronDown className="h-3 w-3 text-gray-400" />
-            }
-          </Button>
-
-          <AnimatePresence>
-            {expandedCountries.includes('countries') && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="space-y-0.5">
-                  {countries.map((country, index) => (
-                    <Button
-                      key={index}
-                      variant="ghost"
-                      className="w-full justify-between p-1.5 h-auto text-left hover:bg-dark/50 group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs">{country.flag}</span>
-                        <span className="text-gray-400 text-xs group-hover:text-gray-300">
-                          {country.name}
-                        </span>
-                      </div>
-                      <ChevronDown className="h-3 w-3 text-gray-400" />
-                    </Button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </CardContent>
     </Card>
