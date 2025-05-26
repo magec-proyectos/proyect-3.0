@@ -48,22 +48,6 @@ const MatchFeed = () => {
 
   return (
     <div className="space-y-4">
-      {/* Section Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-400">Matches</span>
-          <Badge variant="outline" className="border-dark-border text-gray-400">
-            Competition
-          </Badge>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>1 selection</span>
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-red-400">
-            🗑️
-          </Button>
-        </div>
-      </div>
-
       {/* Match Cards - Dark Theme */}
       <div className="space-y-3">
         {matches.map((match, index) => (
