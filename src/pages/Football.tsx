@@ -8,6 +8,7 @@ import { FootballProvider } from '@/contexts/FootballContext';
 import EnhancedSidebar from '@/components/football/EnhancedSidebar';
 import MatchFeed from '@/components/football/MatchFeed';
 import PopularPicksCarousel from '@/components/football/PopularPicksCarousel';
+import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
 
 const FootballContent = () => {
   const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
@@ -17,22 +18,29 @@ const FootballContent = () => {
       <Navbar />
       
       <main className="pt-16">
-        {/* Single Flex Container for entire layout */}
+        {/* Three Column Layout */}
         <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
-            <div className="flex gap-8 max-w-7xl mx-auto">
-              {/* Left Sidebar with Search - Fixed Width */}
+            <div className="flex gap-6 max-w-full mx-auto">
+              {/* Left Sidebar - Fixed Width */}
               <div className="w-80 flex-shrink-0">
                 <EnhancedSidebar />
               </div>
 
-              {/* Right Column - Popular Picks and Match Feed */}
-              <div className="flex-1">
+              {/* Center Column - Popular Picks and Match Feed */}
+              <div className="flex-1 max-w-4xl">
                 {/* Popular Picks Carousel */}
                 <PopularPicksCarousel />
                 
                 {/* Match Feed */}
                 <MatchFeed />
+              </div>
+
+              {/* Right Column - Bet Builder */}
+              <div className="w-80 flex-shrink-0">
+                <div className="sticky top-6">
+                  <ImprovedBetBuilder />
+                </div>
               </div>
             </div>
           </div>
