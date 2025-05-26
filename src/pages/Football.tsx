@@ -6,10 +6,7 @@ import { FootballProvider } from '@/contexts/FootballContext';
 
 // Updated components
 import EnhancedSearchBar from '@/components/football/EnhancedSearchBar';
-import PopularPicks from '@/components/football/PopularPicks';
-import LiveMatches from '@/components/football/LiveMatches';
 import CompetitionsSidebar from '@/components/football/CompetitionsSidebar';
-import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
 import MatchFeed from '@/components/football/MatchFeed';
 
 const FootballContent = () => {
@@ -42,29 +39,27 @@ const FootballContent = () => {
               </h1>
             </motion.div>
             
-            <EnhancedSearchBar onFilterToggle={handleFilterToggle} />
+            {/* New Layout: Sidebar left, Search bar right */}
+            <div className="flex gap-8 items-start max-w-7xl mx-auto">
+              {/* Left Sidebar - Competitions */}
+              <div className="w-80 flex-shrink-0">
+                <CompetitionsSidebar />
+              </div>
+
+              {/* Right Side - Search Bar */}
+              <div className="flex-1">
+                <EnhancedSearchBar onFilterToggle={handleFilterToggle} />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Main Content Area - Dark Theme */}
         <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
-            <div className="flex gap-6">
-              {/* Left Sidebar - Competitions - Dark Theme */}
-              <div className="w-80 flex-shrink-0">
-                <CompetitionsSidebar />
-              </div>
-
-              {/* Center Content */}
-              <div className="flex-1 space-y-6">
-                {/* Match Cards - Dark Theme */}
-                <MatchFeed />
-              </div>
-
-              {/* Right Sidebar - Bet Builder - Dark Theme */}
-              <div className="w-80 flex-shrink-0">
-                <ImprovedBetBuilder />
-              </div>
+            {/* Center Content - Match Feed taking full width */}
+            <div className="max-w-6xl mx-auto">
+              <MatchFeed />
             </div>
           </div>
         </div>

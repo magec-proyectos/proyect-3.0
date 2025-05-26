@@ -28,11 +28,11 @@ const CompetitionsSidebar = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Enhanced Quick Actions */}
       <Card className="glass-effect border-dark-border shadow-lg">
-        <CardHeader className="pb-3">
-          <h3 className="font-semibold gradient-text text-lg">Quick Access</h3>
+        <CardHeader className="pb-2">
+          <h3 className="font-semibold gradient-text text-base">Quick Access</h3>
         </CardHeader>
         <CardContent className="p-0">
           {quickActions.map((action, index) => (
@@ -43,17 +43,17 @@ const CompetitionsSidebar = () => {
             >
               <Button
                 variant="ghost"
-                className="w-full justify-between p-4 text-left hover:bg-dark-lighter rounded-none first:rounded-t-lg last:rounded-b-lg text-gray-300 hover:text-white transition-all duration-300 group relative overflow-hidden"
+                className="w-full justify-between p-3 text-left hover:bg-dark-lighter rounded-none first:rounded-t-lg last:rounded-b-lg text-gray-300 hover:text-white transition-all duration-300 group relative overflow-hidden"
               >
-                <div className="flex items-center gap-3">
-                  <action.icon className={`h-5 w-5 ${action.color} ${action.pulse ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform`} />
-                  <span className="font-medium">{action.label}</span>
+                <div className="flex items-center gap-2">
+                  <action.icon className={`h-4 w-4 ${action.color} ${action.pulse ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform`} />
+                  <span className="font-medium text-sm">{action.label}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge className="bg-dark/60 text-gray-300 border-dark-border text-xs">
                     {action.count}
                   </Badge>
-                  <ChevronRight className="h-4 w-4 text-gray-500 group-hover:text-neon-blue transition-colors" />
+                  <ChevronRight className="h-3 w-3 text-gray-500 group-hover:text-neon-blue transition-colors" />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neon-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </Button>
@@ -64,15 +64,15 @@ const CompetitionsSidebar = () => {
 
       {/* Enhanced Featured Competitions */}
       <Card className="glass-effect border-dark-border shadow-lg">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold gradient-text text-lg">Featured Competitions</h3>
+            <h3 className="font-semibold gradient-text text-base">Competitions</h3>
             <Badge className="bg-neon-lime/20 text-neon-lime border-neon-lime/30 text-xs">
               {featuredCompetitions.length}
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="p-0 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-dark-border scrollbar-track-transparent">
+        <CardContent className="p-0 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-dark-border scrollbar-track-transparent">
           <AnimatePresence>
             {featuredCompetitions.map((comp, index) => (
               <motion.div
@@ -86,27 +86,27 @@ const CompetitionsSidebar = () => {
                 <Button
                   variant="ghost"
                   onClick={() => setSelectedLeague(comp.id)}
-                  className={`w-full justify-between p-4 text-left hover:bg-dark-lighter rounded-none transition-all duration-300 group relative overflow-hidden ${
+                  className={`w-full justify-between p-3 text-left hover:bg-dark-lighter rounded-none transition-all duration-300 group relative overflow-hidden ${
                     selectedLeague === comp.id 
                       ? 'bg-neon-blue/10 border-r-2 border-r-neon-blue text-neon-blue shadow-[inset_0_0_10px_rgba(0,240,255,0.1)]' 
                       : 'text-gray-300 hover:text-white'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{comp.flag}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{comp.flag}</span>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{comp.name}</span>
+                      <div className="flex items-center gap-1">
+                        <span className="font-medium text-sm">{comp.name}</span>
                         {comp.favorite && (
-                          <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                          <Star className="h-2 w-2 text-yellow-400 fill-current" />
                         )}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        {comp.matches} matches available
+                      <div className="text-xs text-gray-500">
+                        {comp.matches} matches
                       </div>
                     </div>
                   </div>
-                  <ChevronRight className={`h-4 w-4 transition-all duration-300 ${
+                  <ChevronRight className={`h-3 w-3 transition-all duration-300 ${
                     selectedLeague === comp.id ? 'text-neon-blue rotate-90' : 'text-gray-500 group-hover:text-neon-blue'
                   }`} />
                   
@@ -131,22 +131,22 @@ const CompetitionsSidebar = () => {
 
       {/* Popular Betting Markets */}
       <Card className="glass-effect border-dark-border shadow-lg">
-        <CardHeader className="pb-3">
-          <h3 className="font-semibold gradient-text text-lg">Popular Markets</h3>
+        <CardHeader className="pb-2">
+          <h3 className="font-semibold gradient-text text-base">Popular Markets</h3>
         </CardHeader>
         <CardContent className="p-0">
           {['Match Winner', 'Over/Under 2.5', 'Both Teams to Score', 'Correct Score'].map((market, index) => (
             <Button
               key={market}
               variant="ghost"
-              className="w-full justify-between p-4 text-left hover:bg-dark-lighter rounded-none text-gray-300 hover:text-neon-blue transition-all duration-300 group"
+              className="w-full justify-between p-3 text-left hover:bg-dark-lighter rounded-none text-gray-300 hover:text-neon-blue transition-all duration-300 group"
             >
-              <span className="font-medium">{market}</span>
+              <span className="font-medium text-sm">{market}</span>
               <div className="flex items-center gap-2">
                 <Badge className="bg-neon-blue/20 text-neon-blue border-neon-blue/30 text-xs">
                   {Math.floor(Math.random() * 50) + 10}
                 </Badge>
-                <ChevronRight className="h-4 w-4 text-gray-500 group-hover:text-neon-blue transition-colors" />
+                <ChevronRight className="h-3 w-3 text-gray-500 group-hover:text-neon-blue transition-colors" />
               </div>
             </Button>
           ))}
