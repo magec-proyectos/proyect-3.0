@@ -14,7 +14,9 @@ import {
   MapPin,
   TrendingUp,
   Save,
-  Zap
+  Zap,
+  Calendar,
+  Award
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -176,112 +178,134 @@ const EnhancedSidebar = () => {
   };
 
   return (
-    <Card className="bg-dark-card border-dark-border h-fit sticky top-6">
-      <CardContent className="p-0">
-        {/* Search Bar */}
-        <div className="p-4 border-b border-dark-border">
+    <div className="w-full space-y-6">
+      {/* Search Bar */}
+      <Card className="bg-gradient-to-br from-blue-900/40 to-purple-900/40 border-blue-500/30 backdrop-blur-md">
+        <CardContent className="p-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-300" />
             <Input
               type="text"
-              placeholder="Search sports, leagues..."
+              placeholder="Buscar deportes, ligas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-dark-lighter border-dark-border text-white placeholder:text-gray-400"
+              className="pl-12 h-12 bg-white/10 border-white/20 text-white placeholder:text-blue-200 rounded-xl focus:border-blue-400 transition-all duration-300"
             />
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        {/* Quick Access Menu */}
-        <div className="p-4 border-b border-dark-border">
-          <h3 className="text-white font-semibold mb-3 text-sm">Quick access</h3>
-          <div className="space-y-1">
-            <Button
-              variant="ghost"
-              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
+      {/* Quick Access Menu */}
+      <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-600/40 backdrop-blur-md">
+        <CardContent className="p-6">
+          <div className="space-y-3">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gradient-to-r from-blue-600/20 to-blue-700/20 border border-blue-500/30 rounded-xl p-4 cursor-pointer group hover:from-blue-600/30 hover:to-blue-700/30 transition-all duration-300"
             >
-              <div className="flex items-center gap-3">
-                <TrendingUp className="h-4 w-4 text-green-400" />
-                <span className="text-gray-300 text-sm group-hover:text-white">Trending</span>
-              </div>
-              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
-            </Button>
-            
-            <Button
-              variant="ghost"
-              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
-            >
-              <div className="flex items-center gap-3">
-                <Save className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-300 text-sm group-hover:text-white">Favorites</span>
-              </div>
-              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
-            </Button>
-            
-            <Button
-              variant="ghost"
-              className="w-full justify-start p-2 h-auto text-left hover:bg-dark-lighter group"
-            >
-              <div className="flex items-center gap-3">
-                <Zap className="h-4 w-4 text-red-400" />
-                <span className="text-gray-300 text-sm group-hover:text-white">Live</span>
-                <Badge variant="destructive" className="text-xs px-1.5 py-0.5 ml-1">
-                  24
-                </Badge>
-              </div>
-              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white ml-auto" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Featured Competitions */}
-        <div className="p-4 border-b border-dark-border">
-          <h3 className="text-white font-semibold mb-3 text-sm">Featured competitions</h3>
-          <div className="space-y-1">
-            {featuredCompetitions.map((competition, index) => (
-              <Button
-                key={index}
-                variant="ghost"
-                className="w-full justify-between p-2 h-auto text-left hover:bg-dark-lighter group"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">{competition.flag}</span>
-                  <span className="text-gray-300 text-sm group-hover:text-white">
-                    {competition.name}
-                  </span>
-                  {competition.isLive && (
-                    <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
-                      Live
-                    </Badge>
-                  )}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-5 w-5 text-blue-400" />
+                  <span className="text-white font-medium">Próximos partidos</span>
                 </div>
-                <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-white" />
-              </Button>
-            ))}
+                <ArrowRight className="h-4 w-4 text-blue-400 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gradient-to-r from-purple-600/20 to-purple-700/20 border border-purple-500/30 rounded-xl p-4 cursor-pointer group hover:from-purple-600/30 hover:to-purple-700/30 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Award className="h-5 w-5 text-purple-400" />
+                  <span className="text-white font-medium">Promos</span>
+                </div>
+                <ArrowRight className="h-4 w-4 text-purple-400 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </motion.div>
+            
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gradient-to-r from-red-600/20 to-red-700/20 border border-red-500/30 rounded-xl p-4 cursor-pointer group hover:from-red-600/30 hover:to-red-700/30 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Zap className="h-5 w-5 text-red-400" />
+                  <span className="text-white font-medium">Live</span>
+                  <Badge className="bg-red-500 text-white text-xs px-2 py-1">
+                    24
+                  </Badge>
+                </div>
+                <ArrowRight className="h-4 w-4 text-red-400 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </motion.div>
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        {/* Sports Section */}
-        <div className="p-4">
-          <h3 className="text-white font-semibold mb-3 text-sm">Sports</h3>
-          
-          <div className="space-y-1">
-            {sportsData.map((sport) => (
-              <div key={sport.name}>
+      {/* Featured Competitions */}
+      <div>
+        <h3 className="text-white font-bold text-lg mb-4 px-1">Competiciones destacadas</h3>
+        <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-600/40 backdrop-blur-md">
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              {featuredCompetitions.map((competition, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-slate-700/40 hover:bg-slate-600/50 border border-slate-600/30 rounded-lg p-3 cursor-pointer group transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">⚽</span>
+                        <span className="text-sm">{competition.flag}</span>
+                      </div>
+                      <span className="text-white text-sm font-medium group-hover:text-blue-300 transition-colors">
+                        {competition.name}
+                      </span>
+                      {competition.isLive && (
+                        <Badge className="bg-red-500 text-white text-xs px-2 py-1">
+                          Live
+                        </Badge>
+                      )}
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Sports Section */}
+      <div>
+        <h3 className="text-white font-bold text-lg mb-4 px-1">Deportes</h3>
+        
+        <div className="space-y-3">
+          {sportsData.map((sport) => (
+            <Card key={sport.name} className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border-slate-600/40 backdrop-blur-md overflow-hidden">
+              <CardContent className="p-0">
                 {/* Sport Header */}
                 <Button
                   variant="ghost"
                   onClick={() => sport.competitions.length > 0 && toggleSport(sport.name)}
-                  className="w-full justify-between p-2 h-auto text-left hover:bg-dark-lighter"
+                  className="w-full justify-between p-4 h-auto text-left hover:bg-slate-700/50 rounded-none border-0"
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">{sport.icon}</span>
-                    <span className="text-gray-300 text-sm font-medium">{sport.name}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">{sport.icon}</span>
+                    <span className="text-white text-sm font-semibold">{sport.name}</span>
                   </div>
                   {sport.competitions.length > 0 && (
                     expandedSports.includes(sport.name) ? 
-                      <ChevronUp className="h-3 w-3 text-gray-400" /> : 
-                      <ChevronDown className="h-3 w-3 text-gray-400" />
+                      <ChevronUp className="h-4 w-4 text-slate-400" /> : 
+                      <ChevronDown className="h-4 w-4 text-slate-400" />
                   )}
                 </Button>
 
@@ -292,29 +316,29 @@ const EnhancedSidebar = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
+                      className="overflow-hidden bg-slate-800/30"
                     >
-                      <div className="pl-4 py-1 space-y-0.5">
+                      <div className="p-4 pt-0 space-y-2">
                         {/* Competitions */}
                         {sport.competitions.map((competition, index) => (
                           <Button
                             key={index}
                             variant="ghost"
-                            className="w-full justify-between p-1.5 h-auto text-left hover:bg-dark/50 group"
+                            className="w-full justify-between p-3 h-auto text-left hover:bg-slate-700/30 rounded-lg group"
                           >
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-3">
                               {competition.flag && (
-                                <span className="text-xs">{competition.flag}</span>
+                                <span className="text-sm">{competition.flag}</span>
                               )}
                               {competition.icon && (
-                                <span className="text-xs">{competition.icon}</span>
+                                <span className="text-sm">{competition.icon}</span>
                               )}
-                              <span className="text-gray-400 text-xs group-hover:text-gray-300">
+                              <span className="text-slate-300 text-sm group-hover:text-white transition-colors">
                                 {competition.name}
                               </span>
                             </div>
                             {competition.hasArrow && (
-                              <ArrowRight className="h-3 w-3 text-gray-400 group-hover:text-gray-300" />
+                              <ArrowRight className="h-3 w-3 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
                             )}
                           </Button>
                         ))}
@@ -322,19 +346,19 @@ const EnhancedSidebar = () => {
                         {/* Countries Section for sports that have it */}
                         {sport.hasCountries && (
                           <>
-                            <Separator className="my-2 bg-dark-border" />
+                            <Separator className="my-3 bg-slate-600/50" />
                             <Button
                               variant="ghost"
                               onClick={() => toggleCountries(sport.name)}
-                              className="w-full justify-between p-1.5 h-auto text-left hover:bg-dark/50"
+                              className="w-full justify-between p-3 h-auto text-left hover:bg-slate-700/30 rounded-lg"
                             >
-                              <div className="flex items-center gap-2">
-                                <MapPin className="h-3 w-3 text-gray-400" />
-                                <span className="text-gray-400 text-xs font-medium">Countries</span>
+                              <div className="flex items-center gap-3">
+                                <MapPin className="h-4 w-4 text-slate-400" />
+                                <span className="text-slate-300 text-sm font-medium">Countries</span>
                               </div>
                               {expandedCountries.includes(`${sport.name}-countries`) ? 
-                                <ChevronUp className="h-3 w-3 text-gray-400" /> : 
-                                <ChevronDown className="h-3 w-3 text-gray-400" />
+                                <ChevronUp className="h-3 w-3 text-slate-400" /> : 
+                                <ChevronDown className="h-3 w-3 text-slate-400" />
                               }
                             </Button>
 
@@ -346,20 +370,20 @@ const EnhancedSidebar = () => {
                                   exit={{ height: 0, opacity: 0 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="pl-4 space-y-0.5">
+                                  <div className="pl-4 space-y-1">
                                     {countries.map((country, index) => (
                                       <Button
                                         key={index}
                                         variant="ghost"
-                                        className="w-full justify-between p-1 h-auto text-left hover:bg-dark/30 group"
+                                        className="w-full justify-between p-2 h-auto text-left hover:bg-slate-700/20 rounded-md group"
                                       >
                                         <div className="flex items-center gap-2">
                                           <span className="text-xs">{country.flag}</span>
-                                          <span className="text-gray-500 text-xs group-hover:text-gray-400">
+                                          <span className="text-slate-400 text-xs group-hover:text-slate-300 transition-colors">
                                             {country.name}
                                           </span>
                                         </div>
-                                        <ChevronDown className="h-2 w-2 text-gray-500" />
+                                        <ChevronDown className="h-3 w-3 text-slate-500" />
                                       </Button>
                                     ))}
                                   </div>
@@ -372,12 +396,12 @@ const EnhancedSidebar = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-            ))}
-          </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
