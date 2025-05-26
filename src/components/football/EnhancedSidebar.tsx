@@ -30,11 +30,11 @@ const featuredCompetitions = [
 // Sports data with their competitions
 const sportsData = [
   {
-    name: 'Fútbol', 
+    name: 'Football', 
     icon: '⚽',
     expanded: false,
     competitions: [
-      { name: 'Ver todo', hasArrow: true },
+      { name: 'View all', hasArrow: true },
       { name: 'Champions League', flag: '🇪🇺' },
       { name: 'Bundesliga', flag: '🇩🇪' },
       { name: 'Saudi Pro League', flag: '🇸🇦' },
@@ -42,11 +42,11 @@ const sportsData = [
       { name: 'Süper Lig', flag: '🇹🇷' },
       { name: 'Segunda División', flag: '🇪🇸' },
       { name: 'Allsvenskan', flag: '🇸🇪' },
-      { name: 'MultiFútbol', icon: '⚽' }
+      { name: 'MultiFootball', icon: '⚽' }
     ]
   },
   {
-    name: 'Tenis',
+    name: 'Tennis',
     icon: '🎾',
     expanded: false,
     competitions: [
@@ -55,11 +55,11 @@ const sportsData = [
     ]
   },
   {
-    name: 'Baloncesto',
+    name: 'Basketball',
     icon: '🏀',
     expanded: false,
     competitions: [
-      { name: 'Ver todo', hasArrow: true },
+      { name: 'View all', hasArrow: true },
       { name: 'NBA', flag: '🇺🇸' },
       { name: 'Liga ABA', flag: '🇪🇺' },
       { name: 'BNXT League', flag: '🇪🇺' },
@@ -69,55 +69,55 @@ const sportsData = [
     ]
   },
   {
-    name: 'Automovilismo',
+    name: 'Motor Racing',
     icon: '🏎️',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Balonmano',
+    name: 'Handball',
     icon: '🤾',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Béisbol',
+    name: 'Baseball',
     icon: '⚾',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Biatlón',
+    name: 'Biathlon',
     icon: '🎿',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Boxeo',
+    name: 'Boxing',
     icon: '🥊',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Ciclismo',
+    name: 'Cycling',
     icon: '🚴',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Críquet',
+    name: 'Cricket',
     icon: '🏏',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Dardos',
+    name: 'Darts',
     icon: '🎯',
     expanded: false,
     competitions: []
   },
   {
-    name: 'Especiales',
+    name: 'Specials',
     icon: '✨',
     expanded: false,
     competitions: []
@@ -131,12 +131,12 @@ const sportsData = [
 ];
 
 const countries = [
-  { name: 'Alemania', flag: '🇩🇪' },
+  { name: 'Germany', flag: '🇩🇪' },
   { name: 'Argentina', flag: '🇦🇷' },
-  { name: 'España', flag: '🇪🇸' },
-  { name: 'Francia', flag: '🇫🇷' },
-  { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  { name: 'Italia', flag: '🇮🇹' }
+  { name: 'Spain', flag: '🇪🇸' },
+  { name: 'France', flag: '🇫🇷' },
+  { name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  { name: 'Italy', flag: '🇮🇹' }
 ];
 
 const EnhancedSidebar = () => {
@@ -167,7 +167,7 @@ const EnhancedSidebar = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               type="text"
-              placeholder="Buscar deportes, ligas..."
+              placeholder="Search sports, leagues..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-dark-lighter border-dark-border text-white placeholder:text-gray-400"
@@ -177,7 +177,7 @@ const EnhancedSidebar = () => {
 
         {/* Shortcuts Section */}
         <div className="p-4 border-b border-dark-border">
-          <h3 className="text-white font-semibold mb-3 text-sm">Accesos rápidos</h3>
+          <h3 className="text-white font-semibold mb-3 text-sm">Quick access</h3>
           <div className="flex gap-2">
             <Button
               variant="ghost"
@@ -208,7 +208,7 @@ const EnhancedSidebar = () => {
 
         {/* Featured Competitions */}
         <div className="p-4 border-b border-dark-border">
-          <h3 className="text-white font-semibold mb-3 text-sm">Competiciones destacadas</h3>
+          <h3 className="text-white font-semibold mb-3 text-sm">Featured competitions</h3>
           <div className="space-y-1">
             {featuredCompetitions.map((competition, index) => (
               <Button
@@ -223,7 +223,7 @@ const EnhancedSidebar = () => {
                   </span>
                   {competition.isLive && (
                     <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
-                      En vivo
+                      Live
                     </Badge>
                   )}
                 </div>
@@ -235,7 +235,7 @@ const EnhancedSidebar = () => {
 
         {/* Sports Section */}
         <div className="p-4 border-b border-dark-border">
-          <h3 className="text-white font-semibold mb-3 text-sm">Deportes</h3>
+          <h3 className="text-white font-semibold mb-3 text-sm">Sports</h3>
           
           <div className="space-y-1">
             {sportsData.map((sport) => (
@@ -307,7 +307,7 @@ const EnhancedSidebar = () => {
           >
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-gray-400" />
-              <span className="text-gray-300 text-sm font-medium">Países</span>
+              <span className="text-gray-300 text-sm font-medium">Countries</span>
             </div>
             {expandedCountries.includes('countries') ? 
               <ChevronUp className="h-3 w-3 text-gray-400" /> : 
