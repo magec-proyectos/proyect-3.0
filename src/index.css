@@ -8,36 +8,35 @@
 @layer base {
   :root {
     --background: 0 0% 7%;
-    --foreground: 0 0% 95%; /* Menos contraste */
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 10%; /* Ligeramente más claro */
+    --card: 0 0% 10%;
     --card-foreground: 0 0% 95%;
 
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 199 89% 48%; /* Azul más suave */
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 88 50% 53%; /* Verde más suave */
+    --secondary: 88 50% 53%;
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 18%; /* Más claro */
-    --muted-foreground: 0 0% 70%; /* Más suave */
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 70%;
 
     --accent: 199 89% 48%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 70% 55%; /* Menos saturado */
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 25%; /* Más visible */
+    --border: 0 0% 25%;
     --input: 0 0% 18%;
     --ring: 199 89% 48%;
 
     --radius: 0.5rem;
     
-    /* RGB values for glow effects - más suaves */
     --neon-blue-rgb: 79, 195, 247;
     --neon-lime-rgb: 139, 195, 74;
     --soft-blue-rgb: 100, 181, 246;
@@ -65,16 +64,16 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #404040; /* Más visible */
+    background: #404040;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #505050; /* Más visible */
+    background: #505050;
   }
 
   .text-glow {
-    text-shadow: 0 0 8px var(--tw-shadow-color); /* Menos intenso */
+    text-shadow: 0 0 8px var(--tw-shadow-color);
   }
 
   .neon-border {
@@ -90,28 +89,27 @@
     height: calc(100% + 4px);
     border-radius: var(--radius);
     z-index: -1;
-    background: linear-gradient(45deg, #4FC3F7, #8BC34A); /* Colores más suaves */
-    opacity: 0.5; /* Menos intenso */
-    filter: blur(6px); /* Menos blur */
+    background: linear-gradient(45deg, #4FC3F7, #8BC34A);
+    opacity: 0.5;
+    filter: blur(6px);
   }
 
   .glass-card {
     backdrop-filter: blur(8px);
-    background-color: rgba(26, 26, 26, 0.6); /* Más opaco */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Más visible */
+    background-color: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 }
 
 .gradient-text {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #4FC3F7, #8BC34A); /* Colores más suaves */
+  background-image: linear-gradient(90deg, #4FC3F7, #8BC34A);
 }
 
 .text-gradient {
   @apply bg-clip-text text-transparent;
 }
 
-/* Gradientes más suaves */
 .gradient-soft-blue {
   background-image: linear-gradient(135deg, #64B5F6, #4DD0E1);
 }
@@ -124,13 +122,12 @@
   background-image: linear-gradient(135deg, #9575CD, #64B5F6);
 }
 
-/* Fondo de mesa de casino */
 .casino-felt {
   background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Animación de giro para la ruleta */
+/* Enhanced animations */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -140,32 +137,99 @@
   animation: spin 5s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
 }
 
-/* Animación para el brillo de fichas - más suave */
 @keyframes chipGlow {
   0%, 100% { box-shadow: 0 0 3px rgba(255, 255, 255, 0.6); }
   50% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
 }
 
 .chip-glow {
-  animation: chipGlow 3s infinite; /* Más lento */
+  animation: chipGlow 3s infinite;
 }
 
-/* Animaciones mejoradas para mejor UX */
 @keyframes fade-in {
-  0% { opacity: 0; transform: translateY(5px); } /* Menos movimiento */
+  0% { opacity: 0; transform: translateY(5px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards; /* Más lento */
+  animation: fade-in 0.6s ease-out forwards;
 }
 
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes glow-soft {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.05); }
+}
+
+@keyframes bounce-micro {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes shake-subtle {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+
+@keyframes scale-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* New animation classes */
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+.animate-glow-soft {
+  animation: glow-soft 3s ease-in-out infinite;
+}
+
+.animate-bounce-micro {
+  animation: bounce-micro 2s ease-in-out infinite;
+}
+
+.animate-shake-subtle {
+  animation: shake-subtle 0.5s ease-in-out;
+}
+
+.animate-scale-breath {
+  animation: scale-breath 4s ease-in-out infinite;
+}
+
+/* Enhanced utility classes */
 .shadow-glow {
-  box-shadow: 0 0 8px rgba(79, 195, 247, 0.3); /* Más suave */
+  box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+}
+
+.shadow-glow-green {
+  box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+}
+
+.shadow-glow-purple {
+  box-shadow: 0 0 8px rgba(149, 117, 205, 0.3);
 }
 
 .hover-scale {
-  @apply transition-transform duration-300 hover:scale-105; /* Subtle scaling effect */
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+.hover-lift {
+  @apply transition-transform duration-200 hover:-translate-y-1;
 }
 
 .bg-dark {
@@ -177,7 +241,7 @@
 }
 
 .bg-dark-card {
-  background-color: #1a1a1a; /* Más claro */
+  background-color: #1a1a1a;
 }
 
 .bg-dark-darker {
@@ -185,35 +249,32 @@
 }
 
 .text-shadow {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Más sutil */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .glass-effect {
-  @apply backdrop-blur-md bg-black/40 border border-soft-blue/20; /* Más suave */
+  @apply backdrop-blur-md bg-black/40 border border-soft-blue/20;
 }
 
-/* Transiciones mejoradas para las tarjetas */
 .sport-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sport-card:hover {
-  transform: translateY(-2px); /* Menos movimiento */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Más sutil */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Efectos de glow y focus más suaves */
 .sport-active {
   position: relative;
   z-index: 10;
 }
 
-/* Efectos hover más suaves para botones */
 .button-glow:hover {
-  box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4); /* Menos intenso */
+  box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4);
 }
 
-/* Nuevas clases utilitarias para colores suaves */
+/* Enhanced color utilities */
 .text-soft-blue {
   color: #64B5F6;
 }
@@ -230,12 +291,20 @@
   color: #AED581;
 }
 
+.text-soft-purple {
+  color: #9575CD;
+}
+
 .bg-soft-blue {
   background-color: #64B5F6;
 }
 
 .bg-soft-green {
   background-color: #81C784;
+}
+
+.bg-soft-purple {
+  background-color: #9575CD;
 }
 
 .border-soft-blue {
@@ -246,11 +315,88 @@
   border-color: #81C784;
 }
 
-/* Efectos de gradiente más suaves */
+.border-soft-purple {
+  border-color: #9575CD;
+}
+
+/* Gradient utilities */
 .gradient-soft {
   background: linear-gradient(135deg, #4FC3F7 0%, #8BC34A 100%);
 }
 
 .gradient-soft-vertical {
   background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
+}
+
+/* Interactive feedback */
+.interactive-scale {
+  @apply transition-all duration-200 hover:scale-105 active:scale-95;
+}
+
+.interactive-glow {
+  @apply transition-all duration-300 hover:shadow-glow;
+}
+
+.interactive-lift {
+  @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+}
+
+/* Focus improvements for accessibility */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
+}
+
+/* Loading states */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-600/30 rounded;
+}
+
+/* Gamification elements */
+.achievement-glow {
+  @apply animate-pulse shadow-lg shadow-yellow-400/30;
+}
+
+.streak-fire {
+  @apply animate-bounce-micro text-orange-400;
+}
+
+/* Improved card interactions */
+.card-interactive {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer;
+}
+
+.card-glow {
+  @apply shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow duration-300;
+}
+
+/* Micro-interactions */
+.micro-bounce {
+  @apply hover:animate-bounce-micro;
+}
+
+.micro-pulse {
+  @apply hover:animate-pulse-soft;
+}
+
+.micro-glow {
+  @apply hover:animate-glow-soft;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .hover-scale {
+    @apply active:scale-105;
+  }
+  
+  .hover-lift {
+    @apply active:-translate-y-1;
+  }
+  
+  .interactive-scale {
+    @apply active:scale-105;
+  }
+  
+  .interactive-lift {
+    @apply active:-translate-y-1;
+  }
 }
