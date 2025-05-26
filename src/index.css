@@ -101,30 +101,204 @@
   }
 }
 
-.gradient-text {
-  @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #4FC3F7, #8BC34A);
+@layer components {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #4FC3F7, #8BC34A);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+  }
+
+  .gradient-soft-blue {
+    background-image: linear-gradient(135deg, #64B5F6, #4DD0E1);
+  }
+
+  .gradient-soft-green {
+    background-image: linear-gradient(135deg, #81C784, #AED581);
+  }
+
+  .gradient-soft-purple {
+    background-image: linear-gradient(135deg, #9575CD, #64B5F6);
+  }
+
+  .casino-felt {
+    background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Interactive feedback */
+  .interactive-scale {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  .interactive-glow {
+    @apply transition-all duration-300;
+  }
+
+  .interactive-glow:hover {
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+  }
+
+  .interactive-lift {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Enhanced utility classes */
+  .shadow-glow {
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+  }
+
+  .shadow-glow-green {
+    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+  }
+
+  .shadow-glow-purple {
+    box-shadow: 0 0 8px rgba(149, 117, 205, 0.3);
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
+  }
+
+  .loading-skeleton {
+    @apply animate-pulse bg-gray-600/30 rounded;
+  }
+
+  .achievement-glow {
+    @apply animate-pulse shadow-lg shadow-yellow-400/30;
+  }
+
+  .streak-fire {
+    @apply animate-bounce-micro text-orange-400;
+  }
+
+  .card-interactive {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer;
+  }
+
+  .card-glow {
+    @apply shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow duration-300;
+  }
+
+  .micro-bounce {
+    @apply hover:animate-bounce-micro;
+  }
+
+  .micro-pulse {
+    @apply hover:animate-pulse-soft;
+  }
+
+  .micro-glow {
+    @apply hover:animate-glow-soft;
+  }
 }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent;
-}
+@layer utilities {
+  .bg-dark {
+    background-color: #121212;
+  }
 
-.gradient-soft-blue {
-  background-image: linear-gradient(135deg, #64B5F6, #4DD0E1);
-}
+  .bg-dark-lighter {
+    background-color: #1e1e1e;
+  }
 
-.gradient-soft-green {
-  background-image: linear-gradient(135deg, #81C784, #AED581);
-}
+  .bg-dark-card {
+    background-color: #1a1a1a;
+  }
 
-.gradient-soft-purple {
-  background-image: linear-gradient(135deg, #9575CD, #64B5F6);
-}
+  .bg-dark-darker {
+    background-color: #0d0d0d;
+  }
 
-.casino-felt {
-  background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
-  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  .text-shadow {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-md bg-black/40 border border-soft-blue/20;
+  }
+
+  .sport-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .sport-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .sport-active {
+    position: relative;
+    z-index: 10;
+  }
+
+  .button-glow:hover {
+    box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4);
+  }
+
+  /* Enhanced color utilities */
+  .text-soft-blue {
+    color: #64B5F6;
+  }
+
+  .text-soft-green {
+    color: #81C784;
+  }
+
+  .text-soft-cyan {
+    color: #4DD0E1;
+  }
+
+  .text-soft-lime {
+    color: #AED581;
+  }
+
+  .text-soft-purple {
+    color: #9575CD;
+  }
+
+  .bg-soft-blue {
+    background-color: #64B5F6;
+  }
+
+  .bg-soft-green {
+    background-color: #81C784;
+  }
+
+  .bg-soft-purple {
+    background-color: #9575CD;
+  }
+
+  .border-soft-blue {
+    border-color: #64B5F6;
+  }
+
+  .border-soft-green {
+    border-color: #81C784;
+  }
+
+  .border-soft-purple {
+    border-color: #9575CD;
+  }
+
+  /* Gradient utilities */
+  .gradient-soft {
+    background: linear-gradient(135deg, #4FC3F7 0%, #8BC34A 100%);
+  }
+
+  .gradient-soft-vertical {
+    background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
+  }
 }
 
 /* Enhanced animations */
@@ -209,177 +383,6 @@
 
 .animate-scale-breath {
   animation: scale-breath 4s ease-in-out infinite;
-}
-
-/* Enhanced utility classes */
-.shadow-glow {
-  box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
-}
-
-.shadow-glow-green {
-  box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
-}
-
-.shadow-glow-purple {
-  box-shadow: 0 0 8px rgba(149, 117, 205, 0.3);
-}
-
-.hover-scale {
-  @apply transition-transform duration-300 hover:scale-105;
-}
-
-.hover-lift {
-  @apply transition-transform duration-200 hover:-translate-y-1;
-}
-
-.bg-dark {
-  background-color: #121212;
-}
-
-.bg-dark-lighter {
-  background-color: #1e1e1e;
-}
-
-.bg-dark-card {
-  background-color: #1a1a1a;
-}
-
-.bg-dark-darker {
-  background-color: #0d0d0d;
-}
-
-.text-shadow {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.glass-effect {
-  @apply backdrop-blur-md bg-black/40 border border-soft-blue/20;
-}
-
-.sport-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.sport-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.sport-active {
-  position: relative;
-  z-index: 10;
-}
-
-.button-glow:hover {
-  box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4);
-}
-
-/* Enhanced color utilities */
-.text-soft-blue {
-  color: #64B5F6;
-}
-
-.text-soft-green {
-  color: #81C784;
-}
-
-.text-soft-cyan {
-  color: #4DD0E1;
-}
-
-.text-soft-lime {
-  color: #AED581;
-}
-
-.text-soft-purple {
-  color: #9575CD;
-}
-
-.bg-soft-blue {
-  background-color: #64B5F6;
-}
-
-.bg-soft-green {
-  background-color: #81C784;
-}
-
-.bg-soft-purple {
-  background-color: #9575CD;
-}
-
-.border-soft-blue {
-  border-color: #64B5F6;
-}
-
-.border-soft-green {
-  border-color: #81C784;
-}
-
-.border-soft-purple {
-  border-color: #9575CD;
-}
-
-/* Gradient utilities */
-.gradient-soft {
-  background: linear-gradient(135deg, #4FC3F7 0%, #8BC34A 100%);
-}
-
-.gradient-soft-vertical {
-  background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
-}
-
-/* Interactive feedback */
-.interactive-scale {
-  @apply transition-all duration-200 hover:scale-105 active:scale-95;
-}
-
-.interactive-glow {
-  @apply transition-all duration-300 hover:shadow-glow;
-}
-
-.interactive-lift {
-  @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
-}
-
-/* Focus improvements for accessibility */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
-}
-
-/* Loading states */
-.loading-skeleton {
-  @apply animate-pulse bg-gray-600/30 rounded;
-}
-
-/* Gamification elements */
-.achievement-glow {
-  @apply animate-pulse shadow-lg shadow-yellow-400/30;
-}
-
-.streak-fire {
-  @apply animate-bounce-micro text-orange-400;
-}
-
-/* Improved card interactions */
-.card-interactive {
-  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer;
-}
-
-.card-glow {
-  @apply shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow duration-300;
-}
-
-/* Micro-interactions */
-.micro-bounce {
-  @apply hover:animate-bounce-micro;
-}
-
-.micro-pulse {
-  @apply hover:animate-pulse-soft;
-}
-
-.micro-glow {
-  @apply hover:animate-glow-soft;
 }
 
 /* Responsive improvements */

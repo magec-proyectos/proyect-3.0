@@ -75,7 +75,7 @@ export const MicroInteraction: React.FC<MicroInteractionProps> = ({
   }
 
   const getAnimateProps = () => {
-    if (trigger === 'auto' && variants.auto) {
+    if (trigger === 'auto' && 'auto' in variants) {
       return { animate: 'auto' };
     }
     return {};
@@ -84,11 +84,11 @@ export const MicroInteraction: React.FC<MicroInteractionProps> = ({
   const getWhileProps = () => {
     const props: any = {};
     
-    if ((trigger === 'hover' || trigger === 'both') && variants.hover) {
+    if ((trigger === 'hover' || trigger === 'both') && 'hover' in variants) {
       props.whileHover = 'hover';
     }
     
-    if ((trigger === 'tap' || trigger === 'both') && variants.tap) {
+    if ((trigger === 'tap' || trigger === 'both') && 'tap' in variants) {
       props.whileTap = 'tap';
     }
     
