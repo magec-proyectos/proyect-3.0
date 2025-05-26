@@ -4,9 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { X, Calculator, Trash2, Plus, TrendingUp, Download, Copy, ExternalLink } from 'lucide-react';
+import { X, Calculator, Trash2, Plus, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useToast } from '@/hooks/use-toast';
 
 interface BetSlipItem {
   id: string;
@@ -27,7 +26,6 @@ const ImprovedBetBuilder = () => {
   ]);
   const [totalStake, setTotalStake] = useState(5);
   const [betType, setBetType] = useState<'single' | 'combinada' | 'sistema'>('single');
-  const { toast } = useToast();
 
   const removeBet = (id: string) => {
     setBetSlip(prev => prev.filter(bet => bet.id !== id));
@@ -42,82 +40,6 @@ const ImprovedBetBuilder = () => {
       return totalStake * calculateTotalOdds();
     }
     return betSlip.reduce((total, bet) => total + (totalStake * bet.odds), 0);
-  };
-
-  const exportToClipboard = async () => {
-    const betString = betSlip.map(bet => 
-      `${bet.match}: ${bet.bet} @ ${bet.odds}`
-    ).join('\n');
-    
-    const exportText = `
-🎯 Mi Apuesta ${betType === 'combinada' ? 'Combinada' : betType === 'sistema' ? 'Sistema' : 'Simple'}
-
-${betString}
-
-💰 Stake Total: €${totalStake}
-📊 Cuota Total: ${calculateTotalOdds().toFixed(2)}
-🎯 Retorno Potencial: €${calculatePotentialReturn().toFixed(2)}
-📈 Ganancia: €${(calculatePotentialReturn() - totalStake).toFixed(2)}
-`;
-
-    try {
-      await navigator.clipboard.writeText(exportText);
-      toast({
-        title: "Apuesta copiada",
-        description: "La apuesta se ha copiado al portapapeles",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo copiar la apuesta",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const exportToBetfair = () => {
-    // En una implementación real, esto abriría Betfair con las selecciones
-    const url = 'https://www.betfair.com/sport';
-    window.open(url, '_blank');
-    toast({
-      title: "Exportando a Betfair",
-      description: "Se abrió Betfair en una nueva pestaña",
-    });
-  };
-
-  const exportToBet365 = () => {
-    // En una implementación real, esto abriría Bet365 con las selecciones
-    const url = 'https://www.bet365.com';
-    window.open(url, '_blank');
-    toast({
-      title: "Exportando a Bet365",
-      description: "Se abrió Bet365 en una nueva pestaña",
-    });
-  };
-
-  const exportToCSV = () => {
-    const headers = ['Partido', 'Apuesta', 'Cuota', 'Tipo'];
-    const csvContent = [
-      headers.join(','),
-      ...betSlip.map(bet => `"${bet.match}","${bet.bet}",${bet.odds},"${betType}"`),
-      '',
-      `"Total Stake","","${totalStake}",""`,
-      `"Cuota Total","","${calculateTotalOdds().toFixed(2)}",""`,
-      `"Retorno Potencial","","${calculatePotentialReturn().toFixed(2)}",""`
-    ].join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `apuesta_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-
-    toast({
-      title: "CSV descargado",
-      description: "La apuesta se ha exportado como archivo CSV",
-    });
   };
 
   const stakeButtons = [2, 5, 10, 20, 'ALL-IN'];
@@ -287,58 +209,6 @@ ${betString}
                     +{(calculatePotentialReturn() - totalStake).toFixed(2)}€ profit
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Export Options */}
-            <div className="mb-6 p-4 bg-dark-darker/50 rounded-lg border border-dark-border/30">
-              <h4 className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-                <Download className="h-4 w-4 text-neon-blue" />
-                Exportar Apuesta
-              </h4>
-              
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <Button
-                  onClick={exportToBetfair}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs border-yellow-600/30 text-yellow-400 hover:bg-yellow-600/10"
-                >
-                  <ExternalLink className="h-3 w-3 mr-1" />
-                  Betfair
-                </Button>
-                
-                <Button
-                  onClick={exportToBet365}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs border-green-600/30 text-green-400 hover:bg-green-600/10"
-                >
-                  <ExternalLink className="h-3 w-3 mr-1" />
-                  Bet365
-                </Button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  onClick={exportToClipboard}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs border-neon-blue/30 text-neon-blue hover:bg-neon-blue/10"
-                >
-                  <Copy className="h-3 w-3 mr-1" />
-                  Copiar
-                </Button>
-                
-                <Button
-                  onClick={exportToCSV}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs border-neon-lime/30 text-neon-lime hover:bg-neon-lime/10"
-                >
-                  <Download className="h-3 w-3 mr-1" />
-                  CSV
-                </Button>
               </div>
             </div>
 
