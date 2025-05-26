@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Target, Users, CornerDownLeft, AlertTriangle } from 'lucide-react';
 
 interface FootballStatsNavigationProps {
@@ -17,64 +16,44 @@ const FootballStatsNavigation: React.FC<FootballStatsNavigationProps> = ({
       id: 'goalscorers' as const,
       label: 'Goalscorers',
       icon: Target,
-      color: 'text-neon-blue',
-      hoverColor: 'hover:bg-neon-blue/10',
-      activeColor: 'bg-neon-blue/20 border-neon-blue/50'
+      color: 'text-blue-400'
     },
     {
       id: 'players' as const,
       label: 'Players',
       icon: Users,
-      color: 'text-neon-lime',
-      hoverColor: 'hover:bg-neon-lime/10',
-      activeColor: 'bg-neon-lime/20 border-neon-lime/50'
+      color: 'text-green-400'
     },
     {
       id: 'corners' as const,
       label: 'Corners',
       icon: CornerDownLeft,
-      color: 'text-purple-400',
-      hoverColor: 'hover:bg-purple-400/10',
-      activeColor: 'bg-purple-400/20 border-purple-400/50'
+      color: 'text-purple-400'
     },
     {
       id: 'fouls' as const,
       label: 'Fouls',
       icon: AlertTriangle,
-      color: 'text-orange-400',
-      hoverColor: 'hover:bg-orange-400/10',
-      activeColor: 'bg-orange-400/20 border-orange-400/50'
+      color: 'text-orange-400'
     }
   ];
 
   return (
-    <div className="glass-effect rounded-xl border border-dark-border p-2 backdrop-blur-md">
-      <div className="flex gap-2">
+    <div className="glass-effect rounded-lg border border-dark-border p-1">
+      <div className="flex gap-1">
         {tabs.map((tab) => (
-          <motion.button
+          <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`relative flex items-center gap-3 px-6 py-3 rounded-lg font-medium text-sm transition-all duration-300 flex-1 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 flex-1 justify-center ${
               selectedTab === tab.id
-                ? `${tab.activeColor} ${tab.color} shadow-lg`
-                : `text-gray-400 ${tab.hoverColor} hover:text-white border border-transparent hover:border-dark-border/50`
+                ? `bg-white/10 ${tab.color}`
+                : `text-gray-400 hover:text-white hover:bg-white/5`
             }`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
           >
-            <tab.icon className="h-5 w-5" />
-            <span className="font-semibold">{tab.label}</span>
-            
-            {/* Active indicator */}
-            {selectedTab === tab.id && (
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-current to-transparent rounded-full"
-                layoutId="activeTab"
-                initial={false}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            )}
-          </motion.button>
+            <tab.icon className="h-4 w-4" />
+            <span>{tab.label}</span>
+          </button>
         ))}
       </div>
     </div>
