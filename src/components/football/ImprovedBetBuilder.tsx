@@ -25,7 +25,7 @@ const ImprovedBetBuilder = () => {
     }
   ]);
   const [totalStake, setTotalStake] = useState(5);
-  const [betType, setBetType] = useState<'single' | 'combinada' | 'sistema'>('simple');
+  const [betType, setBetType] = useState<'single' | 'combinada' | 'sistema'>('single');
 
   const removeBet = (id: string) => {
     setBetSlip(prev => prev.filter(bet => bet.id !== id));
@@ -65,9 +65,9 @@ const ImprovedBetBuilder = () => {
         <div className="p-4 border-b border-gray-200">
           <div className="grid grid-cols-3 gap-1 bg-gray-100 rounded-lg p-1">
             <Button
-              variant={betType === 'simple' ? 'default' : 'ghost'}
-              onClick={() => setBetType('simple')}
-              className={`text-xs py-2 ${betType === 'simple' ? 'bg-white shadow-sm' : 'bg-transparent hover:bg-gray-50'}`}
+              variant={betType === 'single' ? 'default' : 'ghost'}
+              onClick={() => setBetType('single')}
+              className={`text-xs py-2 ${betType === 'single' ? 'bg-white shadow-sm' : 'bg-transparent hover:bg-gray-50'}`}
             >
               Simple (1)
             </Button>
