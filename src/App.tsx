@@ -17,10 +17,15 @@ import Legal from '@/pages/Legal';
 import Square from '@/pages/Square';
 import NotFound from '@/pages/NotFound';
 
+// Import admin pages
+import AdminLogin from '@/pages/AdminLogin';
+import AdminDashboard from '@/pages/AdminDashboard';
+
 // Import contexts
 import AuthProvider from '@/contexts/AuthContext';
 import NotificationProvider from '@/contexts/NotificationContext';
 import { FootballProvider } from '@/contexts/FootballContext';
+import { AdminProvider } from '@/contexts/AdminContext';
 
 // Create a query client instance
 const queryClient = new QueryClient();
@@ -34,27 +39,34 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <NotificationProvider>
             <AuthProvider>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route 
-                  path="/sports" 
-                  element={
-                    <FootballProvider>
-                      <Sports />
-                    </FootballProvider>
-                  } 
-                />
-                <Route path="/casino" element={<Casino />} />
-                <Route path="/roulette" element={<Roulette />} />
-                <Route path="/blackjack" element={<Blackjack />} />
-                <Route path="/social" element={<Social />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/legal" element={<Legal />} />
-                <Route path="/square" element={<Square />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-              <Toaster />
+              <AdminProvider>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route 
+                    path="/sports" 
+                    element={
+                      <FootballProvider>
+                        <Sports />
+                      </FootballProvider>
+                    } 
+                  />
+                  <Route path="/casino" element={<Casino />} />
+                  <Route path="/roulette" element={<Roulette />} />
+                  <Route path="/blackjack" element={<Blackjack />} />
+                  <Route path="/social" element={<Social />} />
+                  <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/legal" element={<Legal />} />
+                  <Route path="/square" element={<Square />} />
+                  
+                  {/* Admin Routes */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                <Toaster />
+              </AdminProvider>
             </AuthProvider>
           </NotificationProvider>
         </QueryClientProvider>
