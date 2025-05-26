@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import ChartDisplay from '../ChartDisplay';
 import EarningsCalculator from './EarningsCalculator';
@@ -53,25 +53,9 @@ const ChartSectionContainer: React.FC<ChartSectionContainerProps> = ({
       viewport={{ once: true, margin: "-100px" }}
       variants={fadeIn}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6 mb-4">
-        {/* Chart area - 3/5 width on desktop */}
-        <div className="lg:col-span-3">
-          <ChartDisplay 
-            activeChart={activeChart}
-            timeRange={timeRange}
-            chartKey={chartKey}
-            animateChart={animateChart}
-            activeData={activeData}
-            chartConfig={chartConfig}
-            getPercentageChange={getPercentageChange}
-            // Pass calculator values for chart annotations
-            monthlyBets={monthlyBets}
-            averageBet={averageBet}
-          />
-        </div>
-        
-        {/* Integrated calculator - 2/5 width on desktop */}
-        <div className="lg:col-span-2 h-full">
+      {isMobile ? (
+        // Mobile layout: Calculator first, then chart
+        <div className="space-y-4">
           <EarningsCalculator
             monthlyBets={monthlyBets}
             setMonthlyBets={setMonthlyBets}
@@ -80,8 +64,50 @@ const ChartSectionContainer: React.FC<ChartSectionContainerProps> = ({
             getPercentageChange={getPercentageChange}
             isMobile={isMobile}
           />
+          
+          <ChartDisplay 
+            activeChart={activeChart}
+            timeRange={timeRange}
+            chartKey={chartKey}
+            animateChart={animateChart}
+            activeData={activeData}
+            chartConfig={chartConfig}
+            getPercentageChange={getPercentageChange}
+            monthlyBets={monthlyBets}
+            averageBet={averageBet}
+          />
         </div>
-      </div>
+      ) : (
+        // Desktop layout: Side by side
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6 mb-4">
+          {/* Chart area - 3/5 width on desktop */}
+          <div className="lg:col-span-3">
+            <ChartDisplay 
+              activeChart={activeChart}
+              timeRange={timeRange}
+              chartKey={chartKey}
+              animateChart={animateChart}
+              activeData={activeData}
+              chartConfig={chartConfig}
+              getPercentageChange={getPercentageChange}
+              monthlyBets={monthlyBets}
+              averageBet={averageBet}
+            />
+          </div>
+          
+          {/* Integrated calculator - 2/5 width on desktop */}
+          <div className="lg:col-span-2 h-full">
+            <EarningsCalculator
+              monthlyBets={monthlyBets}
+              setMonthlyBets={setMonthlyBets}
+              averageBet={averageBet}
+              setAverageBet={setAverageBet}
+              getPercentageChange={getPercentageChange}
+              isMobile={isMobile}
+            />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };

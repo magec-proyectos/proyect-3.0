@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import MobileChartControls from './chart/MobileChartControls';
 
 interface ChartControlsProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
@@ -19,6 +20,18 @@ const ChartControls: React.FC<ChartControlsProps> = ({
 }) => {
   const isMobile = useIsMobile();
   
+  // Use mobile controls on mobile devices
+  if (isMobile) {
+    return (
+      <MobileChartControls
+        activeChart={activeChart}
+        setActiveChart={setActiveChart}
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+      />
+    );
+  }
+  
   const chartTypes = [
     { id: 'earnings', label: 'Earnings' },
     { id: 'winRate', label: 'Win Rate' },
@@ -32,14 +45,14 @@ const ChartControls: React.FC<ChartControlsProps> = ({
   ];
   
   return (
-    <div className={`flex flex-col ${isMobile ? 'gap-3' : 'sm:flex-row sm:justify-between'} mb-6`}>
+    <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mb-6">
       <div className="inline-flex flex-wrap gap-2 justify-center sm:justify-start">
         {chartTypes.map((chart) => (
           <Button
             key={chart.id}
             variant={activeChart === chart.id ? "default" : "outline"}
             size="sm"
-            className={`px-4 py-1 h-8 text-xs font-medium rounded-full ${
+            className={`px-4 py-1 h-8 text-xs font-medium rounded-full transition-all ${
               activeChart === chart.id 
                 ? 'bg-neon-blue text-black border-neon-blue'
                 : 'bg-transparent text-gray-300 border-gray-600 hover:bg-gray-800 hover:text-white'
@@ -57,7 +70,7 @@ const ChartControls: React.FC<ChartControlsProps> = ({
             key={range.id}
             variant={timeRange === range.id ? "default" : "outline"}
             size="sm"
-            className={`px-4 py-1 h-8 text-xs font-medium rounded-full ${
+            className={`px-4 py-1 h-8 text-xs font-medium rounded-full transition-all ${
               timeRange === range.id 
                 ? 'bg-dark-lighter text-white border-neon-blue/50'
                 : 'bg-transparent text-gray-300 border-gray-600 hover:bg-gray-800 hover:text-white'
