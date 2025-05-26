@@ -38,7 +38,7 @@ const FootballContent = () => {
               className="text-center mb-10"
             >
               <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-                How can I help you today?
+                Football
               </h1>
               <p className="text-lg text-gray-400 max-w-2xl mx-auto">
                 Use our AI to find the best bets and match analysis

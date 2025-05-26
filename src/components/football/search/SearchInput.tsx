@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Upload, Filter, Mic, X } from 'lucide-react';
+import { Upload, Filter, Mic, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SearchInputProps {
@@ -51,7 +51,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         {/* Enhanced Search Input */}
         <div className="flex items-center">
           <div className="pl-6 pr-4 py-4 flex items-center">
-            <Upload className="h-5 w-5 text-neon-blue" />
+            <Search className="h-5 w-5 text-neon-blue" />
           </div>
           
           <Input
@@ -109,6 +109,16 @@ const SearchInput: React.FC<SearchInputProps> = ({
               <Mic className="h-4 w-4 relative z-10" />
             </Button>
 
+            {/* Upload Button */}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="p-2 rounded-full text-gray-400 hover:text-neon-lime hover:bg-neon-lime/10 transition-all"
+            >
+              <Upload className="h-4 w-4" />
+            </Button>
+
             {/* Filter Toggle */}
             <Button
               type="button"
@@ -128,32 +138,17 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 <Filter className="h-4 w-4" />
               </motion.div>
             </Button>
-
-            {/* Enhanced Search Button */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                type="submit"
-                size="sm"
-                className="bg-gradient-to-r from-neon-blue to-neon-lime hover:from-neon-blue/80 hover:to-neon-lime/80 text-black rounded-xl px-6 py-2 shadow-lg hover:shadow-neon-blue/25 transition-all font-bold relative overflow-hidden group"
-              >
-                <Upload className="h-4 w-4 mr-2 relative z-10" />
-                <span className="relative z-10">Search</span>
-              </Button>
-            </motion.div>
           </div>
         </div>
 
-        {/* Search suggestions indicator */}
+        {/* Simplified search suggestions */}
         {query && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="absolute top-full left-0 right-0 mt-1 text-xs text-gray-400 text-center"
           >
-            Press Enter to search or use filters for better results
+            Press Enter to search
           </motion.div>
         )}
       </div>
