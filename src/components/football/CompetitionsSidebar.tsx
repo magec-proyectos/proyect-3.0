@@ -1,19 +1,16 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, ChevronRight, Trophy, Calendar, Star, TrendingUp, Clock } from 'lucide-react';
+import { ChevronRight, Trophy, Calendar, Star, TrendingUp, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFootball } from '@/contexts/FootballContext';
 
 const CompetitionsSidebar = () => {
   const { leagues, selectedLeague, setSelectedLeague } = useFootball();
-  const [searchQuery, setSearchQuery] = useState('');
 
   const featuredCompetitions = [
-    { id: 'champions-league', name: 'Champions League', flag: '🇪🇺', matches: 8, hot: true, trending: true },
     { id: 'premier-league', name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', matches: 12, favorite: true },
     { id: 'la-liga', name: 'La Liga', flag: '🇪🇸', matches: 10 },
     { id: 'bundesliga', name: 'Bundesliga', flag: '🇩🇪', matches: 9 },
@@ -30,27 +27,8 @@ const CompetitionsSidebar = () => {
     { icon: TrendingUp, label: 'Trending', count: 12, active: false, color: 'text-purple-400' }
   ];
 
-  const filteredCompetitions = featuredCompetitions.filter(comp =>
-    comp.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <div className="space-y-6">
-      {/* Enhanced Search */}
-      <Card className="glass-effect border-dark-border shadow-lg hover:shadow-neon-blue/10 transition-all duration-300">
-        <CardContent className="p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-neon-blue" />
-            <Input
-              placeholder="Search competitions..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-dark-lighter border-dark-border text-white placeholder-gray-400 rounded-xl focus:border-neon-blue focus:ring-2 focus:ring-neon-blue/20 transition-all"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Enhanced Quick Actions */}
       <Card className="glass-effect border-dark-border shadow-lg">
         <CardHeader className="pb-3">
@@ -90,13 +68,13 @@ const CompetitionsSidebar = () => {
           <div className="flex items-center justify-between">
             <h3 className="font-semibold gradient-text text-lg">Featured Competitions</h3>
             <Badge className="bg-neon-lime/20 text-neon-lime border-neon-lime/30 text-xs">
-              {filteredCompetitions.length}
+              {featuredCompetitions.length}
             </Badge>
           </div>
         </CardHeader>
         <CardContent className="p-0 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-dark-border scrollbar-track-transparent">
           <AnimatePresence>
-            {filteredCompetitions.map((comp, index) => (
+            {featuredCompetitions.map((comp, index) => (
               <motion.div
                 key={comp.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -119,14 +97,6 @@ const CompetitionsSidebar = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{comp.name}</span>
-                        {comp.hot && (
-                          <Badge className="bg-red-500/20 text-red-400 border-red-500/30 text-xs px-1 py-0 font-bold animate-pulse">
-                            🔥 HOT
-                          </Badge>
-                        )}
-                        {comp.trending && (
-                          <TrendingUp className="h-3 w-3 text-purple-400" />
-                        )}
                         {comp.favorite && (
                           <Star className="h-3 w-3 text-yellow-400 fill-current" />
                         )}
@@ -156,17 +126,10 @@ const CompetitionsSidebar = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-          
-          {filteredCompetitions.length === 0 && (
-            <div className="p-8 text-center text-gray-500">
-              <Trophy className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No competitions found</p>
-            </div>
-          )}
         </CardContent>
       </Card>
 
-      {/* New: Popular Betting Markets */}
+      {/* Popular Betting Markets */}
       <Card className="glass-effect border-dark-border shadow-lg">
         <CardHeader className="pb-3">
           <h3 className="font-semibold gradient-text text-lg">Popular Markets</h3>

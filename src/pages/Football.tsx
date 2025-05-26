@@ -57,24 +57,6 @@ const FootballContent = () => {
 
               {/* Center Content */}
               <div className="flex-1 space-y-6">
-                {/* Navigation Tabs - Dark Theme */}
-                <div className="glass-effect rounded-lg border border-dark-border p-1">
-                  <div className="flex gap-1">
-                    <button className="px-6 py-2 bg-neon-lime text-black rounded-md font-medium text-sm hover:bg-neon-lime/90 transition-colors">
-                      Home
-                    </button>
-                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Live
-                    </button>
-                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      My bets
-                    </button>
-                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Statistics
-                    </button>
-                  </div>
-                </div>
-
                 {/* Match Cards - Dark Theme */}
                 <MatchFeed />
               </div>
