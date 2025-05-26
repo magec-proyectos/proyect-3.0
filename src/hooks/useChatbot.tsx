@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -203,6 +204,47 @@ export const useChatbot = () => {
     }
   });
 
+  // Update conversation title
+  const updateConversationMutation = useMutation({
+    mutationFn: async ({ conversationId, title }: { conversationId: string; title: string }) => {
+      if (!user) throw new Error('User not authenticated');
+      
+      const { error } = await supabase
+        .from('conversations')
+        .update({ title, updated_at: new Date().toISOString() })
+        .eq('id', conversationId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      return { conversationId, title };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user-conversations'] });
+    }
+  });
+
+  // Delete conversation
+  const deleteConversationMutation = useMutation({
+    mutationFn: async (conversationId: string) => {
+      if (!user) throw new Error('User not authenticated');
+      
+      const { error } = await supabase
+        .from('conversations')
+        .update({ is_active: false })
+        .eq('id', conversationId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      return conversationId;
+    },
+    onSuccess: (conversationId) => {
+      if (currentConversationId === conversationId) {
+        setCurrentConversationId(null);
+      }
+      queryClient.invalidateQueries({ queryKey: ['user-conversations'] });
+    }
+  });
+
   // Send message with streaming support
   const sendMessageMutation = useMutation({
     mutationFn: async ({ message, conversationId }: { message: string; conversationId: string }) => {
@@ -325,6 +367,14 @@ export const useChatbot = () => {
     setCurrentConversationId(conversationId);
   };
 
+  const updateConversation = async (conversationId: string, title: string) => {
+    await updateConversationMutation.mutateAsync({ conversationId, title });
+  };
+
+  const deleteConversation = async (conversationId: string) => {
+    await deleteConversationMutation.mutateAsync(conversationId);
+  };
+
   return {
     // State
     isOpen,
@@ -343,9 +393,13 @@ export const useChatbot = () => {
     startNewConversation,
     sendMessage,
     selectConversation,
+    updateConversation,
+    deleteConversation,
     
     // Loading states
     isCreatingConversation: createConversationMutation.isPending,
-    isSendingMessage: sendMessageMutation.isPending || isStreaming
+    isSendingMessage: sendMessageMutation.isPending || isStreaming,
+    isUpdatingConversation: updateConversationMutation.isPending,
+    isDeletingConversation: deleteConversationMutation.isPending
   };
 };

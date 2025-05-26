@@ -11,7 +11,9 @@ import {
   Maximize2,
   History,
   ChevronLeft,
-  MessageSquare
+  MessageSquare,
+  Settings,
+  Users
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,6 +26,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { ConversationSidebar } from './ConversationSidebar';
 import { TypingIndicator } from './TypingIndicator';
 import { QuickSuggestions } from './QuickSuggestions';
+import { AgentSelector } from './AgentSelector';
+import { SettingsPanel } from './SettingsPanel';
 
 const GlobalChatbot: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
@@ -38,6 +42,8 @@ const GlobalChatbot: React.FC = () => {
     startNewConversation,
     sendMessage,
     selectConversation,
+    updateConversation,
+    deleteConversation,
     currentConversationId,
     isCreatingConversation,
     isSendingMessage
@@ -48,6 +54,7 @@ const GlobalChatbot: React.FC = () => {
   const [showAgentSelection, setShowAgentSelection] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -187,6 +194,21 @@ const GlobalChatbot: React.FC = () => {
             transition={{ duration: 0.2 }}
             className="relative"
           >
+            {/* Settings Panel */}
+            <AnimatePresence>
+              {showSettings && (
+                <motion.div
+                  initial={{ x: 320, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: 320, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute left-full ml-4 top-0"
+                >
+                  <SettingsPanel onClose={() => setShowSettings(false)} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Sidebar */}
             <AnimatePresence>
               {showSidebar && (
@@ -203,6 +225,8 @@ const GlobalChatbot: React.FC = () => {
                     agents={agents || []}
                     onSelectConversation={selectConversation}
                     onNewConversation={handleNewConversation}
+                    onUpdateConversation={updateConversation}
+                    onDeleteConversation={deleteConversation}
                     onClose={() => setShowSidebar(false)}
                   />
                 </motion.div>
@@ -252,6 +276,14 @@ const GlobalChatbot: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="text-gray-400 hover:text-white p-1"
+                  >
+                    <Settings size={16} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setIsMinimized(!isMinimized)}
                     className="text-gray-400 hover:text-white p-1"
                   >
@@ -290,7 +322,7 @@ const GlobalChatbot: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Conversation Selector - Only show if user is authenticated */}
+                  {/* Agent Selection and Conversation Controls - Only show if user is authenticated */}
                   {user && (
                     <div className="p-2 border-b border-dark-border">
                       <div className="flex items-center gap-2">
@@ -298,6 +330,15 @@ const GlobalChatbot: React.FC = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => setShowAgentSelection(!showAgentSelection)}
+                          className="border-dark-border text-gray-400 hover:text-white"
+                        >
+                          <Users size={16} className="mr-1" />
+                          Agents
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleNewConversation()}
                           className="border-dark-border text-gray-400 hover:text-white flex-1"
                         >
                           <Plus size={16} className="mr-1" />
@@ -310,22 +351,16 @@ const GlobalChatbot: React.FC = () => {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-2 space-y-1"
+                          className="mt-3"
                         >
-                          {agents?.map(agent => (
-                            <Button
-                              key={agent.id}
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleNewConversation(agent.id)}
-                              className="w-full justify-start text-left text-gray-300 hover:text-white"
-                            >
-                              <div>
-                                <div className="font-medium">{agent.name}</div>
-                                <div className="text-xs text-gray-500">{agent.description}</div>
-                              </div>
-                            </Button>
-                          ))}
+                          <AgentSelector
+                            agents={agents || []}
+                            onSelectAgent={(agentId) => {
+                              handleNewConversation(agentId);
+                              setShowAgentSelection(false);
+                            }}
+                            currentAgentId={currentAgent?.id}
+                          />
                         </motion.div>
                       )}
                     </div>
@@ -370,7 +405,7 @@ const GlobalChatbot: React.FC = () => {
                                 message.role === 'user'
                                   ? 'bg-soft-blue text-white'
                                   : 'bg-dark-lighter text-gray-300'
-                              }`}
+                              } ${message.is_streaming ? 'animate-pulse' : ''}`}
                             >
                               {message.content}
                             </div>
