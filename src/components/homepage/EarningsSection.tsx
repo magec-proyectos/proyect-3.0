@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ChartControls from './earnings/ChartControls';
 import { earningsData, winRateData, roiData, chartConfig } from './earnings/ChartData';
 import EarningsSectionBackground from './earnings/EarningsSectionBackground';
@@ -7,7 +7,7 @@ import EarningsSectionHeader from './earnings/EarningsSectionHeader';
 import ChartSection from './earnings/ChartSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const EarningsSection: React.FC = () => {
+const EarningsSection: React.FC = React.memo(() => {
   const [activeChart, setActiveChart] = useState<'earnings' | 'winRate' | 'roi'>('earnings');
   const [timeRange, setTimeRange] = useState<'1m' | '6m' | '1y'>('6m');
   const [animateChart, setAnimateChart] = useState(true);
@@ -21,38 +21,40 @@ const EarningsSection: React.FC = () => {
   // Reset animation when chart type or time range changes
   useEffect(() => {
     setAnimateChart(false);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setChartKey(prev => prev + 1);
       setAnimateChart(true);
     }, 100);
+    return () => clearTimeout(timer);
   }, [activeChart, timeRange]);
 
-  // Select data based on active chart and time range
-  const baseData = activeChart === 'earnings' 
-    ? earningsData[timeRange] 
-    : activeChart === 'winRate' 
-      ? winRateData[timeRange] 
-      : roiData[timeRange];
+  // Memoize base data selection
+  const baseData = useMemo(() => {
+    return activeChart === 'earnings' 
+      ? earningsData[timeRange] 
+      : activeChart === 'winRate' 
+        ? winRateData[timeRange] 
+        : roiData[timeRange];
+  }, [activeChart, timeRange]);
   
-  // Apply calculator values to modify chart data
-  const activeData = baseData.map(item => {
-    // Scale factor based on calculator inputs
+  // Memoize scaled data calculation
+  const activeData = useMemo(() => {
     const scaleFactor = (monthlyBets / 20) * (averageBet / 50);
     
-    return {
+    return baseData.map(item => ({
       ...item,
       withBet3: Math.round(item.withBet3 * scaleFactor),
       withoutBet3: Math.round(item.withoutBet3 * scaleFactor)
-    };
-  });
+    }));
+  }, [baseData, monthlyBets, averageBet]);
 
-  const getPercentageChange = () => {
+  const getPercentageChange = useCallback(() => {
     const lastIndex = activeData.length - 1;
     const bet3Value = activeData[lastIndex].withBet3;
     const nonBet3Value = activeData[lastIndex].withoutBet3;
     const percentageIncrease = ((bet3Value - nonBet3Value) / nonBet3Value) * 100;
     return Math.round(percentageIncrease);
-  };
+  }, [activeData]);
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden">
@@ -94,6 +96,8 @@ const EarningsSection: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+EarningsSection.displayName = 'EarningsSection';
 
 export default EarningsSection;

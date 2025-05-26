@@ -8,14 +8,18 @@ interface UserTypePresetsProps {
   applyPreset: (type: 'casual' | 'regular' | 'professional') => void;
 }
 
-const UserTypePresets: React.FC<UserTypePresetsProps> = ({ userType, applyPreset }) => {
+const UserTypePresets: React.FC<UserTypePresetsProps> = React.memo(({ userType, applyPreset }) => {
+  const handleCasualClick = React.useCallback(() => applyPreset('casual'), [applyPreset]);
+  const handleRegularClick = React.useCallback(() => applyPreset('regular'), [applyPreset]);
+  const handleProfessionalClick = React.useCallback(() => applyPreset('professional'), [applyPreset]);
+
   return (
     <div className="grid grid-cols-3 gap-2 mb-5">
       <Button 
         variant={userType === 'casual' ? "default" : "outline"}
         size="sm"
         className={userType === 'casual' ? "bg-neon-blue text-black" : ""}
-        onClick={() => applyPreset('casual')}
+        onClick={handleCasualClick}
       >
         <Users className="h-4 w-4 mr-1" />
         Casual
@@ -24,7 +28,7 @@ const UserTypePresets: React.FC<UserTypePresetsProps> = ({ userType, applyPreset
         variant={userType === 'regular' ? "default" : "outline"}
         size="sm"
         className={userType === 'regular' ? "bg-neon-blue text-black" : ""}
-        onClick={() => applyPreset('regular')}
+        onClick={handleRegularClick}
       >
         <TrendingUp className="h-4 w-4 mr-1" />
         Regular
@@ -33,13 +37,15 @@ const UserTypePresets: React.FC<UserTypePresetsProps> = ({ userType, applyPreset
         variant={userType === 'professional' ? "default" : "outline"}
         size="sm"
         className={userType === 'professional' ? "bg-neon-blue text-black" : ""}
-        onClick={() => applyPreset('professional')}
+        onClick={handleProfessionalClick}
       >
         <Zap className="h-4 w-4 mr-1" />
         Pro
       </Button>
     </div>
   );
-};
+});
+
+UserTypePresets.displayName = 'UserTypePresets';
 
 export default UserTypePresets;

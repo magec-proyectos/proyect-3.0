@@ -1,12 +1,12 @@
 
 import React, { lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
 import TrustedBySection from '@/components/homepage/TrustedBySection';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
-// Lazy load components for better performance
+// Lazy load components with better chunking
 const TestimonialsSection = lazy(() => import('@/components/homepage/TestimonialsSection'));
 const TutorialsSection = lazy(() => import('@/components/homepage/TutorialsSection'));
 const EarningsSection = lazy(() => import('@/components/homepage/EarningsSection'));
@@ -25,10 +25,10 @@ const Index = () => {
       <main>
         <Hero />
         
-        {/* Trusted By Section */}
+        {/* Trusted By Section - loaded immediately as it's above fold */}
         <TrustedBySection />
         
-        <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
+        <Suspense fallback={<LoadingSpinner />}>
           {/* Testimonials */}
           <TestimonialsSection />
           

@@ -9,11 +9,19 @@ interface EarningsResultsProps {
   percentageIncrease: number;
 }
 
-const EarningsResults: React.FC<EarningsResultsProps> = ({
+const EarningsResults: React.FC<EarningsResultsProps> = React.memo(({
   currentMonthlyEarnings,
   enhancedMonthlyEarnings,
   percentageIncrease
 }) => {
+  const currentEarningsColor = React.useMemo(() => 
+    currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'
+  , [currentMonthlyEarnings]);
+
+  const currentEarningsSign = React.useMemo(() => 
+    currentMonthlyEarnings >= 0 ? '+' : ''
+  , [currentMonthlyEarnings]);
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -24,8 +32,8 @@ const EarningsResults: React.FC<EarningsResultsProps> = ({
                 <div className="h-2.5 w-2.5 rounded-full bg-gray-500 mr-2"></div>
                 Current earnings
               </div>
-              <div className={`font-medium text-sm ${currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                {currentMonthlyEarnings >= 0 ? '+' : ''}{currentMonthlyEarnings}$
+              <div className={`font-medium text-sm ${currentEarningsColor}`}>
+                {currentEarningsSign}{currentMonthlyEarnings}$
               </div>
             </div>
             
@@ -58,6 +66,8 @@ const EarningsResults: React.FC<EarningsResultsProps> = ({
       </Tooltip>
     </TooltipProvider>
   );
-};
+});
+
+EarningsResults.displayName = 'EarningsResults';
 
 export default EarningsResults;

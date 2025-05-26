@@ -3,8 +3,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import OptimizedImage from '@/components/OptimizedImage';
 
-const LatestNewsSection = () => {
+const LatestNewsSection = React.memo(() => {
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -14,7 +15,7 @@ const LatestNewsSection = () => {
     }
   };
   
-  const blogs = [
+  const blogs = React.useMemo(() => [
     {
       id: 1,
       title: "How AI is Revolutionizing Sports Betting Strategies",
@@ -33,7 +34,7 @@ const LatestNewsSection = () => {
       image: "/lovable-uploads/158a61d4-99dd-4969-80d8-1708ade8bb66.png",
       category: "Data Analysis"
     }
-  ];
+  ], []);
 
   return (
     <section className="py-16 bg-dark">
@@ -62,10 +63,10 @@ const LatestNewsSection = () => {
             >
               <Card className="overflow-hidden border border-dark-border rounded-lg bg-transparent hover:shadow-md transition-all duration-300 h-full flex flex-col">
                 <div className="relative overflow-hidden h-48">
-                  <img 
+                  <OptimizedImage 
                     src={blog.image} 
                     alt={blog.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="w-full h-full transition-transform duration-500 hover:scale-105"
                   />
                   <div className="absolute top-3 left-3">
                     <Badge className="bg-neon-blue/90 hover:bg-neon-blue/90 text-xs font-medium px-2 py-1 rounded-sm text-white border-0">
@@ -86,6 +87,8 @@ const LatestNewsSection = () => {
       </div>
     </section>
   );
-};
+});
+
+LatestNewsSection.displayName = 'LatestNewsSection';
 
 export default LatestNewsSection;

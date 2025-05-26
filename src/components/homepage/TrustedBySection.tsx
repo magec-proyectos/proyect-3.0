@@ -3,15 +3,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import CasinoLogosCarousel from '@/components/CasinoLogosCarousel';
 
-const TrustedBySection = () => {
-  const fadeIn = {
+const TrustedBySection = React.memo(() => {
+  const fadeIn = React.useMemo(() => ({
     hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: { duration: 0.6 }
     }
-  };
+  }), []);
 
   return (
     <section className="py-12 bg-dark">
@@ -37,6 +37,8 @@ const TrustedBySection = () => {
       </div>
     </section>
   );
-};
+});
+
+TrustedBySection.displayName = 'TrustedBySection';
 
 export default TrustedBySection;
