@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RefreshCw, Wifi, WifiOff, Clock, Database, AlertTriangle } from 'lucide-react';
+import { RefreshCw, Wifi, WifiOff, Clock, Database, AlertTriangle, Zap } from 'lucide-react';
 import { useFootball } from '@/contexts/FootballContext';
 import { useTriggerScraping } from '@/services/realTimeSportsApi';
 
@@ -16,10 +16,65 @@ const RealTimeDataIndicator = () => {
   } = useFootball();
 
   const { triggerSportsScraping } = useTriggerScraping();
-  const [isInitializing, setIsInitializing] = useState(false);
+  const [isAutoSyncing, setIsAutoSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<'initializing' | 'syncing' | 'live' | 'error'>('initializing');
+
+  // Auto-initialize data on component mount
+  useEffect(() => {
+    const initializeData = async () => {
+      if (matches.length === 0 && !isLoading) {
+        console.log('Auto-initializing sports data...');
+        setIsAutoSyncing(true);
+        setSyncStatus('initializing');
+        
+        try {
+          // Trigger scraping first
+          await triggerSportsScraping();
+          
+          // Wait a moment then refresh
+          setTimeout(async () => {
+            await triggerDataRefresh();
+            setSyncStatus('live');
+          }, 3000);
+        } catch (error) {
+          console.error('Auto-initialization failed:', error);
+          setSyncStatus('error');
+        } finally {
+          setIsAutoSyncing(false);
+        }
+      } else if (matches.length > 0) {
+        setSyncStatus('live');
+      }
+    };
+
+    initializeData();
+  }, [matches.length, isLoading, triggerSportsScraping, triggerDataRefresh]);
+
+  // Auto-sync every 2 minutes when live
+  useEffect(() => {
+    if (syncStatus === 'live') {
+      const interval = setInterval(async () => {
+        console.log('Auto-syncing sports data...');
+        setSyncStatus('syncing');
+        
+        try {
+          await triggerSportsScraping();
+          setTimeout(async () => {
+            await triggerDataRefresh();
+            setSyncStatus('live');
+          }, 2000);
+        } catch (error) {
+          console.error('Auto-sync failed:', error);
+          setSyncStatus('error');
+        }
+      }, 120000); // 2 minutes
+
+      return () => clearInterval(interval);
+    }
+  }, [syncStatus, triggerSportsScraping, triggerDataRefresh]);
 
   const formatLastUpdate = (date: Date | null) => {
-    if (!date) return 'Never';
+    if (!date) return 'Syncing...';
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     const minutes = Math.floor(diff / 60000);
@@ -29,48 +84,35 @@ const RealTimeDataIndicator = () => {
     return `${minutes} minutes ago`;
   };
 
-  const handleInitializeData = async () => {
-    setIsInitializing(true);
-    try {
-      console.log('Initializing data by triggering scraping...');
-      await triggerSportsScraping();
-      // Wait a moment then refresh the data
-      setTimeout(() => {
-        triggerDataRefresh();
-      }, 2000);
-    } catch (error) {
-      console.error('Error initializing data:', error);
-    } finally {
-      setIsInitializing(false);
-    }
-  };
-
-  const hasData = matches && matches.length > 0;
-  const connectionStatus = error ? 'error' : hasData ? 'connected' : 'no-data';
-
   const getStatusInfo = () => {
-    switch (connectionStatus) {
+    switch (syncStatus) {
+      case 'initializing':
+        return {
+          icon: <Database className="h-4 w-4 text-blue-500 animate-pulse" />,
+          badge: { variant: "outline" as const, text: 'Initializing', className: "border-blue-500/30 text-blue-400 animate-pulse" },
+          message: 'Setting up live data feed...'
+        };
+      case 'syncing':
+        return {
+          icon: <RefreshCw className="h-4 w-4 text-yellow-500 animate-spin" />,
+          badge: { variant: "outline" as const, text: 'Syncing', className: "border-yellow-500/30 text-yellow-400" },
+          message: 'Updating matches...'
+        };
+      case 'live':
+        return {
+          icon: <Zap className="h-4 w-4 text-green-500" />,
+          badge: { variant: "default" as const, text: 'Live', className: "bg-green-500/10 text-green-400 border-green-500/30" },
+          message: 'Real-time sync active'
+        };
       case 'error':
         return {
           icon: <WifiOff className="h-4 w-4 text-red-500" />,
           badge: { variant: "destructive" as const, text: 'Error', className: "" },
-          message: 'Connection failed'
-        };
-      case 'connected':
-        return {
-          icon: <Wifi className="h-4 w-4 text-green-500" />,
-          badge: { variant: "default" as const, text: 'Live Data', className: "bg-green-500/10 text-green-400 border-green-500/30" },
-          message: 'Live data active'
-        };
-      case 'no-data':
-        return {
-          icon: <Database className="h-4 w-4 text-yellow-500" />,
-          badge: { variant: "outline" as const, text: 'No Data', className: "border-yellow-500/30 text-yellow-400" },
-          message: 'No data available'
+          message: 'Sync temporarily unavailable'
         };
       default:
         return {
-          icon: <WifiOff className="h-4 w-4 text-gray-500" />,
+          icon: <Database className="h-4 w-4 text-gray-500" />,
           badge: { variant: "outline" as const, text: 'Unknown', className: "" },
           message: 'Status unknown'
         };
@@ -102,7 +144,11 @@ const RealTimeDataIndicator = () => {
           <span>Updated: {formatLastUpdate(lastUpdate)}</span>
         </div>
 
-        {error && (
+        <div className="text-xs text-gray-500">
+          {statusInfo.message}
+        </div>
+
+        {error && syncStatus === 'error' && (
           <div className="flex items-center gap-1 text-xs text-red-400">
             <AlertTriangle className="h-3 w-3" />
             <span className="max-w-xs truncate">{error}</span>
@@ -111,28 +157,26 @@ const RealTimeDataIndicator = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        {connectionStatus === 'no-data' && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleInitializeData}
-            disabled={isInitializing}
-            className="border-neon-lime/30 text-neon-lime hover:bg-neon-lime/10"
-          >
-            <Database className={`h-3 w-3 mr-2 ${isInitializing ? 'animate-pulse' : ''}`} />
-            {isInitializing ? 'Initializing...' : 'Load Data'}
-          </Button>
-        )}
-
         <Button
           variant="outline"
           size="sm"
-          onClick={triggerDataRefresh}
-          disabled={isLoading || isInitializing}
+          onClick={async () => {
+            setSyncStatus('syncing');
+            try {
+              await triggerSportsScraping();
+              setTimeout(async () => {
+                await triggerDataRefresh();
+                setSyncStatus('live');
+              }, 2000);
+            } catch (error) {
+              setSyncStatus('error');
+            }
+          }}
+          disabled={isLoading || isAutoSyncing || syncStatus === 'syncing'}
           className="border-neon-blue/30 text-neon-blue hover:bg-neon-blue/10"
         >
-          <RefreshCw className={`h-3 w-3 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-          {isLoading ? 'Updating...' : 'Refresh'}
+          <RefreshCw className={`h-3 w-3 mr-2 ${(isLoading || syncStatus === 'syncing') ? 'animate-spin' : ''}`} />
+          {syncStatus === 'syncing' ? 'Syncing...' : 'Refresh'}
         </Button>
       </div>
     </div>

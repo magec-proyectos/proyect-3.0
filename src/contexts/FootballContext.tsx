@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Match, League, Team } from '@/types/football';
@@ -51,6 +50,9 @@ interface FootballContextType {
   // Real-time features
   triggerDataRefresh: () => Promise<void>;
   lastUpdate: Date | null;
+  
+  // Auto-sync status
+  isAutoSyncActive: boolean;
 }
 
 const FootballContext = createContext<FootballContextType | undefined>(undefined);
@@ -69,6 +71,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [selectedMatch, setSelectedMatch] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [isAutoSyncActive, setIsAutoSyncActive] = useState(true);
   const [filters, setFilters] = useState({
     date: '',
     minOdds: 1.0,
@@ -92,7 +95,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Real-time data hooks
+  // Real-time data hooks with aggressive refetching
   const sportTypeMap = {
     football: 'football',
     basketball: 'basketball', 
@@ -106,6 +109,49 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Listen for real-time updates
   const updates = useRealTimeUpdates('sports_matches');
   
+  // Auto-initialize data on mount
+  useEffect(() => {
+    const autoInitialize = async () => {
+      console.log('Football context initializing...');
+      
+      // If no data and not loading, trigger initialization
+      if (!matchesQuery.data || matchesQuery.data.length === 0) {
+        console.log('No initial data found, triggering auto-sync...');
+        try {
+          await triggerSportsScraping();
+          // Refetch after a short delay
+          setTimeout(() => {
+            matchesQuery.refetch();
+          }, 3000);
+        } catch (error) {
+          console.error('Auto-initialization failed:', error);
+        }
+      }
+    };
+
+    // Run auto-initialization
+    autoInitialize();
+  }, [selectedSport]); // Re-run when sport changes
+
+  // Set up periodic auto-sync
+  useEffect(() => {
+    if (!isAutoSyncActive) return;
+
+    const interval = setInterval(async () => {
+      console.log('Performing periodic auto-sync...');
+      try {
+        await triggerSportsScraping();
+        setTimeout(() => {
+          matchesQuery.refetch();
+        }, 2000);
+      } catch (error) {
+        console.error('Periodic sync failed:', error);
+      }
+    }, 180000); // 3 minutes
+
+    return () => clearInterval(interval);
+  }, [isAutoSyncActive, selectedSport, triggerSportsScraping, matchesQuery]);
+
   // Update last update time when new data comes in
   useEffect(() => {
     if (updates.length > 0) {
@@ -231,7 +277,8 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     userPredictions,
     addUserPrediction,
     triggerDataRefresh,
-    lastUpdate
+    lastUpdate,
+    isAutoSyncActive
   };
 
   return (
