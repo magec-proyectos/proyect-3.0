@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Star, Target, Zap, Crown, Award, Flame } from 'lucide-react';
 import { Badge } from './badge';
 import { AddictiveButton } from './addictive-button';
+import { cn } from '@/lib/utils';
 
 export interface Achievement {
   id: string;
