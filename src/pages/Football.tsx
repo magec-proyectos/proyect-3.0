@@ -45,21 +45,15 @@ const FootballContent = () => {
           </div>
         </div>
 
-        {/* Main Content Area - Dark Theme */}
+        {/* Content Area - Popular Picks and Match Feed BELOW search bar */}
         <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
-            <div className="flex gap-8 max-w-7xl mx-auto">
-              {/* Left space to align with sidebar */}
-              <div className="w-80 flex-shrink-0"></div>
+            <div className="max-w-4xl mx-auto">
+              {/* Popular Picks Carousel - debajo del buscador */}
+              <PopularPicksCarousel />
               
-              {/* Right Content - Popular Picks and Match Feed */}
-              <div className="flex-1">
-                {/* Popular Picks Carousel - debajo del buscador y a la derecha del menu */}
-                <PopularPicksCarousel />
-                
-                {/* Match Feed - debajo de Popular Picks y a la derecha del menu */}
-                <MatchFeed />
-              </div>
+              {/* Match Feed - debajo de Popular Picks */}
+              <MatchFeed />
             </div>
           </div>
         </div>
