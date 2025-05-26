@@ -2,9 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { MatchSelectionSkeleton, BetBuilderSkeleton } from '@/components/LoadingStates';
-import EnhancedMatchSelection from '@/components/football/EnhancedMatchSelection';
 import FootballTabs from '@/components/football/FootballTabs';
 import BetBuilder from '@/components/football/BetBuilder';
+import HeroSection from '@/components/football/HeroSection';
+import MatchFeed from '@/components/football/MatchFeed';
+import InteractiveBetField from '@/components/football/InteractiveBetField';
+import SmartFilters from '@/components/football/SmartFilters';
+import BetSlip from '@/components/football/BetSlip';
 import { toast } from '@/components/ui/sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { FootballProvider, useFootball } from '@/contexts/FootballContext';
@@ -33,43 +37,50 @@ const FootballContent = () => {
       toast.error('Failed to load match data');
     }
   }, [error]);
-
-  // Handler for finding a match
-  const handleFindMatch = () => {
-    if (selectedMatch) {
-      toast.success('Match data loaded successfully');
-    } else {
-      toast.error('Please select a match first');
-    }
-  };
   
   return (
-    <div className="min-h-screen bg-dark text-white pb-16">
+    <div className="min-h-screen bg-dark text-white">
       <Navbar />
       
-      <main className="container px-4 pt-24">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="max-w-5xl mx-auto"
-        >
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2 gradient-text">
-              Advanced Football AI Predictions
-            </h1>
-            <p className="text-gray-400">
-              Get real-time predictions with advanced filtering and analysis
-            </p>
-          </div>
+      <main className="pt-16">
+        {/* Hero Section */}
+        <HeroSection />
+        
+        <div className="container px-4 py-12 space-y-12">
+          {/* Smart Filters */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <SmartFilters />
+          </motion.div>
           
-          {isLoading ? (
-            <MatchSelectionSkeleton />
-          ) : (
-            <EnhancedMatchSelection />
-          )}
+          {/* Match Feed */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <MatchFeed />
+          </motion.div>
+          
+          {/* Interactive Bet Field */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <InteractiveBetField />
+          </motion.div>
           
           {selectedMatch && selectedMatchData && (
-            <>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="space-y-8"
+            >
               <FootballTabs
                 isLoading={false}
                 homeTeam={homeTeam}
@@ -86,10 +97,13 @@ const FootballContent = () => {
                 showBetPlaced={showBetPlaced}
                 setShowBetPlaced={setShowBetPlaced}
               />
-            </>
+            </motion.div>
           )}
-        </motion.div>
+        </div>
       </main>
+      
+      {/* Floating Bet Slip */}
+      <BetSlip />
     </div>
   );
 };
