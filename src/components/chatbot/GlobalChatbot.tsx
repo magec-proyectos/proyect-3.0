@@ -9,7 +9,9 @@ import {
   Plus,
   Minimize2,
   Maximize2,
-  Headphones
+  History,
+  ChevronLeft,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +21,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useChatbot } from '@/hooks/useChatbot';
 import { useAuth } from '@/contexts/AuthContext';
+import { ConversationSidebar } from './ConversationSidebar';
+import { TypingIndicator } from './TypingIndicator';
+import { QuickSuggestions } from './QuickSuggestions';
 
 const GlobalChatbot: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
@@ -42,7 +47,48 @@ const GlobalChatbot: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [showAgentSelection, setShowAgentSelection] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Touch gesture handling for mobile
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isLeftSwipe = distanceX > minSwipeDistance;
+    const isRightSwipe = distanceX < -minSwipeDistance;
+    const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
+
+    if (!isVerticalSwipe) {
+      if (isRightSwipe && !showSidebar) {
+        setShowSidebar(true);
+      } else if (isLeftSwipe && showSidebar) {
+        setShowSidebar(false);
+      }
+    }
+  };
 
   // Debug logging
   useEffect(() => {
@@ -63,19 +109,18 @@ const GlobalChatbot: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Show chatbot if:
-  // 1. Auth is not loading AND
-  // 2. Either settings are enabled OR settings haven't loaded yet (default behavior)
+  // Simulate typing when sending message
+  useEffect(() => {
+    if (isSendingMessage) {
+      setIsTyping(true);
+    } else {
+      setIsTyping(false);
+    }
+  }, [isSendingMessage]);
+
   const shouldShowChatbot = !authLoading && (settings?.global_enabled !== false);
 
-  console.log('Chatbot render decision:', {
-    authLoading,
-    settingsEnabled: settings?.global_enabled,
-    shouldShowChatbot
-  });
-
   if (!shouldShowChatbot) {
-    console.log('Chatbot not rendering - conditions not met');
     return null;
   }
 
@@ -83,7 +128,6 @@ const GlobalChatbot: React.FC = () => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    // Check if user is authenticated for sending messages
     if (!user) {
       setShowLoginPrompt(true);
       return;
@@ -96,8 +140,12 @@ const GlobalChatbot: React.FC = () => {
       await sendMessage(messageToSend);
     } catch (error) {
       console.error('Failed to send message:', error);
-      setInputMessage(messageToSend); // Restore message on error
+      setInputMessage(messageToSend);
     }
+  };
+
+  const handleQuickSuggestion = (suggestion: string) => {
+    setInputMessage(suggestion);
   };
 
   const handleNewConversation = async (agentId?: string) => {
@@ -137,13 +185,49 @@ const GlobalChatbot: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.2 }}
+            className="relative"
           >
-            <Card className="w-80 h-96 bg-dark-card border-dark-border shadow-2xl flex flex-col">
+            {/* Sidebar */}
+            <AnimatePresence>
+              {showSidebar && (
+                <motion.div
+                  initial={{ x: -320, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -320, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute right-full mr-4 top-0"
+                >
+                  <ConversationSidebar
+                    conversations={conversations || []}
+                    currentConversationId={currentConversationId}
+                    agents={agents || []}
+                    onSelectConversation={selectConversation}
+                    onNewConversation={handleNewConversation}
+                    onClose={() => setShowSidebar(false)}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <Card 
+              className="w-80 md:w-96 h-96 md:h-[32rem] bg-dark-card border-dark-border shadow-2xl flex flex-col"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-dark-border">
                 <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowSidebar(!showSidebar)}
+                    className="text-gray-400 hover:text-white p-1 md:hidden"
+                  >
+                    <History size={16} />
+                  </Button>
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan flex items-center justify-center">
-                    <Headphones className="text-white" size={16} />
+                    <Bot className="text-white" size={16} />
                   </div>
                   <div>
                     <h3 className="text-white font-medium text-sm">
@@ -157,6 +241,14 @@ const GlobalChatbot: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowSidebar(!showSidebar)}
+                    className="text-gray-400 hover:text-white p-1 hidden md:flex"
+                  >
+                    <History size={16} />
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -190,7 +282,6 @@ const GlobalChatbot: React.FC = () => {
                         onClick={() => {
                           setShowLoginPrompt(false);
                           setIsOpen(false);
-                          // You can trigger login dialog here if needed
                         }}
                         className="w-full border-dark-border text-gray-400 hover:text-white"
                       >
@@ -251,8 +342,11 @@ const GlobalChatbot: React.FC = () => {
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-soft-blue"></div>
                       </div>
                     ) : messages?.length === 0 ? (
-                      <div className="text-center text-gray-400 text-sm py-8">
-                        {settings?.welcome_message || 'Hi! How can I help you today?'}
+                      <div className="space-y-4">
+                        <div className="text-center text-gray-400 text-sm py-8">
+                          {settings?.welcome_message || 'Hi! How can I help you today?'}
+                        </div>
+                        <QuickSuggestions onSuggestionClick={handleQuickSuggestion} />
                       </div>
                     ) : (
                       <div className="space-y-4">
@@ -289,12 +383,13 @@ const GlobalChatbot: React.FC = () => {
                             )}
                           </div>
                         ))}
+                        {isTyping && <TypingIndicator />}
                         <div ref={messagesEndRef} />
                       </div>
                     )}
                   </ScrollArea>
 
-                  {/* Input - Always show but handle authentication in submit */}
+                  {/* Input */}
                   <form onSubmit={handleSendMessage} className="p-4 border-t border-dark-border">
                     <div className="flex gap-2">
                       <Input
@@ -334,7 +429,7 @@ const GlobalChatbot: React.FC = () => {
               onClick={handleOpenChatbot}
               className="w-16 h-16 rounded-full bg-gradient-to-r from-soft-blue to-soft-cyan shadow-2xl hover:shadow-3xl border-2 border-white/20 transition-all duration-300"
             >
-              <Headphones size={28} className="text-white" />
+              <Bot size={28} className="text-white" />
             </Button>
           </motion.div>
         )}

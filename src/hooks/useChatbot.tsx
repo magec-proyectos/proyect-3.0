@@ -17,6 +17,7 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
+  is_streaming?: boolean;
 }
 
 interface Conversation {
@@ -40,6 +41,8 @@ export const useChatbot = () => {
   const queryClient = useQueryClient();
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [streamingMessage, setStreamingMessage] = useState<string>('');
+  const [isStreaming, setIsStreaming] = useState(false);
 
   // Fetch chatbot settings - works for both authenticated and unauthenticated users
   const { data: settings } = useQuery({
@@ -52,9 +55,8 @@ export const useChatbot = () => {
 
       if (error) {
         console.error('Error fetching chatbot settings:', error);
-        // Return default settings if there's an error
         return {
-          global_enabled: true, // Default to enabled
+          global_enabled: true,
           default_agent_id: '',
           max_conversation_length: 50,
           chatbot_position: { bottom: '24px', right: '24px' },
@@ -68,7 +70,7 @@ export const useChatbot = () => {
       });
 
       const result = {
-        global_enabled: settingsObj.global_enabled !== false, // Default to true if not set
+        global_enabled: settingsObj.global_enabled !== false,
         default_agent_id: settingsObj.default_agent_id || '',
         max_conversation_length: settingsObj.max_conversation_length || 50,
         chatbot_position: settingsObj.chatbot_position || { bottom: '24px', right: '24px' },
@@ -78,11 +80,11 @@ export const useChatbot = () => {
       console.log('Chatbot settings loaded:', result);
       return result;
     },
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-    retry: 1 // Only retry once on failure
+    staleTime: 1000 * 60 * 5,
+    retry: 1
   });
 
-  // Fetch available agents - works for both authenticated and unauthenticated users
+  // Fetch available agents
   const { data: agents } = useQuery({
     queryKey: ['chatbot-agents'],
     queryFn: async (): Promise<Agent[]> => {
@@ -101,11 +103,11 @@ export const useChatbot = () => {
       console.log('Chatbot agents loaded:', data?.length || 0, 'agents');
       return data || [];
     },
-    staleTime: 1000 * 60 * 10, // Cache for 10 minutes
+    staleTime: 1000 * 60 * 10,
     retry: 1
   });
 
-  // Fetch user conversations - only for authenticated users
+  // Fetch user conversations
   const { data: conversations } = useQuery({
     queryKey: ['user-conversations'],
     queryFn: async (): Promise<Conversation[]> => {
@@ -133,7 +135,7 @@ export const useChatbot = () => {
     enabled: !!user && !authLoading
   });
 
-  // Fetch messages for current conversation - only for authenticated users
+  // Fetch messages for current conversation
   const { data: messages, isLoading: messagesLoading } = useQuery({
     queryKey: ['conversation-messages', currentConversationId],
     queryFn: async (): Promise<Message[]> => {
@@ -154,11 +156,21 @@ export const useChatbot = () => {
         return [];
       }
       
-      // Ensure proper typing for message roles
-      const result = (data || []).map(msg => ({
+      let result = (data || []).map(msg => ({
         ...msg,
         role: msg.role as 'user' | 'assistant' | 'system'
       }));
+
+      // Add streaming message if currently streaming
+      if (isStreaming && streamingMessage) {
+        result = [...result, {
+          id: 'streaming',
+          role: 'assistant' as const,
+          content: streamingMessage,
+          created_at: new Date().toISOString(),
+          is_streaming: true
+        }];
+      }
       
       console.log('Messages loaded:', result.length, 'messages');
       return result;
@@ -166,7 +178,7 @@ export const useChatbot = () => {
     enabled: !!currentConversationId && !!user && !authLoading
   });
 
-  // Create new conversation - requires authentication
+  // Create new conversation
   const createConversationMutation = useMutation({
     mutationFn: async (agentId: string): Promise<string> => {
       if (!user) throw new Error('User not authenticated');
@@ -192,12 +204,20 @@ export const useChatbot = () => {
     }
   });
 
-  // Send message - requires authentication
+  // Send message with streaming support
   const sendMessageMutation = useMutation({
     mutationFn: async ({ message, conversationId }: { message: string; conversationId: string }) => {
       if (!user) throw new Error('User not authenticated');
       
       console.log('Sending message to conversation:', conversationId);
+      
+      // Start streaming state
+      setIsStreaming(true);
+      setStreamingMessage('');
+      
+      // Invalidate messages to show the streaming message
+      queryClient.invalidateQueries({ queryKey: ['conversation-messages', currentConversationId] });
+      
       const response = await fetch('/api/v1/chat-completions', {
         method: 'POST',
         headers: {
@@ -214,11 +234,62 @@ export const useChatbot = () => {
         throw new Error('Failed to send message');
       }
 
-      return response.json();
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedMessage = '';
+
+      if (reader) {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n');
+            
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const data = line.slice(6);
+                if (data === '[DONE]') {
+                  setIsStreaming(false);
+                  setStreamingMessage('');
+                  break;
+                }
+                
+                try {
+                  const parsed = JSON.parse(data);
+                  if (parsed.content) {
+                    accumulatedMessage += parsed.content;
+                    setStreamingMessage(accumulatedMessage);
+                    // Trigger re-render with updated streaming message
+                    queryClient.invalidateQueries({ queryKey: ['conversation-messages', currentConversationId] });
+                  }
+                } catch (e) {
+                  console.error('Error parsing streaming data:', e);
+                }
+              }
+            }
+          }
+        } finally {
+          reader.releaseLock();
+        }
+      }
+
+      return { success: true };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['conversation-messages', currentConversationId] });
-      queryClient.invalidateQueries({ queryKey: ['user-conversations'] });
+      setIsStreaming(false);
+      setStreamingMessage('');
+      // Small delay to ensure streaming message is cleared before fetching new messages
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['conversation-messages', currentConversationId] });
+        queryClient.invalidateQueries({ queryKey: ['user-conversations'] });
+      }, 100);
+    },
+    onError: () => {
+      setIsStreaming(false);
+      setStreamingMessage('');
     }
   });
 
@@ -260,6 +331,7 @@ export const useChatbot = () => {
     isOpen,
     setIsOpen,
     currentConversationId,
+    isStreaming,
     
     // Data
     settings,
@@ -275,6 +347,6 @@ export const useChatbot = () => {
     
     // Loading states
     isCreatingConversation: createConversationMutation.isPending,
-    isSendingMessage: sendMessageMutation.isPending
+    isSendingMessage: sendMessageMutation.isPending || isStreaming
   };
 };
