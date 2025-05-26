@@ -33,13 +33,14 @@ const EnhancedMatchSelection = () => {
   };
 
   const getConfidenceColor = (confidence: number) => {
-    if (confidence > 0.7) return 'text-green-500 border-green-500';
-    if (confidence > 0.5) return 'text-yellow-500 border-yellow-500';
+    if (confidence > 70) return 'text-green-500 border-green-500';
+    if (confidence > 50) return 'text-yellow-500 border-yellow-500';
     return 'text-red-500 border-red-500';
   };
 
-  const getFormBadgeColor = (result: 'W' | 'L' | 'D') => {
-    switch (result) {
+  const getFormBadgeColor = (result: 'W' | 'L' | 'D' | 'w' | 'l' | 'd') => {
+    const upperResult = result.toUpperCase();
+    switch (upperResult) {
       case 'W': return 'bg-green-500';
       case 'L': return 'bg-red-500';
       case 'D': return 'bg-yellow-500';
@@ -182,7 +183,7 @@ const EnhancedMatchSelection = () => {
                         <div>
                           <div className="font-medium text-sm">{match.homeTeam.name}</div>
                           <div className="flex gap-1 mt-1">
-                            {match.homeTeam.recentForm.slice(0, 5).map((result, idx) => (
+                            {match.homeTeam.form.slice(0, 5).map((result, idx) => (
                               <div
                                 key={idx}
                                 className={`w-2 h-2 rounded-full ${getFormBadgeColor(result)}`}
@@ -199,7 +200,7 @@ const EnhancedMatchSelection = () => {
                         <div>
                           <div className="font-medium text-sm">{match.awayTeam.name}</div>
                           <div className="flex gap-1 mt-1">
-                            {match.awayTeam.recentForm.slice(0, 5).map((result, idx) => (
+                            {match.awayTeam.form.slice(0, 5).map((result, idx) => (
                               <div
                                 key={idx}
                                 className={`w-2 h-2 rounded-full ${getFormBadgeColor(result)}`}
@@ -237,7 +238,7 @@ const EnhancedMatchSelection = () => {
                       </div>
                       <div className="flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
-                        {match.stadium}
+                        {match.league}
                       </div>
                       <Badge variant="outline" className="text-xs">
                         {match.league}
@@ -250,7 +251,7 @@ const EnhancedMatchSelection = () => {
                         variant="outline" 
                         className={`text-xs ${getConfidenceColor(match.predictions.confidence)}`}
                       >
-                        {Math.round(match.predictions.confidence * 100)}% confidence
+                        {Math.round(match.predictions.confidence)}% confidence
                       </Badge>
                     </div>
                   </div>

@@ -41,7 +41,7 @@ export interface Team {
   id: string;
   name: string;
   logo: string;
-  form: ('w' | 'l' | 'd')[];
+  form: ('w' | 'l' | 'd' | 'W' | 'L' | 'D')[];
   stats: TeamStats;
 }
 

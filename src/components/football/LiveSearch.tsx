@@ -129,7 +129,7 @@ const LiveSearch = () => {
                                   className="w-6 h-6"
                                 />
                                 <span className="text-sm font-medium">
-                                  {match.homeTeam.shortName}
+                                  {match.homeTeam.name}
                                 </span>
                               </div>
                               <span className="text-gray-400 text-xs">vs</span>
@@ -140,7 +140,7 @@ const LiveSearch = () => {
                                   className="w-6 h-6"
                                 />
                                 <span className="text-sm font-medium">
-                                  {match.awayTeam.shortName}
+                                  {match.awayTeam.name}
                                 </span>
                               </div>
                             </div>
@@ -169,14 +169,14 @@ const LiveSearch = () => {
                               <Badge 
                                 variant="outline" 
                                 className={`text-xs ${
-                                  match.predictions.confidence > 0.7 
+                                  match.predictions.confidence > 70 
                                     ? 'text-green-500 border-green-500' 
-                                    : match.predictions.confidence > 0.5 
+                                    : match.predictions.confidence > 50 
                                     ? 'text-yellow-500 border-yellow-500' 
                                     : 'text-red-500 border-red-500'
                                 }`}
                               >
-                                {Math.round(match.predictions.confidence * 100)}%
+                                {Math.round(match.predictions.confidence)}%
                               </Badge>
                             </div>
                           </motion.div>
