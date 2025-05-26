@@ -10,7 +10,12 @@ import {
   Search,
   HelpCircle,
   MessageSquare,
-  Minimize2
+  Minimize2,
+  Play,
+  BookOpen,
+  Lightbulb,
+  Star,
+  Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -46,7 +51,6 @@ const GlobalChatbot: React.FC = () => {
 
   const [inputMessage, setInputMessage] = useState('');
   const [currentView, setCurrentView] = useState<'home' | 'chat' | 'help' | 'agents'>('home');
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -68,11 +72,6 @@ const GlobalChatbot: React.FC = () => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    if (!user) {
-      setShowLoginPrompt(true);
-      return;
-    }
-
     const messageToSend = inputMessage;
     setInputMessage('');
     
@@ -86,20 +85,12 @@ const GlobalChatbot: React.FC = () => {
   };
 
   const handleNewConversation = async (agentId?: string) => {
-    if (!user) {
-      setShowLoginPrompt(true);
-      return;
-    }
-    
     await startNewConversation(agentId);
     setCurrentView('chat');
   };
 
   const handleOpenChatbot = () => {
     setIsOpen(true);
-    if (!user) {
-      setShowLoginPrompt(true);
-    }
   };
 
   const currentAgent = agents?.find(agent => 
@@ -115,37 +106,49 @@ const GlobalChatbot: React.FC = () => {
 
   const quickActions = [
     {
-      title: "Hacer una pregunta",
-      icon: HelpCircle,
+      title: "Start a conversation",
+      subtitle: "Ask our AI assistant anything",
+      icon: MessageSquare,
+      color: "from-blue-500 to-purple-600",
       action: () => setCurrentView('chat')
     },
     {
-      title: "Buscar ayuda",
-      icon: Search,
+      title: "Browse help articles",
+      subtitle: "Find answers in our knowledge base",
+      icon: BookOpen,
+      color: "from-green-500 to-blue-500",
       action: () => setCurrentView('help')
     }
   ];
 
   const helpCategories = [
     {
-      title: "Video",
-      description: "Learn how to create videos in our platform.",
-      articles: "76 artículos"
+      title: "Getting Started",
+      description: "Learn the basics of using our platform and getting set up.",
+      articles: "12 articles",
+      icon: Play,
+      color: "text-blue-600"
     },
     {
-      title: "Audio", 
-      description: "Learn how to select a language and accent, add soundtracks, adjust pronunciation and more.",
-      articles: "21 artículos"
+      title: "Features & Tools", 
+      description: "Explore advanced features and learn how to use our tools effectively.",
+      articles: "28 articles",
+      icon: Zap,
+      color: "text-purple-600"
     },
     {
-      title: "Avatars",
-      description: "Learn all about our stock and custom avatars, how to use them, how they are created and more.",
-      articles: "27 artículos"
+      title: "Best Practices",
+      description: "Tips and strategies to get the most out of our platform.",
+      articles: "15 articles",
+      icon: Star,
+      color: "text-orange-600"
     },
     {
-      title: "Sports Betting",
-      description: "Learn about betting strategies, odds calculation and more.",
-      articles: "15 artículos"
+      title: "Troubleshooting",
+      description: "Common issues and how to resolve them quickly.",
+      articles: "22 articles",
+      icon: Lightbulb,
+      color: "text-green-600"
     }
   ];
 
@@ -188,27 +191,30 @@ const GlobalChatbot: React.FC = () => {
               )}
             </AnimatePresence>
 
-            <Card className="w-80 md:w-96 h-[500px] bg-white shadow-2xl flex flex-col overflow-hidden">
-              {/* Header with gradient like Synthesia */}
-              <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 p-4 text-white">
+            <Card className="w-80 md:w-96 h-[600px] bg-white shadow-2xl flex flex-col overflow-hidden border-0">
+              {/* Header with Synthesia-style gradient */}
+              <div className="bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   {currentView !== 'home' && (
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => setCurrentView('home')}
-                      className="text-white hover:bg-white/20 p-2"
+                      className="text-white hover:bg-white/20 p-2 h-auto"
                     >
                       <ArrowLeft size={20} />
                     </Button>
                   )}
                   <div className="flex-1 text-center">
                     {currentView === 'chat' && currentAgent && (
-                      <div className="flex items-center gap-2 justify-center">
-                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                          <Bot size={16} />
+                      <div className="flex items-center gap-3 justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                          <Bot size={18} className="text-white" />
                         </div>
-                        <span className="font-medium">{currentAgent.name}</span>
+                        <div className="text-left">
+                          <span className="font-semibold text-lg block">{currentAgent.name}</span>
+                          <span className="text-white/80 text-sm">{currentAgent.specialization}</span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -216,7 +222,7 @@ const GlobalChatbot: React.FC = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => setIsOpen(false)}
-                    className="text-white hover:bg-white/20 p-2"
+                    className="text-white hover:bg-white/20 p-2 h-auto"
                   >
                     <X size={20} />
                   </Button>
@@ -224,76 +230,72 @@ const GlobalChatbot: React.FC = () => {
 
                 {currentView === 'home' && (
                   <div className="text-center">
-                    <h2 className="text-xl font-bold mb-2">¿Cómo podemos ayudarte?</h2>
+                    <h2 className="text-2xl font-bold mb-2">How can we help?</h2>
+                    <p className="text-white/90 text-sm">Get instant support from our AI assistant</p>
                   </div>
                 )}
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-hidden">
+              <div className="flex-1 overflow-hidden bg-gray-50">
                 {/* Home View */}
                 {currentView === 'home' && (
-                  <div className="p-4 space-y-4">
-                    {!user && showLoginPrompt && (
-                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <div className="text-center text-sm text-blue-800 mb-3">
-                          Please log in to use the AI assistant
+                  <div className="p-6 space-y-6 h-full overflow-y-auto">
+                    {/* Featured Updates */}
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Latest Updates</h3>
+                      
+                      <Card className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Star size={16} className="text-blue-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 mb-1">New AI Features Available</h4>
+                            <p className="text-sm text-gray-700">Discover enhanced AI capabilities and improved response accuracy...</p>
+                          </div>
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            setShowLoginPrompt(false);
-                            setIsOpen(false);
-                          }}
-                          className="w-full"
-                        >
-                          Log In
-                        </Button>
-                      </div>
-                    )}
-
-                    {/* Update Cards */}
-                    <div className="space-y-3">
-                      <Card className="p-4 bg-gray-50 border-gray-200">
-                        <h3 className="font-semibold text-gray-900 mb-1">Knowledge Base Update: Video Translations</h3>
-                        <p className="text-sm text-gray-600">Great news - all our videos in our knowledge base are now...</p>
                       </Card>
 
-                      <Card className="p-4 bg-gray-50 border-gray-200">
-                        <h3 className="font-semibold text-gray-900 mb-1">Sports Betting Status</h3>
-                        <p className="text-sm text-gray-600">Keep up to date with the latest betting platform updates</p>
+                      <Card className="p-4 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Zap size={16} className="text-green-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 mb-1">Platform Performance Update</h4>
+                            <p className="text-sm text-gray-700">Experience faster load times and improved reliability...</p>
+                          </div>
+                        </div>
                       </Card>
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="space-y-2">
-                      {quickActions.map((action, index) => {
-                        const IconComponent = action.icon;
-                        return (
-                          <Button
-                            key={index}
-                            variant="outline"
-                            onClick={action.action}
-                            className="w-full justify-start h-12 border-gray-200 hover:bg-gray-50"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                <IconComponent size={16} className="text-blue-600" />
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Quick Actions</h3>
+                      <div className="space-y-3">
+                        {quickActions.map((action, index) => {
+                          const IconComponent = action.icon;
+                          return (
+                            <Card
+                              key={index}
+                              className="p-4 cursor-pointer transition-all duration-200 hover:shadow-md border-gray-200 bg-white"
+                              onClick={action.action}
+                            >
+                              <div className="flex items-center gap-4">
+                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${action.color} flex items-center justify-center shadow-sm`}>
+                                  <IconComponent size={20} className="text-white" />
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-semibold text-gray-900 mb-1">{action.title}</h4>
+                                  <p className="text-sm text-gray-600">{action.subtitle}</p>
+                                </div>
+                                <ArrowLeft size={16} className="text-gray-400 rotate-180" />
                               </div>
-                              <span className="text-gray-900">{action.title}</span>
-                            </div>
-                            <div className="ml-auto">
-                              {action.title === "Hacer una pregunta" && (
-                                <HelpCircle size={16} className="text-blue-600" />
-                              )}
-                              {action.title === "Buscar ayuda" && (
-                                <Search size={16} className="text-blue-600" />
-                              )}
-                            </div>
-                          </Button>
-                        );
-                      })}
+                            </Card>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -301,25 +303,38 @@ const GlobalChatbot: React.FC = () => {
                 {/* Help View */}
                 {currentView === 'help' && (
                   <div className="flex flex-col h-full">
-                    <div className="p-4 border-b border-gray-200">
-                      <h3 className="text-lg font-semibold text-gray-900 text-center">Ayuda</h3>
-                      <div className="mt-3">
+                    <div className="p-6 border-b border-gray-200 bg-white">
+                      <h3 className="text-xl font-bold text-gray-900 mb-4">Help Center</h3>
+                      <div className="relative">
+                        <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                         <Input
-                          placeholder="Buscar ayuda"
-                          className="bg-gray-50 border-gray-200"
+                          placeholder="Search for help..."
+                          className="pl-10 bg-gray-50 border-gray-200 focus:border-blue-500"
                         />
                       </div>
                     </div>
-                    <ScrollArea className="flex-1 p-4">
-                      <div className="space-y-4">
-                        <div className="text-sm text-gray-600 mb-4">{helpCategories.length} colecciones</div>
-                        {helpCategories.map((category, index) => (
-                          <div key={index} className="border-b border-gray-100 pb-4">
-                            <h4 className="font-semibold text-gray-900 mb-2">{category.title}</h4>
-                            <p className="text-sm text-gray-600 mb-2">{category.description}</p>
-                            <span className="text-xs text-gray-500">{category.articles}</span>
-                          </div>
-                        ))}
+                    <ScrollArea className="flex-1 p-6">
+                      <div className="space-y-6">
+                        <div className="text-sm text-gray-600 mb-4">{helpCategories.length} categories • 77 articles</div>
+                        {helpCategories.map((category, index) => {
+                          const IconComponent = category.icon;
+                          return (
+                            <Card key={index} className="p-5 hover:shadow-md transition-shadow cursor-pointer bg-white border-gray-200">
+                              <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                  <IconComponent size={18} className={category.color} />
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-semibold text-gray-900 mb-2">{category.title}</h4>
+                                  <p className="text-sm text-gray-600 mb-3 leading-relaxed">{category.description}</p>
+                                  <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-700">
+                                    {category.articles}
+                                  </Badge>
+                                </div>
+                              </div>
+                            </Card>
+                          );
+                        })}
                       </div>
                     </ScrollArea>
                   </div>
@@ -328,40 +343,42 @@ const GlobalChatbot: React.FC = () => {
                 {/* Chat View */}
                 {currentView === 'chat' && (
                   <>
-                    <ScrollArea className="flex-1 p-4">
-                      {!user ? (
-                        <div className="text-center text-gray-500 text-sm py-8">
-                          Welcome! Please log in to start chatting with our AI assistant.
-                        </div>
-                      ) : messagesLoading ? (
-                        <div className="flex items-center justify-center h-20">
-                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <ScrollArea className="flex-1 p-6 bg-white">
+                      {messagesLoading ? (
+                        <div className="flex items-center justify-center h-32">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                         </div>
                       ) : messages?.length === 0 ? (
-                        <div className="space-y-4">
-                          <div className="text-center text-gray-500 text-sm py-8">
-                            {settings?.welcome_message || 'Hi! How can I help you today?'}
+                        <div className="text-center py-12">
+                          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <MessageSquare size={24} className="text-blue-600" />
                           </div>
+                          <h4 className="text-lg font-semibold text-gray-900 mb-2">Start a conversation</h4>
+                          <p className="text-gray-600 text-sm max-w-xs mx-auto">
+                            {settings?.welcome_message || 'Ask me anything! I\'m here to help you get the most out of our platform.'}
+                          </p>
                         </div>
                       ) : (
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           {messages?.map((message) => (
-                            <div key={message.id} className="space-y-2">
+                            <div key={message.id} className="space-y-3">
                               {message.role === 'assistant' && (
-                                <div className="flex items-center gap-2 text-sm text-gray-600">
-                                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                                    <Bot size={12} className="text-blue-600" />
+                                <div className="flex items-center gap-3 text-sm text-gray-600">
+                                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                                    <Bot size={14} className="text-white" />
                                   </div>
-                                  <span className="font-medium">{currentAgent?.name || 'AI Agent'}</span>
+                                  <span className="font-medium">{currentAgent?.name || 'AI Assistant'}</span>
+                                  <span className="text-xs text-gray-400">•</span>
+                                  <span className="text-xs text-gray-400">Just now</span>
                                 </div>
                               )}
                               <div className={`${message.role === 'user' ? 'ml-8' : ''}`}>
-                                <div className={`p-3 rounded-lg text-sm ${
+                                <div className={`p-4 rounded-2xl text-sm ${
                                   message.role === 'user'
-                                    ? 'bg-blue-600 text-white ml-auto max-w-[80%]'
-                                    : 'bg-gray-100 text-gray-900 max-w-[90%]'
+                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white ml-auto max-w-[85%] rounded-br-md'
+                                    : 'bg-gray-100 text-gray-900 max-w-[90%] rounded-bl-md'
                                 } ${message.is_streaming ? 'animate-pulse' : ''}`}>
-                                  {message.content}
+                                  <div className="leading-relaxed">{message.content}</div>
                                 </div>
                               </div>
                             </div>
@@ -373,31 +390,23 @@ const GlobalChatbot: React.FC = () => {
                     </ScrollArea>
 
                     {/* Input */}
-                    <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200 bg-gray-50">
-                      <div className="flex gap-2 items-center">
-                        <Input
-                          value={inputMessage}
-                          onChange={(e) => setInputMessage(e.target.value)}
-                          placeholder={user ? "Haz una pregunta..." : "Please log in to chat..."}
-                          className="flex-1 bg-white border-gray-200"
-                          disabled={!user || isSendingMessage || isCreatingConversation}
-                        />
-                        <div className="flex gap-1">
+                    <form onSubmit={handleSendMessage} className="p-6 border-t border-gray-200 bg-white">
+                      <div className="flex gap-3 items-end">
+                        <div className="flex-1 relative">
+                          <Input
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            placeholder="Type your message..."
+                            className="pr-12 py-3 bg-gray-50 border-gray-200 focus:border-blue-500 focus:bg-white rounded-xl"
+                            disabled={isSendingMessage || isCreatingConversation}
+                          />
                           <Button
-                            type="button"
-                            variant="ghost"
+                            type="submit"
                             size="sm"
-                            className="text-gray-400 hover:text-gray-600 p-2"
+                            disabled={!inputMessage.trim() || isSendingMessage || isCreatingConversation}
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg"
                           >
-                            😊
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            className="text-gray-400 hover:text-gray-600 p-2"
-                          >
-                            📎
+                            <Send size={14} />
                           </Button>
                         </div>
                       </div>
@@ -407,7 +416,7 @@ const GlobalChatbot: React.FC = () => {
 
                 {/* Agents View */}
                 {currentView === 'agents' && (
-                  <div className="p-4">
+                  <div className="p-6 bg-white">
                     <AgentSelector
                       agents={agents || []}
                       onSelectAgent={(agentId) => {
@@ -423,29 +432,29 @@ const GlobalChatbot: React.FC = () => {
               {/* Bottom Navigation - Synthesia Style */}
               {currentView === 'home' && (
                 <div className="border-t border-gray-200 bg-white">
-                  <div className="grid grid-cols-3">
+                  <div className="grid grid-cols-3 divide-x divide-gray-200">
                     <Button
                       variant="ghost"
-                      className="h-16 flex flex-col items-center justify-center gap-1 rounded-none text-blue-600"
+                      className="h-16 flex flex-col items-center justify-center gap-2 rounded-none text-blue-600 hover:bg-blue-50"
                     >
                       <MessageSquare size={20} />
-                      <span className="text-xs">Inicio</span>
+                      <span className="text-xs font-medium">Home</span>
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => setCurrentView('chat')}
-                      className="h-16 flex flex-col items-center justify-center gap-1 rounded-none text-gray-500 hover:text-gray-700"
+                      className="h-16 flex flex-col items-center justify-center gap-2 rounded-none text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                     >
                       <MessageSquare size={20} />
-                      <span className="text-xs">Mensajes</span>
+                      <span className="text-xs font-medium">Chat</span>
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => setCurrentView('help')}
-                      className="h-16 flex flex-col items-center justify-center gap-1 rounded-none text-gray-500 hover:text-gray-700"
+                      className="h-16 flex flex-col items-center justify-center gap-2 rounded-none text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                     >
                       <HelpCircle size={20} />
-                      <span className="text-xs">Ayuda</span>
+                      <span className="text-xs font-medium">Help</span>
                     </Button>
                   </div>
                 </div>
@@ -462,9 +471,9 @@ const GlobalChatbot: React.FC = () => {
           >
             <Button
               onClick={handleOpenChatbot}
-              className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 shadow-2xl hover:shadow-3xl border-2 border-white/20 transition-all duration-300"
+              className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 shadow-2xl hover:shadow-3xl border-0 transition-all duration-300 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700"
             >
-              <HelpCircle size={28} className="text-white" />
+              <MessageSquare size={28} className="text-white" />
             </Button>
           </motion.div>
         )}
