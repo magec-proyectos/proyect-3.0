@@ -6,7 +6,6 @@ import { FootballProvider } from '@/contexts/FootballContext';
 
 // Updated components
 import EnhancedSearchBar from '@/components/football/EnhancedSearchBar';
-import PopularPicks from '@/components/football/PopularPicks';
 import LiveMatches from '@/components/football/LiveMatches';
 import CompetitionsSidebar from '@/components/football/CompetitionsSidebar';
 import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
@@ -26,7 +25,7 @@ const FootballContent = () => {
       
       <main className="pt-16">
         {/* Top Section - Enhanced Search Bar with Dark Theme */}
-        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-20 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-16 relative overflow-hidden">
           {/* Background glow effects */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
@@ -35,7 +34,7 @@ const FootballContent = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center mb-12"
+              className="text-center mb-8"
             >
               <h1 className="text-6xl md:text-7xl font-bold mb-8 gradient-text">
                 Football
@@ -57,20 +56,35 @@ const FootballContent = () => {
 
               {/* Center Content */}
               <div className="flex-1 space-y-6">
-                {/* Navigation Tabs - Dark Theme */}
+                {/* Navigation Tabs - Updated based on the image */}
                 <div className="glass-effect rounded-lg border border-dark-border p-1">
                   <div className="flex gap-1">
-                    <button className="px-6 py-2 bg-neon-lime text-black rounded-md font-medium text-sm hover:bg-neon-lime/90 transition-colors">
-                      Home
+                    <button className="px-6 py-2 bg-green-600 text-white rounded-md font-medium text-sm hover:bg-green-700 transition-colors">
+                      Partidos
                     </button>
                     <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Live
+                      Competición
                     </button>
-                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      My bets
+                  </div>
+                </div>
+
+                {/* Sub Navigation - from the image */}
+                <div className="glass-effect rounded-lg border border-dark-border p-1">
+                  <div className="flex gap-1 flex-wrap">
+                    <button className="px-4 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Goleadores
                     </button>
-                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
-                      Statistics
+                    <button className="px-4 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Estad. jugadores
+                    </button>
+                    <button className="px-4 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Estad. equipos
+                    </button>
+                    <button className="px-4 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Resultado
+                    </button>
+                    <button className="px-4 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
+                      Rincón
                     </button>
                   </div>
                 </div>
