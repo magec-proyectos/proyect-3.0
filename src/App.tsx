@@ -1,78 +1,125 @@
 
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Toaster } from '@/components/ui/sonner';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Suspense, lazy } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from './hooks/useThemeToggle.tsx';
+import { AuthProvider } from './contexts/AuthContext';
+import GlobalChatbot from './components/chatbot/GlobalChatbot';
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-// Import pages
-import Index from '@/pages/Index';
-import Sports from '@/pages/Sports';
-import Casino from '@/pages/Casino';
-import Roulette from '@/pages/Roulette';
-import Blackjack from '@/pages/Blackjack';
-import Social from '@/pages/Social';
-import Leaderboard from '@/pages/Leaderboard';
-import UserProfile from '@/pages/UserProfile';
-import Legal from '@/pages/Legal';
-import Square from '@/pages/Square';
-import NotFound from '@/pages/NotFound';
+// Lazy load pages
+const Index = lazy(() => import("./pages/Index"));
+const Sports = lazy(() => import("./pages/Sports"));
+const AmericanFootball = lazy(() => import("./pages/AmericanFootball"));
+const Basketball = lazy(() => import("./pages/Basketball"));
+const Casino = lazy(() => import("./pages/Casino"));
+const Roulette = lazy(() => import("./pages/Roulette"));
+const Blackjack = lazy(() => import("./pages/Blackjack"));
+const Square = lazy(() => import("./pages/Square"));
+const Social = lazy(() => import("./pages/Social"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const UserProfile = lazy(() => import("./pages/UserProfile"));
+const Legal = lazy(() => import("./pages/Legal"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Import admin pages
-import AdminLogin from '@/pages/AdminLogin';
-import AdminDashboard from '@/pages/AdminDashboard';
-
-// Import contexts
-import AuthProvider from '@/contexts/AuthContext';
-import NotificationProvider from '@/contexts/NotificationContext';
-import { FootballProvider } from '@/contexts/FootballContext';
-import { AdminProvider } from '@/contexts/AdminContext';
-
-// Create a query client instance
 const queryClient = new QueryClient();
 
-function App() {
-  const [error, setError] = useState<string | null>(null);
-
-  return (
-    <Router>
-      <div className="min-h-screen bg-dark text-white">
-        <QueryClientProvider client={queryClient}>
-          <NotificationProvider>
-            <AuthProvider>
-              <AdminProvider>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route 
-                    path="/sports" 
-                    element={
-                      <FootballProvider>
-                        <Sports />
-                      </FootballProvider>
-                    } 
-                  />
-                  <Route path="/casino" element={<Casino />} />
-                  <Route path="/roulette" element={<Roulette />} />
-                  <Route path="/blackjack" element={<Blackjack />} />
-                  <Route path="/social" element={<Social />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
-                  <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/legal" element={<Legal />} />
-                  <Route path="/square" element={<Square />} />
-                  
-                  {/* Admin Routes */}
-                  <Route path="/admin/login" element={<AdminLogin />} />
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <Toaster />
-              </AdminProvider>
-            </AuthProvider>
-          </NotificationProvider>
-        </QueryClientProvider>
-      </div>
-    </Router>
-  );
-}
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Index />
+                </Suspense>
+              } />
+              <Route path="/sports" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Sports />
+                </Suspense>
+              } />
+              <Route path="/american-football" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AmericanFootball />
+                </Suspense>
+              } />
+              <Route path="/basketball" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Basketball />
+                </Suspense>
+              } />
+              <Route path="/casino" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Casino />
+                </Suspense>
+              } />
+              <Route path="/roulette" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Roulette />
+                </Suspense>
+              } />
+              <Route path="/blackjack" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Blackjack />
+                </Suspense>
+              } />
+              <Route path="/square" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Square />
+                </Suspense>
+              } />
+              <Route path="/social" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Social />
+                </Suspense>
+              } />
+              <Route path="/leaderboard" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Leaderboard />
+                </Suspense>
+              } />
+              <Route path="/profile" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <UserProfile />
+                </Suspense>
+              } />
+              <Route path="/legal" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Legal />
+                </Suspense>
+              } />
+              <Route path="/admin" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AdminLogin />
+                </Suspense>
+              } />
+              <Route path="/admin/dashboard" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AdminDashboard />
+                </Suspense>
+              } />
+              <Route path="*" element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <NotFound />
+                </Suspense>
+              } />
+            </Routes>
+            <GlobalChatbot />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
+);
 
 export default App;
