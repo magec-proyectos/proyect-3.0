@@ -16,71 +16,62 @@ const FootballContent = () => {
   const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
 
   return (
-    <div className="min-h-screen bg-dark text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       <Navbar />
       
       <main className="pt-16">
-        {/* Top Section - Search Bar */}
-        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card py-8">
+        {/* Top Section - Search Bar - ChatGPT Style */}
+        <div className="bg-white border-b border-gray-200 py-12">
           <div className="container mx-auto px-4">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center mb-6"
+              className="text-center mb-8"
             >
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                AI Football Analytics
+              <h1 className="text-4xl md:text-5xl font-normal mb-6 text-gray-800">
+                ¿En qué puedo ayudarte?
               </h1>
-              <p className="text-gray-400 text-lg">
-                Ask AI anything about football matches, teams, and betting opportunities
-              </p>
             </motion.div>
             
             <FootballSearchBar />
           </div>
         </div>
 
-        {/* Main Content Area */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-12 gap-6">
-            {/* Left Sidebar - Competitions */}
-            <div className="col-span-12 lg:col-span-3">
-              <CompetitionsSidebar />
-            </div>
+        {/* Main Content Area - Winamax Style */}
+        <div className="bg-gray-50 min-h-screen">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex gap-6">
+              {/* Left Sidebar - Competitions - Winamax Style */}
+              <div className="w-80 flex-shrink-0">
+                <CompetitionsSidebar />
+              </div>
 
-            {/* Center Content */}
-            <div className="col-span-12 lg:col-span-6 space-y-8">
-              {/* Popular Picks Section */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <PopularPicks />
-              </motion.div>
+              {/* Center Content */}
+              <div className="flex-1 space-y-6">
+                {/* Navigation Tabs */}
+                <div className="bg-white rounded-lg border border-gray-200 p-1">
+                  <div className="flex gap-1">
+                    <button className="px-6 py-2 bg-red-500 text-white rounded-md font-medium text-sm">
+                      Inicio
+                    </button>
+                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                      En directo
+                    </button>
+                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                      Mis apuestas
+                    </button>
+                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                      Estadísticas
+                    </button>
+                  </div>
+                </div>
 
-              {/* Live Matches Section */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <LiveMatches />
-              </motion.div>
-
-              {/* All Matches Feed */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
+                {/* Match Cards - Winamax Style */}
                 <MatchFeed />
-              </motion.div>
-            </div>
+              </div>
 
-            {/* Right Sidebar - Bet Builder */}
-            <div className="col-span-12 lg:col-span-3">
-              <div className="sticky top-24">
+              {/* Right Sidebar - Bet Builder */}
+              <div className="w-80 flex-shrink-0">
                 <ImprovedBetBuilder />
               </div>
             </div>

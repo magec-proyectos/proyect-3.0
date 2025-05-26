@@ -3,154 +3,161 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Clock, Star, Plus } from 'lucide-react';
+import { TrendingUp, Clock, Star, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFootball } from '@/contexts/FootballContext';
 
 const MatchFeed = () => {
   const { filteredMatches, selectedMatch, setSelectedMatch } = useFootball();
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'live':
-        return <Badge className="bg-red-500 text-white">LIVE</Badge>;
-      case 'upcoming':
-        return <Badge variant="outline" className="border-neon-blue text-neon-blue">Upcoming</Badge>;
-      case 'finished':
-        return <Badge variant="outline" className="border-gray-500 text-gray-400">Finished</Badge>;
-      default:
-        return null;
+  const matches = [
+    {
+      id: 1,
+      league: 'Saudi Pro League • J34',
+      time: '19:00',
+      homeTeam: { name: 'Al Fateh', logo: '🔵' },
+      awayTeam: { name: 'Al Nassr Riyadh', logo: '🟡' },
+      odds: { home: '7,25', draw: '6,00', away: '1,29' },
+      percentages: { home: '1%', draw: '11%', away: '98%' },
+      isLive: false,
+      isHot: true
+    },
+    {
+      id: 2,
+      league: 'Saudi Pro League • J34',
+      time: '19:00',
+      homeTeam: { name: 'Al-Ittihad FC', logo: '🟡' },
+      awayTeam: { name: 'Damac', logo: '🔴' },
+      odds: { home: '1,42', draw: '4,90', away: '5,90' },
+      percentages: { home: '99%', draw: '1%', away: '0%' },
+      isLive: false,
+      isHot: false
+    },
+    {
+      id: 3,
+      league: 'Saudi Pro League • J34',
+      time: '19:00',
+      homeTeam: { name: 'Al-Hilal', logo: '🔵' },
+      awayTeam: { name: 'Al-Qadsiah', logo: '🔴' },
+      odds: { home: '1,50', draw: '4,70', away: '5,10' },
+      percentages: { home: '95%', draw: '2%', away: '3%' },
+      isLive: false,
+      isHot: false
     }
-  };
-
-  const getWinPercentageColor = (percentage: number) => {
-    if (percentage > 60) return 'text-green-500';
-    if (percentage > 40) return 'text-yellow-500';
-    return 'text-red-500';
-  };
+  ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      {/* Section Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Live Matches</h2>
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-          Live Updates
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-600">Partidos</span>
+          <Badge variant="outline" className="border-gray-300 text-gray-600">
+            Competición
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <span>1 selección</span>
+          <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+            🗑️
+          </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredMatches.slice(0, 6).map((match, index) => (
+      {/* Match Cards - Winamax Style */}
+      <div className="space-y-3">
+        {matches.map((match, index) => (
           <motion.div
             key={match.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card 
-              className={`bg-dark-card border-dark-border hover:border-neon-blue/50 transition-all duration-300 cursor-pointer group ${
-                selectedMatch === match.id ? 'border-neon-blue' : ''
-              }`}
-              onClick={() => setSelectedMatch(match.id)}
-            >
-              <CardContent className="p-6">
-                {/* League and Status */}
-                <div className="flex items-center justify-between mb-4">
+            <Card className="bg-gradient-to-r from-green-800 to-green-900 border-0 text-white overflow-hidden relative">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-20">
+                <div className="w-full h-full bg-gradient-to-bl from-yellow-400 via-orange-500 to-red-500 rounded-full blur-xl"></div>
+              </div>
+              
+              <CardContent className="p-4 relative z-10">
+                {/* League and Hot Badge */}
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <img 
-                      src={`https://placehold.co/20x20?text=${match.league[0]}`} 
-                      alt={match.league} 
-                      className="w-5 h-5 rounded-full"
-                    />
-                    <span className="text-xs text-gray-400">{match.league}</span>
+                    <span className="text-xs text-green-200">⚽</span>
+                    <span className="text-xs text-green-200">{match.league}</span>
                   </div>
-                  {getStatusBadge(match.status)}
-                </div>
-
-                {/* Teams */}
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <img 
-                        src={match.homeTeam.logo} 
-                        alt={match.homeTeam.name} 
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <span className="font-medium">{match.homeTeam.name}</span>
-                    </div>
-                    <div className="text-lg font-bold text-neon-blue">
-                      {match.homeOdds}
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <img 
-                        src={match.awayTeam.logo} 
-                        alt={match.awayTeam.name} 
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <span className="font-medium">{match.awayTeam.name}</span>
-                    </div>
-                    <div className="text-lg font-bold text-neon-blue">
-                      {match.awayOdds}
-                    </div>
-                  </div>
-                </div>
-
-                {/* AI Prediction */}
-                <div className="bg-dark-lighter rounded-lg p-3 mb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-neon-lime" />
-                    <span className="text-sm font-medium text-neon-lime">AI Prediction</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-xs">
-                    <div className="text-center">
-                      <div className={`font-bold ${getWinPercentageColor(match.predictions.winProbability.home)}`}>
-                        {match.predictions.winProbability.home}%
-                      </div>
-                      <div className="text-gray-400">Home</div>
-                    </div>
-                    <div className="text-center">
-                      <div className={`font-bold ${getWinPercentageColor(match.predictions.winProbability.draw)}`}>
-                        {match.predictions.winProbability.draw}%
-                      </div>
-                      <div className="text-gray-400">Draw</div>
-                    </div>
-                    <div className="text-center">
-                      <div className={`font-bold ${getWinPercentageColor(match.predictions.winProbability.away)}`}>
-                        {match.predictions.winProbability.away}%
-                      </div>
-                      <div className="text-gray-400">Away</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Match Time & Stats */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-400">
-                    <Clock className="h-4 w-4" />
-                    {match.date} at {match.time}
-                  </div>
-                  {match.predictions.confidence > 75 && (
-                    <Badge className="bg-neon-lime/20 text-neon-lime border-neon-lime/30">
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                      Hot Pick
+                  {match.isHot && (
+                    <Badge className="bg-red-500 text-white text-xs">
+                      HOT (9)
                     </Badge>
                   )}
                 </div>
 
-                {/* Action Button */}
-                <Button 
-                  className="w-full bg-neon-blue hover:bg-neon-blue/90 text-black font-medium"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Add to bet slip logic
-                  }}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add to Bet Slip
-                </Button>
+                {/* Teams and Time */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="text-2xl">{match.homeTeam.logo}</div>
+                    <span className="font-medium">{match.homeTeam.name}</span>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="text-lg font-bold">{match.time}</div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <span className="font-medium">{match.awayTeam.name}</span>
+                    <div className="text-2xl">{match.awayTeam.logo}</div>
+                  </div>
+                </div>
+
+                {/* Odds Buttons */}
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  <Button 
+                    variant="outline" 
+                    className="bg-white text-black border-0 hover:bg-gray-100 rounded-lg font-bold text-center p-3"
+                  >
+                    <div>
+                      <div className="text-xs text-gray-600">{match.homeTeam.name}</div>
+                      <div className="text-lg">{match.odds.home}</div>
+                    </div>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="bg-red-500 text-white border-0 hover:bg-red-600 rounded-lg font-bold text-center p-3"
+                  >
+                    <div>
+                      <div className="text-xs">Empate</div>
+                      <div className="text-lg">{match.odds.draw}</div>
+                    </div>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="bg-white text-black border-0 hover:bg-gray-100 rounded-lg font-bold text-center p-3"
+                  >
+                    <div>
+                      <div className="text-xs text-gray-600">{match.awayTeam.name}</div>
+                      <div className="text-lg">{match.odds.away}</div>
+                    </div>
+                  </Button>
+                </div>
+
+                {/* Percentage bars */}
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="text-center">
+                    <div className="h-1 bg-orange-400 rounded mb-1"></div>
+                    <span>{match.percentages.home}</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="h-1 bg-orange-400 rounded mb-1"></div>
+                    <span>{match.percentages.draw}</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="h-1 bg-orange-400 rounded mb-1"></div>
+                    <span>{match.percentages.away}</span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
