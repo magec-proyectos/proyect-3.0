@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -92,7 +91,7 @@ const AmericanFootball = () => {
                               </span>
                             </div>
                             <span className="text-xs font-medium text-purple-400">
-                              {Math.round(match.predictions.confidence * 100)}% confidence
+                              {Math.round(match.predictions.confidence)}% confidence
                             </span>
                           </div>
                           
@@ -106,16 +105,16 @@ const AmericanFootball = () => {
                               <div>
                                 <p className="font-medium">{match.homeTeam.name}</p>
                                 <div className="flex gap-1 mt-1">
-                                  {match.homeTeam.recentForm.map((result, i) => (
+                                  {match.homeTeam.form.map((result, i) => (
                                     <span 
                                       key={i} 
                                       className={`text-xs w-5 h-5 flex items-center justify-center rounded-full ${
-                                        result === 'W' ? 'bg-green-500/20 text-green-500' : 
-                                        result === 'L' ? 'bg-red-500/20 text-red-500' : 
+                                        result === 'W' || result === 'w' ? 'bg-green-500/20 text-green-500' : 
+                                        result === 'L' || result === 'l' ? 'bg-red-500/20 text-red-500' : 
                                         'bg-gray-500/20 text-gray-500'
                                       }`}
                                     >
-                                      {result}
+                                      {result.toUpperCase()}
                                     </span>
                                   ))}
                                 </div>
@@ -138,16 +137,16 @@ const AmericanFootball = () => {
                               <div>
                                 <p className="font-medium">{match.awayTeam.name}</p>
                                 <div className="flex gap-1 mt-1">
-                                  {match.awayTeam.recentForm.map((result, i) => (
+                                  {match.awayTeam.form.map((result, i) => (
                                     <span 
                                       key={i} 
                                       className={`text-xs w-5 h-5 flex items-center justify-center rounded-full ${
-                                        result === 'W' ? 'bg-green-500/20 text-green-500' : 
-                                        result === 'L' ? 'bg-red-500/20 text-red-500' : 
+                                        result === 'W' || result === 'w' ? 'bg-green-500/20 text-green-500' : 
+                                        result === 'L' || result === 'l' ? 'bg-red-500/20 text-red-500' : 
                                         'bg-gray-500/20 text-gray-500'
                                       }`}
                                     >
-                                      {result}
+                                      {result.toUpperCase()}
                                     </span>
                                   ))}
                                 </div>
@@ -165,9 +164,9 @@ const AmericanFootball = () => {
                             >
                               Home Win
                               <span className={`ml-1 ${
-                                match.predictions.recommended === 'home' ? 'text-purple-500' : ''
+                                match.predictions.winProbability.home > match.predictions.winProbability.away ? 'text-purple-500' : ''
                               }`}>
-                                {Math.round(match.predictions.homeWinProbability * 100)}%
+                                {Math.round(match.predictions.winProbability.home)}%
                               </span>
                             </Button>
                             <Button
@@ -176,9 +175,9 @@ const AmericanFootball = () => {
                             >
                               Away Win
                               <span className={`ml-1 ${
-                                match.predictions.recommended === 'away' ? 'text-purple-500' : ''
+                                match.predictions.winProbability.away > match.predictions.winProbability.home ? 'text-purple-500' : ''
                               }`}>
-                                {Math.round(match.predictions.awayWinProbability * 100)}%
+                                {Math.round(match.predictions.winProbability.away)}%
                               </span>
                             </Button>
                           </div>
