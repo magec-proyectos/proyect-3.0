@@ -7,9 +7,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // Import pages
 import Index from '@/pages/Index';
 import Sports from '@/pages/Sports';
-import Football from '@/pages/Football';
-import Basketball from '@/pages/Basketball';
-import AmericanFootball from '@/pages/AmericanFootball';
 import Casino from '@/pages/Casino';
 import Roulette from '@/pages/Roulette';
 import Blackjack from '@/pages/Blackjack';
@@ -39,17 +36,14 @@ function App() {
             <AuthProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/sports" element={<Sports />} />
                 <Route 
-                  path="/football" 
+                  path="/sports" 
                   element={
                     <FootballProvider>
-                      <Football />
+                      <Sports />
                     </FootballProvider>
                   } 
                 />
-                <Route path="/basketball" element={<Basketball />} />
-                <Route path="/american-football" element={<AmericanFootball />} />
                 <Route path="/casino" element={<Casino />} />
                 <Route path="/roulette" element={<Roulette />} />
                 <Route path="/blackjack" element={<Blackjack />} />
