@@ -47,11 +47,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="relative glass-effect rounded-2xl border border-neon-blue/30 overflow-hidden hover:border-neon-blue/50 transition-all duration-300 focus-within:ring-2 focus-within:ring-neon-blue/50 focus-within:border-neon-blue shadow-lg hover:shadow-neon-blue/20">
-        {/* Enhanced Search Input */}
+      <div className="relative glass-effect rounded-3xl border border-neon-blue/30 overflow-hidden hover:border-neon-blue/50 transition-all duration-300 focus-within:ring-4 focus-within:ring-neon-blue/30 focus-within:border-neon-blue shadow-2xl hover:shadow-neon-blue/30">
+        {/* Enhanced Search Input - Made Larger */}
         <div className="flex items-center">
-          <div className="pl-6 pr-4 py-4 flex items-center">
-            <Search className="h-5 w-5 text-neon-blue" />
+          <div className="pl-8 pr-6 py-6 flex items-center">
+            <Search className="h-6 w-6 text-neon-blue" />
           </div>
           
           <Input
@@ -60,7 +60,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
             placeholder={placeholder}
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
-            className="flex-1 border-0 bg-transparent text-white placeholder-gray-400 text-base focus:ring-0 focus:outline-none py-4"
+            className="flex-1 border-0 bg-transparent text-white placeholder-gray-400 text-lg focus:ring-0 focus:outline-none py-6"
           />
 
           {/* Clear button */}
@@ -70,30 +70,30 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0 }}
-                className="px-2"
+                className="px-3"
               >
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={clearSearch}
-                  className="p-2 rounded-full text-gray-400 hover:text-white hover:bg-dark/40 transition-all"
+                  className="p-3 rounded-full text-gray-400 hover:text-white hover:bg-dark/40 transition-all"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-5 w-5" />
                 </Button>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 px-4">
+          <div className="flex items-center gap-3 px-6">
             {/* Voice Search */}
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={onVoiceToggle}
-              className={`p-2 rounded-full transition-all relative ${
+              className={`p-3 rounded-full transition-all relative ${
                 isListening 
                   ? 'bg-red-500/20 text-red-400' 
                   : 'text-gray-400 hover:text-neon-blue hover:bg-neon-blue/10'
@@ -106,7 +106,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
                   transition={{ duration: 1, repeat: Infinity }}
                 />
               )}
-              <Mic className="h-4 w-4 relative z-10" />
+              <Mic className="h-5 w-5 relative z-10" />
             </Button>
 
             {/* Upload Button */}
@@ -114,9 +114,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
               type="button"
               variant="ghost"
               size="sm"
-              className="p-2 rounded-full text-gray-400 hover:text-neon-lime hover:bg-neon-lime/10 transition-all"
+              className="p-3 rounded-full text-gray-400 hover:text-neon-lime hover:bg-neon-lime/10 transition-all"
             >
-              <Upload className="h-4 w-4" />
+              <Upload className="h-5 w-5" />
             </Button>
 
             {/* Filter Toggle */}
@@ -125,7 +125,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
               variant="ghost"
               size="sm"
               onClick={onFilterToggle}
-              className={`p-2 rounded-full transition-all ${
+              className={`p-3 rounded-full transition-all ${
                 isFilterOpen 
                   ? 'bg-neon-lime/20 text-neon-lime' 
                   : 'text-gray-400 hover:text-neon-lime hover:bg-neon-lime/10'
@@ -135,22 +135,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 animate={{ rotate: isFilterOpen ? 180 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <Filter className="h-4 w-4" />
+                <Filter className="h-5 w-5" />
               </motion.div>
             </Button>
           </div>
         </div>
-
-        {/* Simplified search suggestions */}
-        {query && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="absolute top-full left-0 right-0 mt-1 text-xs text-gray-400 text-center"
-          >
-            Press Enter to search
-          </motion.div>
-        )}
       </div>
     </motion.form>
   );

@@ -26,7 +26,7 @@ const FootballContent = () => {
       
       <main className="pt-16">
         {/* Top Section - Enhanced Search Bar with Dark Theme */}
-        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-16 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-20 relative overflow-hidden">
           {/* Background glow effects */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
@@ -35,14 +35,11 @@ const FootballContent = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center mb-10"
+              className="text-center mb-12"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+              <h1 className="text-6xl md:text-7xl font-bold mb-8 gradient-text">
                 Football
               </h1>
-              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                Use our AI to find the best bets and match analysis
-              </p>
             </motion.div>
             
             <EnhancedSearchBar onFilterToggle={handleFilterToggle} />
