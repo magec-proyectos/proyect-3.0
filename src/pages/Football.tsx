@@ -1,119 +1,92 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import { MatchSelectionSkeleton, BetBuilderSkeleton } from '@/components/LoadingStates';
-import FootballTabs from '@/components/football/FootballTabs';
-import BetBuilder from '@/components/football/BetBuilder';
-import HeroSection from '@/components/football/HeroSection';
-import MatchFeed from '@/components/football/MatchFeed';
-import InteractiveBetField from '@/components/football/InteractiveBetField';
-import SmartFilters from '@/components/football/SmartFilters';
-import BetSlip from '@/components/football/BetSlip';
-import PopularPicksHeatmap from '@/components/football/PopularPicksHeatmap';
-import { toast } from '@/components/ui/sonner';
-import { useAuth } from '@/contexts/AuthContext';
-import { FootballProvider, useFootball } from '@/contexts/FootballContext';
 import { motion } from 'framer-motion';
+import { FootballProvider } from '@/contexts/FootballContext';
 
-// Import data (will be replaced by dynamic data from context)
-import {
-  matchEvents,
-  bettingTrends,
-  matchNews,
-  homeTeam,
-  awayTeam,
-  prediction
-} from '@/data/footballData';
+// New simplified components
+import FootballSearchBar from '@/components/football/FootballSearchBar';
+import PopularPicks from '@/components/football/PopularPicks';
+import LiveMatches from '@/components/football/LiveMatches';
+import CompetitionsSidebar from '@/components/football/CompetitionsSidebar';
+import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
+import MatchFeed from '@/components/football/MatchFeed';
 
 const FootballContent = () => {
-  const [showBetPlaced, setShowBetPlaced] = useState(false);
-  const { user } = useAuth();
-  const { isLoading, error, selectedMatch, filteredMatches } = useFootball();
-  
-  // Get selected match data
-  const selectedMatchData = filteredMatches.find(match => match.id === selectedMatch);
-  
-  useEffect(() => {
-    if (error) {
-      toast.error('Failed to load match data');
-    }
-  }, [error]);
-  
+  const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
+
   return (
     <div className="min-h-screen bg-dark text-white">
       <Navbar />
       
       <main className="pt-16">
-        {/* Hero Section */}
-        <HeroSection />
-        
-        <div className="container px-4 py-12 space-y-12">
-          {/* Smart Filters */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <SmartFilters />
-          </motion.div>
-          
-          {/* Popular Picks Heatmap */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <PopularPicksHeatmap />
-          </motion.div>
-          
-          {/* Match Feed */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <MatchFeed />
-          </motion.div>
-          
-          {/* Interactive Bet Field */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <InteractiveBetField />
-          </motion.div>
-          
-          {selectedMatch && selectedMatchData && (
+        {/* Top Section - Search Bar */}
+        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card py-8">
+          <div className="container mx-auto px-4">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="space-y-8"
+              className="text-center mb-6"
             >
-              <FootballTabs
-                isLoading={false}
-                homeTeam={homeTeam}
-                awayTeam={awayTeam}
-                prediction={prediction}
-                matchEvents={matchEvents}
-                bettingTrends={bettingTrends}
-                matchNews={matchNews}
-              />
-              
-              <BetBuilder
-                prediction={prediction}
-                user={user}
-                showBetPlaced={showBetPlaced}
-                setShowBetPlaced={setShowBetPlaced}
-              />
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                AI Football Analytics
+              </h1>
+              <p className="text-gray-400 text-lg">
+                Ask AI anything about football matches, teams, and betting opportunities
+              </p>
             </motion.div>
-          )}
+            
+            <FootballSearchBar />
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-12 gap-6">
+            {/* Left Sidebar - Competitions */}
+            <div className="col-span-12 lg:col-span-3">
+              <CompetitionsSidebar />
+            </div>
+
+            {/* Center Content */}
+            <div className="col-span-12 lg:col-span-6 space-y-8">
+              {/* Popular Picks Section */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <PopularPicks />
+              </motion.div>
+
+              {/* Live Matches Section */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <LiveMatches />
+              </motion.div>
+
+              {/* All Matches Feed */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <MatchFeed />
+              </motion.div>
+            </div>
+
+            {/* Right Sidebar - Bet Builder */}
+            <div className="col-span-12 lg:col-span-3">
+              <div className="sticky top-24">
+                <ImprovedBetBuilder />
+              </div>
+            </div>
+          </div>
         </div>
       </main>
-      
-      {/* Floating Bet Slip */}
-      <BetSlip />
     </div>
   );
 };
