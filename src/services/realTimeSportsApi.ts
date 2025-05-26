@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { Match, League } from '@/types/football';
