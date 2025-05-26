@@ -19,7 +19,9 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('AdminLogin: Current admin user state:', adminUser);
     if (adminUser) {
+      console.log('AdminLogin: User is logged in, redirecting to dashboard');
       navigate('/admin/dashboard');
     }
   }, [adminUser, navigate]);
@@ -29,18 +31,29 @@ const AdminLogin = () => {
     setError('');
     setIsSubmitting(true);
 
+    console.log('AdminLogin: Form submitted with username:', username);
+
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password');
       setIsSubmitting(false);
       return;
     }
 
-    const success = await login(username, password);
-    
-    if (success) {
-      navigate('/admin/dashboard');
-    } else {
-      setError('Invalid username or password');
+    try {
+      console.log('AdminLogin: Calling login function...');
+      const success = await login(username, password);
+      
+      console.log('AdminLogin: Login result:', success);
+      
+      if (success) {
+        console.log('AdminLogin: Login successful, navigating to dashboard');
+        navigate('/admin/dashboard');
+      } else {
+        setError('Invalid username or password. Please try again.');
+      }
+    } catch (error) {
+      console.error('AdminLogin: Login error:', error);
+      setError('An error occurred during login. Please try again.');
     }
     
     setIsSubmitting(false);
@@ -69,6 +82,9 @@ const AdminLogin = () => {
           <CardTitle className="text-2xl font-bold text-white">Admin Login</CardTitle>
           <CardDescription className="text-gray-400">
             Access the administrative dashboard
+          </CardDescription>
+          <CardDescription className="text-xs text-gray-500 mt-2">
+            Default credentials: admin / admin123
           </CardDescription>
         </CardHeader>
         <CardContent>
