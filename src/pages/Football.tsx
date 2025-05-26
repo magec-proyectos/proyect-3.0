@@ -21,22 +21,26 @@ const FootballContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-dark text-white">
       <Navbar />
       
       <main className="pt-16">
-        {/* Top Section - Enhanced Search Bar */}
-        <div className="bg-gradient-to-br from-white via-blue-50 to-purple-50 border-b border-gray-200 py-16">
-          <div className="container mx-auto px-4">
+        {/* Top Section - Enhanced Search Bar with Dark Theme */}
+        <div className="bg-gradient-to-br from-dark via-dark-lighter to-dark-card border-b border-dark-border py-16 relative overflow-hidden">
+          {/* Background glow effects */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-lime/10 rounded-full blur-3xl"></div>
+          
+          <div className="container mx-auto px-4 relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-center mb-10"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
                 ¿En qué puedo ayudarte hoy?
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
                 Utiliza nuestra IA para encontrar las mejores apuestas y análisis de partidos
               </p>
             </motion.div>
@@ -45,40 +49,40 @@ const FootballContent = () => {
           </div>
         </div>
 
-        {/* Main Content Area - Winamax Style */}
-        <div className="bg-gray-50 min-h-screen">
+        {/* Main Content Area - Dark Theme */}
+        <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
             <div className="flex gap-6">
-              {/* Left Sidebar - Competitions - Winamax Style */}
+              {/* Left Sidebar - Competitions - Dark Theme */}
               <div className="w-80 flex-shrink-0">
                 <CompetitionsSidebar />
               </div>
 
               {/* Center Content */}
               <div className="flex-1 space-y-6">
-                {/* Navigation Tabs */}
-                <div className="bg-white rounded-lg border border-gray-200 p-1">
+                {/* Navigation Tabs - Dark Theme */}
+                <div className="glass-effect rounded-lg border border-dark-border p-1">
                   <div className="flex gap-1">
-                    <button className="px-6 py-2 bg-red-500 text-white rounded-md font-medium text-sm">
+                    <button className="px-6 py-2 bg-neon-lime text-black rounded-md font-medium text-sm hover:bg-neon-lime/90 transition-colors">
                       Inicio
                     </button>
-                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
                       En directo
                     </button>
-                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
                       Mis apuestas
                     </button>
-                    <button className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-md font-medium text-sm">
+                    <button className="px-6 py-2 text-gray-400 hover:bg-dark-lighter hover:text-white rounded-md font-medium text-sm transition-colors">
                       Estadísticas
                     </button>
                   </div>
                 </div>
 
-                {/* Match Cards - Winamax Style */}
+                {/* Match Cards - Dark Theme */}
                 <MatchFeed />
               </div>
 
-              {/* Right Sidebar - Bet Builder */}
+              {/* Right Sidebar - Bet Builder - Dark Theme */}
               <div className="w-80 flex-shrink-0">
                 <ImprovedBetBuilder />
               </div>
