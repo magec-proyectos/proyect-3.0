@@ -6,9 +6,6 @@ import {
 } from 'lucide-react';
 import { 
   SportIcon, 
-  FootballIcon, 
-  BasketballIcon, 
-  AmericanFootballIcon, 
   CasinoIcon, 
   BlackjackIcon, 
   RouletteIcon 
@@ -36,12 +33,7 @@ export const navItems: NavItem[] = [
   { 
     path: '/sports', 
     label: 'Sports', 
-    icon: <SportIcon size={18} className="text-neon-blue" />,
-    subItems: [
-      { path: '/football', label: 'Football', icon: <FootballIcon size={18} className="text-neon-blue" /> },
-      { path: '/basketball', label: 'Basketball', icon: <BasketballIcon size={18} className="text-neon-blue" /> },
-      { path: '/american-football', label: 'American Football', icon: <AmericanFootballIcon size={18} className="text-neon-blue" /> }
-    ]
+    icon: <SportIcon size={18} className="text-neon-blue" />
   },
   { 
     path: '/casino', 
