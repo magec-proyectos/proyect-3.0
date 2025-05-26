@@ -71,3 +71,25 @@ export interface Prediction {
   confidence: number;
   bets: Bet[];
 }
+
+export interface Match {
+  id: string;
+  homeTeam: Team;
+  awayTeam: Team;
+  date: string;
+  time: string;
+  league: string;
+  homeOdds: number;
+  drawOdds: number;
+  awayOdds: number;
+  predictions: Prediction;
+  status: 'upcoming' | 'live' | 'finished';
+}
+
+export interface League {
+  id: string;
+  name: string;
+  country: string;
+  logo: string;
+  season: string;
+}

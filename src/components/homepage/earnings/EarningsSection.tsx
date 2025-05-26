@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import ChartControls from './earnings/ChartControls';
-import { earningsData, winRateData, roiData, chartConfig } from './earnings/ChartData';
-import EarningsSectionBackground from './earnings/EarningsSectionBackground';
-import EarningsSectionHeader from './earnings/EarningsSectionHeader';
-import ChartSection from './earnings/ChartSection';
+import ChartControls from '../earnings/ChartControls';
+import { earningsData, winRateData, roiData, chartConfig } from '../earnings/ChartData';
+import EarningsSectionBackground from '../earnings/EarningsSectionBackground';
+import EarningsSectionHeader from '../earnings/EarningsSectionHeader';
+import ChartSection from '../earnings/ChartSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const EarningsSection: React.FC = React.memo(() => {

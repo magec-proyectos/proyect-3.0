@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Import pages
 import Index from '@/pages/Index';
@@ -20,12 +21,14 @@ import Square from '@/pages/Square';
 import NotFound from '@/pages/NotFound';
 
 // Import contexts
-import { AuthProvider } from '@/contexts/AuthContext';
-import { NotificationProvider, useNotification } from '@/contexts/NotificationContext';
+import AuthProvider from '@/contexts/AuthContext';
+import NotificationProvider, { useNotifications } from '@/contexts/NotificationContext';
 import { FootballProvider } from '@/contexts/FootballContext';
 
+// Create a query client instance
+const queryClient = new QueryClient();
+
 function App() {
-  const { showNotification, clearNotification } = useNotification();
   const [error, setError] = useState<string | null>(null);
 
   return (
@@ -33,7 +36,7 @@ function App() {
       <div className="min-h-screen bg-dark text-white">
         <NotificationProvider>
           <AuthProvider>
-            <QueryClient>
+            <QueryClientProvider client={queryClient}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/sports" element={<Sports />} />
@@ -58,7 +61,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toaster />
-            </QueryClient>
+            </QueryClientProvider>
           </AuthProvider>
         </NotificationProvider>
       </div>
