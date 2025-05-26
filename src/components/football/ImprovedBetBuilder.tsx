@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { X, Calculator, Trash2 } from 'lucide-react';
+import { X, Calculator, Trash2, Plus, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface BetSlipItem {
@@ -45,15 +45,25 @@ const ImprovedBetBuilder = () => {
   const stakeButtons = [2, 5, 10, 20, 'ALL-IN'];
 
   return (
-    <Card className="glass-effect border-dark-border h-full">
-      <CardHeader className="border-b border-dark-border">
+    <Card className="bg-dark-card/95 backdrop-blur-sm border-dark-border shadow-2xl shadow-neon-blue/5 h-full">
+      <CardHeader className="border-b border-dark-border/50 bg-gradient-to-r from-dark-card to-dark-lighter">
         <div className="flex items-center justify-between">
-          <span className="font-semibold gradient-text">1 selection</span>
+          <div className="flex items-center gap-2">
+            <div className="p-2 bg-neon-blue/10 rounded-lg">
+              <Calculator className="h-4 w-4 text-neon-blue" />
+            </div>
+            <div>
+              <CardTitle className="text-lg gradient-text">Bet Builder</CardTitle>
+              <p className="text-xs text-gray-400 mt-1">
+                {betSlip.length} selection{betSlip.length !== 1 ? 's' : ''}
+              </p>
+            </div>
+          </div>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setBetSlip([])}
-            className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+            className="text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -62,56 +72,61 @@ const ImprovedBetBuilder = () => {
 
       <CardContent className="p-0">
         {/* Bet Type Selection */}
-        <div className="p-4 border-b border-dark-border">
-          <div className="grid grid-cols-3 gap-1 bg-dark-lighter rounded-lg p-1">
-            <Button
-              variant={betType === 'single' ? 'default' : 'ghost'}
-              onClick={() => setBetType('single')}
-              className={`text-xs py-2 ${betType === 'single' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
-            >
-              Single (1)
-            </Button>
-            <Button
-              variant={betType === 'combinada' ? 'default' : 'ghost'}
-              onClick={() => setBetType('combinada')}
-              className={`text-xs py-2 ${betType === 'combinada' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
-            >
-              Combo
-            </Button>
-            <Button
-              variant={betType === 'sistema' ? 'default' : 'ghost'}
-              onClick={() => setBetType('sistema')}
-              className={`text-xs py-2 ${betType === 'sistema' ? 'bg-neon-blue text-black font-bold' : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'}`}
-            >
-              System
-            </Button>
+        <div className="p-4 border-b border-dark-border/50">
+          <div className="grid grid-cols-3 gap-1 bg-dark-darker/50 rounded-lg p-1 backdrop-blur-sm">
+            {(['single', 'combinada', 'sistema'] as const).map((type) => (
+              <Button
+                key={type}
+                variant={betType === type ? 'default' : 'ghost'}
+                onClick={() => setBetType(type)}
+                className={`text-xs py-2 transition-all duration-200 ${
+                  betType === type 
+                    ? 'bg-gradient-to-r from-neon-blue to-neon-lime text-black font-bold shadow-lg' 
+                    : 'bg-transparent hover:bg-dark-card text-gray-300 hover:text-white'
+                }`}
+              >
+                {type === 'single' && 'Single (1)'}
+                {type === 'combinada' && 'Combo'}
+                {type === 'sistema' && 'System'}
+              </Button>
+            ))}
           </div>
         </div>
 
         {/* Bet Slip Items */}
-        <div className="p-4 border-b border-dark-border">
+        <div className="p-4 border-b border-dark-border/50 max-h-64 overflow-y-auto">
           <AnimatePresence>
-            {betSlip.map((bet) => (
+            {betSlip.map((bet, index) => (
               <motion.div
                 key={bet.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-neon-lime/10 rounded-lg p-3 border border-neon-lime/30 hover:border-neon-lime/50 transition-colors"
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ delay: index * 0.1 }}
+                className="relative bg-gradient-to-r from-neon-lime/5 to-neon-blue/5 rounded-lg p-4 border border-neon-lime/20 hover:border-neon-lime/40 transition-all duration-300 mb-3 last:mb-0 group"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="text-xs text-neon-lime mb-1">{bet.match}</div>
-                    <div className="text-sm font-medium text-white">{bet.bet}</div>
-                    <div className="text-xl font-bold text-neon-lime mt-1">
-                      {bet.odds.toFixed(2)}
+                <div className="absolute inset-0 bg-gradient-to-r from-neon-lime/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                
+                <div className="relative flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs text-neon-lime mb-2 font-medium">
+                      {bet.match}
+                    </div>
+                    <div className="text-sm font-medium text-white mb-2">
+                      {bet.bet}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="border-neon-lime/30 text-neon-lime bg-neon-lime/10">
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {bet.odds.toFixed(2)}
+                      </Badge>
                     </div>
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => removeBet(bet.id)}
-                    className="text-neon-lime hover:text-red-400 hover:bg-red-500/10 p-1"
+                    className="text-neon-lime hover:text-red-400 hover:bg-red-500/10 p-1 transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -121,67 +136,88 @@ const ImprovedBetBuilder = () => {
           </AnimatePresence>
 
           {betSlip.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              <div className="text-sm">No selections</div>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-12 text-gray-500"
+            >
+              <div className="p-4 bg-dark-lighter/50 rounded-lg border border-dashed border-gray-600">
+                <Plus className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                <div className="text-sm font-medium mb-1">No selections yet</div>
+                <div className="text-xs text-gray-600">Add bets from matches to get started</div>
+              </div>
+            </motion.div>
           )}
         </div>
 
         {/* Stake Section */}
         {betSlip.length > 0 && (
-          <div className="p-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4"
+          >
             {/* Stake Amount */}
             <div className="mb-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-300">Amount</span>
-                <span className="text-sm text-neon-blue">€</span>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-gray-300">Stake Amount</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-sm text-neon-blue font-medium">EUR</span>
+                  <span className="text-xs text-gray-500">(€)</span>
+                </div>
               </div>
               <Input
                 type="number"
                 value={totalStake}
                 onChange={(e) => setTotalStake(Number(e.target.value))}
-                className="text-center font-bold text-lg border-dark-border bg-dark-lighter text-white focus:border-neon-blue"
+                className="text-center font-bold text-xl border-dark-border bg-dark-darker/50 text-white focus:border-neon-blue focus:ring-1 focus:ring-neon-blue/20 transition-all"
                 min="1"
                 step="0.01"
               />
             </div>
 
             {/* Quick Stake Buttons */}
-            <div className="grid grid-cols-5 gap-2 mb-4">
+            <div className="grid grid-cols-5 gap-2 mb-6">
               {stakeButtons.map((amount, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
                   onClick={() => typeof amount === 'number' && setTotalStake(amount)}
-                  className="text-xs py-1 border-dark-border hover:bg-dark-lighter hover:border-neon-blue text-gray-300 hover:text-white"
+                  className="text-xs py-2 border-dark-border/50 hover:bg-dark-lighter hover:border-neon-blue/50 text-gray-300 hover:text-white transition-all duration-200"
                 >
-                  {amount === 'ALL-IN' ? 'ALL-IN' : `${amount} €`}
+                  {amount === 'ALL-IN' ? 'ALL' : `${amount}€`}
                 </Button>
               ))}
             </div>
 
             {/* Potential Winnings */}
-            <div className="bg-dark-lighter rounded-lg p-3 mb-4 border border-dark-border">
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Odds:</span>
+            <div className="bg-gradient-to-r from-dark-darker/80 to-dark-card/80 rounded-lg p-4 mb-6 border border-dark-border/50 backdrop-blur-sm">
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-400">Total Odds:</span>
                 <span className="font-bold text-neon-lime">
                   {calculateTotalOdds().toFixed(2)}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-300 font-medium">Potential winnings</span>
-                <span className="text-2xl font-bold gradient-text">
-                  {calculatePotentialReturn().toFixed(2)} €
-                </span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-300 font-medium">Potential Return</span>
+                <div className="text-right">
+                  <div className="text-2xl font-bold gradient-text">
+                    {calculatePotentialReturn().toFixed(2)}€
+                  </div>
+                  <div className="text-xs text-green-400">
+                    +{(calculatePotentialReturn() - totalStake).toFixed(2)}€ profit
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Place Bet Button */}
-            <Button className="w-full bg-gradient-to-r from-neon-blue to-neon-lime hover:from-neon-blue/80 hover:to-neon-lime/80 text-black font-bold py-3 text-base rounded-lg shadow-lg hover:shadow-neon-blue/25 transition-all">
-              Login and bet
+            <Button className="w-full bg-gradient-to-r from-neon-blue via-neon-lime to-neon-blue hover:from-neon-blue/80 hover:via-neon-lime/80 hover:to-neon-blue/80 text-black font-bold py-4 text-base rounded-lg shadow-xl shadow-neon-blue/25 hover:shadow-neon-lime/25 transition-all duration-300 relative overflow-hidden group">
+              <span className="relative z-10">Login and Bet</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </Button>
-          </div>
+          </motion.div>
         )}
       </CardContent>
     </Card>
