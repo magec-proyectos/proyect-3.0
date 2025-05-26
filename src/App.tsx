@@ -22,7 +22,7 @@ import NotFound from '@/pages/NotFound';
 
 // Import contexts
 import AuthProvider from '@/contexts/AuthContext';
-import NotificationProvider, { useNotifications } from '@/contexts/NotificationContext';
+import NotificationProvider from '@/contexts/NotificationContext';
 import { FootballProvider } from '@/contexts/FootballContext';
 
 // Create a query client instance
@@ -34,9 +34,9 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-dark text-white">
-        <NotificationProvider>
-          <AuthProvider>
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <NotificationProvider>
+            <AuthProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/sports" element={<Sports />} />
@@ -61,9 +61,9 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toaster />
-            </QueryClientProvider>
-          </AuthProvider>
-        </NotificationProvider>
+            </AuthProvider>
+          </NotificationProvider>
+        </QueryClientProvider>
       </div>
     </Router>
   );
