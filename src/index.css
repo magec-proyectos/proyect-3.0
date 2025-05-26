@@ -8,39 +8,40 @@
 @layer base {
   :root {
     --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+    --foreground: 0 0% 95%; /* Menos contraste */
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 10%; /* Ligeramente más claro */
+    --card-foreground: 0 0% 95%;
 
     --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 183 100% 50%;
+    --primary: 199 89% 48%; /* Azul más suave */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 89 100% 50%;
+    --secondary: 88 50% 53%; /* Verde más suave */
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 18%; /* Más claro */
+    --muted-foreground: 0 0% 70%; /* Más suave */
 
-    --accent: 183 100% 50%;
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 55%; /* Menos saturado */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 183 100% 50%;
+    --border: 0 0% 25%; /* Más visible */
+    --input: 0 0% 18%;
+    --ring: 199 89% 48%;
 
     --radius: 0.5rem;
     
-    /* RGB values for glow effects */
-    --neon-blue-rgb: 0, 240, 255;
-    --neon-lime-rgb: 170, 255, 0;
-    --purple-500-rgb: 168, 85, 247;
+    /* RGB values for glow effects - más suaves */
+    --neon-blue-rgb: 79, 195, 247;
+    --neon-lime-rgb: 139, 195, 74;
+    --soft-blue-rgb: 100, 181, 246;
+    --purple-500-rgb: 149, 117, 205;
   }
 }
 
@@ -64,16 +65,16 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #404040; /* Más visible */
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #444;
+    background: #505050; /* Más visible */
   }
 
   .text-glow {
-    text-shadow: 0 0 10px var(--tw-shadow-color);
+    text-shadow: 0 0 8px var(--tw-shadow-color); /* Menos intenso */
   }
 
   .neon-border {
@@ -89,25 +90,38 @@
     height: calc(100% + 4px);
     border-radius: var(--radius);
     z-index: -1;
-    background: linear-gradient(45deg, #00f0ff, #aaff00);
-    opacity: 0.7;
-    filter: blur(8px);
+    background: linear-gradient(45deg, #4FC3F7, #8BC34A); /* Colores más suaves */
+    opacity: 0.5; /* Menos intenso */
+    filter: blur(6px); /* Menos blur */
   }
 
   .glass-card {
     backdrop-filter: blur(8px);
-    background-color: rgba(30, 30, 30, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(26, 26, 26, 0.6); /* Más opaco */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Más visible */
   }
 }
 
 .gradient-text {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #00f0ff, #aaff00);
+  background-image: linear-gradient(90deg, #4FC3F7, #8BC34A); /* Colores más suaves */
 }
 
 .text-gradient {
   @apply bg-clip-text text-transparent;
+}
+
+/* Gradientes más suaves */
+.gradient-soft-blue {
+  background-image: linear-gradient(135deg, #64B5F6, #4DD0E1);
+}
+
+.gradient-soft-green {
+  background-image: linear-gradient(135deg, #81C784, #AED581);
+}
+
+.gradient-soft-purple {
+  background-image: linear-gradient(135deg, #9575CD, #64B5F6);
 }
 
 /* Fondo de mesa de casino */
@@ -126,32 +140,32 @@
   animation: spin 5s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
 }
 
-/* Animación para el brillo de fichas */
+/* Animación para el brillo de fichas - más suave */
 @keyframes chipGlow {
-  0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
-  50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+  0%, 100% { box-shadow: 0 0 3px rgba(255, 255, 255, 0.6); }
+  50% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
 }
 
 .chip-glow {
-  animation: chipGlow 2s infinite;
+  animation: chipGlow 3s infinite; /* Más lento */
 }
 
-/* New animations and effects for enhanced UI/UX */
+/* Animaciones mejoradas para mejor UX */
 @keyframes fade-in {
-  0% { opacity: 0; transform: translateY(10px); }
+  0% { opacity: 0; transform: translateY(5px); } /* Menos movimiento */
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
+  animation: fade-in 0.6s ease-out forwards; /* Más lento */
 }
 
 .shadow-glow {
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 8px rgba(79, 195, 247, 0.3); /* Más suave */
 }
 
 .hover-scale {
-  @apply transition-transform duration-300 hover:scale-105;
+  @apply transition-transform duration-300 hover:scale-102; /* Menos scaling */
 }
 
 .bg-dark {
@@ -163,38 +177,80 @@
 }
 
 .bg-dark-card {
-  background-color: #18181b;
+  background-color: #1a1a1a; /* Más claro */
 }
 
 .bg-dark-darker {
-  background-color: #0a0a0a;
+  background-color: #0d0d0d;
 }
 
 .text-shadow {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Más sutil */
 }
 
 .glass-effect {
-  @apply backdrop-blur-md bg-black/30 border border-amber-500/20;
+  @apply backdrop-blur-md bg-black/40 border border-soft-blue/20; /* Más suave */
 }
 
-/* Enhanced card transitions */
+/* Transiciones mejoradas para las tarjetas */
 .sport-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sport-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px); /* Menos movimiento */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Más sutil */
 }
 
-/* Glow and focus effect for active sport */
+/* Efectos de glow y focus más suaves */
 .sport-active {
   position: relative;
   z-index: 10;
 }
 
-/* Button hover effects */
+/* Efectos hover más suaves para botones */
 .button-glow:hover {
-  box-shadow: 0 0 15px rgba(var(--color-rgb), 0.6);
+  box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4); /* Menos intenso */
+}
+
+/* Nuevas clases utilitarias para colores suaves */
+.text-soft-blue {
+  color: #64B5F6;
+}
+
+.text-soft-green {
+  color: #81C784;
+}
+
+.text-soft-cyan {
+  color: #4DD0E1;
+}
+
+.text-soft-lime {
+  color: #AED581;
+}
+
+.bg-soft-blue {
+  background-color: #64B5F6;
+}
+
+.bg-soft-green {
+  background-color: #81C784;
+}
+
+.border-soft-blue {
+  border-color: #64B5F6;
+}
+
+.border-soft-green {
+  border-color: #81C784;
+}
+
+/* Efectos de gradiente más suaves */
+.gradient-soft {
+  background: linear-gradient(135deg, #4FC3F7 0%, #8BC34A 100%);
+}
+
+.gradient-soft-vertical {
+  background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
 }

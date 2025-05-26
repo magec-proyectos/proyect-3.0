@@ -1,41 +1,40 @@
-
 // Helper functions for TryItNow component
 export const getButtonStyle = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black shadow-md shadow-neon-blue/20";
+      return "bg-gradient-to-r from-soft-blue to-soft-cyan hover:from-soft-blue hover:to-soft-cyan text-white shadow-md shadow-soft-blue/20";
     case 'basketball':
-      return "bg-gradient-to-r from-neon-lime to-neon-lime/70 hover:from-neon-lime hover:to-neon-lime text-black shadow-md shadow-neon-lime/20";
+      return "bg-gradient-to-r from-soft-green to-soft-lime hover:from-soft-green hover:to-soft-lime text-white shadow-md shadow-soft-green/20";
     case 'americanFootball':
-      return "bg-gradient-to-r from-purple-500 to-purple-500/70 hover:from-purple-500 hover:to-purple-500 text-white shadow-md shadow-purple-500/20";
+      return "bg-gradient-to-r from-soft-purple-400 to-soft-purple-500 hover:from-soft-purple-400 hover:to-soft-purple-500 text-white shadow-md shadow-purple-400/20";
     default:
-      return "bg-gradient-to-r from-neon-blue to-neon-blue/70 hover:from-neon-blue hover:to-neon-blue text-black shadow-md shadow-neon-blue/20";
+      return "bg-gradient-to-r from-soft-blue to-soft-cyan hover:from-soft-blue hover:to-soft-cyan text-white shadow-md shadow-soft-blue/20";
   }
 };
 
 export const getAccentColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "neon-blue";
+      return "soft-blue";
     case 'basketball':
-      return "neon-lime";
+      return "soft-green";
     case 'americanFootball':
-      return "purple-500";
+      return "purple-400";
     default:
-      return "neon-blue";
+      return "soft-blue";
   }
 };
 
 export const getBorderColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "border-neon-blue/20";
+      return "border-soft-blue/30";
     case 'basketball':
-      return "border-neon-lime/20";
+      return "border-soft-green/30";
     case 'americanFootball':
-      return "border-purple-500/20";
+      return "border-purple-400/30";
     default:
-      return "border-neon-blue/20";
+      return "border-soft-blue/30";
   }
 };
 
@@ -60,13 +59,13 @@ export const getMatchName = (value: string): string => {
 export const getPredictionConfidence = (activeSport: 'football' | 'basketball' | 'americanFootball'): {value: number, label: string, color: string} => {
   switch (activeSport) {
     case 'football':
-      return { value: 78, label: 'High', color: 'text-neon-blue' };
+      return { value: 78, label: 'High', color: 'text-soft-blue' };
     case 'basketball':
-      return { value: 65, label: 'Medium', color: 'text-neon-lime' };
+      return { value: 65, label: 'Medium', color: 'text-soft-green' };
     case 'americanFootball':
-      return { value: 82, label: 'Very High', color: 'text-purple-500' };
+      return { value: 82, label: 'Very High', color: 'text-purple-400' };
     default:
-      return { value: 75, label: 'High', color: 'text-neon-blue' };
+      return { value: 75, label: 'High', color: 'text-soft-blue' };
   }
 };
 
