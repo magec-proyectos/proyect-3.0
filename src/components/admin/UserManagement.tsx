@@ -138,8 +138,7 @@ const UserManagement = () => {
           full_name,
           is_active,
           last_login,
-          created_at,
-          user_roles!inner(role)
+          created_at
         `, { count: 'exact' })
         .order('created_at', { ascending: false });
 
@@ -153,16 +152,42 @@ const UserManagement = () => {
       const to = from + pageSize - 1;
       query = query.range(from, to);
 
-      const { data, error, count } = await query;
+      const { data: profiles, error, count } = await query;
 
       if (error) {
         console.error('Error fetching users:', error);
         throw error;
       }
 
-      console.log('Fetched users:', data);
+      // Fetch user roles separately for each user
+      const usersWithRoles: UserProfile[] = [];
+      
+      if (profiles) {
+        for (const profile of profiles) {
+          const { data: roles, error: rolesError } = await supabase
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', profile.id);
+
+          if (rolesError) {
+            console.error('Error fetching roles for user:', profile.id, rolesError);
+            // If we can't fetch roles, assign default user role
+            usersWithRoles.push({
+              ...profile,
+              user_roles: [{ role: 'user' }]
+            });
+          } else {
+            usersWithRoles.push({
+              ...profile,
+              user_roles: roles || [{ role: 'user' }]
+            });
+          }
+        }
+      }
+
+      console.log('Fetched users with roles:', usersWithRoles);
       return {
-        users: data as UserProfile[],
+        users: usersWithRoles,
         total: count || 0
       };
     }
