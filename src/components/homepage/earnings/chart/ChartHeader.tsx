@@ -1,55 +1,54 @@
 
 import React from 'react';
-import { TrendingUp, DollarSign, Percent } from 'lucide-react';
+import { BarChart3, TrendingUp, Percent } from 'lucide-react';
 
 interface ChartHeaderProps {
   activeChart: 'earnings' | 'winRate' | 'roi';
-  monthlyBets?: number;
-  averageBet?: number;
+  monthlyBets: number;
+  averageBet: number;
 }
 
 const ChartHeader: React.FC<ChartHeaderProps> = ({ 
-  activeChart,
-  monthlyBets = 20,
-  averageBet = 50
+  activeChart, 
+  monthlyBets, 
+  averageBet 
 }) => {
-  const getIcon = () => {
+  const getChartInfo = () => {
     switch (activeChart) {
       case 'earnings':
-        return <DollarSign className="h-5 w-5 text-neon-blue mr-2" />;
+        return {
+          icon: <BarChart3 className="h-5 w-5 text-neon-blue" />,
+          title: 'Monthly Earnings',
+          subtitle: `Based on ${monthlyBets} bets at $${averageBet} average`
+        };
       case 'winRate':
-        return <TrendingUp className="h-5 w-5 text-neon-blue mr-2" />;
+        return {
+          icon: <TrendingUp className="h-5 w-5 text-green-400" />,
+          title: 'Win Rate Improvement',
+          subtitle: `Performance with ${monthlyBets} monthly bets`
+        };
       case 'roi':
-        return <Percent className="h-5 w-5 text-neon-blue mr-2" />;
-      default:
-        return null;
+        return {
+          icon: <Percent className="h-5 w-5 text-purple-400" />,
+          title: 'Return on Investment',
+          subtitle: `ROI analysis for $${averageBet} average bets`
+        };
     }
   };
 
-  const getTitle = () => {
-    switch (activeChart) {
-      case 'earnings':
-        return `Comparative Earnings`;
-      case 'winRate':
-        return `Win Rate Improvement`;
-      case 'roi':
-        return `Return on Investment`;
-      default:
-        return '';
-    }
-  };
-  
-  const getSubtitle = () => {
-    return `${monthlyBets} bets of $${averageBet} each`;
-  };
+  const chartInfo = getChartInfo();
 
   return (
-    <div className="mb-4 px-1">
-      <div className="flex items-center">
-        {getIcon()}
-        <h4 className="text-base sm:text-lg font-medium text-white">{getTitle()}</h4>
+    <div className="flex items-start gap-3 mb-4">
+      {chartInfo.icon}
+      <div>
+        <h4 className="text-lg font-semibold text-white mb-1">
+          {chartInfo.title}
+        </h4>
+        <p className="text-sm text-gray-400">
+          {chartInfo.subtitle}
+        </p>
       </div>
-      <p className="text-xs text-gray-400 mt-1">{getSubtitle()}</p>
     </div>
   );
 };

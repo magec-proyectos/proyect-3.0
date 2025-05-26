@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Calculator, ChevronDown, ChevronUp, DollarSign, TrendingUp, Users, Zap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calculator, ChevronDown, ChevronUp, DollarSign, TrendingUp, Zap, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -26,21 +26,33 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
 }) => {
   const [showCalculator, setShowCalculator] = useState(!isMobile);
   const [userType, setUserType] = useState<'casual' | 'regular' | 'professional'>('regular');
+  const [isUpdating, setIsUpdating] = useState(false);
   
-  // Calculate potential earnings
-  const currentMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, 40); // Using fixed win rate of 40%
+  // Animate updates when values change
+  useEffect(() => {
+    setIsUpdating(true);
+    const timer = setTimeout(() => setIsUpdating(false), 300);
+    return () => clearTimeout(timer);
+  }, [monthlyBets, averageBet]);
   
-  // Adjust based on percentage improvement from chart data
+  // Calculate potential earnings with improved algorithm
+  const currentMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, 45); // Baseline win rate
+  
+  // Get percentage improvement from chart data
   const percentageImprovement = getPercentageChange();
-  const enhancedMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, 40 * (1 + percentageImprovement / 100));
+  const enhancedWinRate = 45 * (1 + Math.max(percentageImprovement, 0) / 100);
+  const enhancedMonthlyEarnings = calculateEarnings(monthlyBets, averageBet, enhancedWinRate);
   const earningsIncrease = enhancedMonthlyEarnings - currentMonthlyEarnings;
-  const percentageIncrease = Math.round((earningsIncrease / Math.max(1, currentMonthlyEarnings)) * 100);
+  const percentageIncrease = currentMonthlyEarnings > 0 
+    ? Math.round((earningsIncrease / currentMonthlyEarnings) * 100)
+    : Math.round(percentageImprovement);
   
   function calculateEarnings(bets: number, avgBet: number, winRate: number) {
     const wins = bets * (winRate / 100);
-    const losses = bets - wins;
-    // Assuming average odds of 2.0 for simplicity
-    return Math.round((wins * avgBet * 2) - (bets * avgBet));
+    const totalStaked = bets * avgBet;
+    // More realistic odds calculation (average of 1.9 for better estimation)
+    const totalReturns = wins * avgBet * 1.9;
+    return Math.round(totalReturns - totalStaked);
   }
   
   // Presets for different types of users
@@ -68,7 +80,7 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
       {isMobile && (
         <Button 
           variant="outline" 
-          className="w-full mb-3 flex items-center justify-between bg-dark-card border border-neon-blue/30"
+          className="w-full mb-3 flex items-center justify-between bg-dark-card border border-neon-blue/30 hover:border-neon-blue/50 transition-colors"
           onClick={() => setShowCalculator(!showCalculator)}
         >
           <div className="flex items-center">
@@ -80,11 +92,23 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
       )}
       
       {(!isMobile || showCalculator) && (
-        <div className="bg-dark-card border border-neon-blue/30 rounded-xl p-4 lg:p-5 h-full flex flex-col justify-between">
+        <div className={`bg-dark-card border border-neon-blue/30 rounded-xl p-4 lg:p-5 h-full flex flex-col justify-between transition-all duration-300 ${isUpdating ? 'ring-2 ring-neon-blue/30' : ''}`}>
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Calculator className="text-neon-blue w-5 h-5" />
-              <h3 className="text-base lg:text-lg font-bold text-white">Calculate Your Potential</h3>
+              <h3 className="text-base lg:text-lg font-bold text-white">Interactive Calculator</h3>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="h-4 w-4 text-gray-400" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs max-w-[200px]">
+                      Adjust your betting parameters to see how they affect the chart in real-time
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             
             {/* User type presets */}
@@ -93,14 +117,16 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
               applyPreset={applyPreset}
             />
             
-            <div className="space-y-5">
-              <div className="space-y-2">
+            <div className="space-y-6">
+              <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <div className="flex items-center">
                     <TrendingUp className="h-4 w-4 text-neon-blue mr-1.5" />
                     <label className="text-gray-300">Monthly bets</label>
                   </div>
-                  <span className="text-white font-medium">{monthlyBets}</span>
+                  <span className="text-white font-medium bg-dark-lighter px-2 py-1 rounded text-xs">
+                    {monthlyBets}
+                  </span>
                 </div>
                 <Slider 
                   value={[monthlyBets]} 
@@ -117,13 +143,15 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
                 </div>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <div className="flex items-center">
                     <DollarSign className="h-4 w-4 text-neon-blue mr-1.5" />
                     <label className="text-gray-300">Average bet size</label>
                   </div>
-                  <span className="text-white font-medium">${averageBet}</span>
+                  <span className="text-white font-medium bg-dark-lighter px-2 py-1 rounded text-xs">
+                    ${averageBet}
+                  </span>
                 </div>
                 <Slider 
                   value={[averageBet]} 
@@ -149,10 +177,10 @@ const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
           </div>
           
           <Button 
-            className="mt-4 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-2 h-auto rounded-lg text-sm font-medium flex items-center justify-center"
+            className="mt-4 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-2 h-auto rounded-lg text-sm font-medium flex items-center justify-center transition-all duration-200 hover:scale-105"
           >
             <Zap className="h-4 w-4 mr-2" />
-            Try Bet 3.0 Free
+            Start Free Trial
           </Button>
         </div>
       )}

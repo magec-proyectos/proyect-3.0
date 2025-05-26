@@ -14,7 +14,7 @@ const EarningsSection: React.FC = React.memo(() => {
   const [chartKey, setChartKey] = useState(0);
   const isMobile = useIsMobile();
   
-  // Calculator state elevated to parent component
+  // Calculator state elevated to parent component with better defaults
   const [monthlyBets, setMonthlyBets] = useState(isMobile ? 20 : 30);
   const [averageBet, setAverageBet] = useState(isMobile ? 30 : 50);
   
@@ -37,22 +37,43 @@ const EarningsSection: React.FC = React.memo(() => {
         : roiData[timeRange];
   }, [activeChart, timeRange]);
   
-  // Memoize scaled data calculation
+  // Enhanced data calculation that responds to calculator inputs
   const activeData = useMemo(() => {
-    const scaleFactor = (monthlyBets / 20) * (averageBet / 50);
+    // Create a more realistic scaling factor based on betting volume and size
+    const volumeScale = monthlyBets / 30; // Base of 30 bets
+    const sizeScale = averageBet / 50; // Base of $50 per bet
+    const combinedScale = (volumeScale + sizeScale) / 2; // Average of both factors
     
-    return baseData.map(item => ({
-      ...item,
-      withBet3: Math.round(item.withBet3 * scaleFactor),
-      withoutBet3: Math.round(item.withoutBet3 * scaleFactor)
-    }));
-  }, [baseData, monthlyBets, averageBet]);
+    return baseData.map(item => {
+      // Apply scaling more intelligently based on chart type
+      if (activeChart === 'earnings') {
+        return {
+          ...item,
+          withBet3: Math.round(item.withBet3 * combinedScale),
+          withoutBet3: Math.round(item.withoutBet3 * combinedScale)
+        };
+      } else {
+        // For winRate and ROI, scaling should be more subtle
+        const subtleScale = 1 + (combinedScale - 1) * 0.3; // Reduce the impact
+        return {
+          ...item,
+          withBet3: Math.round(item.withBet3 * subtleScale * 10) / 10,
+          withoutBet3: Math.round(item.withoutBet3 * subtleScale * 10) / 10
+        };
+      }
+    });
+  }, [baseData, monthlyBets, averageBet, activeChart]);
 
   const getPercentageChange = useCallback(() => {
+    if (!activeData.length) return 0;
+    
     const lastIndex = activeData.length - 1;
     const bet3Value = activeData[lastIndex].withBet3;
     const nonBet3Value = activeData[lastIndex].withoutBet3;
-    const percentageIncrease = ((bet3Value - nonBet3Value) / nonBet3Value) * 100;
+    
+    if (nonBet3Value === 0) return 0;
+    
+    const percentageIncrease = ((bet3Value - nonBet3Value) / Math.abs(nonBet3Value)) * 100;
     return Math.round(percentageIncrease);
   }, [activeData]);
 
@@ -89,9 +110,14 @@ const EarningsSection: React.FC = React.memo(() => {
           setAverageBet={setAverageBet}
         />
         
-        {/* Additional explanation text */}
-        <div className="text-center mt-8 text-sm text-gray-400 max-w-2xl mx-auto">
-          <p>* Calculations are based on average historical performance and may vary based on individual betting patterns. Bet 3.0 uses advanced AI technology to improve betting decisions.</p>
+        {/* Enhanced explanation text */}
+        <div className="text-center mt-8 text-sm text-gray-400 max-w-3xl mx-auto">
+          <p className="mb-2">
+            * Charts reflect your betting parameters: <span className="text-neon-blue">{monthlyBets} bets/month</span> at <span className="text-neon-blue">${averageBet} average</span>
+          </p>
+          <p>
+            Calculations based on historical performance data. Bet 3.0's AI technology analyzes 20+ competitions to improve your betting decisions.
+          </p>
         </div>
       </div>
     </section>
