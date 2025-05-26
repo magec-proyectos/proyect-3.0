@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import ChartDisplay from './ChartDisplay';
@@ -122,7 +121,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
             >
               <div className="flex items-center">
                 <Calculator className="text-neon-blue w-4 h-4 mr-2" />
-                <span>{showCalculator ? 'Ocultar Calculadora' : 'Mostrar Calculadora'}</span>
+                <span>{showCalculator ? 'Hide Calculator' : 'Show Calculator'}</span>
               </div>
               {showCalculator ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </Button>
@@ -133,7 +132,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <Calculator className="text-neon-blue w-5 h-5" />
-                  <h3 className="text-base lg:text-lg font-bold text-white">Calcula Tu Potencial</h3>
+                  <h3 className="text-base lg:text-lg font-bold text-white">Calculate Your Potential</h3>
                 </div>
                 
                 {/* User type presets */}
@@ -172,7 +171,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                     <div className="flex justify-between text-sm">
                       <div className="flex items-center">
                         <TrendingUp className="h-4 w-4 text-neon-blue mr-1.5" />
-                        <label className="text-gray-300">Apuestas mensuales</label>
+                        <label className="text-gray-300">Monthly bets</label>
                       </div>
                       <span className="text-white font-medium">{monthlyBets}</span>
                     </div>
@@ -195,7 +194,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                     <div className="flex justify-between text-sm">
                       <div className="flex items-center">
                         <DollarSign className="h-4 w-4 text-neon-blue mr-1.5" />
-                        <label className="text-gray-300">Tamaño promedio de apuesta</label>
+                        <label className="text-gray-300">Average bet size</label>
                       </div>
                       <span className="text-white font-medium">${averageBet}</span>
                     </div>
@@ -221,7 +220,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                           <div className="flex justify-between items-center">
                             <div className="text-sm text-gray-300 flex items-center">
                               <div className="h-2.5 w-2.5 rounded-full bg-gray-500 mr-2"></div>
-                              Ganancias actuales
+                              Current earnings
                             </div>
                             <div className={`font-medium text-sm ${currentMonthlyEarnings >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                               {currentMonthlyEarnings >= 0 ? '+' : ''}{currentMonthlyEarnings}$
@@ -231,7 +230,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                           <div className="flex justify-between items-center">
                             <div className="text-sm text-gray-300 flex items-center">
                               <div className="h-2.5 w-2.5 rounded-full bg-neon-blue mr-2"></div>
-                              Con Bet 3.0
+                              With Bet 3.0
                             </div>
                             <div className="text-neon-blue text-lg font-bold">
                               +{enhancedMonthlyEarnings}$
@@ -240,7 +239,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                           
                           <div className="pt-2 border-t border-gray-700/50 mt-1">
                             <div className="flex justify-between items-center">
-                              <div className="text-sm text-white">Mejora</div>
+                              <div className="text-sm text-white">Improvement</div>
                               <div className="text-neon-blue font-medium flex items-center">
                                 <TrendingUp className="h-3.5 w-3.5 mr-1" />
                                 +{percentageIncrease}%
@@ -251,7 +250,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className="text-xs max-w-[200px]">
-                          Cálculo basado en: (apuestas × tamaño promedio × tasa de victoria × odds) - inversión total
+                          Calculation based on: (bets × average size × win rate × odds) - total investment
                         </p>
                       </TooltipContent>
                     </Tooltip>
@@ -263,7 +262,7 @@ const ChartSection: React.FC<ChartSectionProps> = ({
                 className="mt-4 w-full bg-neon-blue hover:bg-neon-blue/90 text-black px-4 py-2 h-auto rounded-lg text-sm font-medium flex items-center justify-center"
               >
                 <Zap className="h-4 w-4 mr-2" />
-                Prueba Bet 3.0 Gratis
+                Try Bet 3.0 Free
               </Button>
             </div>
           )}

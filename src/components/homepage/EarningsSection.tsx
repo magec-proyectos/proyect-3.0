@@ -89,7 +89,7 @@ const EarningsSection: React.FC = () => {
         
         {/* Additional explanation text */}
         <div className="text-center mt-8 text-sm text-gray-400 max-w-2xl mx-auto">
-          <p>* Los cálculos se basan en el rendimiento histórico promedio y pueden variar según los patrones de apuestas individuales. Bet 3.0 utiliza tecnología avanzada de IA para mejorar las decisiones de apuestas.</p>
+          <p>* Calculations are based on average historical performance and may vary based on individual betting patterns. Bet 3.0 uses advanced AI technology to improve betting decisions.</p>
         </div>
       </div>
     </section>

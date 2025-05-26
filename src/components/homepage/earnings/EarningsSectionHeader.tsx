@@ -14,11 +14,11 @@ const EarningsSectionHeader: React.FC = () => {
       <motion.h2 
         className="text-3xl sm:text-4xl font-bold mb-3 text-white"
       >
-        Aumenta Tus <span className="text-neon-blue">Ganancias</span>
+        Boost Your <span className="text-neon-blue">Earnings</span>
       </motion.h2>
       
       <p className="text-gray-300 max-w-xl mx-auto">
-        Mira cómo nuestra IA incrementa tu éxito en apuestas
+        See how our AI increases your betting success
       </p>
     </motion.div>
   );

@@ -29,18 +29,18 @@ const ChartHeader: React.FC<ChartHeaderProps> = ({
   const getTitle = () => {
     switch (activeChart) {
       case 'earnings':
-        return `Ganancias Comparativas`;
+        return `Comparative Earnings`;
       case 'winRate':
-        return `Mejora en Tasa de Victoria`;
+        return `Win Rate Improvement`;
       case 'roi':
-        return `Retorno de Inversión`;
+        return `Return on Investment`;
       default:
         return '';
     }
   };
   
   const getSubtitle = () => {
-    return `${monthlyBets} apuestas de $${averageBet} cada una`;
+    return `${monthlyBets} bets of $${averageBet} each`;
   };
 
   return (
