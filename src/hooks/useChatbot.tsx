@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -135,7 +134,7 @@ export const useChatbot = () => {
     enabled: !!user && !authLoading
   });
 
-  // Fetch messages for current conversation
+  // Fetch messages for current conversation - Fixed typing issue
   const { data: messages, isLoading: messagesLoading } = useQuery({
     queryKey: ['conversation-messages', currentConversationId],
     queryFn: async (): Promise<Message[]> => {
@@ -156,7 +155,7 @@ export const useChatbot = () => {
         return [];
       }
       
-      let result = (data || []).map(msg => ({
+      let result: Message[] = (data || []).map(msg => ({
         ...msg,
         role: msg.role as 'user' | 'assistant' | 'system'
       }));
