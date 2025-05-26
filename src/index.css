@@ -37,6 +37,42 @@
 
     --radius: 0.5rem;
     
+    /* Enhanced Addictive Color Palette */
+    --dopamine-red-rgb: 255, 67, 54;
+    --reward-gold-rgb: 255, 193, 7;
+    --achievement-purple-rgb: 156, 39, 176;
+    --success-green-rgb: 76, 175, 80;
+    --energy-orange-rgb: 255, 152, 0;
+    --focus-blue-rgb: 33, 150, 243;
+    --mystery-violet-rgb: 103, 58, 183;
+    --urgency-crimson-rgb: 244, 67, 54;
+    
+    /* Psychological State Colors */
+    --excitement: 255 67 54;
+    --reward: 255 193 7;
+    --achievement: 156 39 176;
+    --success: 76 175 80;
+    --energy: 255 152 0;
+    --focus: 33 150 243;
+    --mystery: 103 58 183;
+    --urgency: 244 67 54;
+    --satisfaction: 139 195 74;
+    --confidence: 63 81 181;
+    
+    /* Gamification Levels */
+    --level-bronze: 205 127 50;
+    --level-silver: 192 192 192;
+    --level-gold: 255 215 0;
+    --level-platinum: 229 228 226;
+    --level-diamond: 185 242 255;
+    
+    /* Engagement Triggers */
+    --fomo-pulse: 255 82 82;
+    --social-proof: 46 125 50;
+    --scarcity: 229 57 53;
+    --progress: 67 160 71;
+    
+    /* Original soft colors (enhanced) */
     --neon-blue-rgb: 79, 195, 247;
     --neon-lime-rgb: 139, 195, 74;
     --soft-blue-rgb: 100, 181, 246;
@@ -99,6 +135,56 @@
     background-color: rgba(26, 26, 26, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
+
+  /* Addictive Visual Effects */
+  .dopamine-glow {
+    box-shadow: 0 0 20px rgba(var(--dopamine-red-rgb), 0.4);
+    animation: dopamine-pulse 2s ease-in-out infinite;
+  }
+
+  .reward-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reward-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--reward-gold-rgb), 0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  .achievement-burst {
+    position: relative;
+  }
+
+  .achievement-burst::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(var(--achievement-purple-rgb), 0.6) 0%, transparent 70%);
+    animation: burst 0.6s ease-out;
+    pointer-events: none;
+  }
+
+  .urgency-throb {
+    animation: urgency-throb 1.5s ease-in-out infinite;
+  }
+
+  .fomo-pulse {
+    animation: fomo-pulse 1s ease-in-out infinite;
+  }
+
+  .scarcity-blink {
+    animation: scarcity-blink 2s ease-in-out infinite;
+  }
 }
 
 @layer components {
@@ -126,6 +212,77 @@
   .casino-felt {
     background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
     box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Addictive Component Patterns */
+  .engagement-card {
+    @apply transition-all duration-300 hover:scale-105;
+    background: linear-gradient(135deg, rgba(var(--focus-blue-rgb), 0.1), rgba(var(--energy-orange-rgb), 0.05));
+    border: 1px solid rgba(var(--focus-blue-rgb), 0.2);
+  }
+
+  .engagement-card:hover {
+    background: linear-gradient(135deg, rgba(var(--focus-blue-rgb), 0.15), rgba(var(--energy-orange-rgb), 0.1));
+    border-color: rgba(var(--focus-blue-rgb), 0.4);
+    box-shadow: 0 8px 32px rgba(var(--focus-blue-rgb), 0.2);
+  }
+
+  .reward-button {
+    @apply relative overflow-hidden transition-all duration-300;
+    background: linear-gradient(135deg, rgb(var(--reward-gold-rgb)), rgb(var(--energy-orange-rgb)));
+    box-shadow: 0 4px 15px rgba(var(--reward-gold-rgb), 0.3);
+  }
+
+  .reward-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--reward-gold-rgb), 0.4);
+  }
+
+  .achievement-badge {
+    @apply relative;
+    background: linear-gradient(135deg, rgb(var(--achievement-purple-rgb)), rgb(var(--mystery-violet-rgb)));
+    box-shadow: 0 0 20px rgba(var(--achievement-purple-rgb), 0.5);
+    animation: achievement-glow 2s ease-in-out infinite;
+  }
+
+  .success-feedback {
+    background: linear-gradient(135deg, rgb(var(--success-green-rgb)), rgb(var(--satisfaction)));
+    animation: success-pop 0.5s ease-out;
+  }
+
+  .urgency-indicator {
+    background: linear-gradient(135deg, rgb(var(--urgency-crimson-rgb)), rgb(var(--fomo-pulse)));
+    animation: urgency-pulse 1s ease-in-out infinite;
+  }
+
+  .progress-bar-addictive {
+    background: linear-gradient(90deg, 
+      rgb(var(--progress)) 0%, 
+      rgb(var(--energy-orange-rgb)) 50%, 
+      rgb(var(--reward-gold-rgb)) 100%
+    );
+    box-shadow: 0 2px 10px rgba(var(--progress), 0.4);
+    animation: progress-glow 2s ease-in-out infinite;
+  }
+
+  .level-indicator {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, 
+      rgb(var(--level-bronze)), 
+      rgb(var(--level-silver)), 
+      rgb(var(--level-gold))
+    );
+    animation: level-shine 3s ease-in-out infinite;
+  }
+
+  .social-proof-badge {
+    background: linear-gradient(135deg, rgb(var(--social-proof)), rgb(var(--success-green-rgb)));
+    animation: social-bounce 2s ease-in-out infinite;
+  }
+
+  .scarcity-timer {
+    background: linear-gradient(135deg, rgb(var(--scarcity)), rgb(var(--urgency-crimson-rgb)));
+    animation: timer-tick 1s ease-in-out infinite;
   }
 
   /* Interactive feedback */
@@ -246,6 +403,71 @@
     box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4);
   }
 
+  /* Addictive Color Utilities */
+  .text-excitement {
+    color: rgb(var(--excitement));
+  }
+
+  .text-reward {
+    color: rgb(var(--reward));
+  }
+
+  .text-achievement {
+    color: rgb(var(--achievement));
+  }
+
+  .text-success {
+    color: rgb(var(--success));
+  }
+
+  .text-energy {
+    color: rgb(var(--energy));
+  }
+
+  .text-focus {
+    color: rgb(var(--focus));
+  }
+
+  .text-mystery {
+    color: rgb(var(--mystery));
+  }
+
+  .text-urgency {
+    color: rgb(var(--urgency));
+  }
+
+  .bg-excitement {
+    background-color: rgb(var(--excitement));
+  }
+
+  .bg-reward {
+    background-color: rgb(var(--reward));
+  }
+
+  .bg-achievement {
+    background-color: rgb(var(--achievement));
+  }
+
+  .bg-success {
+    background-color: rgb(var(--success));
+  }
+
+  .bg-energy {
+    background-color: rgb(var(--energy));
+  }
+
+  .bg-focus {
+    background-color: rgb(var(--focus));
+  }
+
+  .bg-mystery {
+    background-color: rgb(var(--mystery));
+  }
+
+  .bg-urgency {
+    background-color: rgb(var(--urgency));
+  }
+
   /* Enhanced color utilities */
   .text-soft-blue {
     color: #64B5F6;
@@ -299,9 +521,141 @@
   .gradient-soft-vertical {
     background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
   }
+
+  .gradient-excitement {
+    background: linear-gradient(135deg, rgb(var(--excitement)), rgb(var(--energy)));
+  }
+
+  .gradient-reward {
+    background: linear-gradient(135deg, rgb(var(--reward)), rgb(var(--energy)));
+  }
+
+  .gradient-achievement {
+    background: linear-gradient(135deg, rgb(var(--achievement)), rgb(var(--mystery)));
+  }
+
+  .gradient-success {
+    background: linear-gradient(135deg, rgb(var(--success)), rgb(var(--satisfaction)));
+  }
 }
 
-/* Enhanced animations */
+/* Enhanced animations for addictive behaviors */
+@keyframes dopamine-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(var(--dopamine-red-rgb), 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(var(--dopamine-red-rgb), 0.6);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes burst {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    margin: -100px 0 0 -100px;
+    opacity: 0;
+  }
+}
+
+@keyframes urgency-throb {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fomo-pulse {
+  0%, 100% {
+    background-color: rgba(var(--fomo-pulse), 0.8);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(var(--fomo-pulse), 1);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scarcity-blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.3; }
+}
+
+@keyframes achievement-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(var(--achievement-purple-rgb), 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(var(--achievement-purple-rgb), 0.8);
+  }
+}
+
+@keyframes success-pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes urgency-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(var(--urgency-crimson-rgb), 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(var(--urgency-crimson-rgb), 0.6);
+  }
+}
+
+@keyframes progress-glow {
+  0%, 100% {
+    box-shadow: 0 2px 10px rgba(var(--progress), 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(var(--progress), 0.6);
+  }
+}
+
+@keyframes level-shine {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+@keyframes social-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes timer-tick {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.7; }
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -383,6 +737,31 @@
 
 .animate-scale-breath {
   animation: scale-breath 4s ease-in-out infinite;
+}
+
+/* Addictive animation classes */
+.animate-dopamine-pulse {
+  animation: dopamine-pulse 2s ease-in-out infinite;
+}
+
+.animate-reward-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-achievement-burst {
+  animation: burst 0.6s ease-out;
+}
+
+.animate-urgency-throb {
+  animation: urgency-throb 1.5s ease-in-out infinite;
+}
+
+.animate-fomo-pulse {
+  animation: fomo-pulse 1s ease-in-out infinite;
+}
+
+.animate-scarcity-blink {
+  animation: scarcity-blink 2s ease-in-out infinite;
 }
 
 /* Responsive improvements */
