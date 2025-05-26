@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, Target, TrendingUp, Calendar } from 'lucide-react';
+import { Clock, Star, Target, TrendingUp, Calendar, Trophy } from 'lucide-react';
 
 interface QuickAccessButtonsProps {
   onTagClick: (tag: string) => void;
@@ -8,6 +8,12 @@ interface QuickAccessButtonsProps {
 
 const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) => {
   const quickTags = [
+    { 
+      label: 'Live Matches', 
+      icon: Clock, 
+      color: 'text-red-400',
+      bgHover: 'hover:bg-red-500/10'
+    },
     { 
       label: 'Premier League', 
       icon: Star, 
@@ -31,6 +37,12 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
       icon: Calendar, 
       color: 'text-blue-400',
       bgHover: 'hover:bg-blue-500/10'
+    },
+    { 
+      label: 'Champions League', 
+      icon: Trophy, 
+      color: 'text-yellow-400',
+      bgHover: 'hover:bg-yellow-500/10'
     }
   ];
 

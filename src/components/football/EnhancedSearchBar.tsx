@@ -48,9 +48,9 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onFilterToggle })
         onClose={() => setIsFilterOpen(false)}
       />
 
-      {/* Popular Picks Section - Better integrated */}
+      {/* Popular Picks Section */}
       {query === '' && (
-        <div className="mt-12">
+        <div className="mt-16">
           <PopularPicks />
         </div>
       )}
