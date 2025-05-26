@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Filter, Mic, X, Sparkles } from 'lucide-react';
+import { Upload, Filter, Mic, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SearchInputProps {
@@ -51,21 +51,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
         {/* Enhanced Search Input */}
         <div className="flex items-center">
           <div className="pl-6 pr-4 py-4 flex items-center">
-            <motion.div
-              animate={{ 
-                scale: query ? [1, 1.2, 1] : 1,
-                rotate: query ? [0, 180, 360] : 0
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <Search className="h-5 w-5 text-neon-blue" />
-            </motion.div>
+            <Upload className="h-5 w-5 text-neon-blue" />
           </div>
           
           <Input
             ref={inputRef}
             type="text"
-            placeholder={query === '' ? placeholder : ''}
+            placeholder={placeholder}
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             className="flex-1 border-0 bg-transparent text-white placeholder-gray-400 text-base focus:ring-0 focus:outline-none py-4"
@@ -95,22 +87,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 px-4">
-            {/* AI Assistant Button */}
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="p-2 rounded-full text-gray-400 hover:text-purple-400 hover:bg-purple-400/10 transition-all group"
-            >
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="group-hover:animate-none"
-              >
-                <Sparkles className="h-4 w-4" />
-              </motion.div>
-            </Button>
-
             {/* Voice Search */}
             <Button
               type="button"
@@ -163,36 +139,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 size="sm"
                 className="bg-gradient-to-r from-neon-blue to-neon-lime hover:from-neon-blue/80 hover:to-neon-lime/80 text-black rounded-xl px-6 py-2 shadow-lg hover:shadow-neon-blue/25 transition-all font-bold relative overflow-hidden group"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
-                  initial={{ x: '-100%' }}
-                  animate={{ x: '100%' }}
-                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-                />
-                <Search className="h-4 w-4 mr-2 relative z-10" />
+                <Upload className="h-4 w-4 mr-2 relative z-10" />
                 <span className="relative z-10">Search</span>
               </Button>
             </motion.div>
           </div>
         </div>
-
-        {/* Enhanced Typing Indicator */}
-        {query === '' && (
-          <div className="absolute right-24 top-1/2 transform -translate-y-1/2">
-            <motion.div
-              animate={{ 
-                opacity: [0, 1, 0],
-                scaleY: [0.8, 1, 0.8]
-              }}
-              transition={{ 
-                duration: 1.2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-0.5 h-5 bg-gradient-to-t from-neon-blue to-neon-lime rounded-full"
-            />
-          </div>
-        )}
 
         {/* Search suggestions indicator */}
         {query && (

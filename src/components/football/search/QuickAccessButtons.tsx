@@ -50,8 +50,7 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
       icon: Zap, 
       gradient: 'from-cyan-500 to-blue-600',
       color: 'text-cyan-400',
-      bgHover: 'hover:bg-cyan-500/10',
-      special: true
+      bgHover: 'hover:bg-cyan-500/10'
     }
   ];
 
@@ -84,7 +83,7 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="mt-8 flex flex-wrap justify-center gap-3"
+      className="mt-8 flex justify-center gap-3 overflow-x-auto pb-2"
     >
       {quickTags.map((tag, index) => (
         <motion.button
@@ -96,36 +95,17 @@ const QuickAccessButtons: React.FC<QuickAccessButtonsProps> = ({ onTagClick }) =
           }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onTagClick(tag.label)}
-          className={`group relative px-4 py-3 glass-effect border border-dark-border rounded-xl text-sm text-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl ${tag.bgHover} hover:border-opacity-50 overflow-hidden ${
+          className={`group relative px-4 py-3 glass-effect border border-dark-border rounded-xl text-sm text-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl ${tag.bgHover} hover:border-opacity-50 overflow-hidden whitespace-nowrap flex-shrink-0 ${
             tag.pulse ? 'animate-pulse' : ''
           }`}
         >
           {/* Background gradient on hover */}
           <div className={`absolute inset-0 bg-gradient-to-r ${tag.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
           
-          {/* Special glow effect for AI Picks */}
-          {tag.special && (
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100"
-              animate={{
-                background: [
-                  'linear-gradient(45deg, rgba(6,182,212,0.2), rgba(59,130,246,0.2), rgba(147,51,234,0.2))',
-                  'linear-gradient(45deg, rgba(147,51,234,0.2), rgba(6,182,212,0.2), rgba(59,130,246,0.2))',
-                  'linear-gradient(45deg, rgba(59,130,246,0.2), rgba(147,51,234,0.2), rgba(6,182,212,0.2))'
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          )}
-          
           <div className="relative z-10 flex items-center gap-2">
-            <motion.div
-              className={tag.color}
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className={tag.color}>
               <tag.icon className="h-4 w-4" />
-            </motion.div>
+            </div>
             <span className="font-medium group-hover:text-white transition-colors">
               {tag.label}
             </span>
