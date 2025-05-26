@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { TrendingUp, Clock, Star, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFootball } from '@/contexts/FootballContext';
+import CompetitionMenu from './CompetitionMenu';
 
 const MatchFeed = () => {
   const { filteredMatches, selectedMatch, setSelectedMatch } = useFootball();
@@ -48,6 +49,9 @@ const MatchFeed = () => {
 
   return (
     <div className="space-y-4">
+      {/* Competition Menu */}
+      <CompetitionMenu />
+
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
