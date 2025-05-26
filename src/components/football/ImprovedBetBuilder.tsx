@@ -48,7 +48,7 @@ const ImprovedBetBuilder = () => {
     <Card className="glass-effect border-dark-border h-full">
       <CardHeader className="border-b border-dark-border">
         <div className="flex items-center justify-between">
-          <span className="font-semibold gradient-text">Bet Builder</span>
+          <span className="font-semibold gradient-text">1 selection</span>
           <Button
             variant="ghost"
             size="sm"
