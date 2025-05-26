@@ -3,11 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Match, League, Team } from '@/types/football';
 import { 
-  useFootballMatches, 
-  useBasketballMatches, 
-  useAmericanFootballMatches, 
-  useLeagues 
-} from '@/services/sportsDataApi';
+  useRealTimeSportsMatches, 
+  useTriggerScraping,
+  useRealTimeUpdates 
+} from '@/services/realTimeSportsApi';
+import { useLeagues } from '@/services/updatedSportsDataApi';
 
 interface FootballContextType {
   // Current selections
@@ -47,6 +47,10 @@ interface FootballContextType {
   // Predictions tracking
   userPredictions: any[];
   addUserPrediction: (prediction: any) => void;
+  
+  // Real-time features
+  triggerDataRefresh: () => Promise<void>;
+  lastUpdate: Date | null;
 }
 
 const FootballContext = createContext<FootballContextType | undefined>(undefined);
@@ -64,6 +68,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [selectedLeague, setSelectedLeague] = useState('premier-league');
   const [selectedMatch, setSelectedMatch] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [filters, setFilters] = useState({
     date: '',
     minOdds: 1.0,
@@ -87,31 +92,33 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Data queries based on selected sport
-  const footballQuery = useFootballMatches();
-  const basketballQuery = useBasketballMatches();
-  const americanFootballQuery = useAmericanFootballMatches();
-  const leaguesQuery = useLeagues(selectedSport);
-
-  // Get current data based on sport
-  const getCurrentQuery = () => {
-    switch (selectedSport) {
-      case 'football':
-        return footballQuery;
-      case 'basketball':
-        return basketballQuery;
-      case 'americanFootball':
-        return americanFootballQuery;
-      default:
-        return footballQuery;
-    }
+  // Real-time data hooks
+  const sportTypeMap = {
+    football: 'football',
+    basketball: 'basketball', 
+    americanFootball: 'american-football'
   };
 
-  const currentQuery = getCurrentQuery();
-  const matches = currentQuery.data || [];
+  const matchesQuery = useRealTimeSportsMatches(sportTypeMap[selectedSport]);
+  const leaguesQuery = useLeagues(selectedSport);
+  const { triggerSportsScraping } = useTriggerScraping();
+  
+  // Listen for real-time updates
+  const updates = useRealTimeUpdates('sports_matches');
+  
+  // Update last update time when new data comes in
+  useEffect(() => {
+    if (updates.length > 0) {
+      setLastUpdate(new Date());
+      // Invalidate queries to refetch data
+      matchesQuery.refetch();
+    }
+  }, [updates, matchesQuery]);
+
+  const matches = matchesQuery.data || [];
   const leagues = leaguesQuery.data || [];
-  const isLoading = currentQuery.isLoading || leaguesQuery.isLoading;
-  const error = currentQuery.error?.message || leaguesQuery.error?.message || null;
+  const isLoading = matchesQuery.isLoading || leaguesQuery.isLoading;
+  const error = matchesQuery.error?.message || leaguesQuery.error?.message || null;
 
   // Filter matches based on search and filters
   const filteredMatches = React.useMemo(() => {
@@ -138,7 +145,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     // Confidence filter
     filtered = filtered.filter(match => 
-      (match.predictions.confidence * 100) >= filters.confidence
+      (match.predictions.confidence) >= filters.confidence
     );
 
     return filtered;
@@ -169,6 +176,17 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('footballUserPredictions', JSON.stringify(newPredictions));
   };
 
+  const triggerDataRefresh = async () => {
+    try {
+      console.log('Triggering manual data refresh...');
+      await triggerSportsScraping();
+      await matchesQuery.refetch();
+      setLastUpdate(new Date());
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    }
+  };
+
   const value: FootballContextType = {
     selectedSport,
     setSelectedSport,
@@ -190,7 +208,9 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setSearchQuery,
     filteredMatches,
     userPredictions,
-    addUserPrediction
+    addUserPrediction,
+    triggerDataRefresh,
+    lastUpdate
   };
 
   return (

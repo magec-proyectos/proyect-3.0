@@ -9,6 +9,7 @@ import EnhancedSidebar from '@/components/football/EnhancedSidebar';
 import MatchFeed from '@/components/football/MatchFeed';
 import PopularPicksCarousel from '@/components/football/PopularPicksCarousel';
 import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
+import RealTimeDataIndicator from '@/components/football/RealTimeDataIndicator';
 
 const SportsContent = () => {
   const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
@@ -21,6 +22,9 @@ const SportsContent = () => {
         {/* Three Column Layout */}
         <div className="bg-dark-darker min-h-screen">
           <div className="container mx-auto px-4 py-6">
+            {/* Real-time Data Indicator */}
+            <RealTimeDataIndicator />
+            
             <div className="flex gap-6 max-w-full mx-auto">
               {/* Left Sidebar - Fixed Width */}
               <div className="w-80 flex-shrink-0">

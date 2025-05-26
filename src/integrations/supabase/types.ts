@@ -68,6 +68,39 @@ export type Database = {
         }
         Relationships: []
       }
+      casino_odds: {
+        Row: {
+          bookmaker: string
+          created_at: string | null
+          data_source: string
+          event_name: string
+          game_type: string
+          id: string
+          odds_data: Json
+          scraped_at: string | null
+        }
+        Insert: {
+          bookmaker: string
+          created_at?: string | null
+          data_source: string
+          event_name: string
+          game_type: string
+          id?: string
+          odds_data: Json
+          scraped_at?: string | null
+        }
+        Update: {
+          bookmaker?: string
+          created_at?: string | null
+          data_source?: string
+          event_name?: string
+          game_type?: string
+          id?: string
+          odds_data?: Json
+          scraped_at?: string | null
+        }
+        Relationships: []
+      }
       chatbot_agents: {
         Row: {
           avatar_url: string | null
@@ -309,6 +342,105 @@ export type Database = {
           last_login?: string | null
           updated_at?: string
           username?: string | null
+        }
+        Relationships: []
+      }
+      scraping_metadata: {
+        Row: {
+          created_at: string | null
+          error_count: number | null
+          id: string
+          is_active: boolean | null
+          last_error: string | null
+          last_scraped: string | null
+          rate_limit_delay_ms: number | null
+          scrape_interval_minutes: number | null
+          source_name: string
+          success_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          error_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_error?: string | null
+          last_scraped?: string | null
+          rate_limit_delay_ms?: number | null
+          scrape_interval_minutes?: number | null
+          source_name: string
+          success_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          error_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_error?: string | null
+          last_scraped?: string | null
+          rate_limit_delay_ms?: number | null
+          scrape_interval_minutes?: number | null
+          source_name?: string
+          success_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      sports_matches: {
+        Row: {
+          away_score: number | null
+          away_team: string
+          created_at: string | null
+          data_source: string
+          external_id: string | null
+          home_score: number | null
+          home_team: string
+          id: string
+          last_updated: string | null
+          league: string
+          match_date: string
+          odds_away: number | null
+          odds_draw: number | null
+          odds_home: number | null
+          sport_type: string
+          status: string | null
+        }
+        Insert: {
+          away_score?: number | null
+          away_team: string
+          created_at?: string | null
+          data_source: string
+          external_id?: string | null
+          home_score?: number | null
+          home_team: string
+          id?: string
+          last_updated?: string | null
+          league: string
+          match_date: string
+          odds_away?: number | null
+          odds_draw?: number | null
+          odds_home?: number | null
+          sport_type: string
+          status?: string | null
+        }
+        Update: {
+          away_score?: number | null
+          away_team?: string
+          created_at?: string | null
+          data_source?: string
+          external_id?: string | null
+          home_score?: number | null
+          home_team?: string
+          id?: string
+          last_updated?: string | null
+          league?: string
+          match_date?: string
+          odds_away?: number | null
+          odds_draw?: number | null
+          odds_home?: number | null
+          sport_type?: string
+          status?: string | null
         }
         Relationships: []
       }
