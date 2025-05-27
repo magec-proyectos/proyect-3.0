@@ -27,7 +27,7 @@ const CtaSection = () => {
           <p className="text-gray-400 mb-8">
             Join thousands of users who use our AI-powered tools to improve their winning chances.
           </p>
-          <Button size="lg" className="bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium">
+          <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white font-medium">
             Get Started Free
           </Button>
         </motion.div>

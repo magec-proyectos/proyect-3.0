@@ -2,39 +2,39 @@
 export const getButtonStyle = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "bg-gradient-to-r from-soft-blue to-soft-cyan hover:from-soft-blue hover:to-soft-cyan text-white shadow-md shadow-soft-blue/20";
+      return "bg-blue-500 hover:bg-blue-600 text-white";
     case 'basketball':
-      return "bg-gradient-to-r from-soft-green to-soft-lime hover:from-soft-green hover:to-soft-lime text-white shadow-md shadow-soft-green/20";
+      return "bg-green-500 hover:bg-green-600 text-white";
     case 'americanFootball':
-      return "bg-gradient-to-r from-soft-purple-400 to-soft-purple-500 hover:from-soft-purple-400 hover:to-soft-purple-500 text-white shadow-md shadow-purple-400/20";
+      return "bg-blue-500 hover:bg-blue-600 text-white";
     default:
-      return "bg-gradient-to-r from-soft-blue to-soft-cyan hover:from-soft-blue hover:to-soft-cyan text-white shadow-md shadow-soft-blue/20";
+      return "bg-blue-500 hover:bg-blue-600 text-white";
   }
 };
 
 export const getAccentColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "soft-blue";
+      return "blue-500";
     case 'basketball':
-      return "soft-green";
+      return "green-500";
     case 'americanFootball':
-      return "purple-400";
+      return "blue-500";
     default:
-      return "soft-blue";
+      return "blue-500";
   }
 };
 
 export const getBorderColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   switch (activeSport) {
     case 'football':
-      return "border-soft-blue/30";
+      return "border-blue-500/30";
     case 'basketball':
-      return "border-soft-green/30";
+      return "border-green-500/30";
     case 'americanFootball':
-      return "border-purple-400/30";
+      return "border-blue-500/30";
     default:
-      return "border-soft-blue/30";
+      return "border-blue-500/30";
   }
 };
 
@@ -59,13 +59,13 @@ export const getMatchName = (value: string): string => {
 export const getPredictionConfidence = (activeSport: 'football' | 'basketball' | 'americanFootball'): {value: number, label: string, color: string} => {
   switch (activeSport) {
     case 'football':
-      return { value: 78, label: 'High', color: 'text-soft-blue' };
+      return { value: 78, label: 'High', color: 'text-blue-500' };
     case 'basketball':
-      return { value: 65, label: 'Medium', color: 'text-soft-green' };
+      return { value: 65, label: 'Medium', color: 'text-green-500' };
     case 'americanFootball':
-      return { value: 82, label: 'Very High', color: 'text-purple-400' };
+      return { value: 82, label: 'Very High', color: 'text-blue-500' };
     default:
-      return { value: 75, label: 'High', color: 'text-soft-blue' };
+      return { value: 75, label: 'High', color: 'text-blue-500' };
   }
 };
 

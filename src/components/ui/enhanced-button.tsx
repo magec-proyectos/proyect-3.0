@@ -11,14 +11,14 @@ const enhancedButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-lg hover:shadow-destructive/25",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-lg hover:shadow-secondary/25",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-to-r from-soft-blue to-soft-cyan text-white hover:from-soft-blue/90 hover:to-soft-cyan/90 hover:shadow-lg hover:shadow-soft-blue/25",
-        success: "bg-gradient-to-r from-soft-green to-soft-lime text-white hover:from-soft-green/90 hover:to-soft-lime/90 hover:shadow-lg hover:shadow-soft-green/25",
+        blue: "bg-blue-500 text-white hover:bg-blue-600",
+        green: "bg-green-500 text-white hover:bg-green-600",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -30,7 +30,6 @@ const enhancedButtonVariants = cva(
         none: "",
         pulse: "animate-pulse",
         bounce: "animate-bounce-soft",
-        glow: "animate-glow",
       }
     },
     defaultVariants: {
@@ -65,9 +64,6 @@ const EnhancedButton = React.forwardRef<HTMLButtonElement, EnhancedButtonProps>(
           disabled={loading}
           {...props}
         >
-          {/* Ripple effect background */}
-          <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-          
           {loading && (
             <motion.div 
               className="absolute inset-0 flex items-center justify-center bg-background/80"

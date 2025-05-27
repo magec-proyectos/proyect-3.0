@@ -30,17 +30,17 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
   const accentColor = getAccentColor();
   const matchName = getMatchName(matchId);
   
-  // Enhanced gradient styles based on sport
+  // Simplified gradient styles based on sport
   const getGradientStyle = () => {
     switch (activeSport) {
       case 'football':
-        return 'from-neon-blue/30 to-neon-blue/5';
+        return 'from-blue-500/30 to-blue-500/5';
       case 'basketball':
-        return 'from-neon-lime/30 to-neon-lime/5';
+        return 'from-green-500/30 to-green-500/5';
       case 'americanFootball':
-        return 'from-purple-500/30 to-purple-500/5';
+        return 'from-blue-500/30 to-blue-500/5';
       default:
-        return 'from-neon-blue/30 to-neon-blue/5';
+        return 'from-blue-500/30 to-blue-500/5';
     }
   };
 
@@ -164,7 +164,7 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
             
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button 
-                className={`bg-${accentColor} ${activeSport === 'americanFootball' ? 'text-white' : 'text-black'} shadow-lg`}
+                className={`${activeSport === 'basketball' ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
               >
                 <Star size={16} className="mr-2" />
                 Place Bet
