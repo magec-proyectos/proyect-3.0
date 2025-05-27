@@ -3,7 +3,7 @@ import React from 'react';
 import { EnhancedButton } from '@/components/ui/enhanced-button';
 import { TrendingUp, Target, BarChart3, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { AnimatedCard, FloatingElement } from '@/components/ui/micro-interaction';
+import { AnimatedCard } from '@/components/ui/micro-interaction';
 
 const HeroSection = () => {
   const backgroundPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E";
@@ -30,8 +30,8 @@ const HeroSection = () => {
       />
       
       {/* Floating decorative elements */}
-      <FloatingElement className="absolute top-20 left-10 w-24 h-24 bg-neon-blue/20 rounded-full blur-xl" />
-      <FloatingElement className="absolute bottom-20 right-10 w-32 h-32 bg-neon-lime/20 rounded-full blur-xl" />
+      <div className="absolute top-20 left-10 w-24 h-24 bg-neon-blue/20 rounded-full blur-xl animate-float" />
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-neon-lime/20 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
       
       <div className="relative container mx-auto px-4 py-20 md:py-28">
         <motion.div 

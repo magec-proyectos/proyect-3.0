@@ -36,7 +36,7 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
     <motion.div
       initial={resultVariants.initial}
       animate={resultVariants.animate}
-      transition={resultVariants.transition}
+      exit={resultVariants.exit}
       className="relative"
     >
       {/* Enhanced background decorations */}
