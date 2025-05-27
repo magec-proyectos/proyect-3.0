@@ -3,13 +3,13 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Clock, Star, Play, AlertCircle, Zap } from 'lucide-react';
+import { TrendingUp, Clock, Star, Play, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFootball } from '@/contexts/FootballContext';
 import CompetitionMenu from './CompetitionMenu';
 
 const MatchFeed = () => {
-  const { filteredMatches, selectedMatch, setSelectedMatch, isLoading, error, triggerDataRefresh } = useFootball();
+  const { filteredMatches, selectedMatch, setSelectedMatch, isLoading, error } = useFootball();
 
   console.log('MatchFeed - filteredMatches:', filteredMatches);
   console.log('MatchFeed - isLoading:', isLoading);
@@ -17,18 +17,6 @@ const MatchFeed = () => {
 
   // Enhanced fallback data for when real data is loading
   const enhancedFallbackMatches = [
-    {
-      id: 'live-1',
-      league: 'Premier League • Live',
-      time: 'LIVE',
-      homeTeam: { name: 'Manchester City', logo: '🔵' },
-      awayTeam: { name: 'Arsenal', logo: '🔴' },
-      odds: { home: '2.10', draw: '3.40', away: '3.20' },
-      percentages: { home: '45%', draw: '25%', away: '30%' },
-      isLive: true,
-      isHot: true,
-      score: { home: 1, away: 1 }
-    },
     {
       id: 'upcoming-1',
       league: 'La Liga • Today 21:00',
@@ -70,7 +58,7 @@ const MatchFeed = () => {
   // Smart display logic - show real data when available, enhanced fallback during loading
   const displayMatches = filteredMatches.length > 0 ? filteredMatches.map(match => ({
     id: match.id,
-    league: `${match.league} • Live Data`,
+    league: match.league,
     time: match.time,
     homeTeam: { 
       name: match.homeTeam.name, 
@@ -90,64 +78,29 @@ const MatchFeed = () => {
       draw: `${match.predictions.winProbability.draw}%`, 
       away: `${match.predictions.winProbability.away}%` 
     },
-    isLive: match.status === 'live',
+    isLive: false,
     isHot: match.predictions.confidence > 70,
-    score: match.status === 'live' ? { home: 0, away: 0 } : undefined
+    score: undefined
   })) : enhancedFallbackMatches;
-
-  const dataSource = filteredMatches.length > 0 ? 'live' : (isLoading ? 'loading' : 'preview');
 
   return (
     <div className="space-y-4">
       {/* Competition Menu */}
       <CompetitionMenu />
 
-      {/* Section Header with Enhanced Status */}
+      {/* Section Header - Simplified */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-400">Live Matches</span>
-          
-          {dataSource === 'live' && (
-            <Badge variant="outline" className="border-green-500/30 text-green-400">
-              <Zap className="h-3 w-3 mr-1" />
-              Live Data
-            </Badge>
-          )}
-          
-          {dataSource === 'loading' && (
-            <Badge variant="outline" className="border-blue-500/30 text-blue-400 animate-pulse">
-              <div className="h-3 w-3 mr-1 rounded-full bg-blue-400 animate-pulse"></div>
-              Syncing...
-            </Badge>
-          )}
-          
-          {dataSource === 'preview' && (
-            <Badge variant="outline" className="border-purple-500/30 text-purple-400">
-              <Star className="h-3 w-3 mr-1" />
-              Live Preview
-            </Badge>
-          )}
-        </div>
-        
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>{displayMatches.length} matches</span>
-          {dataSource === 'preview' && (
-            <span className="text-xs text-gray-600">• Data syncing in background</span>
-          )}
+          <span className="text-sm font-medium text-gray-400">Today's Matches</span>
         </div>
       </div>
-
-      {/* Subtle loading indicator when syncing */}
-      {isLoading && dataSource !== 'loading' && (
-        <div className="h-1 bg-gradient-to-r from-neon-blue via-neon-lime to-purple-500 rounded-full animate-pulse opacity-50"></div>
-      )}
 
       {/* Error Message - Only show if persistent */}
       {error && !isLoading && displayMatches.length === 0 && (
         <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-400 text-sm">
           <div className="flex items-center gap-2">
             <AlertCircle className="h-4 w-4" />
-            Sync temporarily offline - showing preview data while reconnecting
+            Unable to load matches - please try again later
           </div>
         </div>
       )}
@@ -180,11 +133,6 @@ const MatchFeed = () => {
                         HOT
                       </Badge>
                     )}
-                    {match.isLive && (
-                      <Badge className="bg-red-500 text-white text-xs font-bold animate-pulse">
-                        LIVE
-                      </Badge>
-                    )}
                   </div>
                 </div>
 
@@ -196,13 +144,7 @@ const MatchFeed = () => {
                   </div>
                   
                   <div className="text-center">
-                    {match.isLive && match.score ? (
-                      <div className="text-lg font-bold text-red-400">
-                        {match.score.home} - {match.score.away}
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold text-neon-blue">{match.time}</div>
-                    )}
+                    <div className="text-lg font-bold text-neon-blue">{match.time}</div>
                   </div>
                   
                   <div className="flex items-center gap-3">
@@ -267,16 +209,6 @@ const MatchFeed = () => {
           </motion.div>
         ))}
       </div>
-
-      {/* Sync Status Footer */}
-      {dataSource === 'preview' && (
-        <div className="text-center py-4">
-          <div className="text-xs text-gray-500 flex items-center justify-center gap-2">
-            <div className="h-2 w-2 bg-blue-400 rounded-full animate-pulse"></div>
-            Auto-syncing with live sources every few minutes
-          </div>
-        </div>
-      )}
     </div>
   );
 };
