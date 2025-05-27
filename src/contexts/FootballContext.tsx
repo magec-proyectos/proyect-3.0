@@ -1,12 +1,14 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Match, League, Team } from '@/types/football';
 import { 
   useRealTimeSportsMatches, 
   useTriggerScraping,
-  useRealTimeUpdates 
+  useRealTimeUpdates,
+  useEnhancedCompetitions,
+  useBettingMarkets
 } from '@/services/realTimeSportsApi';
-import { useLeagues } from '@/services/updatedSportsDataApi';
 
 interface FootballContextType {
   // Current selections
@@ -17,9 +19,11 @@ interface FootballContextType {
   selectedMatch: string;
   setSelectedMatch: (match: string) => void;
   
-  // Data
+  // Enhanced data
   matches: Match[];
   leagues: League[];
+  competitions: any[];
+  bettingMarkets: any[];
   isLoading: boolean;
   error: string | null;
   
@@ -29,6 +33,8 @@ interface FootballContextType {
     minOdds: number;
     maxOdds: number;
     confidence: number;
+    competition: string;
+    priority: number;
   };
   setFilters: (filters: any) => void;
   
@@ -76,7 +82,9 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     date: '',
     minOdds: 1.0,
     maxOdds: 10.0,
-    confidence: 0
+    confidence: 0,
+    competition: '',
+    priority: 0
   });
   
   // Load favorites from localStorage
@@ -95,7 +103,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Real-time data hooks with aggressive refetching
+  // Enhanced data hooks
   const sportTypeMap = {
     football: 'football',
     basketball: 'basketball', 
@@ -103,64 +111,68 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const matchesQuery = useRealTimeSportsMatches(sportTypeMap[selectedSport]);
-  const leaguesQuery = useLeagues(selectedSport);
+  const competitionsQuery = useEnhancedCompetitions(sportTypeMap[selectedSport]);
+  const bettingMarketsQuery = useBettingMarkets(sportTypeMap[selectedSport]);
   const { triggerSportsScraping } = useTriggerScraping();
   
-  // Listen for real-time updates
-  const updates = useRealTimeUpdates('sports_matches');
+  // Listen for real-time updates on multiple tables
+  const matchUpdates = useRealTimeUpdates('sports_matches');
+  const competitionUpdates = useRealTimeUpdates('sports_competitions');
   
-  // Auto-initialize data on mount
+  // Auto-initialize data on mount with enhanced logic
   useEffect(() => {
     const autoInitialize = async () => {
-      console.log('Football context initializing...');
+      console.log('Enhanced Football context initializing...');
       
-      // If no data and not loading, trigger initialization
       if (!matchesQuery.data || matchesQuery.data.length === 0) {
-        console.log('No initial data found, triggering auto-sync...');
+        console.log('No initial data found, triggering enhanced auto-sync...');
         try {
           await triggerSportsScraping();
-          // Refetch after a short delay
           setTimeout(() => {
             matchesQuery.refetch();
+            competitionsQuery.refetch();
           }, 3000);
         } catch (error) {
-          console.error('Auto-initialization failed:', error);
+          console.error('Enhanced auto-initialization failed:', error);
         }
       }
     };
 
-    // Run auto-initialization
     autoInitialize();
-  }, [selectedSport]); // Re-run when sport changes
+  }, [selectedSport]);
 
-  // Set up periodic auto-sync
+  // Enhanced periodic auto-sync
   useEffect(() => {
     if (!isAutoSyncActive) return;
 
     const interval = setInterval(async () => {
-      console.log('Performing periodic auto-sync...');
+      console.log('Performing enhanced periodic auto-sync...');
       try {
         await triggerSportsScraping();
         setTimeout(() => {
           matchesQuery.refetch();
+          competitionsQuery.refetch();
         }, 2000);
       } catch (error) {
-        console.error('Periodic sync failed:', error);
+        console.error('Enhanced periodic sync failed:', error);
       }
     }, 180000); // 3 minutes
 
     return () => clearInterval(interval);
-  }, [isAutoSyncActive, selectedSport, triggerSportsScraping, matchesQuery]);
+  }, [isAutoSyncActive, selectedSport, triggerSportsScraping, matchesQuery, competitionsQuery]);
 
-  // Update last update time when new data comes in
+  // Enhanced real-time update handling
   useEffect(() => {
-    if (updates.length > 0) {
-      console.log('Real-time update received:', updates[updates.length - 1]);
+    if (matchUpdates.length > 0 || competitionUpdates.length > 0) {
+      console.log('Enhanced real-time update received:', { 
+        matches: matchUpdates.length, 
+        competitions: competitionUpdates.length 
+      });
       setLastUpdate(new Date());
-      // Invalidate queries to refetch data
       matchesQuery.refetch();
+      competitionsQuery.refetch();
     }
-  }, [updates, matchesQuery]);
+  }, [matchUpdates, competitionUpdates, matchesQuery, competitionsQuery]);
 
   // Set initial last update time when data is first loaded
   useEffect(() => {
@@ -170,22 +182,25 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [matchesQuery.data, lastUpdate]);
 
   const matches = matchesQuery.data || [];
-  const leagues = leaguesQuery.data || [];
-  const isLoading = matchesQuery.isLoading || leaguesQuery.isLoading;
-  const error = matchesQuery.error?.message || leaguesQuery.error?.message || null;
+  const competitions = competitionsQuery.data || [];
+  const bettingMarkets = bettingMarketsQuery.data || [];
+  const isLoading = matchesQuery.isLoading || competitionsQuery.isLoading;
+  const error = matchesQuery.error?.message || competitionsQuery.error?.message || null;
 
-  // Log data for debugging
-  useEffect(() => {
-    console.log('FootballContext - matches updated:', matches.length, 'matches');
-    console.log('FootballContext - isLoading:', isLoading);
-    console.log('FootballContext - error:', error);
-  }, [matches, isLoading, error]);
+  // Create enhanced leagues from competitions data
+  const leagues: League[] = competitions.map(comp => ({
+    id: comp.external_id,
+    name: comp.name,
+    country: comp.country,
+    logo: comp.logo_url || `https://placehold.co/50x50?text=${comp.name.substring(0, 2).toUpperCase()}`,
+    season: comp.season
+  }));
 
-  // Filter matches based on search and filters
+  // Enhanced filtering with new database fields
   const filteredMatches = React.useMemo(() => {
     let filtered = matches;
 
-    console.log('Filtering matches - total:', filtered.length);
+    console.log('Enhanced filtering matches - total:', filtered.length);
 
     // Search filter
     if (searchQuery) {
@@ -195,6 +210,14 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         match.league.toLowerCase().includes(searchQuery.toLowerCase())
       );
       console.log('After search filter:', filtered.length);
+    }
+
+    // Competition filter
+    if (filters.competition) {
+      filtered = filtered.filter(match => 
+        match.league.toLowerCase().includes(filters.competition.toLowerCase())
+      );
+      console.log('After competition filter:', filtered.length);
     }
 
     // Date filter
@@ -214,6 +237,14 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       (match.predictions.confidence) >= filters.confidence
     );
     console.log('After confidence filter:', filtered.length);
+
+    // Priority filter (using enhanced data)
+    if (filters.priority > 0) {
+      filtered = filtered.filter(match => 
+        match.predictions.confidence >= (filters.priority * 20) // Convert priority to confidence threshold
+      );
+      console.log('After priority filter:', filtered.length);
+    }
 
     return filtered;
   }, [matches, searchQuery, filters]);
@@ -245,12 +276,13 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const triggerDataRefresh = async () => {
     try {
-      console.log('Triggering manual data refresh...');
+      console.log('Triggering enhanced manual data refresh...');
       await matchesQuery.refetch();
+      await competitionsQuery.refetch();
       setLastUpdate(new Date());
-      console.log('Data refresh completed');
+      console.log('Enhanced data refresh completed');
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      console.error('Error refreshing enhanced data:', error);
     }
   };
 
@@ -263,6 +295,8 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setSelectedMatch,
     matches,
     leagues,
+    competitions,
+    bettingMarkets,
     isLoading,
     error,
     filters,

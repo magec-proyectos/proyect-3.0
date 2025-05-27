@@ -68,6 +68,87 @@ export type Database = {
         }
         Relationships: []
       }
+      api_configurations: {
+        Row: {
+          api_name: string
+          api_url: string
+          configuration: Json | null
+          created_at: string | null
+          error_count: number | null
+          id: string
+          is_active: boolean | null
+          last_successful_call: string | null
+          priority: number | null
+          rate_limit_per_minute: number | null
+          success_count: number | null
+          timeout_seconds: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          api_name: string
+          api_url: string
+          configuration?: Json | null
+          created_at?: string | null
+          error_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_successful_call?: string | null
+          priority?: number | null
+          rate_limit_per_minute?: number | null
+          success_count?: number | null
+          timeout_seconds?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          api_name?: string
+          api_url?: string
+          configuration?: Json | null
+          created_at?: string | null
+          error_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_successful_call?: string | null
+          priority?: number | null
+          rate_limit_per_minute?: number | null
+          success_count?: number | null
+          timeout_seconds?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      betting_markets: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string | null
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          name: string
+          sport_type: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          sport_type: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          sport_type?: string
+        }
+        Relationships: []
+      }
       casino_odds: {
         Row: {
           bookmaker: string
@@ -387,10 +468,58 @@ export type Database = {
         }
         Relationships: []
       }
+      sports_competitions: {
+        Row: {
+          country: string
+          created_at: string | null
+          external_id: string | null
+          id: string
+          is_active: boolean | null
+          logo_url: string | null
+          name: string
+          priority_score: number | null
+          season: string | null
+          sport_type: string
+          tier: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          country: string
+          created_at?: string | null
+          external_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name: string
+          priority_score?: number | null
+          season?: string | null
+          sport_type: string
+          tier?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          country?: string
+          created_at?: string | null
+          external_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name?: string
+          priority_score?: number | null
+          season?: string | null
+          sport_type?: string
+          tier?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       sports_matches: {
         Row: {
           away_score: number | null
           away_team: string
+          betting_trends: Json | null
+          competition_id: string | null
+          country: string | null
           created_at: string | null
           data_source: string
           external_id: string | null
@@ -399,16 +528,25 @@ export type Database = {
           id: string
           last_updated: string | null
           league: string
+          live_stats: Json | null
+          market_types: Json | null
           match_date: string
+          match_week: number | null
           odds_away: number | null
           odds_draw: number | null
           odds_home: number | null
+          priority_level: number | null
+          season: string | null
           sport_type: string
           status: string | null
+          venue: string | null
         }
         Insert: {
           away_score?: number | null
           away_team: string
+          betting_trends?: Json | null
+          competition_id?: string | null
+          country?: string | null
           created_at?: string | null
           data_source: string
           external_id?: string | null
@@ -417,16 +555,25 @@ export type Database = {
           id?: string
           last_updated?: string | null
           league: string
+          live_stats?: Json | null
+          market_types?: Json | null
           match_date: string
+          match_week?: number | null
           odds_away?: number | null
           odds_draw?: number | null
           odds_home?: number | null
+          priority_level?: number | null
+          season?: string | null
           sport_type: string
           status?: string | null
+          venue?: string | null
         }
         Update: {
           away_score?: number | null
           away_team?: string
+          betting_trends?: Json | null
+          competition_id?: string | null
+          country?: string | null
           created_at?: string | null
           data_source?: string
           external_id?: string | null
@@ -435,12 +582,60 @@ export type Database = {
           id?: string
           last_updated?: string | null
           league?: string
+          live_stats?: Json | null
+          market_types?: Json | null
           match_date?: string
+          match_week?: number | null
           odds_away?: number | null
           odds_draw?: number | null
           odds_home?: number | null
+          priority_level?: number | null
+          season?: string | null
           sport_type?: string
           status?: string | null
+          venue?: string | null
+        }
+        Relationships: []
+      }
+      sports_teams: {
+        Row: {
+          country: string | null
+          created_at: string | null
+          external_id: string | null
+          founded_year: number | null
+          id: string
+          is_active: boolean | null
+          logo_url: string | null
+          name: string
+          short_name: string | null
+          sport_type: string
+          venue: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string | null
+          external_id?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name: string
+          short_name?: string | null
+          sport_type: string
+          venue?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string | null
+          external_id?: string | null
+          founded_year?: number | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name?: string
+          short_name?: string | null
+          sport_type?: string
+          venue?: string | null
         }
         Relationships: []
       }
