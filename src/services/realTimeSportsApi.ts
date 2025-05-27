@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
@@ -10,19 +11,10 @@ export const useRealTimeSportsMatches = (sportType: string = 'football') => {
     queryFn: async (): Promise<Match[]> => {
       console.log('Fetching enhanced real-time sports matches for:', sportType);
       
-      // Fetch matches with competition and betting market data
+      // Fetch matches first
       const { data: matchesData, error: matchesError } = await supabase
         .from('sports_matches')
-        .select(`
-          *,
-          competitions:sports_competitions!competition_id(
-            name,
-            country,
-            tier,
-            priority_score,
-            logo_url
-          )
-        `)
+        .select('*')
         .eq('sport_type', sportType)
         .order('priority_level', { ascending: false })
         .order('match_date', { ascending: true });
@@ -30,6 +22,20 @@ export const useRealTimeSportsMatches = (sportType: string = 'football') => {
       if (matchesError) {
         console.error('Error fetching enhanced sports matches:', matchesError);
         throw matchesError;
+      }
+
+      // Fetch competitions separately to avoid join issues
+      const { data: competitionsData } = await supabase
+        .from('sports_competitions')
+        .select('*')
+        .eq('sport_type', sportType);
+
+      // Create a map of competitions for easy lookup
+      const competitionsMap = new Map();
+      if (competitionsData) {
+        competitionsData.forEach(comp => {
+          competitionsMap.set(comp.external_id, comp);
+        });
       }
 
       // Fetch available betting markets for this sport
@@ -42,10 +48,13 @@ export const useRealTimeSportsMatches = (sportType: string = 'football') => {
 
       // Transform database data to Match interface with enhanced features
       return (matchesData || []).map(match => {
+        // Get competition data if available
+        const competition = competitionsMap.get(match.competition_id);
+        
         // Calculate dynamic confidence based on multiple factors
         const baseConfidence = 50;
         const priorityBonus = (match.priority_level || 1) * 10;
-        const tierBonus = match.competitions ? (4 - (match.competitions.tier || 1)) * 15 : 0;
+        const tierBonus = competition ? (4 - (competition.tier || 1)) * 15 : 0;
         const timeBonus = match.status === 'live' ? 20 : 0;
         const confidence = Math.min(95, baseConfidence + priorityBonus + tierBonus + timeBonus);
 
@@ -100,7 +109,7 @@ export const useRealTimeSportsMatches = (sportType: string = 'football') => {
             minute: '2-digit', 
             hour12: false 
           }),
-          league: match.competitions?.name || match.league,
+          league: competition?.name || match.league,
           homeOdds: match.odds_home || 2.0,
           drawOdds: match.odds_draw || 3.2,
           awayOdds: match.odds_away || 3.5,
