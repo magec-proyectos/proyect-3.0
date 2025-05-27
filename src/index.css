@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,49 +7,64 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3%;
+    --background: 0 0% 2%;
     --foreground: 0 0% 98%;
 
-    --card: 0 0% 7%;
+    --card: 0 0% 6%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 5%;
+    --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 210 79% 46%;
+    --primary: 213 83% 54%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 88 50% 53%;
+    --secondary: 88 55% 58%;
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 75%;
 
-    --accent: 210 79% 46%;
+    --accent: 213 83% 54%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 4 90% 58%;
+    --destructive: 358 75% 59%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 22%;
-    --input: 0 0% 15%;
-    --ring: 210 79% 46%;
+    --border: 0 0% 18%;
+    --input: 0 0% 12%;
+    --ring: 213 83% 54%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     
-    /* Enhanced color variables */
-    --surface-primary: 26 26 26;
-    --surface-secondary: 42 42 42;
-    --surface-tertiary: 58 58 58;
-    --surface-elevated: 64 64 64;
+    /* Enhanced spacing system */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 6rem;
     
-    --brand-blue: 33 150 243;
-    --brand-lime: 139 195 74;
+    /* Enhanced color variables with better accessibility */
+    --surface-primary: 15 15 15;
+    --surface-secondary: 25 25 25;
+    --surface-tertiary: 35 35 35;
+    --surface-elevated: 45 45 45;
     
-    --success-rgb: 76 175 80;
-    --warning-rgb: 255 193 7;
-    --error-rgb: 244 67 54;
-    --info-rgb: 33 150 243;
+    --brand-blue: 213 83 54;
+    --brand-lime: 88 55 58;
+    
+    --success-rgb: 34 197 94;
+    --warning-rgb: 251 146 60;
+    --error-rgb: 239 68 68;
+    --info-rgb: 59 130 246;
+    
+    /* Glass effect variables */
+    --glass-bg: rgba(15, 15, 15, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-backdrop: blur(24px) saturate(180%);
   }
 }
 
@@ -58,311 +73,322 @@
     @apply border-border;
   }
 
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
-    line-height: 1.5;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
   }
 
   /* Enhanced scrollbar styling */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: theme('colors.dark.DEFAULT');
-    border-radius: 4px;
+    background: hsl(var(--muted));
+    border-radius: 6px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: theme('colors.dark.border');
-    border-radius: 4px;
-    transition: background 0.2s ease;
+    background: hsl(var(--border));
+    border-radius: 6px;
+    transition: all 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.neutral.600');
+    background: hsl(var(--accent));
   }
 
   /* Enhanced focus styles */
   :focus-visible {
-    outline: 2px solid theme('colors.info.500');
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
+    border-radius: var(--radius);
   }
 
   /* Selection styles */
   ::selection {
-    background: theme('colors.info.500');
-    color: white;
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
   }
 }
 
 @layer components {
-  /* Enhanced gradient text utilities */
-  .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: theme('backgroundImage.gradient-brand');
+  /* Modern Typography System */
+  .text-display {
+    font-family: 'Sora', 'Inter', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
-  .gradient-text-sport-football {
-    @apply bg-clip-text text-transparent;
-    background-image: theme('backgroundImage.gradient-sport-football');
+  .text-heading {
+    font-family: 'Sora', 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
-  .gradient-text-sport-basketball {
-    @apply bg-clip-text text-transparent;
-    background-image: theme('backgroundImage.gradient-sport-basketball');
+  .text-subheading {
+    font-family: 'Sora', 'Inter', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
   }
 
-  .gradient-text-sport-american-football {
-    @apply bg-clip-text text-transparent;
-    background-image: theme('backgroundImage.gradient-sport-american-football');
+  .text-body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
   }
 
-  /* Enhanced surface components */
-  .surface-primary {
-    @apply bg-surface-primary border border-dark-border;
+  .text-caption {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    line-height: 1.4;
+    font-size: 0.875rem;
   }
 
-  .surface-secondary {
-    @apply bg-surface-secondary border border-dark-border;
-  }
-
-  .surface-elevated {
-    @apply bg-surface-elevated border border-dark-border shadow-elevation-2;
-  }
-
-  /* Glass effect components */
+  /* Enhanced glassmorphism effects */
   .glass-card {
-    backdrop-filter: blur(16px);
-    background-color: rgba(26, 26, 26, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-surface {
-    backdrop-filter: blur(12px);
-    background-color: rgba(30, 30, 30, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 
+      0 4px 24px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-button {
+    background: rgba(25, 25, 25, 0.7);
+    backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-button:hover {
+    background: rgba(35, 35, 35, 0.8);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Enhanced spacing utilities */
+  .spacing-xs { padding: var(--spacing-xs); }
+  .spacing-sm { padding: var(--spacing-sm); }
+  .spacing-md { padding: var(--spacing-md); }
+  .spacing-lg { padding: var(--spacing-lg); }
+  .spacing-xl { padding: var(--spacing-xl); }
+  .spacing-2xl { padding: var(--spacing-2xl); }
+  .spacing-3xl { padding: var(--spacing-3xl); }
+  .spacing-4xl { padding: var(--spacing-4xl); }
+
+  .gap-xs { gap: var(--spacing-xs); }
+  .gap-sm { gap: var(--spacing-sm); }
+  .gap-md { gap: var(--spacing-md); }
+  .gap-lg { gap: var(--spacing-lg); }
+  .gap-xl { gap: var(--spacing-xl); }
+  .gap-2xl { gap: var(--spacing-2xl); }
+
+  /* Enhanced surface components */
+  .surface-primary {
+    background: hsl(var(--surface-primary));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .surface-secondary {
+    background: hsl(var(--surface-secondary));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .surface-elevated {
+    background: hsl(var(--surface-elevated));
+    border: 1px solid hsl(var(--border));
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   /* Interactive feedback components */
   .interactive-scale {
-    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .interactive-glow {
-    @apply transition-all duration-300;
+  .interactive-scale:hover {
+    transform: scale(1.02);
   }
 
-  .interactive-glow:hover {
-    box-shadow: theme('boxShadow.glow-blue');
+  .interactive-scale:active {
+    transform: scale(0.98);
   }
 
   .interactive-lift {
-    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-elevation-2;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Sport-themed components */
-  .sport-card-football {
-    @apply bg-gradient-sport-football text-white shadow-glow-blue;
+  .interactive-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .sport-card-basketball {
-    @apply bg-gradient-sport-basketball text-white shadow-glow-orange;
+  /* Enhanced gradient components */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .sport-card-american-football {
-    @apply bg-gradient-sport-american-football text-white shadow-glow-purple;
+  .gradient-border {
+    position: relative;
+    background: hsl(var(--background));
+    border-radius: var(--radius);
   }
 
-  /* Enhanced button variants */
-  .btn-sport-football {
-    @apply bg-sport-football-primary hover:bg-sport-football-secondary text-white shadow-lg hover:shadow-glow-blue transition-all duration-300;
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: subtract;
   }
 
-  .btn-sport-basketball {
-    @apply bg-sport-basketball-primary hover:bg-sport-basketball-secondary text-white shadow-lg hover:shadow-glow-orange transition-all duration-300;
+  /* Enhanced sport-themed components */
+  .sport-card-modern {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: calc(var(--radius) * 1.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-sport-american-football {
-    @apply bg-sport-american-football-primary hover:bg-sport-american-football-secondary text-white shadow-lg hover:shadow-glow-purple transition-all duration-300;
-  }
-
-  /* State feedback components */
-  .feedback-success {
-    @apply bg-success-500/10 border-success-500/30 text-success-400;
-  }
-
-  .feedback-warning {
-    @apply bg-warning-500/10 border-warning-500/30 text-warning-400;
-  }
-
-  .feedback-error {
-    @apply bg-error-500/10 border-error-500/30 text-error-400;
-  }
-
-  .feedback-info {
-    @apply bg-info-500/10 border-info-500/30 text-info-400;
-  }
-
-  /* Casino-themed components */
-  .casino-felt {
-    background: theme('colors.casino.felt');
-    background-image: radial-gradient(circle at center, theme('colors.casino.felt') 0%, rgba(11, 77, 44, 0.8) 70%);
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
-  }
-
-  .casino-chip {
-    @apply rounded-full border-4 border-white/20 shadow-lg;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 50%);
+  .sport-card-modern:hover {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px hsl(var(--primary) / 0.1);
   }
 
   /* Loading and skeleton components */
   .loading-skeleton {
-    @apply animate-pulse bg-neutral-600/30 rounded;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.8) 50%,
+      hsl(var(--muted)) 100%
+    );
     background-size: 200px 100%;
-    animation: shimmer 2s infinite;
+    animation: shimmer 2s infinite linear;
   }
 
-  .loading-shimmer {
+  /* Enhanced button variants */
+  .btn-modern {
     position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
   }
 
-  .loading-shimmer::after {
+  .btn-modern::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: shimmer 2s infinite;
+    inset: 0;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  /* Achievement and gamification components */
-  .achievement-glow {
-    @apply animate-pulse shadow-elevation-3;
-    box-shadow: 0 0 30px theme('colors.warning.500');
+  .btn-modern:hover::before {
+    opacity: 1;
   }
 
-  .streak-fire {
-    @apply text-warning-400;
-    animation: float 2s ease-in-out infinite;
-  }
-
-  /* Enhanced card components */
-  .card-interactive {
-    @apply transition-all duration-300 hover:shadow-elevation-3 hover:-translate-y-1 cursor-pointer;
-  }
-
-  .card-glow-sport-football {
-    @apply shadow-lg hover:shadow-glow-blue transition-shadow duration-300;
-  }
-
-  .card-glow-sport-basketball {
-    @apply shadow-lg hover:shadow-glow-orange transition-shadow duration-300;
-  }
-
-  .card-glow-sport-american-football {
-    @apply shadow-lg hover:shadow-glow-purple transition-shadow duration-300;
+  .btn-modern:hover {
+    border-color: hsl(var(--primary) / 0.3);
+    transform: translateY(-1px);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      0 0 0 1px hsl(var(--primary) / 0.1);
   }
 }
 
 @layer utilities {
-  /* Enhanced spacing and layout utilities */
-  .spacing-comfortable {
-    @apply p-6 space-y-4;
-  }
-
-  .spacing-compact {
-    @apply p-4 space-y-2;
-  }
-
-  .spacing-loose {
-    @apply p-8 space-y-6;
-  }
+  /* Enhanced spacing utilities */
+  .space-xs > * + * { margin-top: var(--spacing-xs); }
+  .space-sm > * + * { margin-top: var(--spacing-sm); }
+  .space-md > * + * { margin-top: var(--spacing-md); }
+  .space-lg > * + * { margin-top: var(--spacing-lg); }
+  .space-xl > * + * { margin-top: var(--spacing-xl); }
+  .space-2xl > * + * { margin-top: var(--spacing-2xl); }
 
   /* Enhanced text utilities */
-  .text-shadow {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  .text-balance {
+    text-wrap: balance;
   }
 
-  .text-glow {
-    text-shadow: 0 0 8px currentColor;
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
 
   /* Enhanced background utilities */
-  .bg-pattern-dots {
-    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  .bg-grid {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
-  .bg-pattern-grid {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
 
-  /* Sport-specific utilities */
-  .border-sport-football {
-    @apply border-sport-football-primary/30;
-  }
-
-  .border-sport-basketball {
-    @apply border-sport-basketball-primary/30;
-  }
-
-  .border-sport-american-football {
-    @apply border-sport-american-football-primary/30;
-  }
-
-  /* State utilities */
-  .border-success {
-    @apply border-success-500/30;
-  }
-
-  .border-warning {
-    @apply border-warning-500/30;
-  }
-
-  .border-error {
-    @apply border-error-500/30;
-  }
-
-  .border-info {
-    @apply border-info-500/30;
-  }
-
-  /* Enhanced hover utilities */
-  .hover-scale {
-    @apply transition-transform duration-300 hover:scale-105;
-  }
-
-  .hover-lift {
-    @apply transition-transform duration-200 hover:-translate-y-1;
-  }
-
-  .hover-glow {
-    @apply transition-all duration-300 hover:shadow-glow-blue;
-  }
-
-  .hover-brighten {
-    @apply transition-all duration-300 hover:brightness-110;
-  }
-
-  /* Focus utilities */
+  /* Enhanced accessibility utilities */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-info-500 focus:ring-offset-2 focus:ring-offset-dark-DEFAULT;
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 
-  .focus-visible-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-DEFAULT;
-  }
-
-  /* Accessibility utilities */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -374,45 +400,62 @@
     white-space: nowrap;
     border: 0;
   }
+}
 
-  .not-sr-only {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-  }
+/* Enhanced animations */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes scale-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
 /* Enhanced responsive utilities */
 @media (max-width: 768px) {
-  .hover-scale {
-    @apply active:scale-105;
+  :root {
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 0.75rem;
+    --spacing-lg: 1rem;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
   }
-  
-  .hover-lift {
-    @apply active:-translate-y-1;
+
+  .interactive-scale:hover {
+    transform: none;
   }
-  
-  .interactive-scale {
-    @apply active:scale-105;
-  }
-  
-  .interactive-lift {
-    @apply active:-translate-y-1;
+
+  .interactive-scale:active {
+    transform: scale(0.98);
   }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .glass-card,
-  .glass-surface {
+  .glass-surface,
+  .glass-button {
     backdrop-filter: none;
-    background-color: theme('colors.dark.card');
-    border: 2px solid theme('colors.dark.border');
+    background: hsl(var(--card));
+    border: 2px solid hsl(var(--border));
   }
 }
 
@@ -424,16 +467,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  .print-only {
-    display: block !important;
   }
 }

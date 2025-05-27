@@ -6,29 +6,31 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow-sm hover:shadow-md active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 relative overflow-hidden",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-elevation-2 hover:shadow-elevation-3",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-elevation-2 hover:shadow-elevation-3",
+        outline: "border-2 border-input glass-button hover:bg-accent hover:text-accent-foreground hover:border-accent",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-elevation-1 hover:shadow-elevation-2",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline shadow-none",
-        // Enhanced variants
-        gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl",
-        neon: "bg-dark-card border-2 border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black hover:shadow-neon-blue/50",
-        glass: "backdrop-blur-md bg-white/10 border border-white/20 text-white hover:bg-white/20",
-        success: "bg-success-500 text-white hover:bg-success-600",
-        warning: "bg-warning-500 text-black hover:bg-warning-600",
-        error: "bg-error-500 text-white hover:bg-error-600",
-        info: "bg-info-500 text-white hover:bg-info-600",
+        // Enhanced variants with glassmorphism
+        gradient: "bg-gradient-brand text-primary-foreground shadow-glass hover:shadow-glass-lg interactive-lift",
+        neon: "glass-button border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground shadow-glow-blue",
+        glass: "glass-card text-foreground hover:shadow-glass-lg interactive-lift",
+        success: "bg-success-500 text-white hover:bg-success-600 shadow-elevation-2 hover:shadow-elevation-3",
+        warning: "bg-warning-500 text-black hover:bg-warning-600 shadow-elevation-2 hover:shadow-elevation-3",
+        error: "bg-error-500 text-white hover:bg-error-600 shadow-elevation-2 hover:shadow-elevation-3",
+        info: "bg-info-500 text-white hover:bg-info-600 shadow-elevation-2 hover:shadow-elevation-3",
+        modern: "btn-modern interactive-scale",
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
+        sm: "h-9 rounded-md px-3 text-xs",
         lg: "h-12 rounded-lg px-8 text-base font-semibold",
+        xl: "h-14 rounded-xl px-10 text-lg font-bold",
         icon: "h-10 w-10",
       },
     },
