@@ -40,6 +40,9 @@ export const EnhancedInteractiveButton: React.FC<EnhancedInteractiveButtonProps>
     className
   );
 
+  // Separate motion props from HTML button props
+  const { onAnimationStart, onAnimationEnd, onAnimationIteration, ...buttonProps } = props;
+
   return (
     <HoverEffect variant={hoverEffect} intensity="moderate">
       <RippleEffect>
@@ -48,7 +51,7 @@ export const EnhancedInteractiveButton: React.FC<EnhancedInteractiveButtonProps>
           whileTap={{ scale: 0.98 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
           disabled={loading || props.disabled}
-          {...props}
+          {...buttonProps}
         >
           <StateTransition state={loading ? 'loading' : success ? 'success' : 'default'}>
             {loading ? (

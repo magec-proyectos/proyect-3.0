@@ -62,13 +62,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, microInteraction = "lift", asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : motion.button
 
+    // Separate motion props from HTML button props
+    const { onAnimationStart, onAnimationEnd, onAnimationIteration, ...buttonProps } = props
+
     const buttonContent = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        {...props}
+        {...buttonProps}
       >
         {children}
       </Comp>
