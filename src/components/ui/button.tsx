@@ -2,6 +2,8 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion } from "framer-motion"
+import { HoverEffect, RippleEffect } from "./advanced-micro-interactions"
 
 import { cn } from "@/lib/utils"
 
@@ -33,10 +35,19 @@ const buttonVariants = cva(
         xl: "h-14 rounded-xl px-10 text-lg font-bold",
         icon: "h-10 w-10",
       },
+      microInteraction: {
+        none: "",
+        lift: "",
+        glow: "",
+        tilt: "",
+        shimmer: "",
+        ripple: ""
+      }
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      microInteraction: "lift"
     },
   }
 )
@@ -48,14 +59,39 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
+  ({ className, variant, size, microInteraction = "lift", asChild = false, children, ...props }, ref) => {
+    const Comp = asChild ? Slot : motion.button
+
+    const buttonContent = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
         {...props}
-      />
+      >
+        {children}
+      </Comp>
+    )
+
+    if (microInteraction === "none") {
+      return buttonContent
+    }
+
+    if (microInteraction === "ripple") {
+      return (
+        <RippleEffect>
+          <HoverEffect variant="lift" intensity="subtle">
+            {buttonContent}
+          </HoverEffect>
+        </RippleEffect>
+      )
+    }
+
+    return (
+      <HoverEffect variant={microInteraction || "lift"} intensity="moderate">
+        {buttonContent}
+      </HoverEffect>
     )
   }
 )
