@@ -6,6 +6,7 @@ import EarningsSectionBackground from '../earnings/EarningsSectionBackground';
 import EarningsSectionHeader from '../earnings/EarningsSectionHeader';
 import ChartSection from '../earnings/ChartSection';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { AnimatedCard } from '@/components/ui/micro-interaction';
 
 const EarningsSection: React.FC = React.memo(() => {
   const [activeChart, setActiveChart] = useState<'earnings' | 'winRate' | 'roi'>('earnings');
@@ -14,9 +15,9 @@ const EarningsSection: React.FC = React.memo(() => {
   const [chartKey, setChartKey] = useState(0);
   const isMobile = useIsMobile();
   
-  // Calculator state elevated to parent component with better defaults
-  const [monthlyBets, setMonthlyBets] = useState(isMobile ? 20 : 30);
-  const [averageBet, setAverageBet] = useState(isMobile ? 30 : 50);
+  // Enhanced calculator state with better defaults
+  const [monthlyBets, setMonthlyBets] = useState(isMobile ? 25 : 35);
+  const [averageBet, setAverageBet] = useState(isMobile ? 40 : 65);
   
   // Reset animation when chart type or time range changes
   useEffect(() => {
@@ -24,11 +25,11 @@ const EarningsSection: React.FC = React.memo(() => {
     const timer = setTimeout(() => {
       setChartKey(prev => prev + 1);
       setAnimateChart(true);
-    }, 100);
+    }, 150);
     return () => clearTimeout(timer);
   }, [activeChart, timeRange]);
 
-  // Memoize base data selection
+  // Enhanced base data selection with memoization
   const baseData = useMemo(() => {
     return activeChart === 'earnings' 
       ? earningsData[timeRange] 
@@ -37,15 +38,13 @@ const EarningsSection: React.FC = React.memo(() => {
         : roiData[timeRange];
   }, [activeChart, timeRange]);
   
-  // Enhanced data calculation that responds to calculator inputs
+  // Enhanced data calculation with better scaling algorithm
   const activeData = useMemo(() => {
-    // Create a more realistic scaling factor based on betting volume and size
-    const volumeScale = monthlyBets / 30; // Base of 30 bets
-    const sizeScale = averageBet / 50; // Base of $50 per bet
-    const combinedScale = (volumeScale + sizeScale) / 2; // Average of both factors
+    const volumeScale = Math.log(monthlyBets / 30 + 1) + 0.5; // Logarithmic scaling
+    const sizeScale = Math.log(averageBet / 50 + 1) + 0.5;
+    const combinedScale = (volumeScale + sizeScale) / 2;
     
     return baseData.map(item => {
-      // Apply scaling more intelligently based on chart type
       if (activeChart === 'earnings') {
         return {
           ...item,
@@ -53,8 +52,8 @@ const EarningsSection: React.FC = React.memo(() => {
           withoutBet3: Math.round(item.withoutBet3 * combinedScale)
         };
       } else {
-        // For winRate and ROI, scaling should be more subtle
-        const subtleScale = 1 + (combinedScale - 1) * 0.3; // Reduce the impact
+        // More subtle scaling for percentages
+        const subtleScale = 1 + (combinedScale - 1) * 0.25;
         return {
           ...item,
           withBet3: Math.round(item.withBet3 * subtleScale * 10) / 10,
@@ -78,55 +77,58 @@ const EarningsSection: React.FC = React.memo(() => {
   }, [activeData]);
 
   return (
-    <section className={`${isMobile ? 'py-12' : 'py-16 md:py-24'} bg-gradient-to-b from-dark to-dark-darker relative overflow-hidden`}>
-      {/* Background elements */}
+    <section className={`${isMobile ? 'py-16' : 'py-20 md:py-28'} bg-gradient-to-b from-dark via-dark-darker to-dark relative overflow-hidden`}>
+      {/* Enhanced background elements */}
       <EarningsSectionBackground />
       
-      <div className={`container ${isMobile ? 'px-3' : 'px-4'} relative z-10`}>
-        {/* Section header */}
-        <EarningsSectionHeader />
-        
-        {/* Chart controls */}
-        <ChartControls 
-          activeChart={activeChart}
-          setActiveChart={setActiveChart}
-          timeRange={timeRange}
-          setTimeRange={setTimeRange}
-        />
-        
-        {/* Chart display with integrated calculator */}
-        <ChartSection 
-          activeChart={activeChart}
-          timeRange={timeRange}
-          chartKey={chartKey}
-          animateChart={animateChart}
-          activeData={activeData}
-          chartConfig={chartConfig}
-          getPercentageChange={getPercentageChange}
-          // Pass calculator state and setters
-          monthlyBets={monthlyBets}
-          setMonthlyBets={setMonthlyBets}
-          averageBet={averageBet}
-          setAverageBet={setAverageBet}
-        />
-        
-        {/* Enhanced explanation text - More concise on mobile */}
-        <div className={`text-center ${isMobile ? 'mt-6' : 'mt-8'} text-sm text-gray-400 max-w-3xl mx-auto`}>
-          {isMobile ? (
-            <p>
-              * Charts update with your settings: <span className="text-neon-blue">{monthlyBets} bets/month</span> at <span className="text-neon-blue">${averageBet} avg</span>
-            </p>
-          ) : (
-            <>
-              <p className="mb-2">
-                * Charts reflect your betting parameters: <span className="text-neon-blue">{monthlyBets} bets/month</span> at <span className="text-neon-blue">${averageBet} average</span>
-              </p>
-              <p>
-                Calculations based on historical performance data. Bet 3.0's AI technology analyzes 20+ competitions to improve your betting decisions.
-              </p>
-            </>
-          )}
-        </div>
+      <div className={`container ${isMobile ? 'px-4' : 'px-6'} relative z-10`}>
+        <AnimatedCard intensity="subtle">
+          {/* Enhanced section header */}
+          <EarningsSectionHeader />
+          
+          {/* Enhanced chart controls */}
+          <ChartControls 
+            activeChart={activeChart}
+            setActiveChart={setActiveChart}
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
+          />
+          
+          {/* Enhanced chart display with better integration */}
+          <ChartSection 
+            activeChart={activeChart}
+            timeRange={timeRange}
+            chartKey={chartKey}
+            animateChart={animateChart}
+            activeData={activeData}
+            chartConfig={chartConfig}
+            getPercentageChange={getPercentageChange}
+            monthlyBets={monthlyBets}
+            setMonthlyBets={setMonthlyBets}
+            averageBet={averageBet}
+            setAverageBet={setAverageBet}
+          />
+          
+          {/* Enhanced explanation with better styling */}
+          <div className={`text-center ${isMobile ? 'mt-8' : 'mt-12'} space-y-4`}>
+            <div className="text-sm text-gray-400 max-w-4xl mx-auto leading-relaxed">
+              {isMobile ? (
+                <p className="bg-dark-card/30 backdrop-blur-sm border border-gray-700/50 rounded-lg p-4">
+                  * Charts update with your settings: <span className="text-neon-blue font-semibold">{monthlyBets} bets/month</span> at <span className="text-neon-blue font-semibold">${averageBet} avg</span>
+                </p>
+              ) : (
+                <div className="bg-dark-card/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 space-y-3">
+                  <p>
+                    * Charts reflect your betting parameters: <span className="text-neon-blue font-semibold">{monthlyBets} bets/month</span> at <span className="text-neon-blue font-semibold">${averageBet} average bet size</span>
+                  </p>
+                  <p className="text-xs">
+                    Calculations based on historical performance data. Bet 3.0's AI technology analyzes 20+ competitions to improve your betting decisions and maximize your potential returns.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </AnimatedCard>
       </div>
     </section>
   );

@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { EnhancedButton } from '@/components/ui/enhanced-button';
+import { AnimatedCard } from '@/components/ui/micro-interaction';
 
 const SectionHeader: React.FC = () => {
   const fadeIn = {
@@ -16,38 +17,74 @@ const SectionHeader: React.FC = () => {
 
   return (
     <>
-      {/* Main Content - Header with button next to heading */}
+      {/* Enhanced main content section */}
       <motion.div 
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={fadeIn}
-        className="mb-8"
+        className="mb-12"
       >
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-          <div className="flex flex-col">
-            <h2 className="text-5xl sm:text-5xl font-bold text-white leading-tight relative mb-4">
-              Export bets to your 
-              <span className="relative ml-2">
-                <span className="text-neon-blue">favorite platforms</span>
-                <span className="absolute bottom-0 left-0 w-full h-1 bg-neon-blue/30 rounded-full"></span>
-              </span>
-            </h2>
+        <AnimatedCard intensity="subtle">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            
+            {/* Enhanced heading section */}
+            <div className="flex-1 space-y-6">
+              {/* Badge */}
+              <motion.div
+                className="flex items-center gap-2 w-fit"
+                variants={fadeIn}
+              >
+                <div className="flex items-center gap-2 bg-neon-blue/10 border border-neon-blue/30 rounded-full px-4 py-2">
+                  <Sparkles className="w-4 h-4 text-neon-blue" />
+                  <span className="text-sm text-neon-blue font-medium">
+                    Platform Integration
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Main heading with enhanced styling */}
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Export bets to your 
+                <span className="relative ml-3">
+                  <span className="bg-gradient-to-r from-neon-blue via-neon-lime to-neon-blue bg-clip-text text-transparent">
+                    favorite platforms
+                  </span>
+                  <motion.div 
+                    className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-neon-blue to-neon-lime rounded-full"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: '100%' }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                  />
+                </span>
+              </h2>
+            </div>
+            
+            {/* Enhanced CTA section */}
+            <div className="flex flex-col items-start lg:items-end space-y-6 lg:max-w-md">
+              <motion.p 
+                className="text-lg text-gray-300 leading-relaxed"
+                variants={fadeIn}
+              >
+                Create your betting strategies and export them directly to your favorite casinos 
+                and betting platforms to maximize your winning potential.
+              </motion.p>
+              
+              <motion.div variants={fadeIn}>
+                <EnhancedButton 
+                  variant="neon" 
+                  size="lg"
+                  animation="glow"
+                  icon={<ArrowRight className="w-5 h-5" />}
+                  iconPosition="right"
+                  className="font-semibold px-8 py-4 rounded-xl shadow-xl hover:shadow-neon-blue/30 transition-all duration-300"
+                >
+                  Explore all integrations
+                </EnhancedButton>
+              </motion.div>
+            </div>
           </div>
-          
-          <div className="flex flex-col items-start">
-            <p className="text-base text-gray-300 max-w-lg mb-4">
-              Create your betting strategies and export them directly to your favorite casinos and betting platforms to maximize your winning potential.
-            </p>
-            <Button 
-              variant="outline" 
-              className="rounded-full border-neon-blue bg-neon-blue/10 text-neon-blue hover:bg-neon-blue hover:text-white px-8 py-6 h-auto text-lg font-medium flex items-center whitespace-nowrap group transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-neon-blue/20"
-            >
-              Explore all integrations 
-              <ArrowRight className="ml-3 transition-transform duration-300 group-hover:translate-x-2" size={22} />
-            </Button>
-          </div>
-        </div>
+        </AnimatedCard>
       </motion.div>
     </>
   );
