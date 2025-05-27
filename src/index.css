@@ -7,40 +7,49 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 199 89% 48%;
+    --primary: 210 79% 46%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 88 50% 53%;
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 18%;
+    --muted: 0 0% 15%;
     --muted-foreground: 0 0% 70%;
 
-    --accent: 199 89% 48%;
+    --accent: 210 79% 46%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 4 90% 58%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 25%;
-    --input: 0 0% 18%;
-    --ring: 199 89% 48%;
+    --border: 0 0% 22%;
+    --input: 0 0% 15%;
+    --ring: 210 79% 46%;
 
     --radius: 0.5rem;
     
-    --neon-blue-rgb: 79, 195, 247;
-    --neon-lime-rgb: 139, 195, 74;
-    --soft-blue-rgb: 100, 181, 246;
-    --purple-500-rgb: 149, 117, 205;
+    /* Enhanced color variables */
+    --surface-primary: 26 26 26;
+    --surface-secondary: 42 42 42;
+    --surface-tertiary: 58 58 58;
+    --surface-elevated: 64 64 64;
+    
+    --brand-blue: 33 150 243;
+    --brand-lime: 139 195 74;
+    
+    --success-rgb: 76 175 80;
+    --warning-rgb: 255 193 7;
+    --error-rgb: 244 67 54;
+    --info-rgb: 33 150 243;
   }
 }
 
@@ -50,85 +59,94 @@
   }
 
   body {
-    @apply bg-dark text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+    line-height: 1.5;
   }
 
+  /* Enhanced scrollbar styling */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #1a1a1a;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #404040;
+    background: theme('colors.dark.DEFAULT');
     border-radius: 4px;
   }
 
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.dark.border');
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #505050;
+    background: theme('colors.neutral.600');
   }
 
-  .text-glow {
-    text-shadow: 0 0 8px var(--tw-shadow-color);
+  /* Enhanced focus styles */
+  :focus-visible {
+    outline: 2px solid theme('colors.info.500');
+    outline-offset: 2px;
   }
 
-  .neon-border {
-    position: relative;
-  }
-
-  .neon-border::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    border-radius: var(--radius);
-    z-index: -1;
-    background: linear-gradient(45deg, #4FC3F7, #8BC34A);
-    opacity: 0.5;
-    filter: blur(6px);
-  }
-
-  .glass-card {
-    backdrop-filter: blur(8px);
-    background-color: rgba(26, 26, 26, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Selection styles */
+  ::selection {
+    background: theme('colors.info.500');
+    color: white;
   }
 }
 
 @layer components {
+  /* Enhanced gradient text utilities */
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, #4FC3F7, #8BC34A);
+    background-image: theme('backgroundImage.gradient-brand');
   }
 
-  .text-gradient {
+  .gradient-text-sport-football {
     @apply bg-clip-text text-transparent;
+    background-image: theme('backgroundImage.gradient-sport-football');
   }
 
-  .gradient-soft-blue {
-    background-image: linear-gradient(135deg, #64B5F6, #4DD0E1);
+  .gradient-text-sport-basketball {
+    @apply bg-clip-text text-transparent;
+    background-image: theme('backgroundImage.gradient-sport-basketball');
   }
 
-  .gradient-soft-green {
-    background-image: linear-gradient(135deg, #81C784, #AED581);
+  .gradient-text-sport-american-football {
+    @apply bg-clip-text text-transparent;
+    background-image: theme('backgroundImage.gradient-sport-american-football');
   }
 
-  .gradient-soft-purple {
-    background-image: linear-gradient(135deg, #9575CD, #64B5F6);
+  /* Enhanced surface components */
+  .surface-primary {
+    @apply bg-surface-primary border border-dark-border;
   }
 
-  .casino-felt {
-    background-image: radial-gradient(circle at center, #0e5735 0%, #0a3b24 70%);
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  .surface-secondary {
+    @apply bg-surface-secondary border border-dark-border;
   }
 
-  /* Interactive feedback */
+  .surface-elevated {
+    @apply bg-surface-elevated border border-dark-border shadow-elevation-2;
+  }
+
+  /* Glass effect components */
+  .glass-card {
+    backdrop-filter: blur(16px);
+    background-color: rgba(26, 26, 26, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-surface {
+    backdrop-filter: blur(12px);
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Interactive feedback components */
   .interactive-scale {
     @apply transition-all duration-200 hover:scale-105 active:scale-95;
   }
@@ -138,26 +156,187 @@
   }
 
   .interactive-glow:hover {
-    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+    box-shadow: theme('boxShadow.glow-blue');
   }
 
   .interactive-lift {
-    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-elevation-2;
   }
 
-  /* Enhanced utility classes */
-  .shadow-glow {
-    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+  /* Sport-themed components */
+  .sport-card-football {
+    @apply bg-gradient-sport-football text-white shadow-glow-blue;
   }
 
-  .shadow-glow-green {
-    box-shadow: 0 0 8px rgba(139, 195, 74, 0.3);
+  .sport-card-basketball {
+    @apply bg-gradient-sport-basketball text-white shadow-glow-orange;
   }
 
-  .shadow-glow-purple {
-    box-shadow: 0 0 8px rgba(149, 117, 205, 0.3);
+  .sport-card-american-football {
+    @apply bg-gradient-sport-american-football text-white shadow-glow-purple;
   }
 
+  /* Enhanced button variants */
+  .btn-sport-football {
+    @apply bg-sport-football-primary hover:bg-sport-football-secondary text-white shadow-lg hover:shadow-glow-blue transition-all duration-300;
+  }
+
+  .btn-sport-basketball {
+    @apply bg-sport-basketball-primary hover:bg-sport-basketball-secondary text-white shadow-lg hover:shadow-glow-orange transition-all duration-300;
+  }
+
+  .btn-sport-american-football {
+    @apply bg-sport-american-football-primary hover:bg-sport-american-football-secondary text-white shadow-lg hover:shadow-glow-purple transition-all duration-300;
+  }
+
+  /* State feedback components */
+  .feedback-success {
+    @apply bg-success-500/10 border-success-500/30 text-success-400;
+  }
+
+  .feedback-warning {
+    @apply bg-warning-500/10 border-warning-500/30 text-warning-400;
+  }
+
+  .feedback-error {
+    @apply bg-error-500/10 border-error-500/30 text-error-400;
+  }
+
+  .feedback-info {
+    @apply bg-info-500/10 border-info-500/30 text-info-400;
+  }
+
+  /* Casino-themed components */
+  .casino-felt {
+    background: theme('colors.casino.felt');
+    background-image: radial-gradient(circle at center, theme('colors.casino.felt') 0%, rgba(11, 77, 44, 0.8) 70%);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .casino-chip {
+    @apply rounded-full border-4 border-white/20 shadow-lg;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 50%);
+  }
+
+  /* Loading and skeleton components */
+  .loading-skeleton {
+    @apply animate-pulse bg-neutral-600/30 rounded;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    background-size: 200px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .loading-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loading-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  /* Achievement and gamification components */
+  .achievement-glow {
+    @apply animate-pulse shadow-elevation-3;
+    box-shadow: 0 0 30px theme('colors.warning.500');
+  }
+
+  .streak-fire {
+    @apply text-warning-400;
+    animation: float 2s ease-in-out infinite;
+  }
+
+  /* Enhanced card components */
+  .card-interactive {
+    @apply transition-all duration-300 hover:shadow-elevation-3 hover:-translate-y-1 cursor-pointer;
+  }
+
+  .card-glow-sport-football {
+    @apply shadow-lg hover:shadow-glow-blue transition-shadow duration-300;
+  }
+
+  .card-glow-sport-basketball {
+    @apply shadow-lg hover:shadow-glow-orange transition-shadow duration-300;
+  }
+
+  .card-glow-sport-american-football {
+    @apply shadow-lg hover:shadow-glow-purple transition-shadow duration-300;
+  }
+}
+
+@layer utilities {
+  /* Enhanced spacing and layout utilities */
+  .spacing-comfortable {
+    @apply p-6 space-y-4;
+  }
+
+  .spacing-compact {
+    @apply p-4 space-y-2;
+  }
+
+  .spacing-loose {
+    @apply p-8 space-y-6;
+  }
+
+  /* Enhanced text utilities */
+  .text-shadow {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  /* Enhanced background utilities */
+  .bg-pattern-dots {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  .bg-pattern-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Sport-specific utilities */
+  .border-sport-football {
+    @apply border-sport-football-primary/30;
+  }
+
+  .border-sport-basketball {
+    @apply border-sport-basketball-primary/30;
+  }
+
+  .border-sport-american-football {
+    @apply border-sport-american-football-primary/30;
+  }
+
+  /* State utilities */
+  .border-success {
+    @apply border-success-500/30;
+  }
+
+  .border-warning {
+    @apply border-warning-500/30;
+  }
+
+  .border-error {
+    @apply border-error-500/30;
+  }
+
+  .border-info {
+    @apply border-info-500/30;
+  }
+
+  /* Enhanced hover utilities */
   .hover-scale {
     @apply transition-transform duration-300 hover:scale-105;
   }
@@ -166,226 +345,49 @@
     @apply transition-transform duration-200 hover:-translate-y-1;
   }
 
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow-blue;
+  }
+
+  .hover-brighten {
+    @apply transition-all duration-300 hover:brightness-110;
+  }
+
+  /* Focus utilities */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-dark;
+    @apply focus:outline-none focus:ring-2 focus:ring-info-500 focus:ring-offset-2 focus:ring-offset-dark-DEFAULT;
   }
 
-  .loading-skeleton {
-    @apply animate-pulse bg-gray-600/30 rounded;
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-DEFAULT;
   }
 
-  .achievement-glow {
-    @apply animate-pulse shadow-lg shadow-yellow-400/30;
+  /* Accessibility utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
-  .streak-fire {
-    @apply animate-bounce-micro text-orange-400;
-  }
-
-  .card-interactive {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer;
-  }
-
-  .card-glow {
-    @apply shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow duration-300;
-  }
-
-  .micro-bounce {
-    @apply hover:animate-bounce-micro;
-  }
-
-  .micro-pulse {
-    @apply hover:animate-pulse-soft;
-  }
-
-  .micro-glow {
-    @apply hover:animate-glow-soft;
+  .not-sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
   }
 }
 
-@layer utilities {
-  .bg-dark {
-    background-color: #121212;
-  }
-
-  .bg-dark-lighter {
-    background-color: #1e1e1e;
-  }
-
-  .bg-dark-card {
-    background-color: #1a1a1a;
-  }
-
-  .bg-dark-darker {
-    background-color: #0d0d0d;
-  }
-
-  .text-shadow {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  }
-
-  .glass-effect {
-    @apply backdrop-blur-md bg-black/40 border border-soft-blue/20;
-  }
-
-  .sport-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .sport-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  }
-
-  .sport-active {
-    position: relative;
-    z-index: 10;
-  }
-
-  .button-glow:hover {
-    box-shadow: 0 0 10px rgba(var(--color-rgb), 0.4);
-  }
-
-  /* Enhanced color utilities */
-  .text-soft-blue {
-    color: #64B5F6;
-  }
-
-  .text-soft-green {
-    color: #81C784;
-  }
-
-  .text-soft-cyan {
-    color: #4DD0E1;
-  }
-
-  .text-soft-lime {
-    color: #AED581;
-  }
-
-  .text-soft-purple {
-    color: #9575CD;
-  }
-
-  .bg-soft-blue {
-    background-color: #64B5F6;
-  }
-
-  .bg-soft-green {
-    background-color: #81C784;
-  }
-
-  .bg-soft-purple {
-    background-color: #9575CD;
-  }
-
-  .border-soft-blue {
-    border-color: #64B5F6;
-  }
-
-  .border-soft-green {
-    border-color: #81C784;
-  }
-
-  .border-soft-purple {
-    border-color: #9575CD;
-  }
-
-  /* Gradient utilities */
-  .gradient-soft {
-    background: linear-gradient(135deg, #4FC3F7 0%, #8BC34A 100%);
-  }
-
-  .gradient-soft-vertical {
-    background: linear-gradient(180deg, #4FC3F7 0%, #8BC34A 100%);
-  }
-}
-
-/* Enhanced animations */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spin-wheel {
-  animation: spin 5s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
-}
-
-@keyframes chipGlow {
-  0%, 100% { box-shadow: 0 0 3px rgba(255, 255, 255, 0.6); }
-  50% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
-}
-
-.chip-glow {
-  animation: chipGlow 3s infinite;
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; transform: translateY(5px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-}
-
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-}
-
-@keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes glow-soft {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.05); }
-}
-
-@keyframes bounce-micro {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-
-@keyframes shake-subtle {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  75% { transform: translateX(1px); }
-}
-
-@keyframes scale-breath {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
-/* New animation classes */
-.animate-float-gentle {
-  animation: float-gentle 4s ease-in-out infinite;
-}
-
-.animate-pulse-soft {
-  animation: pulse-soft 3s ease-in-out infinite;
-}
-
-.animate-glow-soft {
-  animation: glow-soft 3s ease-in-out infinite;
-}
-
-.animate-bounce-micro {
-  animation: bounce-micro 2s ease-in-out infinite;
-}
-
-.animate-shake-subtle {
-  animation: shake-subtle 0.5s ease-in-out;
-}
-
-.animate-scale-breath {
-  animation: scale-breath 4s ease-in-out infinite;
-}
-
-/* Responsive improvements */
+/* Enhanced responsive utilities */
 @media (max-width: 768px) {
   .hover-scale {
     @apply active:scale-105;
@@ -401,5 +403,37 @@
   
   .interactive-lift {
     @apply active:-translate-y-1;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card,
+  .glass-surface {
+    backdrop-filter: none;
+    background-color: theme('colors.dark.card');
+    border: 2px solid theme('colors.dark.border');
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
   }
 }
