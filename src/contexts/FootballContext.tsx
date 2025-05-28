@@ -103,12 +103,15 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Enhanced data hooks
+  // Enhanced data hooks with corrected sport mapping
   const sportTypeMap = {
     football: 'football',
     basketball: 'basketball', 
     americanFootball: 'american-football'
   };
+
+  console.log('FootballContext - selectedSport:', selectedSport);
+  console.log('FootballContext - mapped sport type:', sportTypeMap[selectedSport]);
 
   const matchesQuery = useRealTimeSportsMatches(sportTypeMap[selectedSport]);
   const competitionsQuery = useEnhancedCompetitions(sportTypeMap[selectedSport]);
@@ -118,11 +121,20 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Listen for real-time updates on multiple tables
   const matchUpdates = useRealTimeUpdates('sports_matches');
   const competitionUpdates = useRealTimeUpdates('sports_competitions');
+
+  // Custom setSelectedSport with logging
+  const handleSetSelectedSport = (sport: 'football' | 'basketball' | 'americanFootball') => {
+    console.log('FootballContext - setSelectedSport called with:', sport);
+    setSelectedSport(sport);
+    // Reset selected league when sport changes
+    setSelectedLeague('');
+    setSelectedMatch('');
+  };
   
   // Auto-initialize data on mount with enhanced logic
   useEffect(() => {
     const autoInitialize = async () => {
-      console.log('Enhanced Football context initializing...');
+      console.log('Enhanced Football context initializing for sport:', selectedSport);
       
       if (!matchesQuery.data || matchesQuery.data.length === 0) {
         console.log('No initial data found, triggering enhanced auto-sync...');
@@ -146,7 +158,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (!isAutoSyncActive) return;
 
     const interval = setInterval(async () => {
-      console.log('Performing enhanced periodic auto-sync...');
+      console.log('Performing enhanced periodic auto-sync for sport:', selectedSport);
       try {
         await triggerSportsScraping();
         setTimeout(() => {
@@ -187,6 +199,9 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const isLoading = matchesQuery.isLoading || competitionsQuery.isLoading;
   const error = matchesQuery.error?.message || competitionsQuery.error?.message || null;
 
+  console.log('FootballContext - matches loaded:', matches.length);
+  console.log('FootballContext - competitions loaded:', competitions.length);
+
   // Create enhanced leagues from competitions data
   const leagues: League[] = competitions.map(comp => ({
     id: comp.external_id,
@@ -200,7 +215,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const filteredMatches = React.useMemo(() => {
     let filtered = matches;
 
-    console.log('Enhanced filtering matches - total:', filtered.length);
+    console.log('Enhanced filtering matches - total:', filtered.length, 'for sport:', selectedSport);
 
     // Search filter
     if (searchQuery) {
@@ -247,7 +262,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
 
     return filtered;
-  }, [matches, searchQuery, filters]);
+  }, [matches, searchQuery, filters, selectedSport]);
 
   // Favorites management
   const toggleFavoriteTeam = (teamId: string) => {
@@ -276,7 +291,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const triggerDataRefresh = async () => {
     try {
-      console.log('Triggering enhanced manual data refresh...');
+      console.log('Triggering enhanced manual data refresh for sport:', selectedSport);
       await matchesQuery.refetch();
       await competitionsQuery.refetch();
       setLastUpdate(new Date());
@@ -288,7 +303,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const value: FootballContextType = {
     selectedSport,
-    setSelectedSport,
+    setSelectedSport: handleSetSelectedSport,
     selectedLeague,
     setSelectedLeague,
     selectedMatch,

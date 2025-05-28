@@ -19,6 +19,13 @@ const SportSelectionCard: React.FC<SportSelectionCardProps> = ({
     { id: 'americanFootball', name: 'American Football', icon: '🏈' }
   ];
 
+  const handleSportChange = (sportId: string) => {
+    console.log('SportSelectionCard - changing sport from', selectedSport, 'to', sportId);
+    onSportChange(sportId);
+  };
+
+  console.log('SportSelectionCard - current selectedSport:', selectedSport);
+
   return (
     <Card className="bg-dark-card border-dark-border">
       <CardHeader>
@@ -33,11 +40,11 @@ const SportSelectionCard: React.FC<SportSelectionCardProps> = ({
             <Button
               key={sport.id}
               variant={selectedSport === sport.id ? "default" : "outline"}
-              onClick={() => onSportChange(sport.id)}
-              className={`h-16 flex flex-col gap-2 ${
+              onClick={() => handleSportChange(sport.id)}
+              className={`h-16 flex flex-col gap-2 transition-all ${
                 selectedSport === sport.id 
-                  ? 'bg-neon-blue text-black border-neon-blue' 
-                  : 'bg-transparent text-gray-300 border-gray-600'
+                  ? 'bg-neon-blue text-black border-neon-blue hover:bg-neon-blue/90' 
+                  : 'bg-transparent text-gray-300 border-gray-600 hover:bg-gray-600/20 hover:text-white'
               }`}
             >
               <span className="text-2xl">{sport.icon}</span>

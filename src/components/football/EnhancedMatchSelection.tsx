@@ -25,6 +25,10 @@ const EnhancedMatchSelection = () => {
     isLoading
   } = useFootball();
 
+  console.log('EnhancedMatchSelection - selectedSport:', selectedSport);
+  console.log('EnhancedMatchSelection - leagues:', leagues);
+  console.log('EnhancedMatchSelection - filteredMatches:', filteredMatches);
+
   const handleFindMatch = () => {
     // This would trigger a refetch or navigate to match details
     console.log('Finding match:', selectedMatch);

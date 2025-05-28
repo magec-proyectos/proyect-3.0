@@ -10,7 +10,6 @@ import { AdminProvider } from '@/contexts/AdminContext';
 import Index from '@/pages/Index';
 import Sports from '@/pages/Sports';
 import AdvancedDashboard from '@/pages/AdvancedDashboard';
-import EnhancedMatchSelection from '@/components/football/EnhancedMatchSelection';
 
 const queryClient = new QueryClient();
 
@@ -27,7 +26,6 @@ function App() {
                     <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/sports" element={<Sports />} />
-                      <Route path="/enhanced-match-selection" element={<EnhancedMatchSelection />} />
                       <Route path="/advanced-dashboard" element={<AdvancedDashboard />} />
                     </Routes>
                   </div>

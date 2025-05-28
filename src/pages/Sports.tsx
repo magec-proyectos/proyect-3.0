@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { FootballProvider } from '@/contexts/FootballContext';
 
 // Updated components
 import EnhancedSidebar from '@/components/football/EnhancedSidebar';
@@ -11,7 +10,7 @@ import PopularPicksCarousel from '@/components/football/PopularPicksCarousel';
 import ImprovedBetBuilder from '@/components/football/ImprovedBetBuilder';
 import RealTimeDataIndicator from '@/components/football/RealTimeDataIndicator';
 
-const SportsContent = () => {
+const Sports = () => {
   const [selectedView, setSelectedView] = useState<'all' | 'live' | 'upcoming' | 'favorites'>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -118,14 +117,6 @@ const SportsContent = () => {
         )}
       </main>
     </div>
-  );
-};
-
-const Sports = () => {
-  return (
-    <FootballProvider>
-      <SportsContent />
-    </FootballProvider>
   );
 };
 
