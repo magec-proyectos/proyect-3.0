@@ -30,7 +30,7 @@ const premiumButtonVariants = cva(
 )
 
 export interface PremiumButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag' | 'onDragEnd' | 'onDragEnter' | 'onDragExit' | 'onDragLeave' | 'onDragOver' | 'onDragStart' | 'onDrop' | 'draggable'>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' | 'onTransitionEnd'>,
     VariantProps<typeof premiumButtonVariants> {
   asChild?: boolean
 }
