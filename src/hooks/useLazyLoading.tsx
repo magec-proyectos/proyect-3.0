@@ -28,7 +28,7 @@ export const useLazyLoading = (options: UseLazyLoadingOptions = {}) => {
     error: null
   });
 
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {

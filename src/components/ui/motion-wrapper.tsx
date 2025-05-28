@@ -13,6 +13,8 @@ interface MotionWrapperProps extends AnimationProps {
     position?: boolean;
     rotation?: boolean;
   };
+  whileHover?: any;
+  whileTap?: any;
 }
 
 const MotionWrapper: React.FC<MotionWrapperProps> = ({
