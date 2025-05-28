@@ -1,402 +1,89 @@
 
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useAnimation, useInView } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/utils';
 
-// Enhanced hover effects for buttons and cards
+// Enhanced hover effects with context awareness
 interface HoverEffectProps {
   children: React.ReactNode;
-  variant?: 'lift' | 'glow' | 'tilt' | 'shimmer' | 'ripple' | 'magnetic';
+  variant?: 'lift' | 'glow' | 'tilt' | 'shimmer' | 'ripple' | 'scale' | 'bounce';
   intensity?: 'subtle' | 'moderate' | 'strong';
   className?: string;
+  disabled?: boolean;
 }
 
 export const HoverEffect: React.FC<HoverEffectProps> = ({
   children,
   variant = 'lift',
   intensity = 'moderate',
-  className = ""
+  className,
+  disabled = false
 }) => {
-  const intensityMap = {
-    subtle: { scale: 0.5, distance: 2, rotation: 1 },
-    moderate: { scale: 1, distance: 4, rotation: 3 },
-    strong: { scale: 1.5, distance: 8, rotation: 6 }
-  };
+  const prefersReducedMotion = useReducedMotion();
   
-  const { scale, distance, rotation } = intensityMap[intensity];
+  if (disabled || prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  const intensityValues = {
+    subtle: { scale: 1.02, y: -2, glow: 8, rotate: 1 },
+    moderate: { scale: 1.05, y: -4, glow: 12, rotate: 3 },
+    strong: { scale: 1.08, y: -6, glow: 16, rotate: 5 }
+  };
+
+  const values = intensityValues[intensity];
 
   const variants = {
     lift: {
-      rest: { y: 0, scale: 1, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" },
+      rest: { y: 0, scale: 1, boxShadow: "0 1px 3px rgba(0,0,0,0.12)" },
       hover: { 
-        y: -distance * 2, 
-        scale: 1 + (0.02 * scale),
-        boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
+        y: -values.y, 
+        scale: values.scale,
+        boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
         transition: { type: "spring", stiffness: 400, damping: 25 }
       }
     },
     glow: {
       rest: { boxShadow: "0 0 0px rgba(59, 130, 246, 0)" },
       hover: { 
-        boxShadow: `0 0 ${20 * scale}px rgba(59, 130, 246, ${0.4 * scale})`,
+        boxShadow: `0 0 ${values.glow}px rgba(59, 130, 246, 0.4)`,
         transition: { duration: 0.3 }
       }
     },
     tilt: {
-      rest: { rotateX: 0, rotateY: 0 },
+      rest: { rotateY: 0, rotateX: 0 },
       hover: { 
-        rotateX: rotation, 
-        rotateY: rotation,
-        transition: { type: "spring", stiffness: 300, damping: 20 }
+        rotateY: values.rotate, 
+        rotateX: values.rotate,
+        transition: { type: "spring", stiffness: 400, damping: 25 }
       }
     },
-    shimmer: {
-      rest: {},
-      hover: {}
-    },
-    ripple: {
+    scale: {
       rest: { scale: 1 },
-      hover: { scale: 1 + (0.05 * scale) },
-      tap: { scale: 1 - (0.05 * scale) }
-    },
-    magnetic: {
-      rest: { x: 0, y: 0 },
-      hover: { x: distance, y: -distance }
-    }
-  };
-
-  return (
-    <motion.div
-      className={cn("relative", className)}
-      variants={variants[variant]}
-      initial="rest"
-      whileHover="hover"
-      whileTap={variant === 'ripple' ? 'tap' : undefined}
-      style={{ 
-        perspective: variant === 'tilt' ? '1000px' : undefined,
-        transformStyle: variant === 'tilt' ? 'preserve-3d' : undefined
-      }}
-    >
-      {variant === 'shimmer' && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-          initial={{ x: '-100%' }}
-          whileHover={{ x: '100%' }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-        />
-      )}
-      {children}
-    </motion.div>
-  );
-};
-
-// Advanced loading states
-interface LoadingStateProps {
-  variant?: 'pulse' | 'dots' | 'spinner' | 'wave' | 'skeleton' | 'progress';
-  size?: 'sm' | 'md' | 'lg';
-  color?: 'primary' | 'secondary' | 'accent';
-  text?: string;
-  className?: string;
-}
-
-export const LoadingState: React.FC<LoadingStateProps> = ({
-  variant = 'spinner',
-  size = 'md',
-  color = 'primary',
-  text,
-  className = ""
-}) => {
-  const sizeMap = {
-    sm: { container: 'w-4 h-4', dot: 'w-1 h-1', text: 'text-xs' },
-    md: { container: 'w-8 h-8', dot: 'w-2 h-2', text: 'text-sm' },
-    lg: { container: 'w-12 h-12', dot: 'w-3 h-3', text: 'text-base' }
-  };
-  
-  const colorMap = {
-    primary: 'text-primary border-primary',
-    secondary: 'text-secondary border-secondary',
-    accent: 'text-accent border-accent'
-  };
-
-  const { container, dot, text: textSize } = sizeMap[size];
-  const colors = colorMap[color];
-
-  const renderVariant = () => {
-    switch (variant) {
-      case 'pulse':
-        return (
-          <motion.div
-            className={cn(container, "rounded-full bg-current opacity-75", colors)}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-        );
-
-      case 'dots':
-        return (
-          <div className="flex gap-1">
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                className={cn(dot, "rounded-full bg-current", colors)}
-                animate={{ y: [0, -8, 0] }}
-                transition={{ 
-                  duration: 0.6, 
-                  repeat: Infinity, 
-                  delay: i * 0.2 
-                }}
-              />
-            ))}
-          </div>
-        );
-
-      case 'wave':
-        return (
-          <div className="flex gap-0.5">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <motion.div
-                key={i}
-                className={cn("w-1 bg-current rounded", colors)}
-                style={{ height: size === 'sm' ? '12px' : size === 'md' ? '20px' : '28px' }}
-                animate={{ scaleY: [1, 2, 1] }}
-                transition={{ 
-                  duration: 1, 
-                  repeat: Infinity, 
-                  delay: i * 0.1 
-                }}
-              />
-            ))}
-          </div>
-        );
-
-      case 'progress':
-        return (
-          <div className={cn("w-24 h-1 bg-gray-200 rounded-full overflow-hidden", className)}>
-            <motion.div
-              className={cn("h-full bg-current rounded-full", colors)}
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: '30%' }}
-            />
-          </div>
-        );
-
-      case 'skeleton':
-        return (
-          <div className="space-y-2">
-            <motion.div 
-              className="h-4 bg-gray-200 rounded"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-            <motion.div 
-              className="h-4 bg-gray-200 rounded w-3/4"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-            />
-          </div>
-        );
-
-      default: // spinner
-        return (
-          <motion.div
-            className={cn(
-              container,
-              "border-2 border-transparent border-t-current rounded-full",
-              colors
-            )}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          />
-        );
-    }
-  };
-
-  return (
-    <div className={cn("flex flex-col items-center gap-2", className)}>
-      {renderVariant()}
-      {text && (
-        <motion.p 
-          className={cn(textSize, "text-gray-600", colors)}
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          {text}
-        </motion.p>
-      )}
-    </div>
-  );
-};
-
-// Transition animations between states
-interface StateTransitionProps {
-  children: React.ReactNode;
-  state: string | number;
-  variant?: 'fade' | 'slide' | 'scale' | 'flip' | 'push';
-  direction?: 'up' | 'down' | 'left' | 'right';
-  className?: string;
-}
-
-export const StateTransition: React.FC<StateTransitionProps> = ({
-  children,
-  state,
-  variant = 'fade',
-  direction = 'up',
-  className = ""
-}) => {
-  const getVariants = () => {
-    const distance = 20;
-    
-    switch (variant) {
-      case 'slide':
-        const slideDirections = {
-          up: { initial: { y: distance }, animate: { y: 0 }, exit: { y: -distance } },
-          down: { initial: { y: -distance }, animate: { y: 0 }, exit: { y: distance } },
-          left: { initial: { x: distance }, animate: { x: 0 }, exit: { x: -distance } },
-          right: { initial: { x: -distance }, animate: { x: 0 }, exit: { x: distance } }
-        };
-        return slideDirections[direction];
-
-      case 'scale':
-        return {
-          initial: { scale: 0.8, opacity: 0 },
-          animate: { scale: 1, opacity: 1 },
-          exit: { scale: 0.8, opacity: 0 }
-        };
-
-      case 'flip':
-        return {
-          initial: { rotateY: 90, opacity: 0 },
-          animate: { rotateY: 0, opacity: 1 },
-          exit: { rotateY: -90, opacity: 0 }
-        };
-
-      case 'push':
-        const pushDirections = {
-          up: { 
-            initial: { y: '100%' }, 
-            animate: { y: 0 }, 
-            exit: { y: '-100%' } 
-          },
-          down: { 
-            initial: { y: '-100%' }, 
-            animate: { y: 0 }, 
-            exit: { y: '100%' } 
-          },
-          left: { 
-            initial: { x: '100%' }, 
-            animate: { x: 0 }, 
-            exit: { x: '-100%' } 
-          },
-          right: { 
-            initial: { x: '-100%' }, 
-            animate: { x: 0 }, 
-            exit: { x: '100%' } 
-          }
-        };
-        return pushDirections[direction];
-
-      default: // fade
-        return {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          exit: { opacity: 0 }
-        };
-    }
-  };
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={state}
-        className={className}
-        variants={getVariants()}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ 
-          type: "spring", 
-          stiffness: 300, 
-          damping: 25,
-          duration: 0.3 
-        }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  );
-};
-
-// Visual feedback for user interactions
-interface FeedbackProps {
-  children: React.ReactNode;
-  type?: 'success' | 'error' | 'warning' | 'info';
-  variant?: 'flash' | 'shake' | 'bounce' | 'pulse' | 'glow';
-  trigger?: boolean;
-  className?: string;
-}
-
-export const VisualFeedback: React.FC<FeedbackProps> = ({
-  children,
-  type = 'success',
-  variant = 'flash',
-  trigger = false,
-  className = ""
-}) => {
-  const colors = {
-    success: 'bg-green-500/20 border-green-500',
-    error: 'bg-red-500/20 border-red-500',
-    warning: 'bg-yellow-500/20 border-yellow-500',
-    info: 'bg-blue-500/20 border-blue-500'
-  };
-
-  const animations = {
-    flash: {
-      initial: { backgroundColor: 'transparent' },
-      animate: trigger ? { backgroundColor: ['transparent', colors[type].split(' ')[0], 'transparent'] } : {},
-      transition: { duration: 0.6 }
-    },
-    shake: {
-      animate: trigger ? { x: [-2, 2, -2, 2, 0] } : {},
-      transition: { duration: 0.5 }
+      hover: { 
+        scale: values.scale,
+        transition: { type: "spring", stiffness: 400, damping: 25 }
+      }
     },
     bounce: {
-      animate: trigger ? { y: [0, -10, 0] } : {},
-      transition: { type: "spring", stiffness: 400, damping: 10 }
-    },
-    pulse: {
-      animate: trigger ? { scale: [1, 1.05, 1] } : {},
-      transition: { duration: 0.3 }
-    },
-    glow: {
-      animate: trigger ? { 
-        boxShadow: [
-          '0 0 0px rgba(59, 130, 246, 0)',
-          '0 0 20px rgba(59, 130, 246, 0.5)',
-          '0 0 0px rgba(59, 130, 246, 0)'
-        ]
-      } : {},
-      transition: { duration: 0.8 }
+      rest: { y: 0 },
+      hover: { 
+        y: [0, -values.y, 0],
+        transition: { duration: 0.6, times: [0, 0.5, 1] }
+      }
     }
   };
 
   return (
     <motion.div
-      className={cn(className)}
-      {...animations[variant]}
+      className={className}
+      variants={variants[variant] || variants.lift}
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.98 }}
     >
       {children}
-      <AnimatePresence>
-        {trigger && variant === 'flash' && (
-          <motion.div
-            className={cn("absolute inset-0 rounded border-2", colors[type])}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };
@@ -405,58 +92,60 @@ export const VisualFeedback: React.FC<FeedbackProps> = ({
 interface RippleEffectProps {
   children: React.ReactNode;
   color?: string;
-  className?: string;
+  duration?: number;
 }
 
 export const RippleEffect: React.FC<RippleEffectProps> = ({
   children,
   color = 'rgba(255, 255, 255, 0.3)',
-  className = ""
+  duration = 600
 }) => {
-  const [ripples, setRipples] = React.useState<Array<{
-    id: number;
-    x: number;
-    y: number;
-  }>>([]);
+  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
+  const createRipple = (event: React.MouseEvent) => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     
-    const newRipple = {
-      id: Date.now(),
-      x,
-      y
-    };
-    
+    const newRipple = { id: Date.now(), x, y };
     setRipples(prev => [...prev, newRipple]);
-    
+
     setTimeout(() => {
       setRipples(prev => prev.filter(ripple => ripple.id !== newRipple.id));
-    }, 600);
+    }, duration);
   };
 
   return (
-    <div 
-      className={cn("relative overflow-hidden", className)}
-      onClick={handleClick}
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden"
+      onMouseDown={createRipple}
     >
       {children}
       <AnimatePresence>
-        {ripples.map((ripple) => (
+        {ripples.map(ripple => (
           <motion.div
             key={ripple.id}
-            className="absolute pointer-events-none rounded-full"
+            className="absolute rounded-full pointer-events-none"
             style={{
-              left: ripple.x,
-              top: ripple.y,
+              left: ripple.x - 10,
+              top: ripple.y - 10,
               backgroundColor: color,
             }}
-            initial={{ width: 0, height: 0, x: '-50%', y: '-50%' }}
-            animate={{ width: 100, height: 100 }}
+            initial={{ width: 20, height: 20, opacity: 0.5 }}
+            animate={{ 
+              width: 200, 
+              height: 200, 
+              opacity: 0,
+              x: -90,
+              y: -90
+            }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: duration / 1000, ease: "easeOut" }}
           />
         ))}
       </AnimatePresence>
@@ -464,10 +153,248 @@ export const RippleEffect: React.FC<RippleEffectProps> = ({
   );
 };
 
+// Loading state component with context awareness
+interface LoadingStateProps {
+  variant?: 'spinner' | 'pulse' | 'dots' | 'bars' | 'skeleton';
+  size?: 'sm' | 'md' | 'lg';
+  color?: string;
+  className?: string;
+}
+
+export const LoadingState: React.FC<LoadingStateProps> = ({
+  variant = 'spinner',
+  size = 'md',
+  color = 'currentColor',
+  className
+}) => {
+  const sizeMap = {
+    sm: { spinner: 'w-4 h-4', dot: 'w-1 h-1', bar: 'w-1 h-4' },
+    md: { spinner: 'w-6 h-6', dot: 'w-2 h-2', bar: 'w-2 h-6' },
+    lg: { spinner: 'w-8 h-8', dot: 'w-3 h-3', bar: 'w-3 h-8' }
+  };
+
+  const sizes = sizeMap[size];
+
+  const components = {
+    spinner: (
+      <div className={cn(sizes.spinner, "animate-spin", className)}>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2" strokeOpacity="0.2"/>
+          <path d="M12 2a10 10 0 0 1 7.07 2.93" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      </div>
+    ),
+    dots: (
+      <div className={cn("flex space-x-1", className)}>
+        {[0, 1, 2].map(i => (
+          <motion.div
+            key={i}
+            className={cn(sizes.dot, "rounded-full")}
+            style={{ backgroundColor: color }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 1, 0.5]
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              delay: i * 0.2
+            }}
+          />
+        ))}
+      </div>
+    ),
+    bars: (
+      <div className={cn("flex space-x-1 items-end", className)}>
+        {[0, 1, 2].map(i => (
+          <motion.div
+            key={i}
+            className={sizes.bar}
+            style={{ backgroundColor: color }}
+            animate={{
+              scaleY: [1, 2, 1]
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              delay: i * 0.1
+            }}
+          />
+        ))}
+      </div>
+    ),
+    pulse: (
+      <motion.div
+        className={cn(sizes.spinner, "rounded-full", className)}
+        style={{ backgroundColor: color }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 1, 0.5]
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    ),
+    skeleton: (
+      <div className={cn("bg-gray-200 rounded", className)}>
+        <motion.div
+          className="h-full bg-gradient-to-r from-transparent via-white to-transparent"
+          animate={{ x: ['-100%', '100%'] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+    )
+  };
+
+  return components[variant];
+};
+
+// State transition component
+interface StateTransitionProps {
+  children: React.ReactNode;
+  state: 'idle' | 'loading' | 'success' | 'error';
+  className?: string;
+}
+
+export const StateTransition: React.FC<StateTransitionProps> = ({
+  children,
+  state,
+  className
+}) => {
+  const variants = {
+    idle: { scale: 1, opacity: 1, filter: 'grayscale(0%)' },
+    loading: { scale: 0.98, opacity: 0.7, filter: 'grayscale(20%)' },
+    success: { scale: 1.02, opacity: 1, filter: 'grayscale(0%) hue-rotate(120deg)' },
+    error: { scale: 0.98, opacity: 1, filter: 'grayscale(0%) hue-rotate(0deg)' }
+  };
+
+  return (
+    <motion.div
+      className={className}
+      variants={variants}
+      animate={state}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Scroll-triggered animations
+interface ScrollRevealProps {
+  children: React.ReactNode;
+  direction?: 'up' | 'down' | 'left' | 'right';
+  delay?: number;
+  className?: string;
+}
+
+export const ScrollReveal: React.FC<ScrollRevealProps> = ({
+  children,
+  direction = 'up',
+  delay = 0,
+  className
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start({
+        opacity: 1,
+        x: 0,
+        y: 0,
+        transition: { duration: 0.6, delay, ease: "easeOut" }
+      });
+    }
+  }, [isInView, controls, delay]);
+
+  const directions = {
+    up: { opacity: 0, y: 50 },
+    down: { opacity: 0, y: -50 },
+    left: { opacity: 0, x: 50 },
+    right: { opacity: 0, x: -50 }
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={directions[direction]}
+      animate={controls}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Visual feedback component for different states
+interface VisualFeedbackProps {
+  children: React.ReactNode;
+  type: 'success' | 'error' | 'warning' | 'info';
+  variant?: 'glow' | 'pulse' | 'shake' | 'bounce';
+  trigger: boolean;
+  className?: string;
+}
+
+export const VisualFeedback: React.FC<VisualFeedbackProps> = ({
+  children,
+  type,
+  variant = 'glow',
+  trigger,
+  className
+}) => {
+  const colors = {
+    success: 'rgba(34, 197, 94, 0.4)',
+    error: 'rgba(239, 68, 68, 0.4)',
+    warning: 'rgba(251, 146, 60, 0.4)',
+    info: 'rgba(59, 130, 246, 0.4)'
+  };
+
+  const variants = {
+    glow: {
+      initial: { boxShadow: "0 0 0px rgba(0,0,0,0)" },
+      animate: { boxShadow: `0 0 20px ${colors[type]}` }
+    },
+    pulse: {
+      initial: { scale: 1 },
+      animate: { scale: [1, 1.05, 1] }
+    },
+    shake: {
+      initial: { x: 0 },
+      animate: { x: [-2, 2, -2, 2, 0] }
+    },
+    bounce: {
+      initial: { y: 0 },
+      animate: { y: [0, -10, 0] }
+    }
+  };
+
+  return (
+    <motion.div
+      className={className}
+      variants={variants[variant]}
+      initial="initial"
+      animate={trigger ? "animate" : "initial"}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export default {
   HoverEffect,
+  RippleEffect,
   LoadingState,
   StateTransition,
-  VisualFeedback,
-  RippleEffect
+  ScrollReveal,
+  VisualFeedback
 };
