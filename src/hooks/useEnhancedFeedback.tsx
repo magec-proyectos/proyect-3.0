@@ -53,16 +53,18 @@ export const useEnhancedFeedback = () => {
 
   const executeWithFeedback = useCallback(async <T>(
     asyncFn: () => Promise<T>,
-    {
-      loadingMessage = "Procesando...",
-      successMessage = "Operación completada",
-      errorMessage = "Ha ocurrido un error"
-    }: {
+    options: {
       loadingMessage?: string;
       successMessage?: string;
       errorMessage?: string;
     } = {}
   ): Promise<T | null> => {
+    const {
+      loadingMessage = "Procesando...",
+      successMessage = "Operación completada",
+      errorMessage = "Ha ocurrido un error"
+    } = options;
+    
     setIsLoading(true);
     
     try {
