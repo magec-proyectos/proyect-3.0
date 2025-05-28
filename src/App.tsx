@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { NotificationProvider } from '@/contexts/NotificationContext';
+import NotificationProvider from '@/contexts/NotificationContext';
 import { FootballProvider } from '@/contexts/FootballContext';
 import { RouletteProvider } from '@/contexts/RouletteContext';
 import { AdminProvider } from '@/contexts/AdminContext';
