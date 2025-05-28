@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,23 +18,23 @@ export default {
 			}
 		},
 		extend: {
-			// Sistema tipográfico mejorado
+			// Enhanced font family system
 			fontFamily: {
 				sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
 				display: ['Sora', 'Inter', 'system-ui', 'sans-serif'],
 				heading: ['Sora', 'Inter', 'system-ui', 'sans-serif'],
 			},
 			
-			// Sistema de espaciado mejorado
+			// Enhanced spacing system
 			spacing: {
-				'xs': '0.25rem',
-				'sm': '0.5rem', 
-				'md': '1rem',
-				'lg': '1.5rem',
-				'xl': '2rem',
-				'2xl': '3rem',
-				'3xl': '4rem',
-				'4xl': '6rem',
+				'xs': 'var(--spacing-xs)',
+				'sm': 'var(--spacing-sm)', 
+				'md': 'var(--spacing-md)',
+				'lg': 'var(--spacing-lg)',
+				'xl': 'var(--spacing-xl)',
+				'2xl': 'var(--spacing-2xl)',
+				'3xl': 'var(--spacing-3xl)',
+				'4xl': 'var(--spacing-4xl)',
 			},
 
 			colors: {
@@ -73,13 +72,13 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				
-				// Colores premium mejorados
+				// Enhanced Brand Colors with modern, appealing colors
 				neon: {
-					blue: "#3B82F6",
-					lime: "#22C55E",
+					blue: "#0EA5E9", // More vibrant sky blue
+					lime: "#22C55E", // Cleaner green
 				},
 				
-				// Superficies premium
+				// Enhanced surface colors
 				surface: {
 					primary: "hsl(var(--surface-primary))",
 					secondary: "hsl(var(--surface-secondary))",
@@ -87,14 +86,14 @@ export default {
 					elevated: "hsl(var(--surface-elevated))",
 				},
 				
-				// Estados mejorados
+				// Enhanced state colors with modern, appealing colors
 				success: {
 					50: "#ECFEF3",
 					100: "#D1FAE0", 
 					200: "#A3F3C4",
 					300: "#6EE7A7",
 					400: "#34D399",
-					500: "#22C55E",
+					500: "#22C55E", // Better green - more vibrant
 					600: "#16A34A",
 					700: "#15803D",
 					800: "#166534",
@@ -125,27 +124,52 @@ export default {
 					900: "#7F1D1D",
 				},
 				info: {
-					50: "#EFF6FF",
-					100: "#DBEAFE",
-					200: "#BFDBFE",
-					300: "#93C5FD",
-					400: "#60A5FA",
-					500: "#3B82F6",
-					600: "#2563EB",
-					700: "#1D4ED8",
-					800: "#1E40AF",
-					900: "#1E3A8A",
+					50: "#F0F9FF",
+					100: "#E0F2FE",
+					200: "#BAE6FD",
+					300: "#7DD3FC",
+					400: "#38BDF8",
+					500: "#0EA5E9", // Better blue - more appealing and modern
+					600: "#0284C7",
+					700: "#0369A1",
+					800: "#075985",
+					900: "#0C4A6E",
 				},
 				
-				// Tema oscuro mejorado
+				// Enhanced dark theme colors
 				dark: {
-					DEFAULT: "#0F0F0F",
-					lighter: "#1A1A1A",
-					card: "#1F1F1F",
+					DEFAULT: "#0A0A0A",
+					lighter: "#151515",
+					card: "#1A1A1A",
 					border: "#2A2A2A",
-					darker: "#0A0A0A",
-					surface: "#252525",
+					darker: "#050505",
+					surface: "#202020",
 					elevated: "#303030",
+				},
+				
+				// Enhanced sport colors with better blue
+				sport: {
+					football: {
+						primary: "#0EA5E9", // Better blue
+						secondary: "#0284C7",
+						accent: "#06B6D4",
+						light: "#F0F9FF",
+						dark: "#0C4A6E",
+					},
+					basketball: {
+						primary: "#F97316",
+						secondary: "#EA580C",
+						accent: "#22C55E", // Better green
+						light: "#FED7AA",
+						dark: "#C2410C",
+					},
+					americanFootball: {
+						primary: "#A855F7",
+						secondary: "#9333EA",
+						accent: "#EC4899",
+						light: "#E9D5FF",
+						dark: "#7C2D12",
+					},
 				},
 			},
 			borderRadius: {
@@ -154,15 +178,15 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			
-			// Tipografía responsive mejorada
+			// Enhanced typography
 			fontSize: {
-				'display-2xl': ['5rem', { lineHeight: '1', letterSpacing: '-0.025em' }],
-				'display-xl': ['4rem', { lineHeight: '1.1', letterSpacing: '-0.025em' }],
-				'display-lg': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-				'display-md': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
-				'display-sm': ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
-				'heading-xl': ['1.5rem', { lineHeight: '1.3', fontWeight: '700' }],
-				'heading-lg': ['1.25rem', { lineHeight: '1.3', fontWeight: '700' }],
+				'display-2xl': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+				'display-xl': ['3.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+				'display-lg': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
+				'display-md': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+				'display-sm': ['1.875rem', { lineHeight: '1.2' }],
+				'heading-xl': ['1.5rem', { lineHeight: '1.3', fontWeight: '600' }],
+				'heading-lg': ['1.25rem', { lineHeight: '1.3', fontWeight: '600' }],
 				'heading-md': ['1.125rem', { lineHeight: '1.4', fontWeight: '600' }],
 				'body-lg': ['1.125rem', { lineHeight: '1.6' }],
 				'body-md': ['1rem', { lineHeight: '1.6' }],
@@ -170,7 +194,6 @@ export default {
 				'caption': ['0.75rem', { lineHeight: '1.4', fontWeight: '500' }],
 			},
 
-			// Animaciones premium
 			keyframes: {
 				"accordion-down": {
 					from: { height: "0" },
@@ -180,76 +203,69 @@ export default {
 					from: { height: "var(--radix-accordion-content-height)" },
 					to: { height: "0" },
 				},
+				// Enhanced animations
 				"fade-in": {
-					"0%": { opacity: "0", transform: "translateY(10px)" },
+					"0%": { opacity: "0", transform: "translateY(8px)" },
 					"100%": { opacity: "1", transform: "translateY(0)" },
 				},
-				"scale-in-premium": {
-					"0%": { opacity: "0", transform: "scale(0.9)" },
+				"fade-out": {
+					"0%": { opacity: "1", transform: "translateY(0)" },
+					"100%": { opacity: "0", transform: "translateY(8px)" },
+				},
+				"scale-in": {
+					"0%": { opacity: "0", transform: "scale(0.95)" },
 					"100%": { opacity: "1", transform: "scale(1)" },
+				},
+				"slide-up": {
+					"0%": { opacity: "0", transform: "translateY(10px)" },
+					"100%": { opacity: "1", transform: "translateY(0)" },
 				},
 				"shimmer": {
 					"0%": { transform: "translateX(-100%)" },
 					"100%": { transform: "translateX(100%)" },
 				},
-				"float-premium": {
-					"0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
-					"33%": { transform: "translateY(-8px) rotate(1deg)" },
-					"66%": { transform: "translateY(-4px) rotate(-1deg)" },
+				"float": {
+					"0%, 100%": { transform: "translateY(0px)" },
+					"50%": { transform: "translateY(-4px)" },
 				},
-				"pulse-premium": {
-					"0%, 100%": { opacity: "1", transform: "scale(1)" },
-					"50%": { opacity: "0.8", transform: "scale(1.05)" },
-				},
-				"gradient-shift": {
-					"0%, 100%": { backgroundPosition: "0% 50%" },
-					"50%": { backgroundPosition: "100% 50%" },
+				"pulse-soft": {
+					"0%, 100%": { opacity: "1" },
+					"50%": { opacity: "0.8" },
 				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				"fade-in": "fade-in 0.3s ease-out",
-				"scale-in-premium": "scale-in-premium 0.3s ease-out",
+				"fade-out": "fade-out 0.3s ease-out",
+				"scale-in": "scale-in 0.2s ease-out",
+				"slide-up": "slide-up 0.3s ease-out",
 				"shimmer": "shimmer 2s infinite",
-				"float-premium": "float-premium 6s ease-in-out infinite",
-				"pulse-premium": "pulse-premium 3s ease-in-out infinite",
-				"gradient-shift": "gradient-shift 3s ease infinite",
+				"float": "float 4s ease-in-out infinite",
+				"pulse-soft": "pulse-soft 3s ease-in-out infinite",
 			},
 			
-			// Gradientes premium
+			// Enhanced gradients
 			backgroundImage: {
-				'gradient-premium': 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #22C55E 100%)',
+				'gradient-brand': 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
 				'gradient-surface': 'linear-gradient(135deg, hsl(var(--surface-primary)) 0%, hsl(var(--surface-secondary)) 100%)',
-				'gradient-glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)',
+				'gradient-glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
 			},
 			
-			// Tamaños de fondo
-			backgroundSize: {
-				'size-200': '200% 200%',
-			},
-			
-			// Posiciones de fondo
-			backgroundPosition: {
-				'pos-0': '0% 0%',
-				'pos-100': '100% 100%',
-			},
-			
-			// Sombras premium
+			// Enhanced box shadows with better colors
 			boxShadow: {
 				'glass': '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-				'glass-lg': '0 16px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+				'glass-lg': '0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
 				'elevation-1': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
 				'elevation-2': '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
 				'elevation-3': '0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)',
-				'glow-blue': '0 0 20px rgba(59, 130, 246, 0.4)',
-				'glow-emerald': '0 0 20px rgba(34, 197, 94, 0.4)',
-				'glow-purple': '0 0 20px rgba(139, 92, 246, 0.4)',
-				'neon-blue': '0 0 5px theme(colors.blue.500), 0 0 20px theme(colors.blue.500)',
-				'neon-emerald': '0 0 5px theme(colors.emerald.500), 0 0 20px theme(colors.emerald.500)',
+				'glow-blue': '0 0 20px rgba(14, 165, 233, 0.3)', // Better blue glow
+				'glow-green': '0 0 20px rgba(34, 197, 94, 0.3)', // Better green glow
+				'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
+				'glow-purple': '0 0 20px rgba(168, 85, 247, 0.3)',
 			},
 			
-			// Blur mejorado
+			// Enhanced backdrop blur
 			backdropBlur: {
 				'xs': '2px',
 				'sm': '4px',
@@ -257,7 +273,6 @@ export default {
 				'lg': '16px',
 				'xl': '24px',
 				'2xl': '32px',
-				'3xl': '48px',
 			},
 		}
 	},
