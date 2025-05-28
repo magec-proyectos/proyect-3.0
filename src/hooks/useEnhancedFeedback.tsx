@@ -10,12 +10,6 @@ interface FeedbackOptions {
   };
 }
 
-interface ExecuteWithFeedbackOptions {
-  loadingMessage?: string;
-  successMessage?: string;
-  errorMessage?: string;
-}
-
 export const useEnhancedFeedback = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +53,11 @@ export const useEnhancedFeedback = () => {
 
   const executeWithFeedback = useCallback(async <T>(
     asyncFn: () => Promise<T>,
-    options: ExecuteWithFeedbackOptions = {}
+    options: {
+      loadingMessage?: string;
+      successMessage?: string;
+      errorMessage?: string;
+    } = {}
   ): Promise<T | null> => {
     const {
       loadingMessage = "Procesando...",
