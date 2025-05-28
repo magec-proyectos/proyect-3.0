@@ -18,7 +18,6 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-elevation-1 hover:shadow-elevation-2",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline shadow-none",
-        // Enhanced variants with glassmorphism
         gradient: "bg-gradient-brand text-primary-foreground shadow-glass hover:shadow-glass-lg interactive-lift",
         neon: "glass-button border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground shadow-glow-blue",
         glass: "glass-card text-foreground hover:shadow-glass-lg interactive-lift",
@@ -60,21 +59,30 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, microInteraction = "lift", asChild = false, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : motion.button
+    const Comp = asChild ? Slot : "button"
 
-    // Separate motion props from HTML button props
-    const { onAnimationStart, onAnimationEnd, onAnimationIteration, ...buttonProps } = props
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        >
+          {children}
+        </Slot>
+      )
+    }
 
     const buttonContent = (
-      <Comp
+      <motion.button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        {...buttonProps}
+        {...props}
       >
         {children}
-      </Comp>
+      </motion.button>
     )
 
     if (microInteraction === "none") {

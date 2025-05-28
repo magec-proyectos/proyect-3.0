@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -73,10 +72,10 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				
-				// Enhanced Brand Colors with better accessibility
+				// Enhanced Brand Colors with modern, appealing colors
 				neon: {
-					blue: "#3B82F6", // More accessible blue
-					lime: "#84CC16", // Better contrast lime
+					blue: "#0EA5E9", // More vibrant sky blue
+					lime: "#22C55E", // Cleaner green
 				},
 				
 				// Enhanced surface colors
@@ -87,18 +86,18 @@ export default {
 					elevated: "hsl(var(--surface-elevated))",
 				},
 				
-				// Enhanced state colors with better accessibility
+				// Enhanced state colors with modern, appealing colors
 				success: {
-					50: "#ECFDF5",
-					100: "#D1FAE5", 
-					200: "#A7F3D0",
-					300: "#6EE7B7",
+					50: "#ECFEF3",
+					100: "#D1FAE0", 
+					200: "#A3F3C4",
+					300: "#6EE7A7",
 					400: "#34D399",
-					500: "#10B981",
-					600: "#059669",
-					700: "#047857",
-					800: "#065F46",
-					900: "#064E3B",
+					500: "#22C55E", // Better green - more vibrant
+					600: "#16A34A",
+					700: "#15803D",
+					800: "#166534",
+					900: "#14532D",
 				},
 				warning: {
 					50: "#FFFBEB",
@@ -125,16 +124,16 @@ export default {
 					900: "#7F1D1D",
 				},
 				info: {
-					50: "#EFF6FF",
-					100: "#DBEAFE",
-					200: "#BFDBFE",
-					300: "#93C5FD",
-					400: "#60A5FA",
-					500: "#3B82F6",
-					600: "#2563EB",
-					700: "#1D4ED8",
-					800: "#1E40AF",
-					900: "#1E3A8A",
+					50: "#F0F9FF",
+					100: "#E0F2FE",
+					200: "#BAE6FD",
+					300: "#7DD3FC",
+					400: "#38BDF8",
+					500: "#0EA5E9", // Better blue - more appealing and modern
+					600: "#0284C7",
+					700: "#0369A1",
+					800: "#075985",
+					900: "#0C4A6E",
 				},
 				
 				// Enhanced dark theme colors
@@ -148,19 +147,19 @@ export default {
 					elevated: "#303030",
 				},
 				
-				// Enhanced sport colors
+				// Enhanced sport colors with better blue
 				sport: {
 					football: {
-						primary: "#3B82F6",
-						secondary: "#1D4ED8",
+						primary: "#0EA5E9", // Better blue
+						secondary: "#0284C7",
 						accent: "#06B6D4",
-						light: "#DBEAFE",
-						dark: "#1E3A8A",
+						light: "#F0F9FF",
+						dark: "#0C4A6E",
 					},
 					basketball: {
 						primary: "#F97316",
 						secondary: "#EA580C",
-						accent: "#10B981",
+						accent: "#22C55E", // Better green
 						light: "#FED7AA",
 						dark: "#C2410C",
 					},
@@ -253,15 +252,15 @@ export default {
 				'gradient-glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
 			},
 			
-			// Enhanced box shadows
+			// Enhanced box shadows with better colors
 			boxShadow: {
 				'glass': '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
 				'glass-lg': '0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
 				'elevation-1': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
 				'elevation-2': '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
 				'elevation-3': '0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)',
-				'glow-blue': '0 0 20px rgba(59, 130, 246, 0.3)',
-				'glow-green': '0 0 20px rgba(34, 197, 94, 0.3)',
+				'glow-blue': '0 0 20px rgba(14, 165, 233, 0.3)', // Better blue glow
+				'glow-green': '0 0 20px rgba(34, 197, 94, 0.3)', // Better green glow
 				'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
 				'glow-purple': '0 0 20px rgba(168, 85, 247, 0.3)',
 			},

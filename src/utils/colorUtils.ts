@@ -7,21 +7,21 @@ export type ColorVariant = 'primary' | 'secondary' | 'light' | 'dark' | 'accent'
 
 export type StateType = 'success' | 'warning' | 'error' | 'info';
 
-// Modern sport color mappings with enhanced accessibility
+// Modern sport color mappings with enhanced accessibility and better colors
 export const sportColors = {
   football: {
-    primary: '#2196F3',
-    secondary: '#1976D2',
-    light: '#E3F2FD',
-    dark: '#0D47A1',
-    accent: '#03DAC6',
+    primary: '#0EA5E9', // Better blue - more vibrant and modern
+    secondary: '#0284C7',
+    light: '#F0F9FF',
+    dark: '#0C4A6E',
+    accent: '#06B6D4',
   },
   basketball: {
     primary: '#FF9800',
     secondary: '#F57C00',
     light: '#FFF3E0',
     dark: '#E65100',
-    accent: '#4CAF50',
+    accent: '#22C55E', // Better green
   },
   americanFootball: {
     primary: '#9C27B0',
@@ -31,27 +31,27 @@ export const sportColors = {
     accent: '#E91E63',
   },
   baseball: {
-    primary: '#4CAF50',
-    secondary: '#388E3C',
-    light: '#E8F5E8',
-    dark: '#1B5E20',
+    primary: '#22C55E', // Better green - more vibrant
+    secondary: '#16A34A',
+    light: '#ECFEF3',
+    dark: '#14532D',
     accent: '#FFC107',
   },
   tennis: {
-    primary: '#009688',
-    secondary: '#00695C',
-    light: '#E0F2F1',
-    dark: '#004D40',
+    primary: '#059669',
+    secondary: '#047857',
+    light: '#ECFEF3',
+    dark: '#064E3B',
     accent: '#CDDC39',
   },
 } as const;
 
-// Enhanced state color mappings
+// Enhanced state color mappings with better colors
 export const stateColors = {
-  success: '#4CAF50',
+  success: '#22C55E', // Better green
   warning: '#FFC107',
   error: '#F44336',
-  info: '#2196F3',
+  info: '#0EA5E9', // Better blue
 } as const;
 
 // Get sport color by type and variant
@@ -68,16 +68,16 @@ export const getStateColor = (state: StateType): string => {
 export const getSportClasses = (sport: SportType) => {
   const colorMap = {
     football: {
-      bg: 'bg-blue-500',
-      bgSecondary: 'bg-blue-600',
-      bgLight: 'bg-blue-100',
-      bgDark: 'bg-blue-900',
-      text: 'text-blue-500',
-      textSecondary: 'text-blue-600',
-      border: 'border-blue-500',
-      borderSecondary: 'border-blue-600',
-      button: 'bg-blue-500 hover:bg-blue-600 focus:ring-blue-500',
-      gradient: 'from-blue-500 to-blue-600',
+      bg: 'bg-sky-500', // Better blue class
+      bgSecondary: 'bg-sky-600',
+      bgLight: 'bg-sky-50',
+      bgDark: 'bg-sky-900',
+      text: 'text-sky-500',
+      textSecondary: 'text-sky-600',
+      border: 'border-sky-500',
+      borderSecondary: 'border-sky-600',
+      button: 'bg-sky-500 hover:bg-sky-600 focus:ring-sky-500',
+      gradient: 'from-sky-500 to-sky-600',
       glow: 'shadow-glow-blue',
     },
     basketball: {
@@ -107,9 +107,9 @@ export const getSportClasses = (sport: SportType) => {
       glow: 'shadow-glow-purple',
     },
     baseball: {
-      bg: 'bg-green-500',
+      bg: 'bg-green-500', // Better green class
       bgSecondary: 'bg-green-600',
-      bgLight: 'bg-green-100',
+      bgLight: 'bg-green-50',
       bgDark: 'bg-green-900',
       text: 'text-green-500',
       textSecondary: 'text-green-600',
@@ -120,16 +120,16 @@ export const getSportClasses = (sport: SportType) => {
       glow: 'shadow-glow-green',
     },
     tennis: {
-      bg: 'bg-teal-500',
-      bgSecondary: 'bg-teal-600',
-      bgLight: 'bg-teal-100',
-      bgDark: 'bg-teal-900',
-      text: 'text-teal-500',
-      textSecondary: 'text-teal-600',
-      border: 'border-teal-500',
-      borderSecondary: 'border-teal-600',
-      button: 'bg-teal-500 hover:bg-teal-600 focus:ring-teal-500',
-      gradient: 'from-teal-500 to-teal-600',
+      bg: 'bg-emerald-500',
+      bgSecondary: 'bg-emerald-600',
+      bgLight: 'bg-emerald-50',
+      bgDark: 'bg-emerald-900',
+      text: 'text-emerald-500',
+      textSecondary: 'text-emerald-600',
+      border: 'border-emerald-500',
+      borderSecondary: 'border-emerald-600',
+      button: 'bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-500',
+      gradient: 'from-emerald-500 to-emerald-600',
       glow: 'shadow-glow-green',
     },
   };

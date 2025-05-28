@@ -1,4 +1,3 @@
-
 import { getSportClasses } from '@/utils/colorUtils';
 
 // Helper functions for TryItNow component with enhanced design system
@@ -9,7 +8,7 @@ export const getButtonStyle = (activeSport: 'football' | 'basketball' | 'america
 
 export const getAccentColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   const colorMap = {
-    football: "blue-500",
+    football: "sky-500", // Better blue
     basketball: "orange-500", 
     americanFootball: "purple-500"
   };
@@ -18,7 +17,7 @@ export const getAccentColor = (activeSport: 'football' | 'basketball' | 'america
 
 export const getBorderColor = (activeSport: 'football' | 'basketball' | 'americanFootball'): string => {
   const colorMap = {
-    football: "border-blue-500/30 hover:border-blue-500/60",
+    football: "border-sky-500/30 hover:border-sky-500/60", // Better blue
     basketball: "border-orange-500/30 hover:border-orange-500/60",
     americanFootball: "border-purple-500/30 hover:border-purple-500/60"
   };
@@ -45,7 +44,7 @@ export const getMatchName = (value: string): string => {
 // Enhanced prediction confidence with sport-specific variations
 export const getPredictionConfidence = (activeSport: 'football' | 'basketball' | 'americanFootball'): {value: number, label: string, color: string} => {
   const confidenceMap = {
-    football: { value: 78, label: 'High', color: 'text-blue-500' },
+    football: { value: 78, label: 'High', color: 'text-sky-500' }, // Better blue
     basketball: { value: 85, label: 'Very High', color: 'text-orange-500' },
     americanFootball: { value: 82, label: 'Very High', color: 'text-purple-500' }
   };
@@ -142,7 +141,7 @@ export const getSportPattern = (activeSport: 'football' | 'basketball' | 'americ
 // New utility for gradient backgrounds
 export const getSportGradient = (activeSport: 'football' | 'basketball' | 'americanFootball') => {
   const gradients = {
-    football: 'from-blue-500/30 to-blue-500/5',
+    football: 'from-sky-500/30 to-sky-500/5', // Better blue
     basketball: 'from-orange-500/30 to-orange-500/5', 
     americanFootball: 'from-purple-500/30 to-purple-500/5'
   };
@@ -168,10 +167,10 @@ export const loadingVariants = {
   }
 };
 
-// Interactive feedback utilities
+// Interactive feedback utilities with better colors
 export const getHoverEffect = (sport: 'football' | 'basketball' | 'americanFootball') => {
   const effects = {
-    football: 'hover:shadow-blue-500/20 hover:border-blue-500/60',
+    football: 'hover:shadow-sky-500/20 hover:border-sky-500/60', // Better blue
     basketball: 'hover:shadow-orange-500/20 hover:border-orange-500/60',
     americanFootball: 'hover:shadow-purple-500/20 hover:border-purple-500/60'
   };
