@@ -10,8 +10,9 @@ import { AuthProvider } from './contexts/AuthContext';
 import { AdminProvider } from './contexts/AdminContext';
 import GlobalChatbot from './components/chatbot/GlobalChatbot';
 import LoadingSpinner from "@/components/LoadingSpinner";
+import LazySection from "@/components/LazySection";
 
-// Lazy load pages
+// Lazy load pages with better error boundaries
 const Index = lazy(() => import("./pages/Index"));
 const Sports = lazy(() => import("./pages/Sports"));
 const AmericanFootball = lazy(() => import("./pages/AmericanFootball"));
@@ -28,7 +29,23 @@ const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
+    },
+  },
+});
+
+// Enhanced loading component for better UX
+const PageLoadingFallback = ({ type = 'matches' }: { type?: 'matches' | 'stats' | 'predictions' }) => (
+  <LoadingSpinner 
+    type="sports" 
+    sportsType={type}
+    message="Cargando página..."
+  />
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -41,79 +58,109 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Index />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Index />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/sports" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Sports />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback type="matches" />}>
+                      <Sports />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/american-football" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AmericanFootball />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback type="matches" />}>
+                      <AmericanFootball />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/basketball" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Basketball />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback type="matches" />}>
+                      <Basketball />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/casino" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Casino />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Casino />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/roulette" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Roulette />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Roulette />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/blackjack" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Blackjack />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Blackjack />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/square" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Square />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Square />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/social" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Social />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Social />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/leaderboard" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Leaderboard />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback type="stats" />}>
+                      <Leaderboard />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/profile" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <UserProfile />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <UserProfile />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/legal" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Legal />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <Legal />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/admin" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdminLogin />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <AdminLogin />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="/admin/dashboard" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdminDashboard />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback type="stats" />}>
+                      <AdminDashboard />
+                    </Suspense>
+                  </LazySection>
                 } />
                 <Route path="*" element={
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <NotFound />
-                  </Suspense>
+                  <LazySection>
+                    <Suspense fallback={<PageLoadingFallback />}>
+                      <NotFound />
+                    </Suspense>
+                  </LazySection>
                 } />
               </Routes>
               <GlobalChatbot />

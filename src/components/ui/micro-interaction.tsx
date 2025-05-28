@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface MicroInteractionProps {
   children: React.ReactNode;
@@ -11,7 +12,17 @@ interface MicroInteractionProps {
   intensity?: 'subtle' | 'moderate' | 'strong';
 }
 
-const getAnimationVariants = (type: string, intensity: string = 'moderate') => {
+const getAnimationVariants = (type: string, intensity: string = 'moderate', prefersReducedMotion: boolean = false) => {
+  // Si prefiere movimiento reducido, devolver variantes mínimas
+  if (prefersReducedMotion) {
+    return {
+      rest: {},
+      hover: { opacity: 0.8 },
+      tap: { opacity: 0.9 },
+      auto: {}
+    };
+  }
+
   const intensityMap = {
     subtle: { scale: 0.5, distance: 1, rotation: 2 },
     moderate: { scale: 1, distance: 2, rotation: 5 },
@@ -102,7 +113,8 @@ export const MicroInteraction: React.FC<MicroInteractionProps> = ({
   trigger = 'both',
   intensity = 'moderate'
 }) => {
-  const variants = getAnimationVariants(type, intensity);
+  const prefersReducedMotion = useReducedMotion();
+  const variants = getAnimationVariants(type, intensity, prefersReducedMotion);
   
   if (disabled) {
     return <div className={className}>{children}</div>;

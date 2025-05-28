@@ -1,10 +1,37 @@
 
 import React from 'react';
+import { EnhancedLoadingSpinner, SportsLoading } from '@/components/ui/enhanced-loading';
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+  type?: 'simple' | 'sports';
+  sportsType?: 'matches' | 'stats' | 'predictions';
+  size?: 'sm' | 'md' | 'lg';
+  message?: string;
+  progress?: number;
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  type = 'simple',
+  sportsType = 'matches',
+  size = 'md',
+  message,
+  progress
+}) => {
+  if (type === 'sports') {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <SportsLoading 
+          type={sportsType} 
+          message={message}
+          progress={progress}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center justify-center py-16">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-neon-blue"></div>
+      <EnhancedLoadingSpinner size={size} />
     </div>
   );
 };
