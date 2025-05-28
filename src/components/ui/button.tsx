@@ -73,13 +73,27 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       )
     }
 
+    // Separate drag-related props that conflict with Framer Motion
+    const {
+      onDrag,
+      onDragEnd,
+      onDragEnter,
+      onDragExit,
+      onDragLeave,
+      onDragOver,
+      onDragStart,
+      onDrop,
+      draggable,
+      ...safeProps
+    } = props
+
     const buttonContent = (
       <motion.button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        {...props}
+        {...safeProps}
       >
         {children}
       </motion.button>
