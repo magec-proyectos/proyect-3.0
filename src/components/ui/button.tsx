@@ -73,7 +73,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       )
     }
 
-    // Separate drag-related props that conflict with Framer Motion
+    // Separate conflicting props between HTML button and Framer Motion
     const {
       onDrag,
       onDragEnd,
@@ -84,6 +84,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onDragStart,
       onDrop,
       draggable,
+      onAnimationStart,
+      onAnimationEnd,
+      onAnimationIteration,
+      onTransitionEnd,
       ...safeProps
     } = props
 

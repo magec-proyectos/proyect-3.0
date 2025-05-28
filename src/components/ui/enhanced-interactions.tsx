@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { HoverEffect, LoadingState, StateTransition, VisualFeedback, RippleEffect } from './advanced-micro-interactions';
@@ -40,7 +39,7 @@ export const EnhancedInteractiveButton: React.FC<EnhancedInteractiveButtonProps>
     className
   );
 
-  // Separate drag-related props that conflict with Framer Motion
+  // Separate conflicting props between HTML button and Framer Motion
   const {
     onDrag,
     onDragEnd,
@@ -51,6 +50,10 @@ export const EnhancedInteractiveButton: React.FC<EnhancedInteractiveButtonProps>
     onDragStart,
     onDrop,
     draggable,
+    onAnimationStart,
+    onAnimationEnd,
+    onAnimationIteration,
+    onTransitionEnd,
     ...safeProps
   } = props;
 
