@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -31,10 +32,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav 
-        className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-dark-border"
-        data-onboarding="navbar"
-      >
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-dark/95 backdrop-blur-md border-b border-dark-border">
         <div className="container mx-auto px-4">
           <div className="h-16 flex items-center justify-between">
             <NavbarBrand />
