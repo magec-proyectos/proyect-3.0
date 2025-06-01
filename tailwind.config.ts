@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -72,10 +73,58 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				
-				// Enhanced Brand Colors with modern, appealing colors
+				// Richer brand colors with expanded palette
+				brand: {
+					blue: {
+						50: "#eff6ff",
+						100: "#dbeafe",
+						200: "#bfdbfe",
+						300: "#93c5fd",
+						400: "#60a5fa",
+						500: "#3b82f6",
+						600: "#2563eb", // Primary blue
+						700: "#1d4ed8",
+						800: "#1e40af",
+						900: "#1e3a8a",
+						950: "#172554"
+					},
+					green: {
+						50: "#f0fdf4",
+						100: "#dcfce7",
+						200: "#bbf7d0",
+						300: "#86efac",
+						400: "#4ade80",
+						500: "#22c55e", // Primary green
+						600: "#16a34a",
+						700: "#15803d",
+						800: "#166534",
+						900: "#14532d",
+						950: "#052e16"
+					},
+					purple: {
+						50: "#faf5ff",
+						100: "#f3e8ff",
+						200: "#e9d5ff",
+						300: "#d8b4fe",
+						400: "#c084fc",
+						500: "#a855f7",
+						600: "#9333ea", // Primary purple
+						700: "#7c2d12",
+						800: "#6b21a8",
+						900: "#581c87",
+						950: "#3b0764"
+					}
+				},
+				
+				// Enhanced neon colors for gaming
 				neon: {
-					blue: "#0EA5E9", // More vibrant sky blue
-					lime: "#22C55E", // Cleaner green
+					blue: "#2563eb", // Solid blue instead of gradient
+					lime: "#22c55e", // Solid green instead of gradient
+					purple: "#9333ea",
+					orange: "#ea580c",
+					pink: "#ec4899",
+					cyan: "#06b6d4",
+					yellow: "#eab308"
 				},
 				
 				// Enhanced surface colors
@@ -86,89 +135,101 @@ export default {
 					elevated: "hsl(var(--surface-elevated))",
 				},
 				
-				// Enhanced state colors with modern, appealing colors
+				// Expressive state colors
 				success: {
-					50: "#ECFEF3",
-					100: "#D1FAE0", 
-					200: "#A3F3C4",
-					300: "#6EE7A7",
-					400: "#34D399",
-					500: "#22C55E", // Better green - more vibrant
-					600: "#16A34A",
-					700: "#15803D",
+					50: "#f0fdf4",
+					100: "#dcfce7",
+					200: "#bbf7d0",
+					300: "#86efac",
+					400: "#4ade80",
+					500: "#22c55e", // Main success
+					600: "#16a34a",
+					700: "#15803d",
 					800: "#166534",
-					900: "#14532D",
+					900: "#14532d",
 				},
 				warning: {
-					50: "#FFFBEB",
-					100: "#FEF3C7",
-					200: "#FDE68A",
-					300: "#FCD34D",
-					400: "#FBBF24",
-					500: "#F59E0B",
-					600: "#D97706",
-					700: "#B45309",
-					800: "#92400E",
-					900: "#78350F",
+					50: "#fffbeb",
+					100: "#fef3c7",
+					200: "#fde68a",
+					300: "#fcd34d",
+					400: "#fbbf24",
+					500: "#f59e0b", // Main warning
+					600: "#d97706",
+					700: "#b45309",
+					800: "#92400e",
+					900: "#78350f",
 				},
 				error: {
-					50: "#FEF2F2",
-					100: "#FEE2E2",
-					200: "#FECACA",
-					300: "#FCA5A5",
-					400: "#F87171",
-					500: "#EF4444",
-					600: "#DC2626",
-					700: "#B91C1C",
-					800: "#991B1B",
-					900: "#7F1D1D",
+					50: "#fef2f2",
+					100: "#fee2e2",
+					200: "#fecaca",
+					300: "#fca5a5",
+					400: "#f87171",
+					500: "#ef4444", // Main error
+					600: "#dc2626",
+					700: "#b91c1c",
+					800: "#991b1b",
+					900: "#7f1d1d",
 				},
 				info: {
-					50: "#F0F9FF",
-					100: "#E0F2FE",
-					200: "#BAE6FD",
-					300: "#7DD3FC",
-					400: "#38BDF8",
-					500: "#0EA5E9", // Better blue - more appealing and modern
-					600: "#0284C7",
-					700: "#0369A1",
+					50: "#f0f9ff",
+					100: "#e0f2fe",
+					200: "#bae6fd",
+					300: "#7dd3fc",
+					400: "#38bdf8",
+					500: "#0ea5e9", // Main info
+					600: "#0284c7",
+					700: "#0369a1",
 					800: "#075985",
-					900: "#0C4A6E",
+					900: "#0c4a6e",
+				},
+				
+				// Gaming/betting specific colors
+				betting: {
+					win: "#22c55e",
+					loss: "#ef4444",
+					pending: "#f59e0b",
+					void: "#6b7280",
+					favorite: "#fbbf24",
+					underdog: "#8b5cf6",
+					even: "#06b6d4",
+					odd: "#ec4899"
 				},
 				
 				// Enhanced dark theme colors
 				dark: {
-					DEFAULT: "#0A0A0A",
+					DEFAULT: "#0a0a0a",
 					lighter: "#151515",
-					card: "#1A1A1A",
-					border: "#2A2A2A",
+					card: "#1a1a1a",
+					border: "#2a2a2a",
 					darker: "#050505",
 					surface: "#202020",
 					elevated: "#303030",
 				},
 				
-				// Enhanced sport colors with better blue
+				// Enhanced sport colors with solid colors
 				sport: {
 					football: {
-						primary: "#0EA5E9", // Better blue
-						secondary: "#0284C7",
-						accent: "#06B6D4",
-						light: "#F0F9FF",
-						dark: "#0C4A6E",
+						primary: "#2563eb", // Solid blue
+						secondary: "#1d4ed8",
+						accent: "#06b6d4",
+						light: "#eff6ff",
+						dark: "#1e3a8a",
 					},
 					basketball: {
-						primary: "#F97316",
-						secondary: "#EA580C",
-						accent: "#22C55E", // Better green
-						light: "#FED7AA",
-						dark: "#C2410C",
+						primary: "#ea580c", // Solid orange
+						secondary: "#dc2626",
+						accent: "#22c55e",
+						light: "#fff7ed",
+						dark: "#9a3412",
 					},
 					americanFootball: {
-						primary: "#A855F7",
-						secondary: "#9333EA",
-						accent: "#EC4899",
-						light: "#E9D5FF",
-						dark: "#7C2D12",
+						primary: "#9333ea", // Solid purple
+						secondary: "#7c2d12",
+						accent: "#ec4899",
+						light: "#faf5ff",
+						dark: "#581c87",
 					},
 				},
 			},
@@ -232,6 +293,10 @@ export default {
 					"0%, 100%": { opacity: "1" },
 					"50%": { opacity: "0.8" },
 				},
+				"glow": {
+					"0%, 100%": { boxShadow: "0 0 20px rgba(37, 99, 235, 0.3)" },
+					"50%": { boxShadow: "0 0 30px rgba(37, 99, 235, 0.5)" },
+				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
@@ -243,26 +308,20 @@ export default {
 				"shimmer": "shimmer 2s infinite",
 				"float": "float 4s ease-in-out infinite",
 				"pulse-soft": "pulse-soft 3s ease-in-out infinite",
+				"glow": "glow 2s ease-in-out infinite",
 			},
 			
-			// Enhanced gradients
-			backgroundImage: {
-				'gradient-brand': 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
-				'gradient-surface': 'linear-gradient(135deg, hsl(var(--surface-primary)) 0%, hsl(var(--surface-secondary)) 100%)',
-				'gradient-glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-			},
-			
-			// Enhanced box shadows with better colors
+			// Enhanced box shadows with solid colors
 			boxShadow: {
 				'glass': '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
 				'glass-lg': '0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
 				'elevation-1': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
 				'elevation-2': '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
 				'elevation-3': '0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)',
-				'glow-blue': '0 0 20px rgba(14, 165, 233, 0.3)', // Better blue glow
-				'glow-green': '0 0 20px rgba(34, 197, 94, 0.3)', // Better green glow
-				'glow-orange': '0 0 20px rgba(249, 115, 22, 0.3)',
-				'glow-purple': '0 0 20px rgba(168, 85, 247, 0.3)',
+				'glow-blue': '0 0 20px rgba(37, 99, 235, 0.3)',
+				'glow-green': '0 0 20px rgba(34, 197, 94, 0.3)',
+				'glow-orange': '0 0 20px rgba(234, 88, 12, 0.3)',
+				'glow-purple': '0 0 20px rgba(147, 51, 234, 0.3)',
 			},
 			
 			// Enhanced backdrop blur

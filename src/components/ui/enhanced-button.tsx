@@ -17,14 +17,19 @@ const enhancedButtonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl",
+        // Solid color variants instead of gradients
+        solid: "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl",
         neon: "bg-dark-card border-2 border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black shadow-lg hover:shadow-neon-blue/50",
-        sport: "bg-gradient-to-r text-white shadow-lg hover:shadow-xl transform hover:scale-105",
+        sport: "bg-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105",
         glass: "backdrop-blur-md bg-white/10 border border-white/20 text-white hover:bg-white/20 shadow-lg",
-        success: "bg-success-500 text-white hover:bg-success-600 shadow-md hover:shadow-lg",
-        warning: "bg-warning-500 text-black hover:bg-warning-600 shadow-md hover:shadow-lg",
-        error: "bg-error-500 text-white hover:bg-error-600 shadow-md hover:shadow-lg",
-        info: "bg-info-500 text-white hover:bg-info-600 shadow-md hover:shadow-lg",
+        success: "bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg",
+        warning: "bg-amber-600 text-white hover:bg-amber-700 shadow-md hover:shadow-lg",
+        error: "bg-red-600 text-white hover:bg-red-700 shadow-md hover:shadow-lg",
+        info: "bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg",
+        // Sport-specific solid variants
+        football: "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25",
+        basketball: "bg-orange-600 text-white hover:bg-orange-700 shadow-lg hover:shadow-orange-500/25",
+        americanFootball: "bg-purple-600 text-white hover:bg-purple-700 shadow-lg hover:shadow-purple-500/25",
       },
       size: {
         default: "h-11 px-6 py-3 text-sm",
@@ -101,7 +106,7 @@ const EnhancedButton = React.forwardRef<HTMLButtonElement, EnhancedButtonProps>(
           {/* Success overlay */}
           {success && (
             <motion.div 
-              className="absolute inset-0 flex items-center justify-center bg-success-500/90 rounded-lg"
+              className="absolute inset-0 flex items-center justify-center bg-green-600/90 rounded-lg"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
