@@ -97,7 +97,7 @@ const HeroSection = () => {
           >
             <EnhancedButton 
               size="xl" 
-              variant="gradient"
+              variant="solid"
               animation="glow"
               icon={<Target className="h-5 w-5" />}
               className="btn-modern font-bold text-lg shadow-glass-lg interactive-lift"
