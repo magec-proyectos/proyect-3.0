@@ -35,7 +35,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <>
             <Button variant="outline" size="sm" onClick={openLoginDialog}>Log In</Button>
             <Button 
-              className="bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
               onClick={openRegisterDialog}
             >
               Get Started
@@ -65,7 +65,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <>
           <Button variant="outline" size="sm" onClick={openLoginDialog}>Log In</Button>
           <Button 
-            className="bg-gradient-to-r from-neon-blue to-neon-lime text-black font-medium"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
             onClick={openRegisterDialog}
           >
             Get Started

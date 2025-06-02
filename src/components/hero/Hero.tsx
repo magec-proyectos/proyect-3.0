@@ -53,10 +53,10 @@ const Hero = () => {
                 className="relative"
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-neon-blue to-neon-lime rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                <div className="absolute -inset-0.5 bg-blue-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
                 <Button 
                   size="lg" 
-                  className="relative bg-dark-lighter border-2 border-neon-blue hover:bg-dark-card hover:border-neon-lime hover:text-neon-lime text-neon-blue font-medium px-8 py-6 text-lg shadow-lg hover:shadow-neon-blue/20 transition-all duration-300"
+                  className="relative bg-blue-600 border-2 border-blue-600 hover:bg-blue-700 hover:border-blue-700 text-white font-medium px-8 py-6 text-lg shadow-lg hover:shadow-blue-600/20 transition-all duration-300"
                 >
                   Get started for FREE
                   <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
