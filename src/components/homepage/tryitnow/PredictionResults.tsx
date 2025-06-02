@@ -176,7 +176,7 @@ const PredictionResults: React.FC<PredictionResultsProps> = ({
               </EnhancedButton>
               
               <EnhancedButton 
-                variant={activeSport === 'basketball' ? 'sport' : activeSport === 'americanFootball' ? 'sport' : 'sport'}
+                variant={activeSport}
                 size="default"
                 animation="glow"
                 icon={<Star className="w-4 h-4" />}
