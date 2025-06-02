@@ -58,7 +58,7 @@ const PopularPicks = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="bg-dark-card border-dark-border hover:border-neon-blue/50 transition-all duration-300 group cursor-pointer">
+            <Card className="bg-dark-card border-dark-border hover:border-blue-600/50 transition-all duration-300 group cursor-pointer">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
@@ -78,14 +78,14 @@ const PopularPicks = () => {
                     <span className="text-sm text-gray-400 line-through">
                       {pick.originalOdds.toFixed(2)}
                     </span>
-                    <span className="text-lg font-bold text-neon-lime">
+                    <span className="text-lg font-bold text-green-600">
                       {pick.boost.toFixed(2)}
                     </span>
                   </div>
                   <TrendingUp className="h-4 w-4 text-green-500" />
                 </div>
 
-                <Button className="w-full bg-neon-blue hover:bg-neon-blue/90 text-black font-medium">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium">
                   <Plus className="h-4 w-4 mr-2" />
                   Add to Slip
                 </Button>

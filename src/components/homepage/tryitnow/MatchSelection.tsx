@@ -52,6 +52,19 @@ const MatchSelection: React.FC<MatchSelectionProps> = ({
     }
   };
 
+  const getSolidButtonClass = () => {
+    switch (activeSport) {
+      case 'football':
+        return 'bg-blue-600 hover:bg-blue-700 text-white';
+      case 'basketball':
+        return 'bg-orange-600 hover:bg-orange-700 text-white';
+      case 'americanFootball':
+        return 'bg-purple-600 hover:bg-purple-700 text-white';
+      default:
+        return 'bg-blue-600 hover:bg-blue-700 text-white';
+    }
+  };
+
   return (
     <motion.div 
       key="selection-form"
@@ -80,7 +93,7 @@ const MatchSelection: React.FC<MatchSelectionProps> = ({
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button 
             onClick={onGetPrediction}
-            className={`w-full ${getButtonStyle()} font-medium h-12 transition-all`}
+            className={`w-full ${getSolidButtonClass()} font-medium h-12 transition-all shadow-lg`}
             disabled={!selectedMatch}
           >
             Get Prediction
