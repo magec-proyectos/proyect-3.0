@@ -17,11 +17,9 @@ const enhancedButtonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        // Solid color variants instead of gradients
+        // Solid color variants (removed neon/gradient variants)
         solid: "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl",
-        neon: "bg-dark-card border-2 border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black shadow-lg hover:shadow-neon-blue/50",
-        sport: "bg-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105",
-        glass: "backdrop-blur-md bg-white/10 border border-white/20 text-white hover:bg-white/20 shadow-lg",
+        glass: "backdrop-blur-md bg-dark-card/50 border border-gray-600 text-white hover:bg-dark-card/70 shadow-lg",
         success: "bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg",
         warning: "bg-amber-600 text-white hover:bg-amber-700 shadow-md hover:shadow-lg",
         error: "bg-red-600 text-white hover:bg-red-700 shadow-md hover:shadow-lg",

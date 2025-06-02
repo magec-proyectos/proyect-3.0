@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -16,14 +15,14 @@
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 217 91% 60%; /* Solid blue instead of gradient */
+    --primary: 217 91% 60%; /* Blue primary #2563eb */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 142 76% 36%; /* Solid green instead of gradient */
+    --secondary: 142 76% 36%; /* Green #22c55e */
     --secondary-foreground: 0 0% 98%;
 
     --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 75%;
+    --muted-foreground: 0 0% 55%; /* Gray neutral for secondary text */
 
     --accent: 217 91% 60%;
     --accent-foreground: 0 0% 98%;
@@ -31,7 +30,7 @@
     --destructive: 358 75% 59%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 18%;
+    --border: 0 0% 25%; /* Gray for borders */
     --input: 0 0% 12%;
     --ring: 217 91% 60%;
 
@@ -47,21 +46,21 @@
     --spacing-3xl: 4rem;
     --spacing-4xl: 6rem;
     
-    /* Enhanced color variables with solid colors */
+    /* Enhanced color variables with solid colors only */
     --surface-primary: 15 15 15;
     --surface-secondary: 25 25 25;
     --surface-tertiary: 35 35 35;
     --surface-elevated: 45 45 45;
     
-    --brand-blue: 217 91 60; /* Solid blue */
-    --brand-green: 142 76 36; /* Solid green */
+    --brand-blue: 217 91 60; /* #2563eb */
+    --brand-green: 142 76 36; /* #22c55e */
     
     --success-rgb: 34 197 94;
     --warning-rgb: 245 158 11;
     --error-rgb: 239 68 68;
     --info-rgb: 14 165 233;
     
-    /* Glass effect variables */
+    /* Glass effect variables - simplified */
     --glass-bg: rgba(15, 15, 15, 0.65);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-backdrop: blur(24px) saturate(180%);
@@ -156,7 +155,7 @@
     font-size: 0.875rem;
   }
 
-  /* Enhanced glassmorphism effects */
+  /* Enhanced glassmorphism effects - simplified */
   .glass-card {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-backdrop);
@@ -251,7 +250,7 @@
       0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  /* Enhanced solid color components */
+  /* Enhanced solid color components - removed neon/gradient variants */
   .solid-text {
     color: hsl(var(--primary));
   }
@@ -261,7 +260,7 @@
     color: hsl(var(--primary-foreground));
   }
 
-  /* Enhanced sport-themed components with solid colors */
+  /* Enhanced sport-themed components with solid colors only */
   .sport-card-modern {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-backdrop);
@@ -289,7 +288,7 @@
     animation: shimmer 2s infinite linear;
   }
 
-  /* Enhanced button variants with solid colors */
+  /* Enhanced button variants with solid colors only */
   .btn-modern {
     position: relative;
     background: hsl(var(--primary));

@@ -37,9 +37,9 @@ const HeroSection = () => {
       {/* Glass overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background/20" />
       
-      {/* Floating decorative elements with glassmorphism */}
-      <div className="absolute top-20 left-10 w-32 h-32 glass-card rounded-full animate-float opacity-60" />
-      <div className="absolute bottom-20 right-10 w-40 h-40 glass-card rounded-full animate-float opacity-40" style={{ animationDelay: '1s' }} />
+      {/* Floating decorative elements with solid colors */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-600/10 rounded-full animate-float opacity-60" />
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-600/5 rounded-full animate-float opacity-40" style={{ animationDelay: '1s' }} />
       
       <div className={`relative container mx-auto ${spacing.getPadding('lg')} py-20 md:py-28`}>
         <motion.div 
@@ -49,23 +49,23 @@ const HeroSection = () => {
           className={`text-center max-w-5xl mx-auto ${spacing.getSpace('lg')}`}
         >
           
-          {/* Enhanced badge with glassmorphism */}
+          {/* Enhanced badge with solid colors */}
           <motion.div 
             className="flex justify-center mb-8"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <div className={`glass-button ${spacing.getPadding('md')} rounded-full flex items-center ${spacing.getGap('sm')}`}>
-              <Zap className="h-5 w-5 text-primary" />
-              <span className={`${typography.getTextClass('caption')} text-primary font-semibold uppercase tracking-wider`}>
+            <div className={`bg-dark-card/50 border border-gray-600 ${spacing.getPadding('md')} rounded-full flex items-center ${spacing.getGap('sm')}`}>
+              <Zap className="h-5 w-5 text-blue-600" />
+              <span className={`${typography.getTextClass('caption')} text-blue-600 font-semibold uppercase tracking-wider`}>
                 AI-Powered Analytics
               </span>
-              <TrendingUp className="h-5 w-5 text-secondary" />
+              <TrendingUp className="h-5 w-5 text-green-600" />
             </div>
           </motion.div>
           
-          {/* Enhanced main heading with new typography */}
+          {/* Enhanced main heading */}
           <motion.h1 
             className={`${typography.getResponsiveClass('display-md', 'display-2xl')} mb-8 leading-tight ${typography.balance}`}
             initial={{ opacity: 0, y: 20 }}
@@ -73,14 +73,14 @@ const HeroSection = () => {
             transition={{ delay: 0.4, duration: 0.8 }}
           >
             Smarter Football Bets,{' '}
-            <span className="gradient-text animate-pulse-soft">
+            <span className="text-blue-600">
               Backed by Real-Time AI
             </span>
           </motion.h1>
           
           {/* Enhanced subtitle */}
           <motion.p 
-            className={`${typography.getResponsiveClass('body-md', 'body-lg')} text-muted-foreground mb-12 max-w-3xl mx-auto ${typography.pretty}`}
+            className={`${typography.getResponsiveClass('body-md', 'body-lg')} text-gray-400 mb-12 max-w-3xl mx-auto ${typography.pretty}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -100,7 +100,7 @@ const HeroSection = () => {
               variant="solid"
               animation="glow"
               icon={<Target className="h-5 w-5" />}
-              className="btn-modern font-bold text-lg shadow-glass-lg interactive-lift"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg interactive-lift"
             >
               View Today's Picks
             </EnhancedButton>
@@ -109,19 +109,19 @@ const HeroSection = () => {
               variant="outline" 
               size="xl" 
               icon={<BarChart3 className="h-5 w-5" />}
-              className="glass-button border-2 border-border hover:border-primary/30 text-foreground hover:text-primary interactive-lift"
+              className="border-2 border-gray-600 bg-transparent hover:border-blue-600 text-gray-300 hover:text-blue-600 interactive-lift"
             >
               Explore Matches
             </EnhancedButton>
           </motion.div>
           
-          {/* Enhanced stats grid with glassmorphism */}
+          {/* Enhanced stats grid with solid colors */}
           <div className={`grid grid-cols-2 md:grid-cols-4 ${spacing.getGap('lg')}`}>
             {[
-              { value: "20+", label: "Leagues", color: "primary", delay: 0 },
-              { value: "87%", label: "Accuracy", color: "secondary", delay: 1 },
-              { value: "Live", label: "Odds", color: "primary", delay: 2 },
-              { value: "Real-time", label: "Analytics", color: "secondary", delay: 3 }
+              { value: "20+", label: "Leagues", color: "blue-600", delay: 0 },
+              { value: "87%", label: "Accuracy", color: "green-600", delay: 1 },
+              { value: "Live", label: "Odds", color: "blue-600", delay: 2 },
+              { value: "Real-time", label: "Analytics", color: "green-600", delay: 3 }
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -131,13 +131,13 @@ const HeroSection = () => {
                 variants={statsVariants}
               >
                 <AnimatedCard intensity="moderate">
-                  <div className={`glass-card ${spacing.getPadding('lg')} rounded-xl hover:shadow-glass-lg transition-all duration-300 group interactive-lift`}>
+                  <div className={`bg-dark-card/50 border border-gray-600 hover:border-${stat.color}/30 ${spacing.getPadding('lg')} rounded-xl hover:shadow-lg transition-all duration-300 group interactive-lift`}>
                     <motion.div 
                       className={`${typography.getTextClass('display-sm')} text-${stat.color} mb-2 group-hover:scale-110 transition-transform duration-300`}
                     >
                       {stat.value}
                     </motion.div>
-                    <div className={`${typography.getTextClass('caption')} text-muted-foreground font-medium`}>
+                    <div className={`${typography.getTextClass('caption')} text-gray-400 font-medium`}>
                       {stat.label}
                     </div>
                   </div>
