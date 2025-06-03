@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FollowingProvider } from "@/contexts/FollowingContext";
+import { FootballProvider } from "@/contexts/FootballContext";
 import NotificationProvider from "@/contexts/NotificationContext";
 import Index from "./pages/Index";
 import Sports from "./pages/Sports";
@@ -32,27 +33,29 @@ function App() {
         <AuthProvider>
           <NotificationProvider>
             <FollowingProvider>
-              <Toaster />
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/sports" element={<Sports />} />
-                  <Route path="/american-football" element={<AmericanFootball />} />
-                  <Route path="/basketball" element={<Basketball />} />
-                  <Route path="/casino" element={<Casino />} />
-                  <Route path="/roulette" element={<Roulette />} />
-                  <Route path="/blackjack" element={<Blackjack />} />
-                  <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/dashboard" element={<AdvancedDashboard />} />
-                  <Route path="/admin" element={<AdminLogin />} />
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/legal" element={<Legal />} />
-                  <Route path="/social" element={<Social />} />
-                  <Route path="/square" element={<Square />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
+              <FootballProvider>
+                <Toaster />
+                <BrowserRouter>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/sports" element={<Sports />} />
+                    <Route path="/american-football" element={<AmericanFootball />} />
+                    <Route path="/basketball" element={<Basketball />} />
+                    <Route path="/casino" element={<Casino />} />
+                    <Route path="/roulette" element={<Roulette />} />
+                    <Route path="/blackjack" element={<Blackjack />} />
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/dashboard" element={<AdvancedDashboard />} />
+                    <Route path="/admin" element={<AdminLogin />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route path="/legal" element={<Legal />} />
+                    <Route path="/social" element={<Social />} />
+                    <Route path="/square" element={<Square />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </FootballProvider>
             </FollowingProvider>
           </NotificationProvider>
         </AuthProvider>
