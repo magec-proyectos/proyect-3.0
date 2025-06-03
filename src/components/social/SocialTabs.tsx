@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap } from 'lucide-react';
+import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus } from 'lucide-react';
 import PostFeed from './PostFeed';
 import CreatePostForm from './CreatePostForm';
+import SuggestedUsers from './SuggestedUsers';
 import { Post } from './PostItem';
 
 interface SocialTabsProps {
@@ -40,6 +41,12 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         return [...postsToFilter].sort((a, b) => b.bet.odds - a.bet.odds);
       case 'lowest-odds':
         return [...postsToFilter].sort((a, b) => a.bet.odds - b.bet.odds);
+      case 'following':
+        // Aquí filtrarías por usuarios que sigues
+        return postsToFilter.filter(post => {
+          // Por ahora simulamos que algunos posts son de usuarios seguidos
+          return post.id % 2 === 0;
+        });
       case 'all':
       default:
         return postsToFilter;
@@ -54,27 +61,39 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* Usuarios sugeridos */}
+      <SuggestedUsers />
+
       {/* Trending carousel - only show if we have trending posts */}
       {trendingPosts.length > 0 && (
         <div className="mb-8 bg-dark-lighter p-4 rounded-lg border border-dark-border">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp size={18} className="text-neon-blue" />
-            <h3 className="font-medium">Trending Predictions</h3>
+            <h3 className="font-medium">Predicciones Trending</h3>
+            <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/30">
+              HOT
+            </Badge>
           </div>
           
           <Carousel className="w-full">
             <CarouselContent>
               {trendingPosts.map((post) => (
                 <CarouselItem key={post.id} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="bg-dark-card p-4 rounded-lg border border-dark-border h-full">
+                  <div className="bg-dark-card p-4 rounded-lg border border-dark-border h-full hover:border-neon-blue/30 transition-all cursor-pointer">
                     <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline" className="bg-neon-blue/10 text-neon-blue">
+                      <Badge variant="outline" className="bg-neon-blue/10 text-neon-blue border-neon-blue/30">
                         <ArrowUp className="mr-1 h-3 w-3" /> {post.likes} likes
+                      </Badge>
+                      <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30">
+                        🔥 Viral
                       </Badge>
                     </div>
                     <p className="text-sm line-clamp-2 mb-2">{post.content}</p>
                     <div className="text-xs text-gray-400">{post.bet.match}</div>
                     <div className="text-sm font-medium text-neon-blue">{post.bet.prediction}</div>
+                    <div className="mt-2 text-xs text-gray-500">
+                      Por @{post.user.username}
+                    </div>
                   </div>
                 </CarouselItem>
               ))}
@@ -92,44 +111,51 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('all')}
         >
-          All
+          Todos
+        </Badge>
+        <Badge 
+          variant={activeFilter === 'following' ? "default" : "outline"}
+          className="cursor-pointer transition-all hover:bg-neon-blue/20"
+          onClick={() => setActiveFilter('following')}
+        >
+          <UserPlus className="mr-1 h-3 w-3" /> Siguiendo
         </Badge>
         <Badge 
           variant={activeFilter === 'trending' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('trending')}
         >
-          <TrendingUp className="mr-1 h-3 w-3" /> Most Liked
+          <TrendingUp className="mr-1 h-3 w-3" /> Más Populares
         </Badge>
         <Badge 
           variant={activeFilter === 'highest-odds' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('highest-odds')}
         >
-          <Zap className="mr-1 h-3 w-3" /> Highest Odds
+          <Zap className="mr-1 h-3 w-3" /> Mayores Cuotas
         </Badge>
         <Badge 
           variant={activeFilter === 'lowest-odds' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('lowest-odds')}
         >
-          <Filter className="mr-1 h-3 w-3" /> Lowest Odds
+          <Filter className="mr-1 h-3 w-3" /> Cuotas Seguras
         </Badge>
       </div>
       
-      <Tabs defaultValue="trending" className="mb-8">
+      <Tabs defaultValue="feed" className="mb-8">
         <TabsList className="bg-dark-lighter border-dark-border mb-6">
-          <TabsTrigger value="trending" className="flex items-center gap-2">
+          <TabsTrigger value="feed" className="flex items-center gap-2">
             <TrendingUp size={14} />
-            Trending
+            Feed Principal
           </TabsTrigger>
           <TabsTrigger value="following" className="flex items-center gap-2">
             <Users size={14} />
-            Following
+            Siguiendo
           </TabsTrigger>
           <TabsTrigger value="latest" className="flex items-center gap-2">
             <Clock size={14} />
-            Latest
+            Recientes
           </TabsTrigger>
         </TabsList>
         
@@ -137,7 +163,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           <CreatePostForm onCreatePost={onCreatePost} onCancel={onCancelPost} />
         )}
         
-        <TabsContent value="trending" className="animate-fade-in">
+        <TabsContent value="feed" className="animate-fade-in">
           <PostFeed 
             posts={filterPosts(posts)}
             likedPosts={likedPosts}
@@ -148,9 +174,21 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         </TabsContent>
         
         <TabsContent value="following" className="animate-fade-in">
-          <div className="text-center py-10 bg-dark-lighter/50 rounded-lg border border-dashed border-dark-border">
-            <p className="text-gray-400">Follow other users to see their posts here</p>
-          </div>
+          {activeFilter === 'following' || true ? (
+            <PostFeed 
+              posts={filterPosts(posts).filter(post => post.id % 2 === 0)}
+              likedPosts={likedPosts}
+              onLike={onLike}
+              onShare={onShare}
+              onAddComment={onAddComment}
+            />
+          ) : (
+            <div className="text-center py-10 bg-dark-lighter/50 rounded-lg border border-dashed border-dark-border">
+              <UserPlus className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+              <p className="text-gray-400 mb-4">Sigue a otros usuarios para ver sus posts aquí</p>
+              <p className="text-sm text-gray-500">Encuentra usuarios expertos en la sección de recomendados</p>
+            </div>
+          )}
         </TabsContent>
         
         <TabsContent value="latest" className="animate-fade-in">
