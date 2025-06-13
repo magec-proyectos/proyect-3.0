@@ -21,7 +21,7 @@ interface TouchGestureOptions {
   onPinch?: (scale: number) => void;
 }
 
-export const useTouchGestures = (options: TouchGestureOptions = {}) => {
+export const useTouchGestures = <T extends HTMLElement = HTMLElement>(options: TouchGestureOptions = {}) => {
   const {
     threshold = 50,
     velocityThreshold = 0.3,
@@ -38,7 +38,7 @@ export const useTouchGestures = (options: TouchGestureOptions = {}) => {
   const [initialDistance, setInitialDistance] = useState(0);
   
   const longPressTimer = useRef<NodeJS.Timeout>();
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<T>(null);
 
   const calculateDistance = useCallback((touch1: Touch, touch2: Touch) => {
     return Math.sqrt(

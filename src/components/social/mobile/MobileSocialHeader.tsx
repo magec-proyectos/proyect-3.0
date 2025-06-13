@@ -34,7 +34,7 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
     { id: 'live', label: 'En Vivo', count: 3 }
   ];
 
-  const { elementRef } = useTouchGestures({
+  const { elementRef } = useTouchGestures<HTMLDivElement>({
     onSwipe: (swipe) => {
       if (swipe.direction === 'down' && showFilters) {
         setShowFilters(false);

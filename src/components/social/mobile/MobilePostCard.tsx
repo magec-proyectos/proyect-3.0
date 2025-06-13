@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -33,7 +32,7 @@ const MobilePostCard: React.FC<MobilePostCardProps> = ({
   const [isBookmarked, setIsBookmarked] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const { elementRef } = useTouchGestures({
+  const { elementRef } = useTouchGestures<HTMLDivElement>({
     onSwipe: (swipe) => {
       if (swipe.direction === 'left' && swipe.distance > 100) {
         // Quick like gesture
