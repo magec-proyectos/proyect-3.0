@@ -27,7 +27,7 @@ const sampleMatches = [
       id: 'rm',
       name: 'Real Madrid',
       logo: '/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png',
-      form: ['W', 'W', 'D', 'W', 'L'],
+      form: ['W', 'W', 'D', 'W', 'L'] as const,
       stats: {
         goals: { for: 25, against: 10 },
         possession: 65,
@@ -41,7 +41,7 @@ const sampleMatches = [
       id: 'fcb',
       name: 'Barcelona',
       logo: '/lovable-uploads/7947049c-9853-47cd-b647-285643900698.png',
-      form: ['W', 'L', 'W', 'W', 'D'],
+      form: ['W', 'L', 'W', 'W', 'D'] as const,
       stats: {
         goals: { for: 22, against: 12 },
         possession: 68,
@@ -75,7 +75,7 @@ const sampleMatches = [
       id: 'lfc',
       name: 'Liverpool',
       logo: '/lovable-uploads/2418d250-be60-4431-a20f-d5515ca78132.png',
-      form: ['W', 'W', 'W', 'D', 'W'],
+      form: ['W', 'W', 'W', 'D', 'W'] as const,
       stats: {
         goals: { for: 28, against: 8 },
         possession: 62,
@@ -89,7 +89,7 @@ const sampleMatches = [
       id: 'mcfc',
       name: 'Manchester City',
       logo: '/lovable-uploads/57ee4d31-5f2d-4b5d-b546-ad99ab1f37dd.png',
-      form: ['W', 'W', 'L', 'W', 'W'],
+      form: ['W', 'W', 'L', 'W', 'W'] as const,
       stats: {
         goals: { for: 26, against: 9 },
         possession: 70,
