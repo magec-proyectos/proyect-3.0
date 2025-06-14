@@ -24,14 +24,32 @@ const sampleMatches = [
   {
     id: '1',
     homeTeam: {
+      id: 'rm',
       name: 'Real Madrid',
       logo: '/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png',
-      form: ['W', 'W', 'D', 'W', 'L']
+      form: ['W', 'W', 'D', 'W', 'L'],
+      stats: {
+        goals: { for: 25, against: 10 },
+        possession: 65,
+        xG: 2.1,
+        shots: 15,
+        shotsOnTarget: 8,
+        corners: 6
+      }
     },
     awayTeam: {
+      id: 'fcb',
       name: 'Barcelona',
       logo: '/lovable-uploads/7947049c-9853-47cd-b647-285643900698.png',
-      form: ['W', 'L', 'W', 'W', 'D']
+      form: ['W', 'L', 'W', 'W', 'D'],
+      stats: {
+        goals: { for: 22, against: 12 },
+        possession: 68,
+        xG: 1.9,
+        shots: 13,
+        shotsOnTarget: 7,
+        corners: 5
+      }
     },
     date: '2024-01-15',
     time: '20:00',
@@ -40,21 +58,46 @@ const sampleMatches = [
     drawOdds: 3.20,
     awayOdds: 2.80,
     predictions: {
+      homeScore: 2,
+      awayScore: 1,
+      winProbability: { home: 45, draw: 25, away: 30 },
+      btts: { yes: 65, no: 35 },
+      over: { value: 2.5, probability: 70 },
       confidence: 78,
+      bets: [],
       recommended: 'Real Madrid'
-    }
+    },
+    status: 'upcoming' as const
   },
   {
     id: '2',
     homeTeam: {
+      id: 'lfc',
       name: 'Liverpool',
       logo: '/lovable-uploads/2418d250-be60-4431-a20f-d5515ca78132.png',
-      form: ['W', 'W', 'W', 'D', 'W']
+      form: ['W', 'W', 'W', 'D', 'W'],
+      stats: {
+        goals: { for: 28, against: 8 },
+        possession: 62,
+        xG: 2.3,
+        shots: 16,
+        shotsOnTarget: 9,
+        corners: 7
+      }
     },
     awayTeam: {
+      id: 'mcfc',
       name: 'Manchester City',
       logo: '/lovable-uploads/57ee4d31-5f2d-4b5d-b546-ad99ab1f37dd.png',
-      form: ['W', 'W', 'L', 'W', 'W']
+      form: ['W', 'W', 'L', 'W', 'W'],
+      stats: {
+        goals: { for: 26, against: 9 },
+        possession: 70,
+        xG: 2.0,
+        shots: 14,
+        shotsOnTarget: 8,
+        corners: 6
+      }
     },
     date: '2024-01-16',
     time: '17:30',
@@ -63,9 +106,16 @@ const sampleMatches = [
     drawOdds: 3.45,
     awayOdds: 3.20,
     predictions: {
+      homeScore: 1,
+      awayScore: 1,
+      winProbability: { home: 40, draw: 30, away: 30 },
+      btts: { yes: 75, no: 25 },
+      over: { value: 2.5, probability: 80 },
       confidence: 85,
+      bets: [],
       recommended: 'Liverpool'
-    }
+    },
+    status: 'upcoming' as const
   }
 ];
 

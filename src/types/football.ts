@@ -70,6 +70,7 @@ export interface Prediction {
   };
   confidence: number;
   bets: Bet[];
+  recommended?: string; // Added this optional property
 }
 
 export interface Match {
