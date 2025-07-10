@@ -5,24 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion } from 'framer-motion';
-
-interface Team {
-  id: string;
-  name: string;
-  logo: string;
-  form: string[];
-  stats: {
-    goals: {
-      for: number;
-      against: number;
-    };
-    possession: number;
-    xG: number;
-    shots: number;
-    shotsOnTarget: number;
-    corners: number;
-  };
-}
+import { Team } from '@/types/football';
 
 interface StatsPanelProps {
   homeTeam: Team;

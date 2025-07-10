@@ -18,7 +18,7 @@ const InteractiveBetField = () => {
     setExpandedMatch(expandedMatch === matchId ? null : matchId);
   };
 
-  const getFormIcon = (form: string[]) => {
+  const getFormIcon = (form: readonly ('w' | 'l' | 'd' | 'W' | 'L' | 'D')[]) => {
     const recentForm = form.slice(0, 3);
     const wins = recentForm.filter(result => result.toUpperCase() === 'W').length;
     
