@@ -32,10 +32,10 @@ export const AccessibilityPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const fontSizeLabels = {
-    small: 'Pequeño',
-    medium: 'Mediano',
-    large: 'Grande',
-    'extra-large': 'Extra Grande'
+    small: 'Small',
+    medium: 'Medium',
+    large: 'Large',
+    'extra-large': 'Extra Large'
   };
 
   return (
@@ -50,7 +50,7 @@ export const AccessibilityPanel = () => {
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           isOpen && "bg-primary/90"
         )}
-        aria-label="Abrir panel de accesibilidad"
+        aria-label="Open accessibility panel"
         aria-expanded={isOpen}
       >
         <Accessibility className="h-5 w-5" />
@@ -66,7 +66,7 @@ export const AccessibilityPanel = () => {
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Accessibility className="h-5 w-5" />
-              Configuración de Accesibilidad
+              Accessibility Settings
             </CardTitle>
           </CardHeader>
 
@@ -76,7 +76,7 @@ export const AccessibilityPanel = () => {
               <div className="flex items-center justify-between">
                 <Label htmlFor="high-contrast" className="flex items-center gap-2 text-sm font-medium">
                   <Contrast className="h-4 w-4" />
-                  Alto Contraste
+                  High Contrast
                 </Label>
                 <Switch
                   id="high-contrast"
@@ -86,7 +86,7 @@ export const AccessibilityPanel = () => {
                 />
               </div>
               <p id="high-contrast-desc" className="text-xs text-muted-foreground">
-                Aumenta el contraste para mejorar la legibilidad
+                Increases contrast to improve readability
               </p>
             </div>
 
@@ -94,7 +94,7 @@ export const AccessibilityPanel = () => {
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-sm font-medium">
                 <Type className="h-4 w-4" />
-                Tamaño de Fuente: {fontSizeLabels[settings.fontSize]}
+                Font Size: {fontSizeLabels[settings.fontSize]}
               </Label>
               <div className="flex items-center gap-2">
                 <Button
@@ -102,7 +102,7 @@ export const AccessibilityPanel = () => {
                   size="sm"
                   onClick={decreaseFontSize}
                   disabled={settings.fontSize === 'small'}
-                  aria-label="Disminuir tamaño de fuente"
+                  aria-label="Decrease font size"
                 >
                   <Minus className="h-3 w-3" />
                 </Button>
@@ -114,7 +114,7 @@ export const AccessibilityPanel = () => {
                   size="sm"
                   onClick={increaseFontSize}
                   disabled={settings.fontSize === 'extra-large'}
-                  aria-label="Aumentar tamaño de fuente"
+                  aria-label="Increase font size"
                 >
                   <Plus className="h-3 w-3" />
                 </Button>
@@ -126,7 +126,7 @@ export const AccessibilityPanel = () => {
               <div className="flex items-center justify-between">
                 <Label htmlFor="reduce-motion" className="flex items-center gap-2 text-sm font-medium">
                   <Zap className="h-4 w-4" />
-                  Reducir Animaciones
+                  Reduce Animations
                 </Label>
                 <Switch
                   id="reduce-motion"
@@ -136,7 +136,7 @@ export const AccessibilityPanel = () => {
                 />
               </div>
               <p id="reduce-motion-desc" className="text-xs text-muted-foreground">
-                Reduce las animaciones para evitar mareos
+                Reduces animations to prevent dizziness
               </p>
             </div>
 
@@ -145,7 +145,7 @@ export const AccessibilityPanel = () => {
               <div className="flex items-center justify-between">
                 <Label htmlFor="focus-visible" className="flex items-center gap-2 text-sm font-medium">
                   <Focus className="h-4 w-4" />
-                  Indicador de Foco
+                  Focus Indicator
                 </Label>
                 <Switch
                   id="focus-visible"
@@ -155,7 +155,7 @@ export const AccessibilityPanel = () => {
                 />
               </div>
               <p id="focus-visible-desc" className="text-xs text-muted-foreground">
-                Muestra indicadores visuales al navegar con teclado
+                Shows visual indicators when navigating with keyboard
               </p>
             </div>
 
@@ -164,20 +164,20 @@ export const AccessibilityPanel = () => {
               onClick={resetSettings}
               variant="outline"
               className="w-full"
-              aria-label="Restablecer configuración de accesibilidad"
+              aria-label="Reset accessibility settings"
             >
               <RotateCcw className="h-4 w-4 mr-2" />
-              Restablecer Configuración
+              Reset Settings
             </Button>
 
             {/* Keyboard Shortcuts Info */}
             <div className="pt-4 border-t">
-              <h4 className="text-sm font-medium mb-2">Atajos de Teclado:</h4>
+              <h4 className="text-sm font-medium mb-2">Keyboard Shortcuts:</h4>
               <div className="space-y-1 text-xs text-muted-foreground">
-                <div>• Alt + C: Alternar alto contraste</div>
-                <div>• Alt + +: Aumentar fuente</div>
-                <div>• Alt + -: Disminuir fuente</div>
-                <div>• Escape: Cerrar panel</div>
+                <div>• Alt + C: Toggle high contrast</div>
+                <div>• Alt + +: Increase font size</div>
+                <div>• Alt + -: Decrease font size</div>
+                <div>• Escape: Close panel</div>
               </div>
             </div>
           </CardContent>

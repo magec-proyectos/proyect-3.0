@@ -28,10 +28,10 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const filters = [
-    { id: 'all', label: 'Todos', count: null },
-    { id: 'following', label: 'Siguiendo', count: 12 },
+    { id: 'all', label: 'All', count: null },
+    { id: 'following', label: 'Following', count: 12 },
     { id: 'trending', label: 'Trending', count: 5 },
-    { id: 'live', label: 'En Vivo', count: 3 }
+    { id: 'live', label: 'Live', count: 3 }
   ];
 
   const { elementRef } = useTouchGestures<HTMLDivElement>({
@@ -113,7 +113,7 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar posts, usuarios..."
+                  placeholder="Search posts, users..."
                   className="flex-1 bg-dark-lighter border border-dark-border rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-neon-blue focus:outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
                 />
@@ -122,7 +122,7 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
                   size="sm"
                   className="bg-neon-blue text-black hover:bg-neon-blue/90"
                 >
-                  Buscar
+                  Search
                 </Button>
               </div>
             </motion.div>
@@ -165,7 +165,7 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
           >
             <div className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-white">Filtros Avanzados</h3>
+                <h3 className="text-sm font-medium text-white">Advanced Filters</h3>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -178,16 +178,16 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
               
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <Button variant="outline" size="sm" className="justify-start">
-                  🏆 Mejores predicciones
+                  🏆 Best Predictions
                 </Button>
                 <Button variant="outline" size="sm" className="justify-start">
-                  🔥 Cuotas altas
+                  🔥 High Odds
                 </Button>
                 <Button variant="outline" size="sm" className="justify-start">
-                  ⚡ Última hora
+                  ⚡ Breaking News
                 </Button>
                 <Button variant="outline" size="sm" className="justify-start">
-                  📊 Con análisis
+                  📊 With Analysis
                 </Button>
               </div>
             </div>

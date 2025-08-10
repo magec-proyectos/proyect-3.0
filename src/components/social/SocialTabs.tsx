@@ -69,7 +69,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         <div className="mb-8 bg-dark-lighter p-4 rounded-lg border border-dark-border">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp size={18} className="text-neon-blue" />
-            <h3 className="font-medium">Predicciones Trending</h3>
+            <h3 className="font-medium">Trending Predictions</h3>
             <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/30">
               HOT
             </Badge>
@@ -92,7 +92,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
                     <div className="text-xs text-gray-400">{post.bet.match}</div>
                     <div className="text-sm font-medium text-neon-blue">{post.bet.prediction}</div>
                     <div className="mt-2 text-xs text-gray-500">
-                      Por @{post.user.username}
+                      By @{post.user.username}
                     </div>
                   </div>
                 </CarouselItem>
@@ -111,35 +111,35 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('all')}
         >
-          Todos
+          All
         </Badge>
         <Badge 
           variant={activeFilter === 'following' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('following')}
         >
-          <UserPlus className="mr-1 h-3 w-3" /> Siguiendo
+          <UserPlus className="mr-1 h-3 w-3" /> Following
         </Badge>
         <Badge 
           variant={activeFilter === 'trending' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('trending')}
         >
-          <TrendingUp className="mr-1 h-3 w-3" /> Más Populares
+          <TrendingUp className="mr-1 h-3 w-3" /> Most Popular
         </Badge>
         <Badge 
           variant={activeFilter === 'highest-odds' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('highest-odds')}
         >
-          <Zap className="mr-1 h-3 w-3" /> Mayores Cuotas
+          <Zap className="mr-1 h-3 w-3" /> Highest Odds
         </Badge>
         <Badge 
           variant={activeFilter === 'lowest-odds' ? "default" : "outline"}
           className="cursor-pointer transition-all hover:bg-neon-blue/20"
           onClick={() => setActiveFilter('lowest-odds')}
         >
-          <Filter className="mr-1 h-3 w-3" /> Cuotas Seguras
+          <Filter className="mr-1 h-3 w-3" /> Safe Odds
         </Badge>
       </div>
       
@@ -147,15 +147,15 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         <TabsList className="bg-dark-lighter border-dark-border mb-6">
           <TabsTrigger value="feed" className="flex items-center gap-2">
             <TrendingUp size={14} />
-            Feed Principal
+            Main Feed
           </TabsTrigger>
           <TabsTrigger value="following" className="flex items-center gap-2">
             <Users size={14} />
-            Siguiendo
+            Following
           </TabsTrigger>
           <TabsTrigger value="latest" className="flex items-center gap-2">
             <Clock size={14} />
-            Recientes
+            Recent
           </TabsTrigger>
         </TabsList>
         
@@ -185,8 +185,8 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           ) : (
             <div className="text-center py-10 bg-dark-lighter/50 rounded-lg border border-dashed border-dark-border">
               <UserPlus className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-              <p className="text-gray-400 mb-4">Sigue a otros usuarios para ver sus posts aquí</p>
-              <p className="text-sm text-gray-500">Encuentra usuarios expertos en la sección de recomendados</p>
+              <p className="text-gray-400 mb-4">Follow other users to see their posts here</p>
+              <p className="text-sm text-gray-500">Find expert users in the recommended section</p>
             </div>
           )}
         </TabsContent>

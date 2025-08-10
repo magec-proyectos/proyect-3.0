@@ -280,7 +280,7 @@ const MobileMatchCard: React.FC<MobileMatchCardProps> = ({
                   }}
                 >
                   <TrendingUp className="w-5 h-5 mr-3 text-blue-400" />
-                  Ver análisis completo
+                  View complete analysis
                 </Button>
               </div>
             </motion.div>

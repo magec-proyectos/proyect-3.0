@@ -92,7 +92,7 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
             <div>
               <h2 className="text-lg font-semibold text-white">Bet Builder</h2>
               <p className="text-sm text-gray-400">
-                {betSlip.length} selección{betSlip.length !== 1 ? 'es' : ''}
+                {betSlip.length} selection{betSlip.length !== 1 ? 's' : ''}
               </p>
             </div>
           </div>
@@ -132,9 +132,9 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
                       : 'bg-transparent text-gray-300'
                   }`}
                 >
-                  {type === 'single' && 'Simple'}
+                  {type === 'single' && 'Single'}
                   {type === 'combinada' && 'Combo'}
-                  {type === 'sistema' && 'Sistema'}
+                  {type === 'sistema' && 'System'}
                 </Button>
               ))}
             </div>
@@ -181,8 +181,8 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
               <div className="text-center py-8 text-gray-500">
                 <div className="p-4 bg-dark-lighter/50 rounded-lg border border-dashed border-gray-600">
                   <Plus className="h-8 w-8 mx-auto mb-2 text-gray-400" />
-                  <div className="text-sm font-medium mb-1">Sin selecciones</div>
-                  <div className="text-xs text-gray-600">Añade apuestas desde los partidos</div>
+                  <div className="text-sm font-medium mb-1">No selections</div>
+                  <div className="text-xs text-gray-600">Add bets from matches</div>
                 </div>
               </div>
             )}
@@ -194,7 +194,7 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
               {/* Stake Amount */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-gray-300">Cantidad</span>
+                  <span className="text-sm font-medium text-gray-300">Amount</span>
                   <span className="text-sm text-neon-blue font-medium">€</span>
                 </div>
                 <Input
@@ -225,19 +225,19 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
               {/* Potential Winnings */}
               <div className="bg-gradient-to-r from-dark-darker/80 to-dark-card/80 rounded-lg p-4 mb-4 border border-dark-border/50">
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="text-gray-400">Cuota Total:</span>
+                  <span className="text-gray-400">Total Odds:</span>
                   <span className="font-bold text-neon-blue">
                     {calculateTotalOdds().toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-300 font-medium">Ganancia Potencial</span>
+                  <span className="text-gray-300 font-medium">Potential Winnings</span>
                   <div className="text-right">
                     <div className="text-xl font-bold text-neon-lime">
                       {calculatePotentialReturn().toFixed(2)}€
                     </div>
                     <div className="text-xs text-green-400">
-                      +{(calculatePotentialReturn() - totalStake).toFixed(2)}€ beneficio
+                      +{(calculatePotentialReturn() - totalStake).toFixed(2)}€ profit
                     </div>
                   </div>
                 </div>
@@ -245,7 +245,7 @@ const MobileBetBuilder: React.FC<MobileBetBuilderProps> = ({
 
               {/* Place Bet Button */}
               <Button className="w-full bg-gradient-to-r from-neon-blue to-neon-lime text-black font-bold py-4 text-base rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300">
-                Hacer Apuesta
+                Place Bet
               </Button>
             </div>
           )}

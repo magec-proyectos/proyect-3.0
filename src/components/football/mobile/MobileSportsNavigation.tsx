@@ -139,7 +139,7 @@ const MobileSportsNavigation: React.FC<MobileSportsNavigationProps> = ({
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between p-4 border-b border-dark-border/50">
-                <h2 className="text-lg font-semibold text-white">Navegación</h2>
+                <h2 className="text-lg font-semibold text-white">Navigation</h2>
                 <Button
                   variant="ghost"
                   size="sm"

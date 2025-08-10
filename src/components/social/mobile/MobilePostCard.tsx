@@ -128,9 +128,9 @@ const MobilePostCard: React.FC<MobilePostCardProps> = ({
               {/* Bet Info Card */}
               <div className="bg-dark-lighter border border-neon-blue/30 rounded-lg p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-400 uppercase tracking-wide">Predicción</span>
+                  <span className="text-xs text-gray-400 uppercase tracking-wide">Prediction</span>
                   <Badge className="bg-green-500/10 text-green-400 border-green-500/30 text-xs">
-                    Cuota {post.bet.odds}x
+                    Odds {post.bet.odds}x
                   </Badge>
                 </div>
                 <h5 className="font-medium text-white text-sm mb-1">{post.bet.match}</h5>

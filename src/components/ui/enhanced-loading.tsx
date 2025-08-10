@@ -74,13 +74,13 @@ export const SportsLoading: React.FC<SportsLoadingProps> = ({
     
     switch (type) {
       case 'matches':
-        return 'Cargando partidos en vivo...';
+        return 'Loading live matches...';
       case 'stats':
-        return 'Analizando estadísticas...';
+        return 'Analyzing statistics...';
       case 'predictions':
-        return 'Generando predicciones IA...';
+        return 'Generating AI predictions...';
       default:
-        return 'Cargando...';
+        return 'Loading...';
     }
   };
 

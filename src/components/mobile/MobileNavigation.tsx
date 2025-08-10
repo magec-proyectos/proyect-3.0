@@ -16,11 +16,11 @@ interface NavItem {
 }
 
 const navigationItems: NavItem[] = [
-  { title: 'Inicio', href: '/', icon: Home },
-  { title: 'Deportes', href: '/sports', icon: Trophy },
-  { title: 'Estadísticas', href: '/stats', icon: TrendingUp },
-  { title: 'Perfil', href: '/profile', icon: User },
-  { title: 'Configuración', href: '/settings', icon: Settings },
+  { title: 'Home', href: '/', icon: Home },
+  { title: 'Sports', href: '/sports', icon: Trophy },
+  { title: 'Statistics', href: '/stats', icon: TrendingUp },
+  { title: 'Profile', href: '/profile', icon: User },
+  { title: 'Settings', href: '/settings', icon: Settings },
 ];
 
 export const MobileNavigation = () => {
@@ -79,7 +79,7 @@ export const MobileNavigation = () => {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="p-2">
                   <Menu className="h-5 w-5" />
-                  <span className="sr-only">Abrir menú de navegación</span>
+                  <span className="sr-only">Open navigation menu</span>
                 </Button>
               </SheetTrigger>
 
@@ -97,7 +97,7 @@ export const MobileNavigation = () => {
                       </div>
                       <div>
                         <h2 className="font-semibold">SportsBet</h2>
-                        <p className="text-sm text-muted-foreground">Tu plataforma de apuestas</p>
+                        <p className="text-sm text-muted-foreground">Your betting platform</p>
                       </div>
                     </div>
                     <Button 
@@ -152,7 +152,7 @@ export const MobileNavigation = () => {
                   {/* Footer */}
                   <div className="p-4 border-t border-border">
                     <div className="text-center text-sm text-muted-foreground">
-                      <p>Desliza hacia la izquierda para cerrar</p>
+                      <p>Swipe left to close</p>
                     </div>
                   </div>
                 </div>
