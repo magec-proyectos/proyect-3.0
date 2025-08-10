@@ -9,8 +9,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { FollowingProvider } from "@/contexts/FollowingContext";
 import { FootballProvider } from "@/contexts/FootballContext";
 import NotificationProvider from "@/contexts/NotificationContext";
-import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
-import { MobileNavigation } from "@/components/mobile/MobileNavigation";
+import { Layout } from "@/components/Layout";
 import Index from "./pages/Index";
 import Sports from "./pages/Sports";
 import AmericanFootball from "./pages/AmericanFootball";
@@ -41,10 +40,9 @@ function App() {
                 <FollowingProvider>
                   <FootballProvider>
                     <BrowserRouter>
-                      <AccessibilityPanel />
-                      <MobileNavigation />
-                      <Toaster />
-                      <Routes>
+                      <Layout>
+                        <Toaster />
+                        <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/sports" element={<Sports />} />
                     <Route path="/american-football" element={<AmericanFootball />} />
@@ -61,7 +59,8 @@ function App() {
                     <Route path="/square" element={<Square />} />
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="*" element={<NotFound />} />
-                      </Routes>
+                        </Routes>
+                      </Layout>
                     </BrowserRouter>
                   </FootballProvider>
                 </FollowingProvider>
