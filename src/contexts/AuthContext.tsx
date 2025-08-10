@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/components/ui/sonner';
+import { validatePassword, sanitizeInput, validateEmail } from '@/utils/passwordValidation';
 
 // Extended User type with custom properties
 export interface User extends SupabaseUser {
@@ -105,7 +106,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      await signIn(email, password);
+      // Sanitize email input
+      const sanitizedEmail = sanitizeInput(email);
+      
+      // Validate email format
+      if (!validateEmail(sanitizedEmail)) {
+        toast.error('Please enter a valid email address');
+        return false;
+      }
+
+      await signIn(sanitizedEmail, password);
       toast.success('Welcome back!');
       return true;
     } catch (error: any) {
@@ -119,17 +129,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (email: string, password: string, name: string): Promise<boolean> => {
     setIsLoading(true);
     try {
+      // Sanitize inputs
+      const sanitizedEmail = sanitizeInput(email);
+      const sanitizedName = sanitizeInput(name);
+
+      // Validate email
+      if (!validateEmail(sanitizedEmail)) {
+        toast.error('Please enter a valid email address');
+        return false;
+      }
+
+      // Validate password strength
+      const passwordValidation = validatePassword(password);
+      if (!passwordValidation.isValid) {
+        toast.error(`Password requirements not met: ${passwordValidation.errors.join(', ')}`);
+        return false;
+      }
+
       const { error } = await supabase.auth.signUp({
-        email,
+        email: sanitizedEmail,
         password,
         options: {
           data: {
-            name: name
-          }
+            name: sanitizedName
+          },
+          emailRedirectTo: `${window.location.origin}/`
         }
       });
       if (error) throw error;
-      toast.success('Account created successfully!');
+      toast.success('Account created successfully! Please check your email for verification.');
       return true;
     } catch (error: any) {
       toast.error(error.message || 'Registration failed');

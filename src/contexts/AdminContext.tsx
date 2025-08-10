@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { sanitizeInput, validateUsername } from '@/utils/passwordValidation';
 
 interface AdminUser {
   id: string;
@@ -37,25 +38,56 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const generateSessionToken = () => {
-    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+    // Use crypto.getRandomValues for secure token generation
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
   };
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      console.log('Attempting admin login for username:', username);
+      
+      // Sanitize and validate inputs
+      const sanitizedUsername = sanitizeInput(username);
+      const usernameValidation = validateUsername(sanitizedUsername);
+      
+      if (!usernameValidation.isValid) {
+        console.error('Invalid username format');
+        return false;
+      }
+
+      // Remove sensitive logging in production
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Attempting admin login for username:', sanitizedUsername);
+      }
 
       // Verify credentials using the database function
       const { data: passwordCheck, error: passwordError } = await supabase
         .rpc('verify_admin_password', {
-          input_username: username,
+          input_username: sanitizedUsername,
           input_password: password
         });
 
-      console.log('Password check result:', passwordCheck, 'Error:', passwordError);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Password check result:', passwordCheck, 'Error:', passwordError);
+      }
+
+      // Create session with rate limiting check
+      const clientIP = 'unknown'; // Would need to be passed from server
 
       if (passwordError || !passwordCheck) {
         console.error('Password verification failed:', passwordError);
+        
+        // Log failed attempt
+        await supabase
+          .from('failed_login_attempts')
+          .insert({
+            username: sanitizedUsername,
+            ip_address: clientIP,
+            user_agent: navigator.userAgent
+          });
+        
         return false;
       }
 
@@ -63,7 +95,7 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       const { data: adminData, error: adminError } = await supabase
         .from('admin_users')
         .select('*')
-        .eq('username', username)
+        .eq('username', sanitizedUsername)
         .eq('is_active', true)
         .single();
 
@@ -72,12 +104,25 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         return false;
       }
 
-      console.log('Admin user data retrieved:', adminData);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Admin user data retrieved:', adminData);
+      }
+      
+      // Check for recent failed attempts
+      const { data: recentAttempts } = await supabase
+        .from('failed_login_attempts')
+        .select('id')
+        .eq('username', sanitizedUsername)
+        .gte('attempted_at', new Date(Date.now() - 15 * 60 * 1000).toISOString());
 
-      // Create session
+      if (recentAttempts && recentAttempts.length >= 5) {
+        console.error('Too many failed login attempts. Please wait 15 minutes.');
+        return false;
+      }
+
       const sessionToken = generateSessionToken();
       const expiresAt = new Date();
-      expiresAt.setHours(expiresAt.getHours() + 8); // 8 hour session
+      expiresAt.setHours(expiresAt.getHours() + 2); // Reduced to 2 hour session
 
       const { error: sessionError } = await supabase
         .from('admin_sessions')
@@ -92,7 +137,9 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         return false;
       }
 
-      console.log('Session created successfully');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Session created successfully');
+      }
 
       // Update last login
       await supabase
@@ -104,7 +151,9 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       localStorage.setItem('admin_session_token', sessionToken);
       setAdminUser(adminData);
       
-      console.log('Admin login successful');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Admin login successful');
+      }
       return true;
     } catch (error) {
       console.error('Login error:', error);
@@ -138,7 +187,9 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
       setIsLoading(true);
       const sessionToken = localStorage.getItem('admin_session_token');
       
-      console.log('Checking admin session, token:', sessionToken ? 'found' : 'not found');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Checking admin session, token:', sessionToken ? 'found' : 'not found');
+      }
       
       if (!sessionToken) {
         setAdminUser(null);
@@ -156,17 +207,23 @@ export const AdminProvider: React.FC<AdminProviderProps> = ({ children }) => {
         .gt('expires_at', new Date().toISOString())
         .single();
 
-      console.log('Session check result:', sessionData, 'Error:', sessionError);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Session check result:', sessionData, 'Error:', sessionError);
+      }
 
       if (sessionError || !sessionData) {
-        console.log('Session invalid or expired, clearing local storage');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Session invalid or expired, clearing local storage');
+        }
         localStorage.removeItem('admin_session_token');
         setAdminUser(null);
         return;
       }
 
       setAdminUser(sessionData.admin_users);
-      console.log('Admin session restored successfully');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Admin session restored successfully');
+      }
     } catch (error) {
       console.error('Session check error:', error);
       localStorage.removeItem('admin_session_token');

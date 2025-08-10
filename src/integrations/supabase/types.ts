@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          new_values: Json | null
+          old_values: Json | null
+          record_id: string | null
+          table_name: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          new_values?: Json | null
+          old_values?: Json | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       admin_sessions: {
         Row: {
           admin_user_id: string
@@ -323,6 +362,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      failed_login_attempts: {
+        Row: {
+          attempted_at: string
+          id: string
+          ip_address: unknown
+          user_agent: string | null
+          username: string
+        }
+        Insert: {
+          attempted_at?: string
+          id?: string
+          ip_address: unknown
+          user_agent?: string | null
+          username: string
+        }
+        Update: {
+          attempted_at?: string
+          id?: string
+          ip_address?: unknown
+          user_agent?: string | null
+          username?: string
+        }
+        Relationships: []
       }
       messages: {
         Row: {
