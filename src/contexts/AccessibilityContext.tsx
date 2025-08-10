@@ -39,13 +39,27 @@ export const useAccessibility = () => {
 };
 
 export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [settings, setSettings] = useState<AccessibilitySettings>(() => {
-    const saved = localStorage.getItem('accessibility-settings');
-    return saved ? JSON.parse(saved) : defaultSettings;
-  });
+  const [settings, setSettings] = useState<AccessibilitySettings>(defaultSettings);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize settings from localStorage after mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('accessibility-settings');
+      if (saved) {
+        setSettings(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.warn('Failed to load accessibility settings:', error);
+    } finally {
+      setIsInitialized(true);
+    }
+  }, []);
 
   // Apply settings to document
   useEffect(() => {
+    if (!isInitialized) return;
+    
     const root = document.documentElement;
     
     // High contrast mode
@@ -74,21 +88,31 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
     }
 
     // Save to localStorage
-    localStorage.setItem('accessibility-settings', JSON.stringify(settings));
-  }, [settings]);
+    try {
+      localStorage.setItem('accessibility-settings', JSON.stringify(settings));
+    } catch (error) {
+      console.warn('Failed to save accessibility settings:', error);
+    }
+  }, [settings, isInitialized]);
 
-  // Check for system preferences
+  // Check for system preferences after initialization
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
-      setSettings(prev => ({ ...prev, reduceMotion: true }));
-    }
+    if (!isInitialized) return;
+    
+    try {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mediaQuery.matches) {
+        setSettings(prev => ({ ...prev, reduceMotion: true }));
+      }
 
-    const contrastQuery = window.matchMedia('(prefers-contrast: high)');
-    if (contrastQuery.matches) {
-      setSettings(prev => ({ ...prev, highContrast: true }));
+      const contrastQuery = window.matchMedia('(prefers-contrast: high)');
+      if (contrastQuery.matches) {
+        setSettings(prev => ({ ...prev, highContrast: true }));
+      }
+    } catch (error) {
+      console.warn('Failed to check system preferences:', error);
     }
-  }, []);
+  }, [isInitialized]);
 
   const updateSetting = <K extends keyof AccessibilitySettings>(
     key: K,

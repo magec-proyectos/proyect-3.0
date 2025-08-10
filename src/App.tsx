@@ -40,10 +40,10 @@ function App() {
               <NotificationProvider>
                 <FollowingProvider>
                   <FootballProvider>
-                    <AccessibilityPanel />
-                    <MobileNavigation />
-                    <Toaster />
                     <BrowserRouter>
+                      <AccessibilityPanel />
+                      <MobileNavigation />
+                      <Toaster />
                       <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/sports" element={<Sports />} />
