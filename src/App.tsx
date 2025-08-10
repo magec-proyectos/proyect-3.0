@@ -4,9 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AdminProvider } from "@/contexts/AdminContext";
+import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { FollowingProvider } from "@/contexts/FollowingContext";
 import { FootballProvider } from "@/contexts/FootballContext";
 import NotificationProvider from "@/contexts/NotificationContext";
+import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
+import { MobileNavigation } from "@/components/mobile/MobileNavigation";
 import Index from "./pages/Index";
 import Sports from "./pages/Sports";
 import AmericanFootball from "./pages/AmericanFootball";
@@ -30,13 +34,17 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <AuthProvider>
-          <NotificationProvider>
-            <FollowingProvider>
-              <FootballProvider>
-                <Toaster />
-                <BrowserRouter>
-                  <Routes>
+        <AccessibilityProvider>
+          <AdminProvider>
+            <AuthProvider>
+              <NotificationProvider>
+                <FollowingProvider>
+                  <FootballProvider>
+                    <AccessibilityPanel />
+                    <MobileNavigation />
+                    <Toaster />
+                    <BrowserRouter>
+                      <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/sports" element={<Sports />} />
                     <Route path="/american-football" element={<AmericanFootball />} />
@@ -53,12 +61,14 @@ function App() {
                     <Route path="/square" element={<Square />} />
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </FootballProvider>
-            </FollowingProvider>
-          </NotificationProvider>
-        </AuthProvider>
+                      </Routes>
+                    </BrowserRouter>
+                  </FootballProvider>
+                </FollowingProvider>
+              </NotificationProvider>
+            </AuthProvider>
+          </AdminProvider>
+        </AccessibilityProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
