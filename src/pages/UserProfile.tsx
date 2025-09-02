@@ -24,6 +24,7 @@ import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { toast } from '@/components/ui/sonner';
+import VerificationRequestForm from '@/components/social/VerificationRequestForm';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
@@ -121,6 +122,7 @@ const UserProfile = () => {
             <TabsList className="bg-dark-lighter mb-6">
               <TabsTrigger value="bets">Betting History</TabsTrigger>
               <TabsTrigger value="notifications">Notifications</TabsTrigger>
+              <TabsTrigger value="verification">Verification</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             
@@ -213,6 +215,10 @@ const UserProfile = () => {
                   )}
                 </CardContent>
               </Card>
+            </TabsContent>
+            
+            <TabsContent value="verification">
+              <VerificationRequestForm />
             </TabsContent>
             
             <TabsContent value="settings">

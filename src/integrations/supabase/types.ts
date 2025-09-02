@@ -1013,11 +1013,71 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_requests: {
+        Row: {
+          admin_notes: string | null
+          created_at: string | null
+          id: string
+          meets_requirements: boolean | null
+          reason: string
+          requested_tier: string
+          requirements_details: Json | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          supporting_evidence: Json | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string | null
+          id?: string
+          meets_requirements?: boolean | null
+          reason: string
+          requested_tier: string
+          requirements_details?: Json | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          supporting_evidence?: Json | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string | null
+          id?: string
+          meets_requirements?: boolean | null
+          reason?: string
+          requested_tier?: string
+          requirements_details?: Json | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          supporting_evidence?: Json | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      approve_verification_request: {
+        Args: { admin_user_id: string; notes?: string; request_id: string }
+        Returns: boolean
+      }
+      auto_verify_user: {
+        Args: { user_uuid: string }
+        Returns: boolean
+      }
+      check_verification_requirements: {
+        Args: { tier: string; user_uuid: string }
+        Returns: Json
+      }
       get_suggested_users: {
         Args: { limit_count?: number; requesting_user_id: string }
         Returns: {
