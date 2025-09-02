@@ -791,6 +791,35 @@ export type Database = {
         }
         Relationships: []
       }
+      story_views: {
+        Row: {
+          id: string
+          story_id: string
+          viewed_at: string
+          viewer_id: string
+        }
+        Insert: {
+          id?: string
+          story_id: string
+          viewed_at?: string
+          viewer_id: string
+        }
+        Update: {
+          id?: string
+          story_id?: string
+          viewed_at?: string
+          viewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "user_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       system_settings: {
         Row: {
           created_at: string
@@ -1171,6 +1200,51 @@ export type Database = {
         }
         Relationships: []
       }
+      user_stories: {
+        Row: {
+          background_color: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          media_type: string | null
+          media_url: string | null
+          prediction_content: Json
+          prediction_type: string
+          text_color: string | null
+          updated_at: string
+          user_id: string
+          views_count: number
+        }
+        Insert: {
+          background_color?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          prediction_content?: Json
+          prediction_type: string
+          text_color?: string | null
+          updated_at?: string
+          user_id: string
+          views_count?: number
+        }
+        Update: {
+          background_color?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          prediction_content?: Json
+          prediction_type?: string
+          text_color?: string | null
+          updated_at?: string
+          user_id?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
       verification_requests: {
         Row: {
           admin_notes: string | null
@@ -1239,6 +1313,10 @@ export type Database = {
       check_verification_requirements: {
         Args: { tier: string; user_uuid: string }
         Returns: Json
+      }
+      cleanup_expired_stories: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       get_suggested_users: {
         Args: { limit_count?: number; requesting_user_id: string }

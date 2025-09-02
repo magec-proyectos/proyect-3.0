@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
 import SocialTabs from '@/components/social/SocialTabs';
 import StrategicNotifications from '@/components/notifications/StrategicNotifications';
+import StoriesRing from '@/components/social/StoriesRing';
 import MobileSocialHeader from '@/components/social/mobile/MobileSocialHeader';
 import MobilePostCard from '@/components/social/mobile/MobilePostCard';
 import { Post } from '@/components/social/PostItem';
@@ -190,6 +191,7 @@ const Social = () => {
         <StrategicNotifications />
         
         <main className="pt-16 pb-20">
+          <StoriesRing />
           <MobileSocialHeader
             onCreatePost={() => setIsCreatingPost(true)}
             onSearch={handleSearch}
@@ -265,6 +267,7 @@ const Social = () => {
       <StrategicNotifications />
       
       <main className="container px-4 pt-24 pb-16">
+        <StoriesRing />
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <div>
