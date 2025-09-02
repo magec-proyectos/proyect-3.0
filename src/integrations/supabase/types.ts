@@ -770,6 +770,135 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profiles: {
+        Row: {
+          achievements: Json | null
+          avatar_url: string | null
+          badges: Json | null
+          banner_url: string | null
+          best_streak: number | null
+          bio: string | null
+          comments_received: number | null
+          correct_predictions: number | null
+          created_at: string | null
+          current_streak: number | null
+          display_name: string | null
+          email_notifications: boolean | null
+          experience_points: number | null
+          followers_count: number | null
+          following_count: number | null
+          id: string
+          is_premium: boolean | null
+          is_public: boolean | null
+          is_verified: boolean | null
+          join_date: string | null
+          last_active: string | null
+          level: number | null
+          likes_received: number | null
+          location: string | null
+          next_level_xp: number | null
+          posts_count: number | null
+          premium_since: string | null
+          premium_tier: string | null
+          push_notifications: boolean | null
+          reputation_score: number | null
+          show_statistics: boolean | null
+          total_login_days: number | null
+          total_predictions: number | null
+          total_winnings: number | null
+          trust_score: number | null
+          updated_at: string | null
+          user_id: string
+          verification_tier: string | null
+          website: string | null
+          win_rate: number | null
+        }
+        Insert: {
+          achievements?: Json | null
+          avatar_url?: string | null
+          badges?: Json | null
+          banner_url?: string | null
+          best_streak?: number | null
+          bio?: string | null
+          comments_received?: number | null
+          correct_predictions?: number | null
+          created_at?: string | null
+          current_streak?: number | null
+          display_name?: string | null
+          email_notifications?: boolean | null
+          experience_points?: number | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string
+          is_premium?: boolean | null
+          is_public?: boolean | null
+          is_verified?: boolean | null
+          join_date?: string | null
+          last_active?: string | null
+          level?: number | null
+          likes_received?: number | null
+          location?: string | null
+          next_level_xp?: number | null
+          posts_count?: number | null
+          premium_since?: string | null
+          premium_tier?: string | null
+          push_notifications?: boolean | null
+          reputation_score?: number | null
+          show_statistics?: boolean | null
+          total_login_days?: number | null
+          total_predictions?: number | null
+          total_winnings?: number | null
+          trust_score?: number | null
+          updated_at?: string | null
+          user_id: string
+          verification_tier?: string | null
+          website?: string | null
+          win_rate?: number | null
+        }
+        Update: {
+          achievements?: Json | null
+          avatar_url?: string | null
+          badges?: Json | null
+          banner_url?: string | null
+          best_streak?: number | null
+          bio?: string | null
+          comments_received?: number | null
+          correct_predictions?: number | null
+          created_at?: string | null
+          current_streak?: number | null
+          display_name?: string | null
+          email_notifications?: boolean | null
+          experience_points?: number | null
+          followers_count?: number | null
+          following_count?: number | null
+          id?: string
+          is_premium?: boolean | null
+          is_public?: boolean | null
+          is_verified?: boolean | null
+          join_date?: string | null
+          last_active?: string | null
+          level?: number | null
+          likes_received?: number | null
+          location?: string | null
+          next_level_xp?: number | null
+          posts_count?: number | null
+          premium_since?: string | null
+          premium_tier?: string | null
+          push_notifications?: boolean | null
+          reputation_score?: number | null
+          show_statistics?: boolean | null
+          total_login_days?: number | null
+          total_predictions?: number | null
+          total_winnings?: number | null
+          trust_score?: number | null
+          updated_at?: string | null
+          user_id?: string
+          verification_tier?: string | null
+          website?: string | null
+          win_rate?: number | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           assigned_at: string
@@ -802,6 +931,14 @@ export type Database = {
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
+      }
+      update_user_level: {
+        Args: { user_uuid: string }
+        Returns: undefined
+      }
+      update_user_win_rate: {
+        Args: { user_uuid: string }
+        Returns: undefined
       }
       verify_admin_password: {
         Args: { input_password: string; input_username: string }
