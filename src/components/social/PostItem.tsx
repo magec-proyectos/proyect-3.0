@@ -5,6 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Heart, MessageCircle, Share2, ChevronDown, ChevronUp, BarChart, Award } from 'lucide-react';
 import CommentSection, { Comment } from './CommentSection';
+import { TrendingIndicator } from './TrendingIndicator';
+import { calculateTrendingScore } from '@/utils/trendingAlgorithm';
 
 interface PostUser {
   name: string;
@@ -46,6 +48,16 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
     setShowComments(!showComments);
   };
 
+  // Calculate trending score for this post
+  const trendingScore = calculateTrendingScore(post);
+  const trendingPost = {
+    ...post,
+    trendingScore,
+    isHot: trendingScore.score > 0.4,
+    isFresh: post.timestamp === 'Just now' || post.timestamp === 'Ahora' || post.timestamp.includes('min'),
+    isViral: (post.likes + post.comments + post.shares) > 50 && trendingScore.score > 0.5
+  };
+
   // Calculate confidence score based on odds and likes
   const confidenceScore = Math.min(95, Math.round((post.likes * 5) + (100 / post.bet.odds)));
 
@@ -60,8 +72,11 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <AvatarImage src={post.user.avatar} alt={post.user.name} />
             <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
           </Avatar>
-          <div>
-            <h3 className="font-semibold">{post.user.name}</h3>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">{post.user.name}</h3>
+              <TrendingIndicator post={trendingPost} size="sm" />
+            </div>
             <p className="text-xs text-gray-400">@{post.user.username} • {post.timestamp}</p>
           </div>
         </div>
