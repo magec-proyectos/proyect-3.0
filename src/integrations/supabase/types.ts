@@ -160,6 +160,60 @@ export type Database = {
         }
         Relationships: []
       }
+      badges_catalog: {
+        Row: {
+          badge_key: string
+          category: string
+          color_scheme: string
+          created_at: string | null
+          description: string
+          icon_name: string
+          id: string
+          is_active: boolean | null
+          is_secret: boolean | null
+          max_level: number | null
+          name: string
+          rarity: string
+          requirements: Json
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          badge_key: string
+          category?: string
+          color_scheme?: string
+          created_at?: string | null
+          description: string
+          icon_name: string
+          id?: string
+          is_active?: boolean | null
+          is_secret?: boolean | null
+          max_level?: number | null
+          name: string
+          rarity?: string
+          requirements?: Json
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          badge_key?: string
+          category?: string
+          color_scheme?: string
+          created_at?: string | null
+          description?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean | null
+          is_secret?: boolean | null
+          max_level?: number | null
+          name?: string
+          rarity?: string
+          requirements?: Json
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       betting_markets: {
         Row: {
           category: string
@@ -770,6 +824,44 @@ export type Database = {
         }
         Relationships: []
       }
+      user_badges: {
+        Row: {
+          badge_key: string
+          earned_at: string | null
+          earned_for: Json | null
+          id: string
+          level: number | null
+          progress: Json | null
+          user_id: string
+        }
+        Insert: {
+          badge_key: string
+          earned_at?: string | null
+          earned_for?: Json | null
+          id?: string
+          level?: number | null
+          progress?: Json | null
+          user_id: string
+        }
+        Update: {
+          badge_key?: string
+          earned_at?: string | null
+          earned_for?: Json | null
+          id?: string
+          level?: number | null
+          progress?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_key_fkey"
+            columns: ["badge_key"]
+            isOneToOne: false
+            referencedRelation: "badges_catalog"
+            referencedColumns: ["badge_key"]
+          },
+        ]
+      }
       user_follows: {
         Row: {
           created_at: string | null
@@ -1074,6 +1166,10 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: boolean
       }
+      check_and_award_badges: {
+        Args: { user_uuid: string }
+        Returns: number
+      }
       check_verification_requirements: {
         Args: { tier: string; user_uuid: string }
         Returns: Json
@@ -1089,6 +1185,21 @@ export type Database = {
           user_id: string
           verification_tier: string
           win_rate: number
+        }[]
+      }
+      get_user_badges_with_details: {
+        Args: { user_uuid: string }
+        Returns: {
+          badge_key: string
+          category: string
+          color_scheme: string
+          description: string
+          earned_at: string
+          earned_for: Json
+          icon_name: string
+          level: number
+          name: string
+          rarity: string
         }[]
       }
       get_user_profile_with_stats: {

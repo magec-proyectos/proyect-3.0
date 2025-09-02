@@ -27,6 +27,8 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import { BadgeGrid, BadgeData } from '@/components/ui/badge-display';
+import BadgeSystem from '@/components/social/BadgeSystem';
 
 interface UserProfile {
   user_id: string;
@@ -518,12 +520,7 @@ const PublicUserProfile: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="achievements" className="mt-6">
-            <Card className="bg-dark-card border-dark-border">
-              <CardContent className="p-8 text-center text-gray-400">
-                <Zap className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Sistema de logros próximamente</p>
-              </CardContent>
-            </Card>
+            <BadgeSystem userId={profile.user_id} />
           </TabsContent>
         </Tabs>
       </div>

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle, TrendingUp, Users, Target, UserPlus, UserCheck, Loader2 } from 'lucide-react';
 import { useFollowing } from '@/contexts/FollowingContext';
 import { motion } from 'framer-motion';
+import { BadgeGrid, BadgeData } from '@/components/ui/badge-display';
 
 interface UserProfileCardProps {
   userId: string;
@@ -23,6 +24,7 @@ interface UserProfileCardProps {
   verified?: boolean;
   tier?: 'amateur' | 'pro' | 'expert';
   showFollowButton?: boolean;
+  badges?: BadgeData[];
 }
 
 const UserProfileCard: React.FC<UserProfileCardProps> = ({
@@ -33,7 +35,8 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
   stats,
   verified = false,
   tier = 'amateur',
-  showFollowButton = true
+  showFollowButton = true,
+  badges = []
 }) => {
   const { followUser, unfollowUser, isFollowing, loading } = useFollowing();
   const following = isFollowing(userId);
@@ -119,6 +122,13 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
                 <span className="font-medium text-orange-400">{stats.streak}</span>
               </div>
             </div>
+            
+            {/* Badges Display */}
+            {badges.length > 0 && (
+              <div className="mt-2">
+                <BadgeGrid badges={badges} maxDisplay={4} size="sm" />
+              </div>
+            )}
           </div>
           
           {showFollowButton && (

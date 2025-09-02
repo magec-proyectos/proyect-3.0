@@ -23,8 +23,9 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNotifications } from '@/contexts/NotificationContext';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 import VerificationRequestForm from '@/components/social/VerificationRequestForm';
+import BadgeSystem from '@/components/social/BadgeSystem';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
@@ -121,6 +122,7 @@ const UserProfile = () => {
           <Tabs defaultValue="bets" className="w-full">
             <TabsList className="bg-dark-lighter mb-6">
               <TabsTrigger value="bets">Betting History</TabsTrigger>
+              <TabsTrigger value="badges">Badges</TabsTrigger>
               <TabsTrigger value="notifications">Notifications</TabsTrigger>
               <TabsTrigger value="verification">Verification</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -167,6 +169,10 @@ const UserProfile = () => {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+            
+            <TabsContent value="badges">
+              <BadgeSystem showAllBadges={true} />
             </TabsContent>
             
             <TabsContent value="notifications">
