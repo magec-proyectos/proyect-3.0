@@ -1,10 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, TrendingUp, Users, Target, UserPlus, UserCheck } from 'lucide-react';
+import { CheckCircle, TrendingUp, Users, Target, UserPlus, UserCheck, Loader2 } from 'lucide-react';
 import { useFollowing } from '@/contexts/FollowingContext';
 import { motion } from 'framer-motion';
 
@@ -34,8 +34,9 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
   tier = 'amateur',
   showFollowButton = true
 }) => {
-  const { followUser, unfollowUser, isFollowing } = useFollowing();
+  const { followUser, unfollowUser, isFollowing, loading } = useFollowing();
   const following = isFollowing(userId);
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
   const getTierColor = (tier: string) => {
     switch (tier) {
@@ -54,10 +55,15 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
   };
 
   const handleFollowToggle = async () => {
-    if (following) {
-      await unfollowUser(userId);
-    } else {
-      await followUser(userId);
+    setIsActionLoading(true);
+    try {
+      if (following) {
+        await unfollowUser(userId);
+      } else {
+        await followUser(userId);
+      }
+    } finally {
+      setIsActionLoading(false);
     }
   };
 
@@ -118,12 +124,18 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
                 size="sm"
                 variant={following ? "outline" : "default"}
                 onClick={handleFollowToggle}
+                disabled={isActionLoading}
                 className={following 
                   ? "border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black" 
                   : "bg-neon-blue text-black hover:bg-neon-blue/90"
                 }
               >
-                {following ? (
+                {isActionLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                    Cargando...
+                  </>
+                ) : following ? (
                   <>
                     <UserCheck className="w-4 h-4 mr-1" />
                     Siguiendo

@@ -770,6 +770,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_follows: {
+        Row: {
+          created_at: string | null
+          follower_id: string
+          following_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          follower_id: string
+          following_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          follower_id?: string
+          following_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           achievements: Json | null
@@ -928,6 +949,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_suggested_users: {
+        Args: { limit_count?: number; requesting_user_id: string }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          followers_count: number
+          level: number
+          reputation_score: number
+          user_id: string
+          verification_tier: string
+          win_rate: number
+        }[]
+      }
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
