@@ -512,6 +512,30 @@ export type Database = {
         }
         Relationships: []
       }
+      post_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          reaction_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          reaction_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          reaction_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -993,6 +1017,7 @@ export type Database = {
           potential_return: number | null
           prediction_details: Json
           prediction_type: string
+          reactions_summary: Json | null
           result_confirmed: boolean | null
           result_confirmed_at: string | null
           shares_count: number | null
@@ -1015,6 +1040,7 @@ export type Database = {
           potential_return?: number | null
           prediction_details?: Json
           prediction_type: string
+          reactions_summary?: Json | null
           result_confirmed?: boolean | null
           result_confirmed_at?: string | null
           shares_count?: number | null
@@ -1037,6 +1063,7 @@ export type Database = {
           potential_return?: number | null
           prediction_details?: Json
           prediction_type?: string
+          reactions_summary?: Json | null
           result_confirmed?: boolean | null
           result_confirmed_at?: string | null
           shares_count?: number | null
@@ -1317,6 +1344,10 @@ export type Database = {
       cleanup_expired_stories: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      get_post_reactions: {
+        Args: { post_uuid: string }
+        Returns: Json
       }
       get_suggested_users: {
         Args: { limit_count?: number; requesting_user_id: string }
