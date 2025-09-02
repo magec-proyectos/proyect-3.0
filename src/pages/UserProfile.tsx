@@ -26,6 +26,7 @@ import { useNotifications } from '@/contexts/NotificationContext';
 import { toast } from 'sonner';
 import VerificationRequestForm from '@/components/social/VerificationRequestForm';
 import BadgeSystem from '@/components/social/BadgeSystem';
+import UserNotificationSettings from '@/components/notifications/UserNotificationSettings';
 
 const UserProfile = () => {
   const { user, logout } = useAuth();
@@ -290,40 +291,8 @@ const UserProfile = () => {
                 </CardFooter>
               </Card>
               
-              <Card className="bg-dark-card border-dark-border text-white mt-6">
-                <CardHeader>
-                  <CardTitle>Notification Settings</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Control what notifications you receive
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <label className="flex items-center justify-between">
-                      <span>Match notifications</span>
-                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
-                    </label>
-                    <Separator className="bg-dark-border" />
-                    <label className="flex items-center justify-between">
-                      <span>Bet result notifications</span>
-                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
-                    </label>
-                    <Separator className="bg-dark-border" />
-                    <label className="flex items-center justify-between">
-                      <span>Social activity notifications</span>
-                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
-                    </label>
-                    <Separator className="bg-dark-border" />
-                    <label className="flex items-center justify-between">
-                      <span>Promotion and bonus notifications</span>
-                      <input type="checkbox" defaultChecked className="toggle bg-dark-border" />
-                    </label>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full">Save Notification Settings</Button>
-                </CardFooter>
-              </Card>
+              
+              <UserNotificationSettings />
             </TabsContent>
           </Tabs>
         </div>

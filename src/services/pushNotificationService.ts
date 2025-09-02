@@ -6,7 +6,6 @@ export interface PushNotificationPayload {
   icon?: string;
   badge?: string;
   data?: any;
-  actions?: NotificationAction[];
 }
 
 class PushNotificationService {
@@ -93,7 +92,6 @@ class PushNotificationService {
         icon: payload.icon || '/favicon.ico',
         badge: payload.badge || '/favicon.ico',
         data: payload.data,
-        actions: payload.actions,
         requireInteraction: true,
         tag: payload.data?.type || 'general'
       });
@@ -111,7 +109,8 @@ class PushNotificationService {
       auth: subscription.getKey('auth') ? btoa(String.fromCharCode(...new Uint8Array(subscription.getKey('auth')!))) : null
     };
 
-    await supabase
+    // Use type assertion since the table was just created and types haven't updated
+    await (supabase as any)
       .from('push_subscriptions')
       .upsert(subscriptionData, { onConflict: 'user_id' });
   }
@@ -120,7 +119,8 @@ class PushNotificationService {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return;
 
-    await supabase
+    // Use type assertion since the table was just created and types haven't updated
+    await (supabase as any)
       .from('push_subscriptions')
       .delete()
       .eq('user_id', user.id);

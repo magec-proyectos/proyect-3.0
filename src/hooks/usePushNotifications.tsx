@@ -44,15 +44,23 @@ export const usePushNotifications = () => {
           schema: 'public',
           table: 'user_notifications',
           filter: `user_id=eq.${user.id}`
-        },
-        (payload) => {
-          const notification = payload.new;
+        } as any,
+        (payload: any) => {
+          const notification = payload.new as {
+            id: string;
+            title: string;
+            message: string;
+            type: string;
+            link?: string;
+            user_id: string;
+            created_at: string;
+          };
           
           // Add to local notifications
           addNotification({
             title: notification.title,
             message: notification.message,
-            type: notification.type || 'info',
+            type: (notification.type as 'info' | 'success' | 'warning' | 'error') || 'info',
             link: notification.link
           });
 
