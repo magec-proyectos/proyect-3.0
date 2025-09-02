@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, Share2, ChevronDown, ChevronUp, BarChart, Award } from 'lucide-react';
+import { MessageCircle, Share2, ChevronDown, ChevronUp, BarChart, Award } from 'lucide-react';
 import CommentSection, { Comment } from './CommentSection';
 import { TrendingIndicator } from './TrendingIndicator';
 import { calculateTrendingScore } from '@/utils/trendingAlgorithm';
+import PostReactions from './PostReactions';
+import { usePostReactions } from '@/hooks/usePostReactions';
 
 interface PostUser {
   name: string;
@@ -43,9 +45,17 @@ interface PostItemProps {
 
 const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onAddComment }) => {
   const [showComments, setShowComments] = useState(false);
+  const { reactions, userReactions, updateReactions } = usePostReactions({ 
+    postId: post.id,
+    initialReactions: { like: post.likes }
+  });
   
   const toggleComments = () => {
     setShowComments(!showComments);
+  };
+
+  const handleReactionUpdate = (postId: number, newReactions: Record<string, number>, newUserReactions: string[]) => {
+    updateReactions(newReactions, newUserReactions);
   };
 
   // Calculate trending score for this post
@@ -124,18 +134,12 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
       <CardFooter className="flex flex-col w-full">
         <div className="flex justify-between items-center w-full">
           <div className="flex gap-5">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className={`flex items-center gap-1.5 transition-all ${isLiked ? 'text-red-500 hover:text-red-600' : 'hover:text-red-400'}`}
-              onClick={() => onLike(post.id)}
-            >
-              <Heart 
-                size={18} 
-                className={`transition-transform duration-300 ${isLiked ? 'fill-red-500 scale-110' : 'scale-100'}`}
-              />
-              <span className="transition-all duration-300">{post.likes}</span>
-            </Button>
+            <PostReactions 
+              postId={post.id}
+              currentReactions={reactions}
+              userReactions={userReactions}
+              onReactionUpdate={handleReactionUpdate}
+            />
             <Button 
               variant="ghost" 
               size="sm" 
