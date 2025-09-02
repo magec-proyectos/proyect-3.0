@@ -26,6 +26,7 @@ import NotFound from "./pages/NotFound";
 import Social from "./pages/Social";
 import Square from "./pages/Square";
 import Leaderboard from "./pages/Leaderboard";
+import PublicUserProfile from "./pages/PublicUserProfile";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ function App() {
                     <Route path="/roulette" element={<Roulette />} />
                     <Route path="/blackjack" element={<Blackjack />} />
                     <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/user/:userId" element={<PublicUserProfile />} />
                     <Route path="/dashboard" element={<AdvancedDashboard />} />
                     <Route path="/admin" element={<AdminLogin />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -89,7 +90,9 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-white truncate">{name}</h3>
+              <Link to={`/user/${userId}`} className="hover:text-neon-blue transition-colors">
+                <h3 className="font-semibold text-white truncate">{name}</h3>
+              </Link>
               <Badge className={`text-xs ${getTierColor(tier)} border`}>
                 {getTierIcon(tier)}
                 <span className="ml-1">{tier.toUpperCase()}</span>

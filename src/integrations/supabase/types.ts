@@ -791,6 +791,75 @@ export type Database = {
         }
         Relationships: []
       }
+      user_posts: {
+        Row: {
+          actual_return: number | null
+          comments_count: number | null
+          confidence_score: number | null
+          content: string
+          created_at: string | null
+          id: string
+          is_featured: boolean | null
+          is_premium: boolean | null
+          likes_count: number | null
+          match_info: Json
+          potential_return: number | null
+          prediction_details: Json
+          prediction_type: string
+          result_confirmed: boolean | null
+          result_confirmed_at: string | null
+          shares_count: number | null
+          stake_amount: number | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          actual_return?: number | null
+          comments_count?: number | null
+          confidence_score?: number | null
+          content: string
+          created_at?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_premium?: boolean | null
+          likes_count?: number | null
+          match_info?: Json
+          potential_return?: number | null
+          prediction_details?: Json
+          prediction_type: string
+          result_confirmed?: boolean | null
+          result_confirmed_at?: string | null
+          shares_count?: number | null
+          stake_amount?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          actual_return?: number | null
+          comments_count?: number | null
+          confidence_score?: number | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_premium?: boolean | null
+          likes_count?: number | null
+          match_info?: Json
+          potential_return?: number | null
+          prediction_details?: Json
+          prediction_type?: string
+          result_confirmed?: boolean | null
+          result_confirmed_at?: string | null
+          shares_count?: number | null
+          stake_amount?: number | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           achievements: Json | null
@@ -959,6 +1028,37 @@ export type Database = {
           reputation_score: number
           user_id: string
           verification_tier: string
+          win_rate: number
+        }[]
+      }
+      get_user_profile_with_stats: {
+        Args: { profile_user_id: string }
+        Returns: {
+          achievements: Json
+          avatar_url: string
+          badges: Json
+          banner_url: string
+          best_streak: number
+          bio: string
+          correct_predictions: number
+          current_streak: number
+          display_name: string
+          experience_points: number
+          followers_count: number
+          following_count: number
+          is_verified: boolean
+          join_date: string
+          last_active: string
+          level: number
+          likes_received: number
+          location: string
+          posts_count: number
+          reputation_score: number
+          total_predictions: number
+          total_winnings: number
+          user_id: string
+          verification_tier: string
+          website: string
           win_rate: number
         }[]
       }
