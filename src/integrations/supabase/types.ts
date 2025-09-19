@@ -441,6 +441,147 @@ export type Database = {
         }
         Relationships: []
       }
+      group_invitations: {
+        Row: {
+          created_at: string
+          expires_at: string
+          group_id: string
+          id: string
+          invitation_code: string
+          invited_by: string
+          invited_user_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          group_id: string
+          id?: string
+          invitation_code: string
+          invited_by: string
+          invited_user_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          group_id?: string
+          id?: string
+          invitation_code?: string
+          invited_by?: string
+          invited_user_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_invitations_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "private_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_memberships: {
+        Row: {
+          group_id: string
+          id: string
+          invited_by: string | null
+          joined_at: string
+          role: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          group_id: string
+          id?: string
+          invited_by?: string | null
+          joined_at?: string
+          role?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          group_id?: string
+          id?: string
+          invited_by?: string | null
+          joined_at?: string
+          role?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_memberships_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "private_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_posts: {
+        Row: {
+          comments_count: number | null
+          confidence_level: number | null
+          content: string
+          created_at: string
+          group_id: string
+          id: string
+          is_vip_content: boolean
+          likes_count: number | null
+          match_info: Json
+          potential_return: number | null
+          prediction_details: Json
+          prediction_type: string
+          stake_amount: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comments_count?: number | null
+          confidence_level?: number | null
+          content: string
+          created_at?: string
+          group_id: string
+          id?: string
+          is_vip_content?: boolean
+          likes_count?: number | null
+          match_info?: Json
+          potential_return?: number | null
+          prediction_details?: Json
+          prediction_type: string
+          stake_amount?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comments_count?: number | null
+          confidence_level?: number | null
+          content?: string
+          created_at?: string
+          group_id?: string
+          id?: string
+          is_vip_content?: boolean
+          likes_count?: number | null
+          match_info?: Json
+          potential_return?: number | null
+          prediction_details?: Json
+          prediction_type?: string
+          stake_amount?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_posts_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "private_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
@@ -533,6 +674,48 @@ export type Database = {
           post_id?: string
           reaction_type?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      private_groups: {
+        Row: {
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          group_type: string
+          id: string
+          is_invite_only: boolean
+          is_vip: boolean
+          max_members: number | null
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          group_type?: string
+          id?: string
+          is_invite_only?: boolean
+          is_vip?: boolean
+          max_members?: number | null
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          group_type?: string
+          id?: string
+          is_invite_only?: boolean
+          is_vip?: boolean
+          max_members?: number | null
+          name?: string
+          owner_id?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1344,6 +1527,10 @@ export type Database = {
       cleanup_expired_stories: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      generate_invitation_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       get_post_reactions: {
         Args: { post_uuid: string }
