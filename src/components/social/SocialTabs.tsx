@@ -3,11 +3,13 @@ import React, { useState, useMemo } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield } from 'lucide-react';
+import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield, Copy } from 'lucide-react';
 import PostFeed from './PostFeed';
 import CreatePostForm from './CreatePostForm';
 import SuggestedUsers from './SuggestedUsers';
 import PrivateGroups from './PrivateGroups';
+import CopyTrading from './CopyTrading';
+import CopyTradeDashboard from './CopyTradeDashboard';
 import { TrendingIndicator } from './TrendingIndicator';
 import { Post } from './PostItem';
 import { 
@@ -207,6 +209,14 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
             <Shield size={14} />
             Private Groups
           </TabsTrigger>
+          <TabsTrigger value="copy-trading" className="flex items-center gap-2">
+            <Copy size={14} />
+            Copy Trading
+          </TabsTrigger>
+          <TabsTrigger value="portfolio" className="flex items-center gap-2">
+            <BarChart3 size={14} />
+            Portfolio
+          </TabsTrigger>
           <TabsTrigger value="following" className="flex items-center gap-2">
             <Users size={14} />
             Following
@@ -233,6 +243,14 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         
         <TabsContent value="groups" className="animate-fade-in">
           <PrivateGroups />
+        </TabsContent>
+        
+        <TabsContent value="copy-trading" className="animate-fade-in">
+          <CopyTrading />
+        </TabsContent>
+        
+        <TabsContent value="portfolio" className="animate-fade-in">
+          <CopyTradeDashboard />
         </TabsContent>
         
         <TabsContent value="following" className="animate-fade-in">

@@ -417,6 +417,260 @@ export type Database = {
           },
         ]
       }
+      copied_bets: {
+        Row: {
+          bet_details: Json
+          copied_amount: number
+          copied_at: string
+          copy_relationship_id: string
+          expert_id: string
+          follower_id: string
+          id: string
+          is_auto_copied: boolean
+          match_info: Json
+          original_odds: number
+          original_post_id: string
+          profit_loss: number | null
+          result: string | null
+          settled_at: string | null
+          status: string
+        }
+        Insert: {
+          bet_details?: Json
+          copied_amount: number
+          copied_at?: string
+          copy_relationship_id: string
+          expert_id: string
+          follower_id: string
+          id?: string
+          is_auto_copied?: boolean
+          match_info?: Json
+          original_odds: number
+          original_post_id: string
+          profit_loss?: number | null
+          result?: string | null
+          settled_at?: string | null
+          status?: string
+        }
+        Update: {
+          bet_details?: Json
+          copied_amount?: number
+          copied_at?: string
+          copy_relationship_id?: string
+          expert_id?: string
+          follower_id?: string
+          id?: string
+          is_auto_copied?: boolean
+          match_info?: Json
+          original_odds?: number
+          original_post_id?: string
+          profit_loss?: number | null
+          result?: string | null
+          settled_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "copied_bets_copy_relationship_id_fkey"
+            columns: ["copy_relationship_id"]
+            isOneToOne: false
+            referencedRelation: "copy_trading_relationships"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "copied_bets_original_post_id_fkey"
+            columns: ["original_post_id"]
+            isOneToOne: false
+            referencedRelation: "user_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      copy_trading_portfolios: {
+        Row: {
+          active_copy_trades: number | null
+          available_balance: number
+          created_at: string
+          id: string
+          risk_score: number | null
+          roi_percentage: number | null
+          total_balance: number
+          total_copy_trades: number | null
+          total_invested: number | null
+          total_loss: number | null
+          total_profit: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active_copy_trades?: number | null
+          available_balance?: number
+          created_at?: string
+          id?: string
+          risk_score?: number | null
+          roi_percentage?: number | null
+          total_balance?: number
+          total_copy_trades?: number | null
+          total_invested?: number | null
+          total_loss?: number | null
+          total_profit?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active_copy_trades?: number | null
+          available_balance?: number
+          created_at?: string
+          id?: string
+          risk_score?: number | null
+          roi_percentage?: number | null
+          total_balance?: number
+          total_copy_trades?: number | null
+          total_invested?: number | null
+          total_loss?: number | null
+          total_profit?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      copy_trading_relationships: {
+        Row: {
+          allowed_sports: string[] | null
+          auto_copy_enabled: boolean
+          copy_percentage: number
+          current_profit: number | null
+          expert_id: string
+          follower_id: string
+          id: string
+          is_active: boolean
+          max_bet_amount: number
+          max_odds: number | null
+          min_odds: number | null
+          profit_target_percentage: number | null
+          risk_multiplier: number | null
+          started_at: string
+          stop_loss_percentage: number | null
+          total_copied_bets: number | null
+          total_invested: number | null
+          total_profit: number | null
+          updated_at: string
+        }
+        Insert: {
+          allowed_sports?: string[] | null
+          auto_copy_enabled?: boolean
+          copy_percentage?: number
+          current_profit?: number | null
+          expert_id: string
+          follower_id: string
+          id?: string
+          is_active?: boolean
+          max_bet_amount?: number
+          max_odds?: number | null
+          min_odds?: number | null
+          profit_target_percentage?: number | null
+          risk_multiplier?: number | null
+          started_at?: string
+          stop_loss_percentage?: number | null
+          total_copied_bets?: number | null
+          total_invested?: number | null
+          total_profit?: number | null
+          updated_at?: string
+        }
+        Update: {
+          allowed_sports?: string[] | null
+          auto_copy_enabled?: boolean
+          copy_percentage?: number
+          current_profit?: number | null
+          expert_id?: string
+          follower_id?: string
+          id?: string
+          is_active?: boolean
+          max_bet_amount?: number
+          max_odds?: number | null
+          min_odds?: number | null
+          profit_target_percentage?: number | null
+          risk_multiplier?: number | null
+          started_at?: string
+          stop_loss_percentage?: number | null
+          total_copied_bets?: number | null
+          total_invested?: number | null
+          total_profit?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "copy_trading_relationships_expert_id_fkey"
+            columns: ["expert_id"]
+            isOneToOne: false
+            referencedRelation: "expert_traders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expert_traders: {
+        Row: {
+          commission_rate: number | null
+          created_at: string
+          expert_tier: string
+          id: string
+          is_accepting_copiers: boolean
+          is_verified_expert: boolean
+          max_copy_amount: number | null
+          min_copy_amount: number | null
+          monthly_fee: number | null
+          performance_stats: Json
+          profit_30d: number | null
+          risk_level: string
+          specialization: string[] | null
+          total_copied_amount: number | null
+          total_followers: number | null
+          updated_at: string
+          user_id: string
+          win_rate_30d: number | null
+        }
+        Insert: {
+          commission_rate?: number | null
+          created_at?: string
+          expert_tier?: string
+          id?: string
+          is_accepting_copiers?: boolean
+          is_verified_expert?: boolean
+          max_copy_amount?: number | null
+          min_copy_amount?: number | null
+          monthly_fee?: number | null
+          performance_stats?: Json
+          profit_30d?: number | null
+          risk_level?: string
+          specialization?: string[] | null
+          total_copied_amount?: number | null
+          total_followers?: number | null
+          updated_at?: string
+          user_id: string
+          win_rate_30d?: number | null
+        }
+        Update: {
+          commission_rate?: number | null
+          created_at?: string
+          expert_tier?: string
+          id?: string
+          is_accepting_copiers?: boolean
+          is_verified_expert?: boolean
+          max_copy_amount?: number | null
+          min_copy_amount?: number | null
+          monthly_fee?: number | null
+          performance_stats?: Json
+          profit_30d?: number | null
+          risk_level?: string
+          specialization?: string[] | null
+          total_copied_amount?: number | null
+          total_followers?: number | null
+          updated_at?: string
+          user_id?: string
+          win_rate_30d?: number | null
+        }
+        Relationships: []
+      }
       failed_login_attempts: {
         Row: {
           attempted_at: string
@@ -1598,6 +1852,10 @@ export type Database = {
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
+      }
+      update_expert_trader_stats: {
+        Args: { expert_trader_id: string }
+        Returns: undefined
       }
       update_user_level: {
         Args: { user_uuid: string }
