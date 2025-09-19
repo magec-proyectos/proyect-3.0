@@ -3,13 +3,14 @@ import React, { useState, useMemo } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield, Copy } from 'lucide-react';
+import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield, Copy, MessageCircle } from 'lucide-react';
 import PostFeed from './PostFeed';
 import CreatePostForm from './CreatePostForm';
 import SuggestedUsers from './SuggestedUsers';
 import PrivateGroups from './PrivateGroups';
 import CopyTrading from './CopyTrading';
 import CopyTradeDashboard from './CopyTradeDashboard';
+import DirectMessaging from './DirectMessaging';
 import { TrendingIndicator } from './TrendingIndicator';
 import { Post } from './PostItem';
 import { 
@@ -217,6 +218,10 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
             <BarChart3 size={14} />
             Portfolio
           </TabsTrigger>
+          <TabsTrigger value="messages" className="flex items-center gap-2">
+            <MessageCircle size={14} />
+            Messages
+          </TabsTrigger>
           <TabsTrigger value="following" className="flex items-center gap-2">
             <Users size={14} />
             Following
@@ -251,6 +256,10 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         
         <TabsContent value="portfolio" className="animate-fade-in">
           <CopyTradeDashboard />
+        </TabsContent>
+        
+        <TabsContent value="messages" className="animate-fade-in">
+          <DirectMessaging />
         </TabsContent>
         
         <TabsContent value="following" className="animate-fade-in">

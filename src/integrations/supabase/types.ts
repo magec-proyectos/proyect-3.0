@@ -280,6 +280,47 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_participants: {
+        Row: {
+          conversation_id: string
+          id: string
+          is_typing: boolean | null
+          joined_at: string
+          last_read_at: string | null
+          notifications_enabled: boolean | null
+          typing_at: string | null
+          user_id: string
+        }
+        Insert: {
+          conversation_id: string
+          id?: string
+          is_typing?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          notifications_enabled?: boolean | null
+          typing_at?: string | null
+          user_id: string
+        }
+        Update: {
+          conversation_id?: string
+          id?: string
+          is_typing?: boolean | null
+          joined_at?: string
+          last_read_at?: string | null
+          notifications_enabled?: boolean | null
+          typing_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chatbot_agents: {
         Row: {
           avatar_url: string | null
@@ -382,27 +423,39 @@ export type Database = {
       conversations: {
         Row: {
           agent_id: string | null
+          conversation_type: string | null
           created_at: string
           id: string
           is_active: boolean
+          last_message_at: string | null
+          last_message_content: string | null
+          participant_ids: string[] | null
           title: string | null
           updated_at: string
           user_id: string | null
         }
         Insert: {
           agent_id?: string | null
+          conversation_type?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
+          last_message_at?: string | null
+          last_message_content?: string | null
+          participant_ids?: string[] | null
           title?: string | null
           updated_at?: string
           user_id?: string | null
         }
         Update: {
           agent_id?: string | null
+          conversation_type?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
+          last_message_at?: string | null
+          last_message_content?: string | null
+          participant_ids?: string[] | null
           title?: string | null
           updated_at?: string
           user_id?: string | null
@@ -604,6 +657,69 @@ export type Database = {
             columns: ["expert_id"]
             isOneToOne: false
             referencedRelation: "expert_traders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      direct_messages: {
+        Row: {
+          attachments: Json | null
+          conversation_id: string
+          created_at: string
+          id: string
+          is_deleted: boolean | null
+          is_read: boolean | null
+          message_content: string
+          message_type: string | null
+          reactions: Json | null
+          recipient_id: string
+          reply_to_id: string | null
+          sender_id: string
+          updated_at: string
+        }
+        Insert: {
+          attachments?: Json | null
+          conversation_id: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean | null
+          is_read?: boolean | null
+          message_content: string
+          message_type?: string | null
+          reactions?: Json | null
+          recipient_id: string
+          reply_to_id?: string | null
+          sender_id: string
+          updated_at?: string
+        }
+        Update: {
+          attachments?: Json | null
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          is_deleted?: boolean | null
+          is_read?: boolean | null
+          message_content?: string
+          message_type?: string | null
+          reactions?: Json | null
+          recipient_id?: string
+          reply_to_id?: string | null
+          sender_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_reply_to_id_fkey"
+            columns: ["reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "direct_messages"
             referencedColumns: ["id"]
           },
         ]
@@ -1786,6 +1902,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_or_create_direct_conversation: {
+        Args: { user1_id: string; user2_id: string }
+        Returns: string
+      }
       get_post_reactions: {
         Args: { post_uuid: string }
         Returns: Json
@@ -1852,6 +1972,10 @@ export type Database = {
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
+      }
+      mark_messages_as_read: {
+        Args: { conv_id: string; user_uuid: string }
+        Returns: undefined
       }
       update_expert_trader_stats: {
         Args: { expert_trader_id: string }

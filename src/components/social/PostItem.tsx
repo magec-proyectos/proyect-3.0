@@ -9,6 +9,7 @@ import { TrendingIndicator } from './TrendingIndicator';
 import { calculateTrendingScore } from '@/utils/trendingAlgorithm';
 import PostReactions from './PostReactions';
 import { usePostReactions } from '@/hooks/usePostReactions';
+import ChatButton from './ChatButton';
 
 interface PostUser {
   name: string;
@@ -160,6 +161,12 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <Share2 size={18} />
             {post.shares}
           </Button>
+          <ChatButton 
+            userId={post.user.username} 
+            userName={post.user.name}
+            variant="ghost"
+            size="sm"
+          />
         </div>
         
         {showComments && (
