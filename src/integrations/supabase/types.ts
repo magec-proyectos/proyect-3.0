@@ -1825,6 +1825,72 @@ export type Database = {
         }
         Relationships: []
       }
+      user_tips: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          message: string | null
+          post_id: string | null
+          recipient_id: string
+          sender_id: string
+          status: string
+          transaction_type: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          message?: string | null
+          post_id?: string | null
+          recipient_id: string
+          sender_id: string
+          status?: string
+          transaction_type?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          message?: string | null
+          post_id?: string | null
+          recipient_id?: string
+          sender_id?: string
+          status?: string
+          transaction_type?: string
+        }
+        Relationships: []
+      }
+      user_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          total_earned: number
+          total_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       verification_requests: {
         Row: {
           admin_notes: string | null
@@ -1969,6 +2035,17 @@ export type Database = {
           win_rate: number
         }[]
       }
+      get_user_wallet: {
+        Args: { wallet_user_id?: string }
+        Returns: {
+          balance: number
+          recent_tips_received: Json
+          recent_tips_sent: Json
+          total_earned: number
+          total_spent: number
+          user_id: string
+        }[]
+      }
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
@@ -1976,6 +2053,15 @@ export type Database = {
       mark_messages_as_read: {
         Args: { conv_id: string; user_uuid: string }
         Returns: undefined
+      }
+      send_tip: {
+        Args: {
+          recipient_user_id: string
+          related_post_id?: string
+          tip_amount: number
+          tip_message?: string
+        }
+        Returns: Json
       }
       update_expert_trader_stats: {
         Args: { expert_trader_id: string }

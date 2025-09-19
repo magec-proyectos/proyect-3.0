@@ -10,6 +10,7 @@ import { calculateTrendingScore } from '@/utils/trendingAlgorithm';
 import PostReactions from './PostReactions';
 import { usePostReactions } from '@/hooks/usePostReactions';
 import ChatButton from './ChatButton';
+import TipButton from './TipButton';
 
 interface PostUser {
   name: string;
@@ -161,12 +162,21 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <Share2 size={18} />
             {post.shares}
           </Button>
-          <ChatButton 
-            userId={post.user.username} 
-            userName={post.user.name}
-            variant="ghost"
-            size="sm"
-          />
+          <div className="flex gap-2">
+            <ChatButton 
+              userId={post.user.username} 
+              userName={post.user.name}
+              variant="ghost"
+              size="sm"
+            />
+            <TipButton
+              recipientUserId={post.user.username}
+              recipientName={post.user.name}
+              postId={post.id.toString()}
+              variant="ghost"
+              size="sm"
+            />
+          </div>
         </div>
         
         {showComments && (
