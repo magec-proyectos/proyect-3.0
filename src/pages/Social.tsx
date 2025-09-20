@@ -4,16 +4,16 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
-import SocialTabs from '@/components/social/SocialTabs';
 import StrategicNotifications from '@/components/notifications/StrategicNotifications';
 import StoriesRing from '@/components/social/StoriesRing';
-import MobileSocialHeader from '@/components/social/mobile/MobileSocialHeader';
-import MobilePostCard from '@/components/social/mobile/MobilePostCard';
+import SocialSidebar from '@/components/social/SocialSidebar';
+import SocialFeed from '@/components/social/SocialFeed';
+import SocialDiscovery from '@/components/social/SocialDiscovery';
+import MobileBottomNav from '@/components/social/mobile/MobileBottomNav';
 import { Post } from '@/components/social/PostItem';
 import { Comment } from '@/components/social/CommentSection'; 
 import { initialPosts } from '@/data/samplePosts';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useMobilePerformance } from '@/hooks/use-mobile-performance';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Social = () => {
@@ -21,23 +21,11 @@ const Social = () => {
     ...post,
     commentList: []
   })));
-  const [isCreatingPost, setIsCreatingPost] = useState(false);
   const [likedPosts, setLikedPosts] = useState<number[]>([]);
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('home');
+  const [feedFilter, setFeedFilter] = useState('foryou');
   const { user } = useAuth();
   const isMobile = useIsMobile();
-  
-  const {
-    getItemsToRender,
-    observeElement,
-    shouldOptimize,
-    measurePerformance
-  } = useMobilePerformance({
-    batchSize: isMobile ? 5 : 10,
-    enableVirtualization: isMobile,
-    lazyLoadOffset: 200
-  });
 
   const handleLike = (postId: number) => {
     if (!user) {
@@ -148,154 +136,159 @@ const Social = () => {
     };
     
     setPosts([newPost, ...posts]);
-    setIsCreatingPost(false);
     
     toast.success('¡Post creado exitosamente!', {
       description: 'Tu predicción ha sido compartida con la comunidad'
     });
   };
 
-  const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter);
-    measurePerformance();
-  };
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    toast.success(`Buscando: ${query}`);
-  };
-
-  // Filter and search posts
+  // Filter posts based on current filter
   const filteredPosts = posts.filter(post => {
-    const matchesSearch = searchQuery === '' || 
-      post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.user.name.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesFilter = activeFilter === 'all' || 
-      (activeFilter === 'trending' && post.likes > 5) ||
-      (activeFilter === 'following' && post.id % 2 === 0) ||
-      (activeFilter === 'live' && post.timestamp === 'Ahora');
-    
-    return matchesSearch && matchesFilter;
+    if (feedFilter === 'following') {
+      return post.id % 2 === 0; // Simulate following filter
+    }
+    return true; // "Para ti" shows all posts
   });
 
-  const postsToRender = shouldOptimize 
-    ? getItemsToRender(filteredPosts.length).map(index => filteredPosts[index])
-    : filteredPosts;
+  // Mock data for discovery sidebar
+  const suggestedUsers = [
+    { id: 1, name: 'Carlos Bet Pro', username: 'carlosbetpro', avatar: 'https://placehold.co/40' },
+    { id: 2, name: 'Ana Predictor', username: 'anapredictor', avatar: 'https://placehold.co/40' },
+    { id: 3, name: 'José Winners', username: 'josewinners', avatar: 'https://placehold.co/40' },
+  ];
+
+  const liveMatches = [
+    { teams: 'Barcelona vs Real Madrid', score: '2-1' },
+    { teams: 'Liverpool vs Man City', score: '0-0' },
+    { teams: 'PSG vs Bayern', score: '1-2' },
+  ];
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'home':
+        return (
+          <SocialFeed
+            posts={filteredPosts}
+            likedPosts={likedPosts}
+            filter={feedFilter}
+            onFilterChange={setFeedFilter}
+            onLike={handleLike}
+            onShare={handleShare}
+            onAddComment={handleAddComment}
+            onCreatePost={handleCreatePost}
+            user={user}
+          />
+        );
+      case 'explore':
+        return (
+          <div className="space-y-6">
+            <StoriesRing />
+            <SocialFeed
+              posts={posts.filter(post => post.likes > 3)}
+              likedPosts={likedPosts}
+              filter="trending"
+              onFilterChange={setFeedFilter}
+              onLike={handleLike}
+              onShare={handleShare}
+              onAddComment={handleAddComment}
+              onCreatePost={handleCreatePost}
+              user={user}
+            />
+          </div>
+        );
+      case 'notifications':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Notificaciones</h2>
+            <div className="text-center py-12 text-muted-foreground">
+              No tienes notificaciones nuevas
+            </div>
+          </div>
+        );
+      case 'messages':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Mensajes</h2>
+            <div className="text-center py-12 text-muted-foreground">
+              No tienes mensajes nuevos
+            </div>
+          </div>
+        );
+      case 'profile':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Mi Perfil</h2>
+            <div className="text-center py-12 text-muted-foreground">
+              Perfil en desarrollo
+            </div>
+          </div>
+        );
+      case 'wallet':
+        return (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Wallet</h2>
+            <div className="text-center py-12 text-muted-foreground">
+              Wallet en desarrollo
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   if (isMobile) {
     return (
-      <div className="min-h-screen bg-dark text-white">
+      <div className="min-h-screen bg-background">
         <Navbar />
-        
         <StrategicNotifications />
         
-        <main className="pt-16 pb-20">
-          <StoriesRing />
-          <MobileSocialHeader
-            onCreatePost={() => setIsCreatingPost(true)}
-            onSearch={handleSearch}
-            onFilterChange={handleFilterChange}
-            activeFilter={activeFilter}
-          />
-          
-          <div className="px-4 py-4 space-y-4">
-            <AnimatePresence>
-              {postsToRender.map((post, index) => (
-                <motion.div
-                  key={post.id}
-                  ref={(el) => shouldOptimize && el && observeElement(el, index)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <MobilePostCard
-                    post={post}
-                    isLiked={likedPosts.includes(post.id)}
-                    onLike={() => handleLike(post.id)}
-                    onComment={() => toast.info('Función de comentarios en desarrollo')}
-                    onShare={() => handleShare(post)}
-                    onBookmark={() => toast.success('Post guardado')}
-                    onReport={() => toast.success('Post reportado')}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-          
-          {/* Create Post FAB for mobile */}
-          {isCreatingPost && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="fixed inset-x-4 bottom-24 bg-dark-card border border-dark-border rounded-2xl p-4 z-40 shadow-2xl"
-            >
-              <textarea
-                placeholder="Comparte tu predicción..."
-                className="w-full bg-dark-lighter border border-dark-border rounded-lg p-3 text-white placeholder-gray-400 resize-none focus:border-neon-blue focus:outline-none"
-                rows={3}
-              />
-              <div className="flex justify-between items-center mt-3">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsCreatingPost(false)}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  size="sm"
-                  className="bg-neon-blue text-black hover:bg-neon-blue/90"
-                  onClick={() => handleCreatePost('Nuevo post desde móvil')}
-                >
-                  Publicar
-                </Button>
-              </div>
-            </motion.div>
-          )}
+        <main className="pt-16 pb-20 px-4">
+          {activeTab === 'home' && <StoriesRing />}
+          {renderTabContent()}
         </main>
+        
+        <MobileBottomNav
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          notifications={3}
+          messages={1}
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-dark text-white">
+    <div className="min-h-screen bg-background">
       <Navbar />
-      
       <StrategicNotifications />
       
-      <main className="container px-4 pt-24 pb-16">
-        <StoriesRing />
-        <div className="max-w-3xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Comunidad de Apuestas</h1>
-              <p className="text-gray-400">Conecta con expertos y mejora tus predicciones</p>
-            </div>
-            <Button 
-              className="bg-neon-lime text-black hover:bg-neon-lime/90 animate-pulse hover:animate-none transition-all font-medium"
-              onClick={() => setIsCreatingPost(true)}
-            >
-              Compartir Predicción
-            </Button>
-          </div>
-          
-          <SocialTabs 
-            posts={posts}
-            likedPosts={likedPosts}
-            isCreatingPost={isCreatingPost}
-            onLike={handleLike}
-            onShare={handleShare}
-            onCreatePost={handleCreatePost}
-            onCancelPost={() => setIsCreatingPost(false)}
-            onAddComment={handleAddComment}
+      {/* Desktop Layout */}
+      <div className="flex">
+        {/* Left Sidebar */}
+        <SocialSidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onCreatePost={() => handleCreatePost('Post desde sidebar')}
+          notifications={3}
+          messages={1}
+        />
+        
+        {/* Main Content */}
+        <main className="flex-1 min-h-screen ml-64 mr-80 pt-20 px-6">
+          {activeTab === 'home' && <StoriesRing />}
+          {renderTabContent()}
+        </main>
+        
+        {/* Right Discovery Sidebar */}
+        <div className="fixed right-0 top-16 h-[calc(100vh-4rem)] w-80 p-4 overflow-y-auto hidden xl:block">
+          <SocialDiscovery
+            trendingPosts={posts.filter(post => post.likes > 3)}
+            suggestedUsers={suggestedUsers}
+            liveMatches={liveMatches}
           />
         </div>
-      </main>
-      
-      <Footer />
+      </div>
     </div>
   );
 };
