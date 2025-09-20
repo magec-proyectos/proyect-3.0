@@ -76,66 +76,78 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
   return (
     <Card 
       id={`post-${post.id}`} 
-      className="bg-dark-card border-dark-border overflow-hidden hover:border-neon-blue/30 transition-all duration-300"
+      className="bg-card border-border/50 hover:bg-card/80 transition-all duration-200 overflow-hidden"
     >
-      <CardHeader className="pb-2">
-        <div className="flex items-center gap-3">
-          <Avatar className="hover:ring-2 hover:ring-neon-blue transition-all">
+      <CardHeader className="pb-3 spacing-sm">
+        <div className="flex items-start gap-3">
+          <Avatar className="w-10 h-10">
             <AvatarImage src={post.user.avatar} alt={post.user.name} />
-            <AvatarFallback>{post.user.name.substring(0, 2)}</AvatarFallback>
+            <AvatarFallback className="bg-muted text-muted-foreground text-sm">
+              {post.user.name.substring(0, 2)}
+            </AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">{post.user.name}</h3>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-body-md text-foreground truncate">
+                {post.user.name}
+              </h3>
+              <span className="text-body-sm text-muted-foreground">
+                @{post.user.username}
+              </span>
+              <span className="text-body-sm text-muted-foreground">·</span>
+              <span className="text-body-sm text-muted-foreground">
+                {post.timestamp}
+              </span>
               <TrendingIndicator post={trendingPost} size="sm" />
             </div>
-            <p className="text-xs text-gray-400">@{post.user.username} • {post.timestamp}</p>
           </div>
         </div>
       </CardHeader>
       
-      <CardContent className="pb-2 space-y-3">
-        <p>{post.content}</p>
+      <CardContent className="pb-3 space-y-3">
+        <p className="text-body-md text-foreground leading-relaxed">{post.content}</p>
         
-        <div className="bg-dark-lighter p-3 rounded-lg border border-dark-border hover:shadow-md hover:shadow-neon-blue/10 transition-all">
-          <div className="text-sm text-gray-400">Bet prediction:</div>
-          <div className="font-medium">{post.bet.match}</div>
-          <div className="font-medium text-neon-blue">{post.bet.prediction}</div>
-          <div className="flex justify-between mt-1 text-sm">
+        <div className="bg-muted/30 p-3 rounded-xl border border-border/30 hover:bg-muted/40 transition-colors">
+          <div className="text-body-sm text-muted-foreground mb-1">Prediction</div>
+          <div className="font-semibold text-body-md text-foreground">{post.bet.match}</div>
+          <div className="font-medium text-body-md text-primary">{post.bet.prediction}</div>
+          <div className="flex justify-between mt-2 text-body-sm text-muted-foreground">
             <span>@{post.bet.odds.toFixed(2)}</span>
             <span>${post.bet.amount} stake</span>
           </div>
-          <div className="mt-2 pt-2 border-t border-dark-border flex items-center gap-2">
-            <BarChart size={14} className="text-neon-blue" />
-            <div className="text-xs text-gray-400">Community confidence: </div>
-            <div className="flex-1 bg-dark h-2 rounded-full overflow-hidden">
+          <div className="mt-3 pt-2 border-t border-border/30 flex items-center gap-2">
+            <BarChart size={14} className="text-primary" />
+            <div className="text-body-sm text-muted-foreground">Confidence: </div>
+            <div className="flex-1 bg-background h-1.5 rounded-full overflow-hidden">
               <div
-                className="h-full bg-neon-blue rounded-full transition-all duration-500"
+                className="h-full bg-primary rounded-full transition-all duration-500"
                 style={{ width: `${confidenceScore}%` }}
               />
             </div>
-            <span className="text-xs font-medium">{confidenceScore}%</span>
+            <span className="text-body-sm font-medium text-foreground">{confidenceScore}%</span>
           </div>
-          {post.likes > 20 && (
-            <div className="mt-2 flex items-center gap-2 text-xs">
+          {post.likes > 15 && (
+            <div className="mt-2 flex items-center gap-2 text-body-sm">
               <Award size={14} className="text-yellow-500" />
-              <span className="text-yellow-500">Trending prediction</span>
+              <span className="text-yellow-500">Hot prediction</span>
             </div>
           )}
         </div>
         
-        <div className="flex flex-wrap gap-2">
-          {post.content.split(' ').filter(word => word.startsWith('#')).map((tag, index) => (
-            <span key={index} className="text-xs bg-dark-lighter px-2 py-1 rounded-full text-neon-blue hover:bg-neon-blue/10 cursor-pointer transition-all">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {post.content.split(' ').filter(word => word.startsWith('#')).length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {post.content.split(' ').filter(word => word.startsWith('#')).slice(0, 3).map((tag, index) => (
+              <span key={index} className="text-body-sm bg-primary/10 text-primary px-2 py-1 rounded-full hover:bg-primary/20 cursor-pointer transition-colors">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </CardContent>
       
-      <CardFooter className="flex flex-col w-full">
+      <CardFooter className="flex flex-col w-full pt-0">
         <div className="flex justify-between items-center w-full">
-          <div className="flex gap-5">
+          <div className="flex gap-6">
             <PostReactions 
               postId={post.id}
               currentReactions={reactions}
@@ -145,46 +157,32 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
             <Button 
               variant="ghost" 
               size="sm" 
-              className="flex items-center gap-1.5 hover:text-neon-blue transition-all"
+              className="flex items-center gap-2 hover:text-primary transition-colors text-muted-foreground"
               onClick={toggleComments}
             >
               <MessageCircle size={18} />
-              {post.comments}
-              {showComments ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              <span className="text-body-sm">{post.comments}</span>
             </Button>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex items-center gap-1.5 hover:text-neon-blue transition-all"
-            onClick={() => onShare(post)}
-          >
-            <Share2 size={18} />
-            {post.shares}
-          </Button>
-          <div className="flex gap-2">
-            <ChatButton 
-              userId={post.user.username} 
-              userName={post.user.name}
-              variant="ghost"
-              size="sm"
-            />
-            <TipButton
-              recipientUserId={post.user.username}
-              recipientName={post.user.name}
-              postId={post.id.toString()}
-              variant="ghost"
-              size="sm"
-            />
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex items-center gap-2 hover:text-primary transition-colors text-muted-foreground"
+              onClick={() => onShare(post)}
+            >
+              <Share2 size={18} />
+              <span className="text-body-sm">{post.shares}</span>
+            </Button>
           </div>
         </div>
         
         {showComments && (
-          <CommentSection 
-            postId={post.id} 
-            comments={post.commentList || []} 
-            onAddComment={onAddComment}
-          />
+          <div className="w-full mt-3 pt-3 border-t border-border/30">
+            <CommentSection 
+              postId={post.id} 
+              comments={post.commentList || []} 
+              onAddComment={onAddComment}
+            />
+          </div>
         )}
       </CardFooter>
     </Card>

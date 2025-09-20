@@ -204,45 +204,69 @@ const Social = () => {
         );
       case 'notifications':
         return (
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Notifications</h2>
-            <div className="text-center py-16 text-muted-foreground">
-              <Bell size={48} className="mx-auto mb-4 opacity-50" />
-              <p className="text-lg">No new notifications</p>
-              <p className="text-sm">We'll notify you when something happens</p>
+          <div className="spacing-lg">
+            <h2 className="text-heading-lg font-heading text-foreground">Notifications</h2>
+            <div className="text-center spacing-4xl text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-16 h-16 mx-auto spacing-md bg-muted/20 rounded-full flex items-center justify-center"
+              >
+                <Bell size={32} />
+              </motion.div>
+              <p className="text-body-lg">No new notifications</p>
+              <p className="text-body-sm">We'll notify you when something happens</p>
             </div>
           </div>
         );
       case 'messages':
         return (
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Messages</h2>
-            <div className="text-center py-16 text-muted-foreground">
-              <MessageCircle size={48} className="mx-auto mb-4 opacity-50" />
-              <p className="text-lg">No new messages</p>
-              <p className="text-sm">Start a conversation with other predictors</p>
+          <div className="spacing-lg">
+            <h2 className="text-heading-lg font-heading text-foreground">Messages</h2>
+            <div className="text-center spacing-4xl text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-16 h-16 mx-auto spacing-md bg-muted/20 rounded-full flex items-center justify-center"
+              >
+                <MessageCircle size={32} />
+              </motion.div>
+              <p className="text-body-lg">No new messages</p>
+              <p className="text-body-sm">Start a conversation with other predictors</p>
             </div>
           </div>
         );
       case 'profile':
         return (
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold">My Profile</h2>
-            <div className="text-center py-16 text-muted-foreground">
-              <User size={48} className="mx-auto mb-4 opacity-50" />
-              <p className="text-lg">Profile in development</p>
-              <p className="text-sm">Your betting statistics and achievements will appear here</p>
+          <div className="spacing-lg">
+            <h2 className="text-heading-lg font-heading text-foreground">My Profile</h2>
+            <div className="text-center spacing-4xl text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-16 h-16 mx-auto spacing-md bg-muted/20 rounded-full flex items-center justify-center"
+              >
+                <User size={32} />
+              </motion.div>
+              <p className="text-body-lg">Profile in development</p>
+              <p className="text-body-sm">Your betting statistics and achievements will appear here</p>
             </div>
           </div>
         );
       case 'wallet':
         return (
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Wallet</h2>
-            <div className="text-center py-16 text-muted-foreground">
-              <Wallet size={48} className="mx-auto mb-4 opacity-50" />
-              <p className="text-lg">Wallet in development</p>
-              <p className="text-sm">Manage your betting funds and earnings here</p>
+          <div className="spacing-lg">
+            <h2 className="text-heading-lg font-heading text-foreground">Wallet</h2>
+            <div className="text-center spacing-4xl text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-16 h-16 mx-auto spacing-md bg-muted/20 rounded-full flex items-center justify-center"
+              >
+                <Wallet size={32} />
+              </motion.div>
+              <p className="text-body-lg">Wallet in development</p>
+              <p className="text-body-sm">Manage your betting funds and earnings here</p>
             </div>
           </div>
         );
@@ -257,9 +281,15 @@ const Social = () => {
         <Navbar />
         <StrategicNotifications />
         
-        <main className="pt-16 pb-20 px-4">
-          {activeTab === 'home' && <StoriesRing />}
-          {renderTabContent()}
+        <main className="pt-16 pb-20 spacing-sm">
+          <div className="max-w-md mx-auto">
+            {activeTab === 'home' && (
+              <div className="spacing-md">
+                <StoriesRing />
+              </div>
+            )}
+            {renderTabContent()}
+          </div>
         </main>
         
         <MobileBottomNav
@@ -278,29 +308,35 @@ const Social = () => {
       <StrategicNotifications />
       
       {/* Desktop Layout */}
-      <div className="flex">
+      <div className="flex w-full">
         {/* Left Sidebar */}
         <SocialSidebar
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          onCreatePost={() => handleCreatePost('Post desde sidebar')}
+          onCreatePost={() => handleCreatePost('What\'s happening?')}
           notifications={3}
           messages={1}
         />
         
         {/* Main Content */}
-        <main className="flex-1 min-h-screen ml-64 mr-80 pt-20 px-6">
-          {activeTab === 'home' && <StoriesRing />}
+        <main className="flex-1 min-h-screen max-w-2xl pt-20 spacing-md border-x border-border/50">
+          {activeTab === 'home' && (
+            <div className="spacing-lg border-b border-border/50 pb-4">
+              <StoriesRing />
+            </div>
+          )}
           {renderTabContent()}
         </main>
         
         {/* Right Discovery Sidebar */}
-        <div className="fixed right-0 top-16 h-[calc(100vh-4rem)] w-80 p-4 overflow-y-auto hidden xl:block">
-          <SocialDiscovery
-            trendingPosts={posts.filter(post => post.likes > 3)}
-            suggestedUsers={suggestedUsers}
-            liveMatches={liveMatches}
-          />
+        <div className="w-80 pt-20 spacing-md hidden xl:block">
+          <div className="sticky top-24">
+            <SocialDiscovery
+              trendingPosts={posts.filter(post => post.likes > 3)}
+              suggestedUsers={suggestedUsers}
+              liveMatches={liveMatches}
+            />
+          </div>
         </div>
       </div>
     </div>

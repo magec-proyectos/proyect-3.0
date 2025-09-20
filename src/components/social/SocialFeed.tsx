@@ -1,12 +1,21 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Image, Smile, BarChart3, Sparkles, Calendar, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
+import { 
+  Image, 
+  BarChart, 
+  Smile, 
+  Calendar,
+  Send,
+  Plus
+} from 'lucide-react';
+import { Post } from './PostItem';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
 import VirtualizedPostFeed from './VirtualizedPostFeed';
-import { Post } from './PostItem';
 
 interface SocialFeedProps {
   posts: Post[];
@@ -17,7 +26,7 @@ interface SocialFeedProps {
   onShare: (post: Post) => void;
   onAddComment: (postId: number, content: string) => void;
   onCreatePost: (content: string) => void;
-  user?: any;
+  user: any;
 }
 
 const SocialFeed: React.FC<SocialFeedProps> = ({
@@ -31,210 +40,173 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
   onCreatePost,
   user
 }) => {
-  const [postContent, setPostContent] = React.useState('');
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [postContent, setPostContent] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxLength = 280;
 
-  const filters = [
-    { id: 'foryou', label: 'For you', icon: Sparkles },
-    { id: 'following', label: 'Following', icon: BarChart3 },
-  ];
-
-  const handleSubmitPost = () => {
+  const handlePostSubmit = () => {
     if (!user) {
-      toast.error('Please sign in to post', {
+      toast.error('Please sign in to create posts', {
         description: 'Create an account or sign in to share your predictions'
       });
       return;
     }
+
+    if (!postContent.trim()) {
+      toast.error('Please add content to your post');
+      return;
+    }
+
+    onCreatePost(postContent);
+    setPostContent('');
+    setIsExpanded(false);
     
-    if (postContent.trim()) {
-      onCreatePost(postContent);
-      setPostContent('');
-      setIsExpanded(false);
-      toast.success('Post shared successfully! 🎉', {
-        description: 'Your prediction has been shared with the community'
-      });
+    toast.success('🚀 Prediction shared!', {
+      description: 'Your prediction is now live for the community'
+    });
+  };
+
+  const expandedVariants = {
+    collapsed: { height: 'auto' },
+    expanded: { 
+      height: 'auto',
+      transition: { duration: 0.3, ease: 'easeInOut' }
     }
   };
 
-  const handleTextareaFocus = () => {
-    setIsExpanded(true);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
+  const actionButtonsVariants = {
+    hidden: { opacity: 0, y: 10 },
     visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.2, staggerChildren: 0.05 }
     }
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 }
   };
 
   return (
-    <motion.div 
-      className="space-y-0"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {/* Create post - Always visible at top */}
-      <motion.div 
-        className="border-b border-border pb-6 mb-6 bg-surface-primary rounded-t-xl"
-        variants={itemVariants}
-      >
-        <div className="flex gap-4 p-6">
-          <Avatar className="w-12 h-12 ring-2 ring-border">
-            <AvatarImage src={user?.avatar || 'https://placehold.co/48'} alt={user?.name || 'User'} />
-            <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-primary-foreground font-bold">
-              {user?.name?.charAt(0) || '?'}
-            </AvatarFallback>
-          </Avatar>
-          
-          <div className="flex-1 space-y-4">
-            <motion.div
-              animate={{ height: isExpanded ? 'auto' : '60px' }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              <Textarea
-                placeholder={user ? "What's happening?" : "Sign in to share your predictions"}
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-                onFocus={handleTextareaFocus}
-                disabled={!user}
-                className="border-none resize-none p-0 text-xl placeholder:text-muted-foreground focus-visible:ring-0 bg-transparent min-h-[60px]"
-                rows={isExpanded ? 4 : 1}
-              />
-            </motion.div>
+    <div className="space-y-1">
+      {/* Post Creation */}
+      <Card className="bg-card border-border/50 hover:bg-card/80 transition-colors">
+        <CardContent className="spacing-md">
+          <div className="flex gap-3">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={user?.avatar || 'https://placehold.co/40'} />
+              <AvatarFallback className="bg-muted text-muted-foreground text-sm">
+                {user?.name?.substring(0, 2) || 'U'}
+              </AvatarFallback>
+            </Avatar>
             
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="flex items-center justify-between pt-4 border-t border-border"
-                >
-                  <div className="flex gap-3">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-primary p-3 hover:bg-primary/10 rounded-full transition-all hover:scale-105"
-                      disabled={!user}
-                      onClick={() => toast.info('📸 Image upload coming soon!')}
-                    >
-                      <Image size={20} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-primary p-3 hover:bg-primary/10 rounded-full transition-all hover:scale-105"
-                      disabled={!user}
-                      onClick={() => toast.info('📊 Prediction charts coming soon!')}
-                    >
-                      <BarChart3 size={20} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-primary p-3 hover:bg-primary/10 rounded-full transition-all hover:scale-105"
-                      disabled={!user}
-                      onClick={() => toast.info('😀 Emoji picker coming soon!')}
-                    >
-                      <Smile size={20} />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-primary p-3 hover:bg-primary/10 rounded-full transition-all hover:scale-105"
-                      disabled={!user}
-                      onClick={() => toast.info('🗓️ Schedule post coming soon!')}
-                    >
-                      <Calendar size={20} />
-                    </Button>
-                  </div>
-                  
-                  <div className="flex gap-3 items-center">
-                    {postContent.length > 0 && (
-                      <span className="text-sm text-muted-foreground">
-                        {280 - postContent.length}
-                      </span>
-                    )}
-                    <Button 
-                      onClick={handleSubmitPost}
-                      disabled={!postContent.trim() || !user}
-                      className="rounded-full px-8 font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-elevation-2 hover:shadow-glow-blue transition-all duration-300"
-                      size="sm"
-                    >
-                      {user ? 'Post' : 'Sign in'}
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Filter tabs */}
-      <motion.div 
-        className="border-b border-border sticky top-0 bg-background/95 backdrop-blur-sm z-10"
-        variants={itemVariants}
-      >
-        <div className="flex">
-          {filters.map((filterOption) => {
-            const Icon = filterOption.icon;
-            const isActive = filter === filterOption.id;
-            
-            return (
-              <motion.button
-                key={filterOption.id}
-                onClick={() => onFilterChange(filterOption.id)}
-                className={`flex-1 relative flex items-center justify-center gap-2 py-4 font-semibold transition-all duration-300 ${
-                  isActive 
-                    ? 'text-primary' 
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+            <div className="flex-1">
+              <motion.div
+                variants={expandedVariants}
+                animate={isExpanded ? 'expanded' : 'collapsed'}
               >
-                <Icon size={18} />
-                {filterOption.label}
-                
-                {isActive && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-primary/80 rounded-full"
-                    layoutId="activeFilter"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
-              </motion.button>
-            );
-          })}
-        </div>
-      </motion.div>
+                <Textarea
+                  placeholder="What's happening?"
+                  value={postContent}
+                  onChange={(e) => setPostContent(e.target.value)}
+                  onFocus={() => setIsExpanded(true)}
+                  className="border-0 bg-transparent resize-none text-body-lg placeholder:text-muted-foreground focus:ring-0 min-h-[50px] p-0"
+                  rows={isExpanded ? 3 : 1}
+                  maxLength={maxLength}
+                />
+              </motion.div>
 
-      {/* Posts feed */}
-      <motion.div 
-        className="pt-6"
-        variants={itemVariants}
-      >
-        <VirtualizedPostFeed 
-          posts={posts}
-          likedPosts={likedPosts}
-          onLike={onLike}
-          onShare={onShare}
-          onAddComment={onAddComment}
-          onLoadMore={async () => {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-          }}
-        />
-      </motion.div>
-    </motion.div>
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    variants={actionButtonsVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    className="flex items-center justify-between mt-3 pt-3 border-t border-border/30"
+                  >
+                    <div className="flex gap-1">
+                      {[
+                        { icon: Image, color: 'text-blue-500/70 hover:text-blue-500' },
+                        { icon: BarChart, color: 'text-green-500/70 hover:text-green-500' },
+                        { icon: Smile, color: 'text-yellow-500/70 hover:text-yellow-500' },
+                        { icon: Calendar, color: 'text-purple-500/70 hover:text-purple-500' }
+                      ].map((item, index) => (
+                        <motion.button
+                          key={index}
+                          variants={buttonVariants}
+                          className={`p-2 rounded-full hover:bg-muted/50 transition-colors ${item.color}`}
+                        >
+                          <item.icon size={18} />
+                        </motion.button>
+                      ))}
+                    </div>
+                    
+                    <div className="flex items-center gap-3">
+                      <span className={`text-xs ${postContent.length > maxLength * 0.8 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                        {postContent.length}/{maxLength}
+                      </span>
+                      <Button
+                        onClick={handlePostSubmit}
+                        disabled={!postContent.trim() || postContent.length > maxLength}
+                        size="sm"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4 disabled:opacity-50"
+                      >
+                        Post
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Feed Filter Tabs */}
+      <div className="border-b border-border/30">
+        <div className="flex">
+          {[
+            { id: 'foryou', label: 'For you' },
+            { id: 'following', label: 'Following' }
+          ].map((tab) => (
+            <motion.button
+              key={tab.id}
+              onClick={() => onFilterChange(tab.id)}
+              className={`
+                relative px-4 py-3 text-body-md font-medium transition-colors
+                ${filter === tab.id 
+                  ? 'text-foreground' 
+                  : 'text-muted-foreground hover:text-foreground'
+                }
+              `}
+              whileHover={{ y: -1 }}
+              whileTap={{ y: 0 }}
+            >
+              {tab.label}
+              {filter === tab.id && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
+                  initial={false}
+                  transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                />
+              )}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Posts Feed */}
+      <VirtualizedPostFeed
+        posts={posts}
+        likedPosts={likedPosts}
+        onLike={onLike}
+        onShare={onShare}
+        onAddComment={onAddComment}
+      />
+    </div>
   );
 };
 

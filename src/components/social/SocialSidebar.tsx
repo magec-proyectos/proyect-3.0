@@ -1,7 +1,18 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Home, Search, Bell, MessageCircle, User, Wallet, Plus, TrendingUp } from 'lucide-react';
+import { 
+  Home, 
+  Search, 
+  Bell, 
+  MessageCircle, 
+  User, 
+  Wallet,
+  Plus,
+  Hash,
+  TrendingUp,
+  Sparkles
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SocialSidebarProps {
@@ -20,111 +31,106 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({
   messages = 0
 }) => {
   const menuItems = [
-    { id: 'home', label: 'Home', icon: Home, count: 0 },
-    { id: 'explore', label: 'Explore', icon: Search, count: 0 },
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'explore', label: 'Explore', icon: Search },
     { id: 'notifications', label: 'Notifications', icon: Bell, count: notifications },
     { id: 'messages', label: 'Messages', icon: MessageCircle, count: messages },
-    { id: 'profile', label: 'Profile', icon: User, count: 0 },
-    { id: 'wallet', label: 'Wallet', icon: Wallet, count: 0 },
+    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'wallet', label: 'Wallet', icon: Wallet }
   ];
 
   const sidebarVariants = {
-    hidden: { x: -280, opacity: 0 },
+    hidden: { opacity: 0, x: -50 },
     visible: { 
-      x: 0, 
-      opacity: 1,
+      opacity: 1, 
+      x: 0,
       transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
+        duration: 0.3,
         staggerChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: { x: 0, opacity: 1 }
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 }
   };
 
   return (
-    <motion.div 
-      className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-surface-primary border-r border-border p-6 z-30 hidden lg:block"
+    <motion.div
       variants={sidebarVariants}
       initial="hidden"
       animate="visible"
+      className="w-64 spacing-md border-r border-border/50 hidden lg:block"
     >
-      <div className="space-y-2">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          
-          return (
-            <motion.div key={item.id} variants={itemVariants}>
-              <motion.button
-                onClick={() => onTabChange(item.id)}
-                className={`
-                  w-full flex items-center gap-4 px-6 py-4 rounded-full text-left transition-all group relative overflow-hidden
-                  ${isActive 
-                    ? 'bg-primary text-primary-foreground font-semibold shadow-elevation-2' 
-                    : 'hover:bg-accent text-foreground hover:text-accent-foreground hover:shadow-elevation-1'
-                  }
-                `}
-                whileHover={{ scale: 1.02, x: 4 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              >
-                {/* Active indicator */}
-                {isActive && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 rounded-full"
-                    layoutId="activeTab"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                  />
-                )}
-                
-                <div className="relative z-10 flex items-center gap-4 w-full">
-                  <Icon 
-                    size={24} 
-                    className={`transition-colors ${
-                      isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground'
-                    }`} 
-                  />
-                  <span className="text-xl font-medium">{item.label}</span>
-                  {item.count > 0 && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="ml-auto"
-                    >
-                      <Badge 
-                        variant="destructive" 
-                        className="animate-pulse shadow-glow-orange"
-                      >
-                        {item.count > 99 ? '99+' : item.count}
-                      </Badge>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.button>
-            </motion.div>
-          );
-        })}
-      </div>
-      
-      <motion.div
-        variants={itemVariants}
-        className="mt-8"
-      >
-        <Button 
-          onClick={onCreatePost}
-          className="w-full py-6 text-lg font-bold rounded-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-elevation-3 hover:shadow-glow-blue transition-all duration-300"
-          size="lg"
+      <div className="sticky top-24 spacing-lg">
+        <nav className="space-y-1">
+          {menuItems.map((item) => (
+            <motion.button
+              key={item.id}
+              variants={itemVariants}
+              onClick={() => onTabChange(item.id)}
+              className={`
+                w-full flex items-center gap-3 px-4 py-3 rounded-full text-left transition-all duration-200 group
+                ${activeTab === item.id 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted/50 text-foreground/70 hover:text-foreground'
+                }
+              `}
+              whileHover={{ x: 2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <item.icon size={24} className={`${activeTab === item.id ? 'text-primary' : 'group-hover:text-foreground'}`} />
+              <span className="text-body-lg">{item.label}</span>
+              {item.count && item.count > 0 && (
+                <Badge 
+                  variant="destructive" 
+                  className="ml-auto h-5 px-2 text-xs bg-destructive text-destructive-foreground"
+                >
+                  {item.count}
+                </Badge>
+              )}
+            </motion.button>
+          ))}
+        </nav>
+
+        <motion.div
+          variants={itemVariants}
+          className="spacing-lg"
         >
-          <Plus size={24} className="mr-3" />
-          Post
-        </Button>
-      </motion.div>
+          <Button 
+            onClick={onCreatePost}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 text-body-lg rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+            size="lg"
+          >
+            <Plus size={20} className="mr-2" />
+            Post
+          </Button>
+        </motion.div>
+
+        <motion.div
+          variants={itemVariants}
+          className="spacing-lg"
+        >
+          <div className="flex items-center gap-2 text-body-sm font-semibold text-muted-foreground mb-3">
+            <Sparkles size={16} />
+            Trending
+          </div>
+          <div className="space-y-1">
+            {['#ChampionsLeague', '#PremierLeague', '#BestBets'].map((topic, index) => (
+              <motion.button
+                key={topic}
+                className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg hover:bg-muted/30 transition-all group"
+                whileHover={{ x: 4 }}
+              >
+                <Hash size={14} className="text-primary/60 group-hover:text-primary" />
+                <span className="text-body-sm group-hover:text-foreground">{topic}</span>
+                <TrendingUp size={12} className="ml-auto text-green-500/60" />
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
