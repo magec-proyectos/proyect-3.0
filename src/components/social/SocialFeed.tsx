@@ -48,48 +48,62 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
   return (
     <div className="space-y-0">
       {/* Crear post - Siempre visible arriba */}
-      {user && (
-        <div className="border-b border-border pb-4 mb-6">
-          <div className="flex gap-3 p-4">
-            <Avatar className="w-12 h-12">
-              <AvatarImage src={user.avatar || 'https://placehold.co/48'} alt={user.name} />
-              <AvatarFallback>{user.name?.charAt(0) || 'U'}</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 space-y-4">
-              <Textarea
-                placeholder="¿Qué está pasando?"
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-                className="border-none resize-none p-0 text-xl placeholder:text-muted-foreground focus-visible:ring-0 min-h-[60px]"
-                rows={1}
-              />
-              
-              <div className="flex items-center justify-between pt-3 border-t border-border">
-                <div className="flex gap-4">
-                  <Button variant="ghost" size="sm" className="text-primary p-2 hover:bg-primary/10">
-                    <Image size={20} />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="text-primary p-2 hover:bg-primary/10">
-                    <BarChart3 size={20} />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="text-primary p-2 hover:bg-primary/10">
-                    <Smile size={20} />
-                  </Button>
-                </div>
-                
+      <div className="border-b border-border pb-4 mb-6">
+        <div className="flex gap-3 p-4">
+          <Avatar className="w-12 h-12">
+            <AvatarImage src={user?.avatar || 'https://placehold.co/48'} alt={user?.name || 'Usuario'} />
+            <AvatarFallback>{user?.name?.charAt(0) || '?'}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 space-y-4">
+            <Textarea
+              placeholder={user ? "¿Qué está pasando?" : "Inicia sesión para postear"}
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
+              disabled={!user}
+              className="border-none resize-none p-0 text-xl placeholder:text-muted-foreground focus-visible:ring-0 min-h-[60px]"
+              rows={1}
+            />
+            
+            <div className="flex items-center justify-between pt-3 border-t border-border">
+              <div className="flex gap-4">
                 <Button 
-                  onClick={handleSubmitPost}
-                  disabled={!postContent.trim()}
-                  className="rounded-full px-6 font-semibold"
-                  size="sm"
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-primary p-2 hover:bg-primary/10"
+                  disabled={!user}
                 >
-                  Postear
+                  <Image size={20} />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-primary p-2 hover:bg-primary/10"
+                  disabled={!user}
+                >
+                  <BarChart3 size={20} />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-primary p-2 hover:bg-primary/10"
+                  disabled={!user}
+                >
+                  <Smile size={20} />
                 </Button>
               </div>
+              
+              <Button 
+                onClick={handleSubmitPost}
+                disabled={!postContent.trim() || !user}
+                className="rounded-full px-6 font-semibold"
+                size="sm"
+              >
+                {user ? 'Postear' : 'Inicia sesión'}
+              </Button>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Filtros */}
       <div className="border-b border-border sticky top-0 bg-background/80 backdrop-blur-sm z-10">
