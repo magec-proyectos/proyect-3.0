@@ -131,7 +131,7 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({
               >
                 <Hash size={14} className="text-primary/60 group-hover:text-primary" />
                 <span className="text-body-sm group-hover:text-foreground">{topic}</span>
-                <TrendingUp size={12} className="ml-auto text-muted-foreground/60" />
+                <TrendingUp size={12} className="ml-auto text-muted-foreground" />
               </motion.button>
             ))}
           </div>

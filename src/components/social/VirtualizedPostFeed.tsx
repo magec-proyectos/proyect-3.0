@@ -123,7 +123,7 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
                   right: 0,
                   height: itemHeight,
                 }}
-                className="px-1"
+                className={`px-1 ${isMobile ? 'pb-24' : ''}`}
               >
                 <div className="h-full p-2">
                   <PostItem
@@ -173,11 +173,11 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
               }}
                className="flex items-center justify-center text-muted-foreground text-sm"
              >
-               <div className="text-center">
-                 <div className="w-12 h-px bg-border mx-auto mb-2"></div>
-                 You've reached the end
+               <div className="text-center py-4">
+                 <div className="w-8 h-px bg-border mx-auto mb-2"></div>
+                 <span className="text-xs">End of feed</span>
                </div>
-            </motion.div>
+             </motion.div>
           )}
         </div>
       </div>

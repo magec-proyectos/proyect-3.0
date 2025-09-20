@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -27,13 +27,11 @@ const Social = () => {
   const [feedFilter, setFeedFilter] = useState('foryou');
   const { user } = useAuth();
   const isMobile = useIsMobile();
+  const socialFeedRef = useRef<{ focusComposer: () => void }>(null);
 
   const handleLike = (postId: number) => {
     if (!user) {
-      toast.error('Please sign in to like posts', {
-        description: 'Create an account or sign in to interact with posts',
-        action: { label: 'Sign in', onClick: () => {} }
-      });
+      toast.error('Please sign in to like posts');
       return;
     }
     
@@ -42,45 +40,29 @@ const Social = () => {
       setPosts(posts.map(post => 
         post.id === postId ? { ...post, likes: post.likes - 1 } : post
       ));
-      toast.success('Removed like 💔');
+      toast.success('Removed like');
     } else {
       setLikedPosts([...likedPosts, postId]);
       setPosts(posts.map(post => 
         post.id === postId ? { ...post, likes: post.likes + 1 } : post
       ));
       
-      toast.success('Prediction liked! 💜', {
-        description: 'Your like helps others find great predictions'
-      });
-      
-      if (Math.random() > 0.7) {
-        toast.success('🔥 Popular prediction!', {
-          description: 'This prediction is trending in the community'
-        });
-      }
+      toast.success('Prediction liked');
     }
   };
 
   const handleShare = (post: Post) => {
     if (!user) {
-      toast.error('Please sign in to share posts', {
-        description: 'Create an account or sign in to share predictions',
-        action: { label: 'Sign in', onClick: () => {} }
-      });
+      toast.error('Please sign in to share posts');
       return;
     }
     
-    toast.success('🚀 Share options opened!', {
-      description: `Share ${post.bet.match} prediction with your friends`
-    });
+    toast.success('Share options opened');
   };
   
   const handleAddComment = (postId: number, content: string) => {
     if (!user) {
-      toast.error('Please sign in to comment', {
-        description: 'Create an account or sign in to join the discussion',
-        action: { label: 'Sign in', onClick: () => {} }
-      });
+      toast.error('Please sign in to comment');
       return;
     }
     
@@ -107,15 +89,12 @@ const Social = () => {
       return post;
     }));
     
-    toast.success('💬 Comment added successfully!');
+    toast.success('Comment added successfully');
   };
 
   const handleCreatePost = (content: string) => {
     if (!user) {
-      toast.error('Please sign in to create posts', {
-        description: 'Create an account or sign in to share your predictions',
-        action: { label: 'Sign in', onClick: () => {} }
-      });
+      toast.error('Please sign in to create posts');
       return;
     }
     
@@ -174,6 +153,7 @@ const Social = () => {
       case 'home':
         return (
           <SocialFeed
+            ref={socialFeedRef}
             posts={filteredPosts}
             likedPosts={likedPosts}
             filter={feedFilter}
@@ -313,7 +293,7 @@ const Social = () => {
         <SocialSidebar
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          onCreatePost={() => handleCreatePost('What\'s happening?')}
+          onCreatePost={() => socialFeedRef.current?.focusComposer()}
           notifications={3}
           messages={1}
         />

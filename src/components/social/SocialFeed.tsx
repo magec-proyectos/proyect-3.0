@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
-  Image, 
-  BarChart, 
+  ImageIcon, 
+  BarChart3, 
   Calendar
 } from 'lucide-react';
 import { Post } from './PostItem';
@@ -26,7 +26,7 @@ interface SocialFeedProps {
   user: any;
 }
 
-const SocialFeed: React.FC<SocialFeedProps> = ({
+const SocialFeed = forwardRef<{ focusComposer: () => void }, SocialFeedProps>(({
   posts,
   likedPosts,
   filter,
@@ -36,10 +36,21 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
   onAddComment,
   onCreatePost,
   user
-}) => {
+}, ref) => {
   const [postContent, setPostContent] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const maxLength = 280;
+
+  useImperativeHandle(ref, () => ({
+    focusComposer: () => {
+      if (textareaRef.current) {
+        textareaRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        textareaRef.current.focus();
+        setIsExpanded(true);
+      }
+    }
+  }));
 
   const handlePostSubmit = () => {
     if (!user) {
@@ -100,6 +111,7 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
                 animate={isExpanded ? 'expanded' : 'collapsed'}
               >
                 <Textarea
+                  ref={textareaRef}
                   placeholder="What's happening?"
                   value={postContent}
                   onChange={(e) => setPostContent(e.target.value)}
@@ -121,14 +133,15 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
                   >
                     <div className="flex gap-1">
                       {[
-                         { icon: Image },
-                         { icon: BarChart },
-                         { icon: Calendar }
+                         { icon: ImageIcon, label: 'Add image' },
+                         { icon: BarChart3, label: 'Add poll' },
+                         { icon: Calendar, label: 'Schedule' }
                       ].map((item, index) => (
                         <motion.button
                           key={index}
                           variants={buttonVariants}
                           className="p-2 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground hover:text-foreground"
+                          title={item.label}
                         >
                           <item.icon size={18} />
                         </motion.button>
@@ -200,6 +213,8 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
       />
     </div>
   );
-};
+});
+
+SocialFeed.displayName = 'SocialFeed';
 
 export default SocialFeed;

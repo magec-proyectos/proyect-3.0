@@ -82,8 +82,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           </Card>
         ))
       ) : (
-        <div className="text-center py-6 bg-muted/50 rounded-lg border border-dashed border-border">
-          <p className="text-muted-foreground text-sm">Be the first to comment</p>
+        <div className="text-center py-6 text-muted-foreground">
+          <p className="text-sm">No comments yet</p>
         </div>
       )}
     </div>
