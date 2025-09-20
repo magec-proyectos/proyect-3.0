@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield, Copy, MessageCircle, Wallet } from 'lucide-react';
 import PostFeed from './PostFeed';
+import VirtualizedPostFeed from './VirtualizedPostFeed';
 import CreatePostForm from './CreatePostForm';
 import SuggestedUsers from './SuggestedUsers';
 import PrivateGroups from './PrivateGroups';
@@ -242,12 +243,16 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         )}
         
         <TabsContent value="feed" className="animate-fade-in">
-          <PostFeed 
+          <VirtualizedPostFeed 
             posts={filterPosts(posts)}
             likedPosts={likedPosts}
             onLike={onLike}
             onShare={onShare}
             onAddComment={onAddComment}
+            onLoadMore={async () => {
+              // Simulate loading more posts
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }}
           />
         </TabsContent>
         
@@ -273,7 +278,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         
         <TabsContent value="following" className="animate-fade-in">
           {activeFilter === 'following' || true ? (
-            <PostFeed 
+            <VirtualizedPostFeed 
               posts={filterPosts(posts).filter(post => post.id % 2 === 0)}
               likedPosts={likedPosts}
               onLike={onLike}
@@ -290,7 +295,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
         </TabsContent>
         
         <TabsContent value="latest" className="animate-fade-in">
-          <PostFeed 
+          <VirtualizedPostFeed 
             posts={filterPosts([...posts].sort((a, b) => {
               if (a.timestamp === "Just now") return -1;
               if (b.timestamp === "Just now") return 1;
