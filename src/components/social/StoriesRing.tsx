@@ -1,282 +1,209 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Clock } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import CreateStoryModal from './CreateStoryModal';
-import StoryViewer from './StoryViewer';
-import { formatDistanceToNow } from 'date-fns';
+import StoriesViewer, { Story } from './stories/StoriesViewer';
 
-interface Story {
-  id: string;
-  user_id: string;
-  prediction_type: string;
-  prediction_content: any;
-  background_color: string;
-  text_color: string;
-  views_count: number;
-  expires_at: string;
-  created_at: string;
-  user_profiles?: {
-    display_name: string;
-    avatar_url: string;
-  };
-}
-
-interface StoryGroup {
-  user_id: string;
-  user_profiles: {
-    display_name: string;
-    avatar_url: string;
-  };
-  stories: Story[];
-  hasUnviewed: boolean;
-  latestStory: string;
-}
-
-const StoriesRing: React.FC = () => {
-  const { user } = useAuth();
-  const [storyGroups, setStoryGroups] = useState<StoryGroup[]>([]);
-  const [myStories, setMyStories] = useState<Story[]>([]);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [viewerState, setViewerState] = useState({
-    isOpen: false,
-    stories: [] as Story[],
-    currentIndex: 0
-  });
-  const [loading, setLoading] = useState(true);
-
-  const fetchStories = async () => {
-    try {
-      setLoading(true);
-      
-      // Fetch all active stories with user profiles
-      const { data: stories, error } = await (supabase as any)
-        .from('user_stories')
-        .select(`
-          *,
-          user_profiles!inner(display_name, avatar_url)
-        `)
-        .gt('expires_at', new Date().toISOString())
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      if (stories) {
-        // Separate my stories from others
-        const myStoriesData = stories.filter((story: Story) => story.user_id === user?.id);
-        const otherStories = stories.filter((story: Story) => story.user_id !== user?.id);
-
-        setMyStories(myStoriesData);
-
-        // Group stories by user
-        const grouped = otherStories.reduce((acc: { [key: string]: StoryGroup }, story: Story) => {
-          if (!acc[story.user_id]) {
-            acc[story.user_id] = {
-              user_id: story.user_id,
-              user_profiles: story.user_profiles!,
-              stories: [],
-              hasUnviewed: false,
-              latestStory: story.created_at
-            };
-          }
-          acc[story.user_id].stories.push(story);
-          return acc;
-        }, {});
-
-        // Check for unviewed stories (simplified - you could enhance this with actual view tracking)
-        const groupsArray = Object.values(grouped).map((group: StoryGroup) => {
-          return {
-            user_id: group.user_id,
-            user_profiles: group.user_profiles,
-            stories: group.stories,
-            hasUnviewed: true, // Simplified - assume all are unviewed for now
-            latestStory: group.latestStory
-          };
-        });
-
-        setStoryGroups(groupsArray);
-      }
-    } catch (error) {
-      console.error('Error fetching stories:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      fetchStories();
-    }
-  }, [user]);
-
-  // Set up real-time subscription for new stories
-  useEffect(() => {
-    if (!user) return;
-
-    const channel = supabase
-      .channel('stories-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'user_stories'
-        } as any,
-        () => {
-          fetchStories();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user]);
-
-  const handleStoryClick = (stories: Story[], startIndex = 0) => {
-    setViewerState({
-      isOpen: true,
-      stories,
-      currentIndex: startIndex
-    });
-  };
-
-  const handleViewerClose = () => {
-    setViewerState({
-      isOpen: false,
-      stories: [],
-      currentIndex: 0
-    });
-  };
-
-  const handleViewerNext = () => {
-    setViewerState(prev => ({
-      ...prev,
-      currentIndex: prev.currentIndex < prev.stories.length - 1 
-        ? prev.currentIndex + 1 
-        : prev.currentIndex
-    }));
-  };
-
-  const handleViewerPrevious = () => {
-    setViewerState(prev => ({
-      ...prev,
-      currentIndex: prev.currentIndex > 0 
-        ? prev.currentIndex - 1 
-        : prev.currentIndex
-    }));
-  };
-
-  if (loading) {
-    return (
-      <div className="flex gap-4 p-4 overflow-x-auto">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex-shrink-0">
-            <div className="w-16 h-16 rounded-full bg-muted animate-pulse" />
-          </div>
-        ))}
-      </div>
-    );
+// Sample stories data
+const sampleStories: Story[] = [
+  {
+    id: '1',
+    user: {
+      name: 'ProTipster',
+      avatar: 'https://placehold.co/100',
+      username: 'protipster',
+      verified: true
+    },
+    content: {
+      type: 'video',
+      url: '/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png',
+      thumbnail: '/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png',
+      duration: 15
+    },
+    match: {
+      teams: ['Real Madrid', 'Barcelona'],
+      sport: 'Football',
+      league: 'La Liga',
+      time: '67\'',
+      isLive: true
+    },
+    prediction: {
+      type: 'winner',
+      value: 'Real Madrid Gana',
+      odds: 2.15,
+      confidence: 85
+    },
+    engagement: {
+      likes: 1247,
+      comments: 89,
+      shares: 156,
+      predictions: 340
+    },
+    timestamp: '2 min',
+    isLive: true
+  },
+  {
+    id: '2',
+    user: {
+      name: 'BetExpert',
+      avatar: 'https://placehold.co/100',
+      username: 'betexpert',
+      verified: true
+    },
+    content: {
+      type: 'image',
+      url: '/lovable-uploads/096710cc-8897-405e-93b7-5a5659000837.png'
+    },
+    match: {
+      teams: ['Lakers', 'Warriors'],
+      sport: 'Basketball',
+      league: 'NBA',
+      time: '20:30',
+      isLive: false
+    },
+    prediction: {
+      type: 'total',
+      value: 'Over 225.5 Puntos',
+      odds: 1.90,
+      confidence: 78
+    },
+    engagement: {
+      likes: 892,
+      comments: 45,
+      shares: 67,
+      predictions: 234
+    },
+    timestamp: '15 min'
+  },
+  {
+    id: '3',
+    user: {
+      name: 'SoccerPro',
+      avatar: 'https://placehold.co/100',
+      username: 'soccerpro',
+      verified: false
+    },
+    content: {
+      type: 'video',
+      url: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png',
+      thumbnail: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png',
+      duration: 12
+    },
+    match: {
+      teams: ['Liverpool', 'Chelsea'],
+      sport: 'Football',
+      league: 'Premier League',
+      time: '45\' + 2',
+      isLive: true
+    },
+    prediction: {
+      type: 'spread',
+      value: 'Liverpool -1.5',
+      odds: 2.45,
+      confidence: 72
+    },
+    engagement: {
+      likes: 654,
+      comments: 23,
+      shares: 89,
+      predictions: 167
+    },
+    timestamp: '5 min',
+    isLive: true
   }
+];
+
+interface StoriesRingProps {
+  className?: string;
+}
+
+const StoriesRing: React.FC<StoriesRingProps> = ({ className = '' }) => {
+  const [showViewer, setShowViewer] = useState(false);
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+
+  const handleStoryClick = (index: number) => {
+    setSelectedStoryIndex(index);
+    setShowViewer(true);
+  };
 
   return (
-    <div className="border-b border-border pb-4 mb-6">
-      <div className="flex gap-4 p-4 overflow-x-auto scrollbar-hide">
-        {/* Create Story Button */}
-        <div className="flex-shrink-0 flex flex-col items-center gap-2">
-          <Button
-            onClick={() => setIsCreateModalOpen(true)}
-            className="w-16 h-16 rounded-full p-0 bg-primary/20 border-2 border-dashed border-primary hover:bg-primary/30"
+    <>
+      <div className={`mb-6 ${className}`}>
+        <div className="flex items-center gap-4 px-4 pb-4 overflow-x-auto scrollbar-hide">
+          {/* Add Story Button */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex-shrink-0 text-center cursor-pointer"
           >
-            <Plus className="w-6 h-6" />
-          </Button>
-          <span className="text-xs text-muted-foreground">Your Story</span>
-        </div>
-
-        {/* My Stories */}
-        {myStories.length > 0 && (
-          <div className="flex-shrink-0 flex flex-col items-center gap-2">
-            <button
-              onClick={() => handleStoryClick(myStories)}
-              className="relative"
-            >
-              <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-r from-purple-500 to-pink-500">
-                <Avatar className="w-full h-full border-2 border-background">
-                  <AvatarImage src={user?.profileImage} />
-                  <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
-                </Avatar>
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-                {myStories.length}
-              </div>
-            </button>
-            <span className="text-xs text-muted-foreground">You</span>
-          </div>
-        )}
-
-        {/* Other Users' Stories */}
-        {storyGroups.map((group) => (
-          <div key={group.user_id} className="flex-shrink-0 flex flex-col items-center gap-2">
-            <button
-              onClick={() => handleStoryClick(group.stories)}
-              className="relative"
-            >
-              <div className={`w-16 h-16 rounded-full p-0.5 ${
-                group.hasUnviewed 
-                  ? 'bg-gradient-to-r from-pink-500 to-orange-500' 
-                  : 'bg-gray-600'
-              }`}>
-                <Avatar className="w-full h-full border-2 border-background">
-                  <AvatarImage src={group.user_profiles.avatar_url} />
-                  <AvatarFallback>{group.user_profiles.display_name[0]}</AvatarFallback>
-                </Avatar>
-              </div>
-              {group.stories.length > 1 && (
-                <div className="absolute -bottom-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-                  {group.stories.length}
-                </div>
-              )}
-            </button>
-            <span className="text-xs text-center max-w-[64px] truncate">
-              {group.user_profiles.display_name}
-            </span>
-          </div>
-        ))}
-
-        {/* Empty State */}
-        {storyGroups.length === 0 && myStories.length === 0 && (
-          <div className="flex-1 flex items-center justify-center py-8">
-            <div className="text-center text-muted-foreground">
-              <Clock className="w-8 h-8 mx-auto mb-2" />
-              <p className="text-sm">No active stories</p>
-              <p className="text-xs">Stories expire after 24 hours</p>
+            <div className="w-16 h-16 bg-gradient-to-r from-neon-blue to-purple-500 rounded-full flex items-center justify-center border-2 border-dark-border mb-2">
+              <Plus size={24} className="text-white" />
             </div>
-          </div>
-        )}
+            <span className="text-xs text-gray-400">Tu Story</span>
+          </motion.div>
+
+          {/* Stories */}
+          {sampleStories.map((story, index) => (
+            <motion.div
+              key={story.id}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleStoryClick(index)}
+              className="flex-shrink-0 text-center cursor-pointer relative"
+            >
+              <div className={`w-16 h-16 rounded-full p-0.5 mb-2 ${
+                story.isLive 
+                  ? 'bg-gradient-to-r from-red-500 to-orange-500 animate-pulse' 
+                  : 'bg-gradient-to-r from-neon-lime to-neon-blue'
+              }`}>
+                <div className="w-full h-full rounded-full border-2 border-dark bg-dark-card flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={story.content.url} 
+                    alt={story.user.name}
+                    className="w-full h-full object-cover"
+                  />
+                  {story.content.type === 'video' && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Play size={16} className="text-white drop-shadow-lg" />
+                    </div>
+                  )}
+                </div>
+                
+                {/* Live indicator */}
+                {story.isLive && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold">
+                    LIVE
+                  </div>
+                )}
+
+                {/* Verified badge */}
+                {story.user.verified && (
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                  </div>
+                )}
+              </div>
+              
+              <span className="text-xs text-gray-400 block truncate w-16">
+                {story.user.username}
+              </span>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* Create Story Modal */}
-      <CreateStoryModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onStoryCreated={() => {
-          fetchStories();
-          setIsCreateModalOpen(false);
-        }}
-      />
-
-      {/* Story Viewer */}
-      <StoryViewer
-        stories={viewerState.stories}
-        currentIndex={viewerState.currentIndex}
-        isOpen={viewerState.isOpen}
-        onClose={handleViewerClose}
-        onNext={handleViewerNext}
-        onPrevious={handleViewerPrevious}
-      />
-    </div>
+      {/* Stories Viewer */}
+      <AnimatePresence>
+        {showViewer && (
+          <StoriesViewer
+            stories={sampleStories}
+            initialIndex={selectedStoryIndex}
+            onClose={() => setShowViewer(false)}
+            onStoryChange={setSelectedStoryIndex}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
