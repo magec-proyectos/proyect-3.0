@@ -24,6 +24,9 @@ export type Database = {
           new_values: Json | null
           old_values: Json | null
           record_id: string | null
+          risk_level: string | null
+          security_event: boolean | null
+          session_id: string | null
           table_name: string | null
           user_agent: string | null
         }
@@ -36,6 +39,9 @@ export type Database = {
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
+          risk_level?: string | null
+          security_event?: boolean | null
+          session_id?: string | null
           table_name?: string | null
           user_agent?: string | null
         }
@@ -48,8 +54,44 @@ export type Database = {
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
+          risk_level?: string | null
+          security_event?: boolean | null
+          session_id?: string | null
           table_name?: string | null
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      admin_login_rate_limit: {
+        Row: {
+          attempt_count: number | null
+          blocked_until: string | null
+          created_at: string | null
+          id: string
+          ip_address: unknown
+          is_blocked: boolean | null
+          username: string
+          window_start: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address: unknown
+          is_blocked?: boolean | null
+          username: string
+          window_start?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown
+          is_blocked?: boolean | null
+          username?: string
+          window_start?: string | null
         }
         Relationships: []
       }
@@ -1565,6 +1607,7 @@ export type Database = {
           id: string
           is_featured: boolean | null
           is_premium: boolean | null
+          is_public: boolean | null
           likes_count: number | null
           match_info: Json
           potential_return: number | null
@@ -1588,6 +1631,7 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_premium?: boolean | null
+          is_public?: boolean | null
           likes_count?: number | null
           match_info?: Json
           potential_return?: number | null
@@ -1611,6 +1655,7 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_premium?: boolean | null
+          is_public?: boolean | null
           likes_count?: number | null
           match_info?: Json
           potential_return?: number | null
@@ -1952,6 +1997,10 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: boolean
       }
+      check_admin_rate_limit: {
+        Args: { input_ip: unknown; input_username: string }
+        Returns: Json
+      }
       check_and_award_badges: {
         Args: { user_uuid: string }
         Returns: number
@@ -1959,6 +2008,10 @@ export type Database = {
       check_verification_requirements: {
         Args: { tier: string; user_uuid: string }
         Returns: Json
+      }
+      cleanup_expired_admin_sessions: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       cleanup_expired_stories: {
         Args: Record<PropertyKey, never>
@@ -2052,6 +2105,10 @@ export type Database = {
       }
       mark_messages_as_read: {
         Args: { conv_id: string; user_uuid: string }
+        Returns: undefined
+      }
+      record_admin_login_attempt: {
+        Args: { input_ip: unknown; input_username: string; success: boolean }
         Returns: undefined
       }
       send_tip: {
