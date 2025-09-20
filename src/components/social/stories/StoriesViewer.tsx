@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { X, Heart, MessageCircle, Share, Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown } from 'lucide-react';
+import { X, Heart, MessageCircle, Share, Play, Pause, Volume2, VolumeX, ChevronUp, ChevronDown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useSwipeGestures } from '@/hooks/useSwipeGestures';
@@ -356,10 +356,20 @@ const StoriesViewer: React.FC<StoriesViewerProps> = ({
       >
         <Button
           onClick={handleQuickBet}
-          className="w-full bg-neon-lime text-black font-bold py-4 rounded-full hover:bg-neon-lime/90 transition-all"
+          className="w-full bg-neon-lime text-black font-bold py-4 rounded-full hover:bg-neon-lime/90 transition-all flex items-center justify-center gap-2"
         >
-          {currentStory.match.isLive ? '🔴 Apostar Live' : '⚡ Predicción Rápida'}
-          <ChevronUp className="ml-2" size={16} />
+          {currentStory.match.isLive ? (
+            <>
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+              Live Bet
+            </>
+          ) : (
+            <>
+              <Zap size={16} />
+              Quick Prediction
+            </>
+          )}
+          <ChevronUp size={16} />
         </Button>
       </motion.div>
 

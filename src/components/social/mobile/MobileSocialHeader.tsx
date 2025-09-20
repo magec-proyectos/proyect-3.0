@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, Plus, ArrowLeft, MoreHorizontal } from 'lucide-react';
+import { Search, Filter, Plus, ArrowLeft, MoreHorizontal, Trophy, TrendingUp, Zap, BarChart3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTouchGestures } from '@/hooks/use-touch-gestures';
 
@@ -177,17 +177,21 @@ const MobileSocialHeader: React.FC<MobileSocialHeaderProps> = ({
               </div>
               
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <Button variant="outline" size="sm" className="justify-start">
-                  🏆 Best Predictions
+                <Button variant="outline" size="sm" className="justify-start text-muted-foreground">
+                  <Trophy className="w-3 h-3 mr-1" />
+                  Best Predictions
                 </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  🔥 High Odds
+                <Button variant="outline" size="sm" className="justify-start text-muted-foreground">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  High Odds
                 </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  ⚡ Breaking News
+                <Button variant="outline" size="sm" className="justify-start text-muted-foreground">
+                  <Zap className="w-3 h-3 mr-1" />
+                  Breaking News
                 </Button>
-                <Button variant="outline" size="sm" className="justify-start">
-                  📊 With Analysis
+                <Button variant="outline" size="sm" className="justify-start text-muted-foreground">
+                  <BarChart3 className="w-3 h-3 mr-1" />
+                  With Analysis
                 </Button>
               </div>
             </div>

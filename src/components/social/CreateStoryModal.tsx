@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Camera, Type, Palette, Send } from 'lucide-react';
+import { X, Camera, Type, Palette, Send, Trophy, Target, AlertTriangle, CornerDownRight, Users, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,12 +15,12 @@ interface CreateStoryModalProps {
 }
 
 const predictionTypes = [
-  { value: 'match_result', label: '🏆 Match Result' },
-  { value: 'goals', label: '⚽ Goals' },
-  { value: 'cards', label: '🟨 Cards' },
-  { value: 'corners', label: '📐 Corners' },
-  { value: 'btts', label: '🎯 Both Teams to Score' },
-  { value: 'quick_tip', label: '💡 Quick Tip' }
+  { value: 'match_result', label: 'Match Result', icon: 'Trophy' },
+  { value: 'goals', label: 'Goals', icon: 'Target' },
+  { value: 'cards', label: 'Cards', icon: 'AlertTriangle' },
+  { value: 'corners', label: 'Corners', icon: 'CornerDownRight' },
+  { value: 'btts', label: 'Both Teams to Score', icon: 'Users' },
+  { value: 'quick_tip', label: 'Quick Tip', icon: 'Lightbulb' }
 ];
 
 const backgroundColors = [
@@ -104,11 +104,19 @@ const CreateStoryModal: React.FC<CreateStoryModalProps> = ({ isOpen, onClose, on
                 <SelectValue placeholder="Select prediction type" />
               </SelectTrigger>
               <SelectContent>
-                {predictionTypes.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
-                    {type.label}
-                  </SelectItem>
-                ))}
+                {predictionTypes.map((type) => {
+                  const iconMap = { Trophy, Target, AlertTriangle, CornerDownRight, Users, Lightbulb };
+                  const IconComponent = iconMap[type.icon as keyof typeof iconMap];
+                  
+                  return (
+                    <SelectItem key={type.value} value={type.value}>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        {IconComponent && <IconComponent className="w-4 h-4" />}
+                        {type.label}
+                      </div>
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
@@ -196,8 +204,21 @@ const CreateStoryModal: React.FC<CreateStoryModalProps> = ({ isOpen, onClose, on
               className="aspect-[9/16] max-h-48 rounded-lg p-4 text-white flex flex-col justify-center items-center text-center relative overflow-hidden"
               style={{ backgroundColor }}
             >
-              <div className="text-xs opacity-70 mb-2">
-                {predictionTypes.find(t => t.value === predictionType)?.label || 'Select type'}
+              <div className="text-xs opacity-70 mb-2 flex items-center gap-1 justify-center">
+                {(() => {
+                  const type = predictionTypes.find(t => t.value === predictionType);
+                  if (!type) return 'Select type';
+                  
+                  const iconMap = { Trophy, Target, AlertTriangle, CornerDownRight, Users, Lightbulb };
+                  const IconComponent = iconMap[type.icon as keyof typeof iconMap];
+                  
+                  return (
+                    <>
+                      {IconComponent && <IconComponent className="w-3 h-3" />}
+                      {type.label}
+                    </>
+                  );
+                })()}
               </div>
               {teams && (
                 <div className="text-sm font-bold mb-2">{teams}</div>

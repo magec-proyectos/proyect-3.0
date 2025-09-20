@@ -32,12 +32,12 @@ interface StoryViewerProps {
 }
 
 const predictionTypeLabels: { [key: string]: string } = {
-  'match_result': '🏆 Match Result',
-  'goals': '⚽ Goals',
-  'cards': '🟨 Cards',
-  'corners': '📐 Corners',
-  'btts': '🎯 Both Teams to Score',
-  'quick_tip': '💡 Quick Tip'
+  'match_result': 'Match Result',
+  'goals': 'Goals',
+  'cards': 'Cards',
+  'corners': 'Corners',
+  'btts': 'Both Teams to Score',
+  'quick_tip': 'Quick Tip'
 };
 
 const StoryViewer: React.FC<StoryViewerProps> = ({ 

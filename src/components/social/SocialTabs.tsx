@@ -126,9 +126,18 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
                           By @{post.user.username}
                         </div>
                         <div className="flex items-center gap-2 text-xs text-gray-400">
-                          <span>{post.likes} ❤️</span>
-                          <span>{post.comments} 💬</span>
-                          <span>{post.shares} 🔄</span>
+                          <span className="flex items-center gap-1">
+                            <ArrowUp size={10} />
+                            {post.likes}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <MessageCircle size={10} />
+                            {post.comments}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <TrendingUp size={10} />
+                            {post.shares}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -170,7 +179,7 @@ const SocialTabs: React.FC<SocialTabsProps> = ({
           className="cursor-pointer transition-all hover:bg-orange-500/20"
           onClick={() => setActiveFilter('hot')}
         >
-          🔥 Hot
+          <Flame className="mr-1 h-3 w-3" /> Hot
         </Badge>
         <Badge 
           variant={activeFilter === 'fresh' ? "default" : "outline"}
