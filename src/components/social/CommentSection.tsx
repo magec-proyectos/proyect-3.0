@@ -35,9 +35,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
   const handleSubmitComment = () => {
     if (!user) {
-      toast.error('Please log in to comment', {
-        description: 'Create an account or log in to interact'
-      });
+      toast.error('Please log in to comment');
       return;
     }
     

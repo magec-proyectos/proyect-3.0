@@ -32,9 +32,9 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
     return isMobile ? 320 : 280;
   }, [isMobile]);
 
-  // Container height
+  // Container height - guard window access
   const containerHeight = useMemo(() => {
-    return isMobile ? window.innerHeight - 200 : 600;
+    return isMobile ? (typeof window !== 'undefined' ? window.innerHeight - 200 : 400) : 600;
   }, [isMobile]);
 
   const {
@@ -183,7 +183,7 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
       </div>
 
       {/* Performance indicator for debugging */}
-      {process.env.NODE_ENV === 'development' && (
+      {typeof window !== 'undefined' && import.meta.env.DEV && (
         <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
           Rendering {state.visibleItems} of {posts.length} items 
           (indexes {state.startIndex}-{state.endIndex})
