@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { ArrowUp, Filter, TrendingUp, Clock, Users, Zap, UserPlus, Flame, BarChart3, Shield, Copy, MessageCircle, Wallet } from 'lucide-react';
-import PostFeed from './PostFeed';
+
 import VirtualizedPostFeed from './VirtualizedPostFeed';
 import CreatePostForm from './CreatePostForm';
 import SuggestedUsers from './SuggestedUsers';
