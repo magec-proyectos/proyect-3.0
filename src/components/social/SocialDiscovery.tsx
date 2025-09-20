@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Users, Radio, Flame, Clock, Sparkles } from 'lucide-react';
+import { TrendingUp, Users, Radio, Clock, Sparkles } from 'lucide-react';
 
 interface SocialDiscoveryProps {
   trendingPosts: any[];
@@ -127,7 +127,7 @@ const SocialDiscovery: React.FC<SocialDiscoveryProps> = ({
         <Card className="bg-card border-border/50">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-body-lg font-semibold">
-              <Radio size={18} className="text-green-500" />
+              <Radio size={18} className="text-primary" />
               Live matches
             </CardTitle>
           </CardHeader>
@@ -140,8 +140,8 @@ const SocialDiscovery: React.FC<SocialDiscoveryProps> = ({
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-green-500 font-medium">LIVE</span>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <span className="text-xs text-primary font-medium">LIVE</span>
                   </div>
                   <h4 className="font-semibold text-body-sm text-foreground group-hover:text-primary transition-colors">
                     {match.teams}
@@ -154,8 +154,8 @@ const SocialDiscovery: React.FC<SocialDiscoveryProps> = ({
                     </div>
                   </div>
                 </div>
-                <Badge variant="destructive" className="bg-orange-500/10 text-orange-500 border-orange-500/20 text-xs h-5">
-                  🔥 Hot
+                <Badge variant="outline" className="text-xs h-5 bg-muted/50 text-muted-foreground border-border flex items-center gap-1">
+                  <TrendingUp size={10} /> Hot
                 </Badge>
               </motion.div>
             ))}
