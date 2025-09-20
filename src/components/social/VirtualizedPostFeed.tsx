@@ -77,11 +77,11 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
     <div className="space-y-4">
       {/* Header with refresh and stats */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <TrendingUp size={16} />
           <span>{posts.length} posts</span>
           {state.isScrolling && (
-            <span className="text-neon-blue">• Scrolling</span>
+            <span className="text-primary">• Scrolling</span>
           )}
         </div>
         <Button
@@ -89,7 +89,7 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
           size="sm"
           onClick={handleRefresh}
           disabled={refreshing}
-          className="text-gray-400 hover:text-white"
+          className="text-muted-foreground hover:text-foreground"
         >
           <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
         </Button>
@@ -152,7 +152,7 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
               }}
               className="flex items-center justify-center"
             >
-              <div className="flex items-center gap-2 text-gray-400">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <LoadingSpinner />
                 <span>Loading more posts...</span>
               </div>
@@ -171,12 +171,12 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
                 right: 0,
                 height: 60,
               }}
-              className="flex items-center justify-center text-gray-500 text-sm"
-            >
-              <div className="text-center">
-                <div className="w-12 h-px bg-gray-600 mx-auto mb-2"></div>
-                You've reached the end
-              </div>
+               className="flex items-center justify-center text-muted-foreground text-sm"
+             >
+               <div className="text-center">
+                 <div className="w-12 h-px bg-border mx-auto mb-2"></div>
+                 You've reached the end
+               </div>
             </motion.div>
           )}
         </div>
@@ -184,7 +184,7 @@ const VirtualizedPostFeed: React.FC<VirtualizedPostFeedProps> = ({
 
       {/* Performance indicator for debugging */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-500 p-2 bg-dark-lighter rounded">
+        <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
           Rendering {state.visibleItems} of {posts.length} items 
           (indexes {state.startIndex}-{state.endIndex})
         </div>

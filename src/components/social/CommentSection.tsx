@@ -54,28 +54,28 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     <div className="mt-4 space-y-4 animate-fade-in">
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <Card key={comment.id} className="bg-dark-lighter border-dark-border hover:border-neon-blue/20 transition-all">
+          <Card key={comment.id} className="bg-card border-border hover:border-border/80 transition-all">
             <CardContent className="pt-4">
               <div className="flex gap-3 mb-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
-                  <AvatarFallback>{comment.user.name.substring(0, 2)}</AvatarFallback>
+                  <AvatarFallback className="bg-muted text-muted-foreground">{comment.user.name.substring(0, 2)}</AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="flex items-baseline gap-2">
-                    <span className="font-semibold text-sm">{comment.user.name}</span>
-                    <span className="text-xs text-gray-400">@{comment.user.username}</span>
+                    <span className="font-semibold text-sm text-foreground">{comment.user.name}</span>
+                    <span className="text-xs text-muted-foreground">@{comment.user.username}</span>
                   </div>
-                  <p className="text-xs text-gray-400">{comment.timestamp}</p>
+                  <p className="text-xs text-muted-foreground">{comment.timestamp}</p>
                 </div>
               </div>
               <div className="ml-11 space-y-2">
-                <p className="text-sm">{comment.content}</p>
+                <p className="text-sm text-foreground">{comment.content}</p>
                 <div className="flex items-center gap-3">
-                  <Button variant="ghost" size="sm" className="h-auto py-0 px-2 text-xs hover:text-red-400">
+                  <Button variant="ghost" size="sm" className="h-auto py-0 px-2 text-xs text-muted-foreground hover:text-foreground">
                     <Heart size={14} className="mr-1" /> Like
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-auto py-0 px-2 text-xs hover:text-neon-blue">
+                  <Button variant="ghost" size="sm" className="h-auto py-0 px-2 text-xs text-muted-foreground hover:text-foreground">
                     Reply
                   </Button>
                 </div>
@@ -84,39 +84,10 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           </Card>
         ))
       ) : (
-        <div className="text-center py-6 bg-dark-lighter/50 rounded-lg border border-dashed border-dark-border">
-          <p className="text-gray-400 text-sm">Be the first to comment!</p>
+        <div className="text-center py-6 bg-muted/50 rounded-lg border border-dashed border-border">
+          <p className="text-muted-foreground text-sm">Be the first to comment</p>
         </div>
       )}
-      
-      <Card className="bg-dark-lighter border-dark-border">
-        <CardContent className="pt-4">
-          <Textarea
-            placeholder="Add a comment..."
-            className="resize-none bg-dark-card border-dark-border min-h-[80px] focus:border-neon-blue"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.ctrlKey) {
-                e.preventDefault();
-                handleSubmitComment();
-              }
-            }}
-          />
-          <p className="text-xs text-gray-400 mt-2">
-            Press Ctrl+Enter to submit
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button 
-            className="bg-neon-blue text-black hover:bg-neon-blue/90"
-            onClick={handleSubmitComment}
-            size="sm"
-          >
-            Comment
-          </Button>
-        </CardFooter>
-      </Card>
     </div>
   );
 };

@@ -7,10 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { 
   Image, 
   BarChart, 
-  Smile, 
-  Calendar,
-  Send,
-  Plus
+  Calendar
 } from 'lucide-react';
 import { Post } from './PostItem';
 import { useAuth } from '@/contexts/AuthContext';
@@ -47,7 +44,7 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
   const handlePostSubmit = () => {
     if (!user) {
       toast.error('Please sign in to create posts', {
-        description: 'Create an account or sign in to share your predictions'
+        description: 'Create an account or sign in to share your posts'
       });
       return;
     }
@@ -61,8 +58,8 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
     setPostContent('');
     setIsExpanded(false);
     
-    toast.success('🚀 Prediction shared!', {
-      description: 'Your prediction is now live for the community'
+    toast.success('Post shared successfully', {
+      description: 'Your post is now live for the community'
     });
   };
 
@@ -128,15 +125,14 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
                   >
                     <div className="flex gap-1">
                       {[
-                        { icon: Image, color: 'text-blue-500/70 hover:text-blue-500' },
-                        { icon: BarChart, color: 'text-green-500/70 hover:text-green-500' },
-                        { icon: Smile, color: 'text-yellow-500/70 hover:text-yellow-500' },
-                        { icon: Calendar, color: 'text-purple-500/70 hover:text-purple-500' }
+                         { icon: Image },
+                         { icon: BarChart },
+                         { icon: Calendar }
                       ].map((item, index) => (
                         <motion.button
                           key={index}
                           variants={buttonVariants}
-                          className={`p-2 rounded-full hover:bg-muted/50 transition-colors ${item.color}`}
+                          className="p-2 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground hover:text-foreground"
                         >
                           <item.icon size={18} />
                         </motion.button>
@@ -151,7 +147,7 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
                         onClick={handlePostSubmit}
                         disabled={!postContent.trim() || postContent.length > maxLength}
                         size="sm"
-                        className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4 disabled:opacity-50"
+                        className="rounded-full px-4 disabled:opacity-50"
                       >
                         Post
                       </Button>
