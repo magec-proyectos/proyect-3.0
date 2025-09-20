@@ -23,7 +23,7 @@ export const TrendingIndicator: React.FC<TrendingIndicatorProps> = ({
       {post.isViral && (
         <Badge 
           variant="outline" 
-          className={`bg-red-500/10 text-red-400 border-red-500/30 animate-pulse ${sizeClass}`}
+          className={`bg-muted/50 text-muted-foreground border-border ${sizeClass}`}
         >
           <Flame size={iconSize} className="mr-1" />
           Viral
@@ -34,7 +34,7 @@ export const TrendingIndicator: React.FC<TrendingIndicatorProps> = ({
       {post.isHot && !post.isViral && (
         <Badge 
           variant="outline" 
-          className={`bg-orange-500/10 text-orange-400 border-orange-500/30 ${sizeClass}`}
+          className={`bg-muted/50 text-muted-foreground border-border ${sizeClass}`}
         >
           <TrendingUp size={iconSize} className="mr-1" />
           Hot
@@ -45,7 +45,7 @@ export const TrendingIndicator: React.FC<TrendingIndicatorProps> = ({
       {post.isFresh && !post.isHot && (
         <Badge 
           variant="outline" 
-          className={`bg-green-500/10 text-green-400 border-green-500/30 ${sizeClass}`}
+          className={`bg-muted/50 text-muted-foreground border-border ${sizeClass}`}
         >
           <Zap size={iconSize} className="mr-1" />
           Fresh
@@ -56,7 +56,7 @@ export const TrendingIndicator: React.FC<TrendingIndicatorProps> = ({
       {showScore && post.trendingScore.score > 0.3 && (
         <Badge 
           variant="outline" 
-          className={`bg-blue-500/10 text-blue-400 border-blue-500/30 ${sizeClass}`}
+          className={`bg-muted/50 text-muted-foreground border-border ${sizeClass}`}
         >
           <Clock size={iconSize} className="mr-1" />
           {(post.trendingScore.score * 100).toFixed(0)}%

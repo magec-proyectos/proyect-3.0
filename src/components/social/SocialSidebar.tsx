@@ -99,7 +99,13 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({
           className="spacing-lg"
         >
           <Button 
-            onClick={onCreatePost}
+            onClick={() => {
+              const composer = document.querySelector('textarea[placeholder="What\'s happening?"]') as HTMLTextAreaElement;
+              if (composer) {
+                composer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                composer.focus();
+              }
+            }}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 text-body-lg rounded-full shadow-sm hover:shadow-md transition-all duration-200"
             size="lg"
           >
@@ -125,7 +131,7 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({
               >
                 <Hash size={14} className="text-primary/60 group-hover:text-primary" />
                 <span className="text-body-sm group-hover:text-foreground">{topic}</span>
-                <TrendingUp size={12} className="ml-auto text-green-500/60" />
+                <TrendingUp size={12} className="ml-auto text-muted-foreground/60" />
               </motion.button>
             ))}
           </div>

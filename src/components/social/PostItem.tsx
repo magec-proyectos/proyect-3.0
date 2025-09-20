@@ -128,8 +128,8 @@ const PostItem: React.FC<PostItemProps> = ({ post, isLiked, onLike, onShare, onA
           </div>
           {post.likes > 15 && (
             <div className="mt-2 flex items-center gap-2 text-body-sm">
-              <Award size={14} className="text-yellow-500" />
-              <span className="text-yellow-500">Hot prediction</span>
+              <Award size={14} className="text-muted-foreground" />
+              <span className="text-muted-foreground">Hot prediction</span>
             </div>
           )}
         </div>

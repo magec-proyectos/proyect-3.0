@@ -13,11 +13,11 @@ export interface Reaction {
 }
 
 export const REACTIONS: Reaction[] = [
-  { type: 'like', emoji: '👍', label: 'Like', color: 'text-blue-500' },
-  { type: 'money', emoji: '💰', label: 'Money', color: 'text-green-500' },
-  { type: 'fire', emoji: '🔥', label: 'Fire', color: 'text-orange-500' },
-  { type: 'lightning', emoji: '⚡', label: 'Lightning', color: 'text-yellow-500' },
-  { type: 'surprised', emoji: '😱', label: 'Surprised', color: 'text-purple-500' },
+  { type: 'like', emoji: '👍', label: 'Like', color: 'text-muted-foreground' },
+  { type: 'money', emoji: '💰', label: 'Money', color: 'text-muted-foreground' },
+  { type: 'fire', emoji: '🔥', label: 'Fire', color: 'text-muted-foreground' },
+  { type: 'lightning', emoji: '⚡', label: 'Lightning', color: 'text-muted-foreground' },
+  { type: 'surprised', emoji: '😱', label: 'Surprised', color: 'text-muted-foreground' },
 ];
 
 interface PostReactionsProps {
@@ -118,7 +118,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-1.5 hover:text-neon-blue transition-all"
+          className="flex items-center gap-1.5 hover:text-primary transition-all text-muted-foreground"
           onClick={() => setShowReactionPicker(!showReactionPicker)}
           disabled={isLoading}
         >
@@ -140,7 +140,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({
               initial={{ opacity: 0, scale: 0.8, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 10 }}
-              className="absolute bottom-full left-0 mb-2 bg-dark-card border border-dark-border rounded-xl p-2 shadow-lg z-50"
+              className="absolute bottom-full left-0 mb-2 bg-card border border-border rounded-xl p-2 shadow-lg z-50"
             >
               <div className="flex gap-1">
                 {REACTIONS.map((reaction) => (
@@ -149,10 +149,10 @@ const PostReactions: React.FC<PostReactionsProps> = ({
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => handleReaction(reaction.type)}
-                    className={`p-2 rounded-lg transition-all hover:bg-dark-lighter ${
+                    className={`p-2 rounded-lg transition-all hover:bg-muted/50 ${
                       userReactions.includes(reaction.type) 
-                        ? 'bg-neon-blue/20 ring-1 ring-neon-blue/30' 
-                        : 'hover:bg-dark-lighter'
+                        ? 'bg-primary/10 ring-1 ring-primary/30' 
+                        : 'hover:bg-muted/50'
                     }`}
                     title={reaction.label}
                   >
@@ -167,7 +167,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({
 
       {/* Display top reactions */}
       {getTopReactions().length > 0 && (
-        <div className="flex items-center gap-1 text-xs text-gray-400">
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
           {getTopReactions().map((reaction) => (
             <div key={reaction.type} className="flex items-center gap-0.5">
               <span>{reaction.emoji}</span>

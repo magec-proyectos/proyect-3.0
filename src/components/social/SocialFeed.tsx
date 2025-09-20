@@ -43,9 +43,7 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
 
   const handlePostSubmit = () => {
     if (!user) {
-      toast.error('Please sign in to create posts', {
-        description: 'Create an account or sign in to share your posts'
-      });
+      toast.error('Please sign in to create posts');
       return;
     }
 
@@ -58,9 +56,7 @@ const SocialFeed: React.FC<SocialFeedProps> = ({
     setPostContent('');
     setIsExpanded(false);
     
-    toast.success('Post shared successfully', {
-      description: 'Your post is now live for the community'
-    });
+    toast.success('Post shared successfully');
   };
 
   const expandedVariants = {
