@@ -121,15 +121,20 @@ const PostReactions: React.FC<PostReactionsProps> = ({
           className="flex items-center gap-1.5 hover:text-primary transition-all text-muted-foreground"
           onClick={() => setShowReactionPicker(!showReactionPicker)}
           disabled={isLoading}
+          aria-expanded={showReactionPicker}
         >
           {userReactions.length > 0 ? (
-            <span className="text-lg">
+            <span
+              role="img"
+              aria-label={REACTIONS.find(r => r.type === userReactions[0])?.label || 'like'}
+              className="text-[18px] leading-none align-middle"
+            >
               {REACTIONS.find(r => r.type === userReactions[0])?.emoji || '👍'}
             </span>
           ) : (
             <Heart size={18} />
           )}
-          <span>{getTotalReactions()}</span>
+          <span className="tabular-nums text-body-sm">{getTotalReactions()}</span>
           <Plus size={14} className={`transition-transform ${showReactionPicker ? 'rotate-45' : ''}`} />
         </Button>
 
@@ -149,14 +154,15 @@ const PostReactions: React.FC<PostReactionsProps> = ({
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => handleReaction(reaction.type)}
-                    className={`p-2 rounded-lg transition-all hover:bg-muted/50 ${
+                    className={`w-9 h-9 p-0 rounded-lg flex items-center justify-center transition-all hover:bg-muted/50 ${
                       userReactions.includes(reaction.type) 
                         ? 'bg-primary/10 ring-1 ring-primary/30' 
                         : 'hover:bg-muted/50'
                     }`}
                     title={reaction.label}
+                    aria-label={reaction.label}
                   >
-                    <span className="text-lg">{reaction.emoji}</span>
+                    <span role="img" aria-label={reaction.label} className="text-[18px] leading-none align-middle">{reaction.emoji}</span>
                   </motion.button>
                 ))}
               </div>
@@ -170,8 +176,8 @@ const PostReactions: React.FC<PostReactionsProps> = ({
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           {getTopReactions().map((reaction) => (
             <div key={reaction.type} className="flex items-center gap-0.5">
-              <span>{reaction.emoji}</span>
-              <span>{currentReactions[reaction.type]}</span>
+              <span role="img" aria-label={reaction.label} className="text-sm leading-none align-middle">{reaction.emoji}</span>
+              <span className="tabular-nums">{currentReactions[reaction.type]}</span>
             </div>
           ))}
         </div>
