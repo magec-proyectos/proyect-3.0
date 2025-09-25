@@ -7,6 +7,7 @@ import { TrendingIndicator } from './TrendingIndicator';
 import PostReactions from './PostReactions';
 import { RealPost } from '@/hooks/useRealSocialData';
 import { formatDistanceToNow } from 'date-fns';
+import RealCommentSection from './RealCommentSection';
 
 interface RealPostItemProps {
   post: RealPost;
@@ -186,9 +187,7 @@ const RealPostItem: React.FC<RealPostItemProps> = ({
         
         {showComments && (
           <div className="w-full mt-3 pt-3 border-t border-border/30">
-            <div className="text-center text-muted-foreground text-body-sm py-4">
-              Comments feature coming soon...
-            </div>
+            <RealCommentSection postId={post.id} />
           </div>
         )}
       </CardFooter>

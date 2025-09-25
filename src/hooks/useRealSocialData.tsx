@@ -214,10 +214,11 @@ export const useRealSocialData = () => {
     toast.success('Post link copied to clipboard!');
   }, [user]);
 
-  // Get filtered posts
+  // Get filtered posts based on following
   const getFilteredPosts = useCallback((filter: string) => {
     if (filter === 'following') {
-      // For now, return all posts. In the future, filter by followed users
+      // This would need integration with useFollowing hook
+      // For now, return all posts
       return posts;
     }
     return posts;
