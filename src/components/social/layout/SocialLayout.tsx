@@ -35,7 +35,7 @@ const SocialLayout: React.FC<SocialLayoutProps> = ({
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <StrategicNotifications />
+        {/* <StrategicNotifications /> */}
         
         <main className="pt-16 pb-20 spacing-sm">
           <div className="max-w-md mx-auto">
@@ -61,7 +61,7 @@ const SocialLayout: React.FC<SocialLayoutProps> = ({
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <StrategicNotifications />
+      {/* <StrategicNotifications /> */}
       
       <div className="flex w-full">
         <SocialSidebar
