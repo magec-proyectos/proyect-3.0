@@ -166,61 +166,8 @@ export const MobileNavigation = () => {
         </div>
       </header>
 
-      {/* Bottom Tab Bar for Mobile - Updated for proper social navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border">
-        <div className="flex items-center justify-around px-2 py-2">
-          {navigationItems.map((item) => {
-            const isItemActive = isActive(item.href);
-            const showBadge = (item.title === 'Messages' && item.badge) || (item.title === 'Notifications' && unreadCount > 0);
-            
-            return (
-              <NavLink
-                key={item.href}
-                to={item.href}
-                className={cn(
-                  "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300 relative",
-                  "hover:bg-accent/50 min-w-[60px]",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                  isItemActive && "text-primary"
-                )}
-              >
-                <div className="relative">
-                  <item.icon 
-                    className={cn(
-                      "h-5 w-5 transition-all duration-300",
-                      isItemActive && "scale-110 text-primary animate-bounce-subtle"
-                    )} 
-                  />
-                  {showBadge && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center text-xs animate-pulse"
-                    >
-                      {item.title === 'Notifications' ? (unreadCount > 9 ? '9+' : unreadCount) : item.badge}
-                    </Badge>
-                  )}
-                </div>
-                <span 
-                  className={cn(
-                    "text-xs font-medium transition-all duration-300 emoji-font",
-                    isItemActive ? "text-primary" : "text-muted-foreground"
-                  )}
-                  style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
-                >
-                  {item.title}
-                </span>
-                {isItemActive && (
-                  <div className="w-1 h-1 bg-primary rounded-full animate-scale-in" />
-                )}
-              </NavLink>
-            );
-          })}
-        </div>
-      </nav>
-
-      {/* Spacer for fixed header and bottom nav */}
+      {/* Spacer for fixed header only */}
       <div className="lg:hidden h-14" /> {/* Top spacer */}
-      <div className="lg:hidden h-16" /> {/* Bottom spacer */}
     </>
   );
 };
