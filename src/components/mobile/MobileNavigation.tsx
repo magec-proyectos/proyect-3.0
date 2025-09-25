@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { ElementType } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +13,7 @@ import { useRef } from 'react';
 interface NavItem {
   title: string;
   href: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ElementType;
   badge?: string;
 }
 
