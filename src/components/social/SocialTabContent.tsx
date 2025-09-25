@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Bell, MessageCircle, User, Wallet } from 'lucide-react';
 import StoriesRing from './StoriesRing';
 import { RealPost } from '@/hooks/useRealSocialData';
-import RealSocialFeed from './RealSocialFeed';
+// Try dynamic import to avoid potential circular dependency
+const RealSocialFeed = React.lazy(() => import('./RealSocialFeed'));
 
 interface SocialTabContentProps {
   activeTab: string;
@@ -56,28 +57,12 @@ const SocialTabContent: React.FC<SocialTabContentProps> = ({
   switch (activeTab) {
     case 'home':
       return (
-        <RealSocialFeed
-          ref={socialFeedRef}
-          posts={posts}
-          loading={loading}
-          feedFilter={feedFilter}
-          onFilterChange={onFilterChange}
-          onReaction={onReaction}
-          onShare={onShare}
-          onCreatePost={onCreatePost}
-          user={user}
-          getUserReactions={getUserReactions}
-        />
-      );
-      
-    case 'explore':
-      return (
-        <div className="space-y-6">
-          <StoriesRing />
+        <React.Suspense fallback={<div>Loading...</div>}>
           <RealSocialFeed
-            posts={posts.filter(post => post.likes_count > 3)}
+            ref={socialFeedRef}
+            posts={posts}
             loading={loading}
-            feedFilter="trending"
+            feedFilter={feedFilter}
             onFilterChange={onFilterChange}
             onReaction={onReaction}
             onShare={onShare}
@@ -85,6 +70,26 @@ const SocialTabContent: React.FC<SocialTabContentProps> = ({
             user={user}
             getUserReactions={getUserReactions}
           />
+        </React.Suspense>
+      );
+      
+    case 'explore':
+      return (
+        <div className="space-y-6">
+          <StoriesRing />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <RealSocialFeed
+              posts={posts.filter(post => post.likes_count > 3)}
+              loading={loading}
+              feedFilter="trending"
+              onFilterChange={onFilterChange}
+              onReaction={onReaction}
+              onShare={onShare}
+              onCreatePost={onCreatePost}
+              user={user}
+              getUserReactions={getUserReactions}
+            />
+          </React.Suspense>
         </div>
       );
       
