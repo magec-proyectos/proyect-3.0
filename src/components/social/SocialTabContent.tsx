@@ -1,22 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Bell, MessageCircle, User, Wallet } from 'lucide-react';
-import SocialFeed from './SocialFeed';
 import StoriesRing from './StoriesRing';
-import { Post } from './PostItem';
+import { RealPost } from '@/hooks/useRealSocialData';
+import RealSocialFeed from './RealSocialFeed';
 
 interface SocialTabContentProps {
   activeTab: string;
-  posts: Post[];
-  likedPosts: number[];
+  posts: RealPost[];
+  loading?: boolean;
   feedFilter: string;
   onFilterChange: (filter: string) => void;
-  onLike: (postId: number) => void;
-  onShare: (post: Post) => void;
-  onAddComment: (postId: number, content: string) => void;
+  onReaction: (postId: string, reactionType: string) => void;
+  onShare: (post: RealPost) => void;
   onCreatePost: (content: string) => void;
   user: any;
-  socialFeedRef?: React.RefObject<{ focusComposer: () => void }>;
+  socialFeedRef: React.RefObject<{ focusComposer: () => void }>;
+  getUserReactions: (postIds: string[]) => Promise<Record<string, string[]>>;
 }
 
 const EmptyState: React.FC<{ icon: React.ElementType; title: string; subtitle: string }> = ({
@@ -43,30 +43,30 @@ const EmptyState: React.FC<{ icon: React.ElementType; title: string; subtitle: s
 const SocialTabContent: React.FC<SocialTabContentProps> = ({
   activeTab,
   posts,
-  likedPosts,
+  loading = false,
   feedFilter,
   onFilterChange,
-  onLike,
+  onReaction,
   onShare,
-  onAddComment,
   onCreatePost,
   user,
-  socialFeedRef
+  socialFeedRef,
+  getUserReactions
 }) => {
   switch (activeTab) {
     case 'home':
       return (
-        <SocialFeed
+        <RealSocialFeed
           ref={socialFeedRef}
           posts={posts}
-          likedPosts={likedPosts}
-          filter={feedFilter}
+          loading={loading}
+          feedFilter={feedFilter}
           onFilterChange={onFilterChange}
-          onLike={onLike}
+          onReaction={onReaction}
           onShare={onShare}
-          onAddComment={onAddComment}
           onCreatePost={onCreatePost}
           user={user}
+          getUserReactions={getUserReactions}
         />
       );
       
@@ -74,16 +74,16 @@ const SocialTabContent: React.FC<SocialTabContentProps> = ({
       return (
         <div className="space-y-6">
           <StoriesRing />
-          <SocialFeed
-            posts={posts.filter(post => post.likes > 3)}
-            likedPosts={likedPosts}
-            filter="trending"
+          <RealSocialFeed
+            posts={posts.filter(post => post.likes_count > 3)}
+            loading={loading}
+            feedFilter="trending"
             onFilterChange={onFilterChange}
-            onLike={onLike}
+            onReaction={onReaction}
             onShare={onShare}
-            onAddComment={onAddComment}
             onCreatePost={onCreatePost}
             user={user}
+            getUserReactions={getUserReactions}
           />
         </div>
       );
