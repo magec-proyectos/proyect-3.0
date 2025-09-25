@@ -19,6 +19,7 @@ interface NavItem {
 const navigationItems: NavItem[] = [
   { title: 'Home', href: '/', icon: Home },
   { title: 'Explore', href: '/sports', icon: Trophy },
+  { title: 'Notifications', href: '/social?tab=notifications', icon: Bell },
   { title: 'Messages', href: '/social', icon: MessageCircle, badge: '1' },
   { title: 'Profile', href: '/profile', icon: User },
   { title: 'Wallet', href: '/wallet', icon: Wallet },
@@ -139,9 +140,9 @@ export const MobileNavigation = () => {
                                 )} 
                               />
                               <span className="font-medium">{item.title}</span>
-                              {item.badge && (
-                                <Badge variant="secondary" className="ml-auto text-xs">
-                                  {item.badge}
+                              {(item.title === 'Notifications' ? unreadCount > 0 : Boolean(item.badge)) && (
+                                <Badge variant="destructive" className="ml-auto text-xs">
+                                  {item.title === 'Notifications' ? (unreadCount > 9 ? '9+' : unreadCount) : item.badge}
                                 </Badge>
                               )}
                             </NavLink>
@@ -169,7 +170,7 @@ export const MobileNavigation = () => {
         <div className="flex items-center justify-around px-2 py-2">
           {navigationItems.map((item) => {
             const isItemActive = isActive(item.href);
-            const showBadge = item.title === 'Messages' && item.badge;
+            const showBadge = (item.title === 'Messages' && item.badge) || (item.title === 'Notifications' && unreadCount > 0);
             
             return (
               <NavLink
@@ -194,7 +195,7 @@ export const MobileNavigation = () => {
                       variant="destructive" 
                       className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center text-xs animate-pulse"
                     >
-                      {item.badge}
+                      {item.title === 'Notifications' ? (unreadCount > 9 ? '9+' : unreadCount) : item.badge}
                     </Badge>
                   )}
                 </div>

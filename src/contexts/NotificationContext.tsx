@@ -1,6 +1,6 @@
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { toast } from '@/components/ui/sonner';
+
 
 export interface Notification {
   id: string;
@@ -67,14 +67,9 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
     
     setNotifications(prev => [newNotification, ...prev]);
     
-    // Show toast for new notification
-    toast(notification.title, {
-      description: notification.message,
-      action: notification.link ? {
-        label: "View",
-        onClick: () => window.location.href = notification.link!
-      } : undefined
-    });
+    // Toast disabled to avoid disruptive pop-ups
+    // Previously showed a toast here when a new notification was added.
+
   };
   
   const markAsRead = (id: string) => {

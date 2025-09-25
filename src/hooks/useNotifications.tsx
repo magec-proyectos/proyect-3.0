@@ -182,17 +182,9 @@ export const useNotifications = () => {
           table: 'user_notifications',
           filter: `user_id=eq.${user.id}`
         },
-        (payload) => {
-          if (payload.eventType === 'INSERT') {
-            fetchNotifications();
-            // Show toast for new notification
-            const newNotification = payload.new as Notification;
-            toast.info(newNotification.title, {
-              description: newNotification.message
-            });
-          } else {
-            fetchNotifications();
-          }
+        (_payload) => {
+          // Refresh list on any change without showing disruptive toasts
+          fetchNotifications();
         }
       )
       .subscribe();
