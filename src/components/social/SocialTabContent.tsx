@@ -3,21 +3,14 @@ import { motion } from 'framer-motion';
 import { Bell, MessageCircle, User, Wallet } from 'lucide-react';
 import StoriesRing from './StoriesRing';
 import { RealPost } from '@/hooks/useRealSocialData';
-// Try dynamic import to avoid potential circular dependency
-const RealSocialFeed = React.lazy(() => import('./RealSocialFeed'));
+const OptimizedSocialFeed = React.lazy(() => import('./OptimizedSocialFeed'));
 
 interface SocialTabContentProps {
   activeTab: string;
-  posts: RealPost[];
-  loading?: boolean;
   feedFilter: string;
   onFilterChange: (filter: string) => void;
-  onReaction: (postId: string, reactionType: string) => void;
-  onShare: (post: RealPost) => void;
-  onCreatePost: (content: string) => void;
   user: any;
   socialFeedRef: React.RefObject<{ focusComposer: () => void }>;
-  getUserReactions: (postIds: string[]) => Promise<Record<string, string[]>>;
 }
 
 const EmptyState: React.FC<{ icon: React.ElementType; title: string; subtitle: string }> = ({
@@ -43,32 +36,20 @@ const EmptyState: React.FC<{ icon: React.ElementType; title: string; subtitle: s
 
 const SocialTabContent: React.FC<SocialTabContentProps> = ({
   activeTab,
-  posts,
-  loading = false,
   feedFilter,
   onFilterChange,
-  onReaction,
-  onShare,
-  onCreatePost,
   user,
-  socialFeedRef,
-  getUserReactions
+  socialFeedRef
 }) => {
   switch (activeTab) {
     case 'home':
       return (
         <React.Suspense fallback={<div>Loading...</div>}>
-          <RealSocialFeed
+          <OptimizedSocialFeed
             ref={socialFeedRef}
-            posts={posts}
-            loading={loading}
+            user={user}
             feedFilter={feedFilter}
             onFilterChange={onFilterChange}
-            onReaction={onReaction}
-            onShare={onShare}
-            onCreatePost={onCreatePost}
-            user={user}
-            getUserReactions={getUserReactions}
           />
         </React.Suspense>
       );
@@ -78,16 +59,10 @@ const SocialTabContent: React.FC<SocialTabContentProps> = ({
         <div className="space-y-6">
           <StoriesRing />
           <React.Suspense fallback={<div>Loading...</div>}>
-            <RealSocialFeed
-              posts={posts.filter(post => post.likes_count > 3)}
-              loading={loading}
+            <OptimizedSocialFeed
+              user={user}
               feedFilter="trending"
               onFilterChange={onFilterChange}
-              onReaction={onReaction}
-              onShare={onShare}
-              onCreatePost={onCreatePost}
-              user={user}
-              getUserReactions={getUserReactions}
             />
           </React.Suspense>
         </div>

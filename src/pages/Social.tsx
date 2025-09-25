@@ -53,16 +53,10 @@ const Social = () => {
     >
       <SocialTabContent
         activeTab={activeTab}
-        posts={filteredPosts}
-        loading={loading}
         feedFilter={feedFilter}
         onFilterChange={setFeedFilter}
-        onReaction={handleReaction}
-        onShare={handleShare}
-        onCreatePost={handleCreatePost}
         user={user}
         socialFeedRef={socialFeedRef}
-        getUserReactions={getUserReactions}
       />
     </SocialLayout>
   );
