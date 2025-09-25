@@ -80,7 +80,7 @@ const SocialSidebar: React.FC<SocialSidebarProps> = ({
               whileHover={{ x: 2 }}
               whileTap={{ scale: 0.98 }}
             >
-              <item.icon size={24} className={`${activeTab === item.id ? 'text-primary' : 'group-hover:text-foreground'}`} />
+              <item.icon size={24} className={`${activeTab === item.id ? 'text-primary' : 'text-foreground/70 group-hover:text-foreground'}`} />
               <span className="text-body-lg">{item.label}</span>
               {item.count && item.count > 0 && (
                 <Badge 
