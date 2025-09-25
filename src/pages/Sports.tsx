@@ -6,6 +6,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useMobilePerformance } from '@/hooks/use-mobile-performance';
 import { toast } from '@/components/ui/sonner';
 
+// Real-time sports data
+import { useRealTimeSportsMatches, useLiveSportsData, useRefreshSportsData } from '@/services/realTimeSportsApi';
+
 // Enhanced components
 import ModernMatchCard from '@/components/enhanced/ModernMatchCard';
 import EnhancedSportsHeader from '@/components/enhanced/EnhancedSportsHeader';
@@ -135,6 +138,13 @@ const Sports = () => {
   
   const isMobile = useIsMobile();
   
+  // Real-time sports data with SportsGameOdds API
+  const { data: liveMatches, isLoading, error, refetch } = useLiveSportsData('football');
+  const { refreshData } = useRefreshSportsData();
+  
+  // Use real data or fallback to sample data
+  const matches = liveMatches && liveMatches.length > 0 ? liveMatches : sampleMatches;
+  
   const {
     getItemsToRender,
     observeElement,
@@ -181,16 +191,29 @@ const Sports = () => {
     });
   };
 
-  const filteredMatches = sampleMatches.filter(match => {
+  const filteredMatches = matches.filter(match => {
     switch (activeFilter) {
       case 'favorites':
         return favoriteMatches.includes(match.id);
       case 'live':
-        return false; // No live matches in sample data
+        return match.status === 'live';
+      case 'upcoming':
+        return match.status === 'upcoming';
       default:
         return true;
     }
   });
+
+  // Handle manual refresh
+  const handleRefreshData = async () => {
+    try {
+      await refreshData('football');
+      await refetch();
+      toast.success('Sports data refreshed!');
+    } catch (error) {
+      toast.error('Failed to refresh data');
+    }
+  };
 
   const matchesToRender = shouldOptimize 
     ? getItemsToRender(filteredMatches.length).map(index => filteredMatches[index])
@@ -209,11 +232,36 @@ const Sports = () => {
             matchCount={filteredMatches.length}
           />
           
-          {/* Real-time indicator */}
-          <div className="px-4 py-2">
+          {/* Real-time indicator with refresh */}
+          <div className="px-4 py-2 flex items-center justify-between">
             <RealTimeDataIndicator />
+            <button
+              onClick={handleRefreshData}
+              disabled={isLoading}
+              className="text-primary text-sm font-medium disabled:opacity-50"
+            >
+              {isLoading ? 'Updating...' : 'Refresh Live Data'}
+            </button>
           </div>
           
+          {/* Loading State */}
+          {isLoading && (
+            <div className="px-4 py-8 text-center">
+              <div className="text-primary">Loading live sports data...</div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="px-4 py-4">
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                <div className="text-red-400 text-sm">
+                  Failed to load live data. Showing cached results.
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Match Cards */}
           <div className="px-4 py-4 space-y-4">
             {matchesToRender.map((match, index) => (
