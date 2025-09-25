@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ElementType } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -133,13 +133,13 @@ export const MobileNavigation = () => {
                               )}
                               onClick={() => setIsOpen(false)}
                             >
-                              <item.icon 
-                                className={cn(
+                              {React.createElement(item.icon, {
+                                className: cn(
                                   "h-5 w-5 transition-transform duration-300",
                                   "group-hover:scale-110",
                                   isItemActive && "text-primary-foreground"
-                                )} 
-                              />
+                                )
+                              })}
                               <span className="font-medium">{item.title}</span>
                               {(item.title === 'Notifications' ? unreadCount > 0 : Boolean(item.badge)) && (
                                 <Badge variant="destructive" className="ml-auto text-xs">
