@@ -1,209 +1,214 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Plus } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import StoriesViewer, { Story } from './stories/StoriesViewer';
+import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Plus, Camera, Type, Video, Loader2, Play } from 'lucide-react';
+import { useStories } from '@/hooks/useStories';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from '@/components/ui/sonner';
 
-// Sample stories data
-const sampleStories: Story[] = [
-  {
-    id: '1',
-    user: {
-      name: 'ProTipster',
-      avatar: 'https://placehold.co/100',
-      username: 'protipster',
-      verified: true
-    },
-    content: {
-      type: 'video',
-      url: '/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png',
-      thumbnail: '/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png',
-      duration: 15
-    },
-    match: {
-      teams: ['Real Madrid', 'Barcelona'],
-      sport: 'Football',
-      league: 'La Liga',
-      time: '67\'',
-      isLive: true
-    },
-    prediction: {
-      type: 'winner',
-      value: 'Real Madrid Gana',
-      odds: 2.15,
-      confidence: 85
-    },
-    engagement: {
-      likes: 1247,
-      comments: 89,
-      shares: 156,
-      predictions: 340
-    },
-    timestamp: '2 min',
-    isLive: true
-  },
-  {
-    id: '2',
-    user: {
-      name: 'BetExpert',
-      avatar: 'https://placehold.co/100',
-      username: 'betexpert',
-      verified: true
-    },
-    content: {
-      type: 'image',
-      url: '/lovable-uploads/096710cc-8897-405e-93b7-5a5659000837.png'
-    },
-    match: {
-      teams: ['Lakers', 'Warriors'],
-      sport: 'Basketball',
-      league: 'NBA',
-      time: '20:30',
-      isLive: false
-    },
-    prediction: {
-      type: 'total',
-      value: 'Over 225.5 Puntos',
-      odds: 1.90,
-      confidence: 78
-    },
-    engagement: {
-      likes: 892,
-      comments: 45,
-      shares: 67,
-      predictions: 234
-    },
-    timestamp: '15 min'
-  },
-  {
-    id: '3',
-    user: {
-      name: 'SoccerPro',
-      avatar: 'https://placehold.co/100',
-      username: 'soccerpro',
-      verified: false
-    },
-    content: {
-      type: 'video',
-      url: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png',
-      thumbnail: '/lovable-uploads/0f96ac67-f58a-4bb6-8eb0-35790175d95e.png',
-      duration: 12
-    },
-    match: {
-      teams: ['Liverpool', 'Chelsea'],
-      sport: 'Football',
-      league: 'Premier League',
-      time: '45\' + 2',
-      isLive: true
-    },
-    prediction: {
-      type: 'spread',
-      value: 'Liverpool -1.5',
-      odds: 2.45,
-      confidence: 72
-    },
-    engagement: {
-      likes: 654,
-      comments: 23,
-      shares: 89,
-      predictions: 167
-    },
-    timestamp: '5 min',
-    isLive: true
-  }
-];
+const StoriesRing: React.FC = () => {
+  const { user } = useAuth();
+  const { stories, myStories, isLoading, createStory, isCreatingStory } = useStories();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [storyContent, setStoryContent] = useState('');
+  const [contentType, setContentType] = useState<'text' | 'image' | 'video'>('text');
 
-interface StoriesRingProps {
-  className?: string;
-}
+  const handleCreateStory = async () => {
+    if (!user) {
+      toast.error('Please sign in to create stories');
+      return;
+    }
 
-const StoriesRing: React.FC<StoriesRingProps> = ({ className = '' }) => {
-  const [showViewer, setShowViewer] = useState(false);
-  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+    if (!storyContent.trim()) {
+      toast.error('Please add content to your story');
+      return;
+    }
 
-  const handleStoryClick = (index: number) => {
-    setSelectedStoryIndex(index);
-    setShowViewer(true);
+    createStory({
+      content: storyContent,
+      contentType
+    });
+
+    setStoryContent('');
+    setIsCreateModalOpen(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex gap-4 p-4">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="w-16 h-16 rounded-full bg-muted animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  // Group stories by user
+  const groupedStories = stories.reduce((acc, story) => {
+    const userId = story.user_id;
+    if (!acc[userId]) {
+      acc[userId] = [];
+    }
+    acc[userId].push(story);
+    return acc;
+  }, {} as Record<string, typeof stories>);
+
+  const uniqueUsers = Object.keys(groupedStories);
+
   return (
-    <>
-      <div className={`mb-6 ${className}`}>
-        <div className="flex items-center gap-4 px-4 pb-4 overflow-x-auto scrollbar-hide">
-          {/* Add Story Button */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex-shrink-0 text-center cursor-pointer"
-          >
-            <div className="w-16 h-16 bg-gradient-to-r from-neon-blue to-purple-500 rounded-full flex items-center justify-center border-2 border-dark-border mb-2">
-              <Plus size={24} className="text-white" />
-            </div>
-            <span className="text-xs text-gray-400">Tu Story</span>
-          </motion.div>
-
-          {/* Stories */}
-          {sampleStories.map((story, index) => (
-            <motion.div
-              key={story.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => handleStoryClick(index)}
-              className="flex-shrink-0 text-center cursor-pointer relative"
-            >
-              <div className={`w-16 h-16 rounded-full p-0.5 mb-2 ${
-                story.isLive 
-                  ? 'bg-gradient-to-r from-red-500 to-orange-500 animate-pulse' 
-                  : 'bg-gradient-to-r from-neon-lime to-neon-blue'
-              }`}>
-                <div className="w-full h-full rounded-full border-2 border-dark bg-dark-card flex items-center justify-center overflow-hidden">
-                  <img 
-                    src={story.content.url} 
-                    alt={story.user.name}
-                    className="w-full h-full object-cover"
-                  />
-                  {story.content.type === 'video' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Play size={16} className="text-white drop-shadow-lg" />
-                    </div>
-                  )}
+    <div className="flex gap-4 p-4 overflow-x-auto scrollbar-hide">
+      {/* Add Story Button */}
+      {user && (
+        <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+          <DialogTrigger asChild>
+            <div className="flex-shrink-0 text-center cursor-pointer group">
+              <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-primary/60 p-0.5 mb-2">
+                <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
+                  <Plus size={24} className="text-primary group-hover:scale-110 transition-transform" />
                 </div>
-                
-                {/* Live indicator */}
-                {story.isLive && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-1 py-0.5 rounded-full font-bold">
-                    LIVE
-                  </div>
-                )}
+              </div>
+              <p className="text-xs text-muted-foreground">Add Story</p>
+            </div>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create Story</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex gap-2">
+                {[
+                  { type: 'text', icon: Type, label: 'Text' },
+                  { type: 'image', icon: Camera, label: 'Image' },
+                  { type: 'video', icon: Video, label: 'Video' }
+                ].map(({ type, icon: Icon, label }) => (
+                  <Button
+                    key={type}
+                    variant={contentType === type ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setContentType(type as any)}
+                    className="flex items-center gap-2"
+                  >
+                    <Icon size={16} />
+                    {label}
+                  </Button>
+                ))}
+              </div>
+              
+              <Textarea
+                placeholder={
+                  contentType === 'text' 
+                    ? "What's on your mind?"
+                    : contentType === 'image'
+                    ? "Image URL or caption..."
+                    : "Video URL or caption..."
+                }
+                value={storyContent}
+                onChange={(e) => setStoryContent(e.target.value)}
+                className="min-h-[100px]"
+              />
+              
+              <div className="flex gap-2 justify-end">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsCreateModalOpen(false)}
+                  disabled={isCreatingStory}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleCreateStory}
+                  disabled={!storyContent.trim() || isCreatingStory}
+                >
+                  {isCreatingStory ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Story'
+                  )}
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
 
-                {/* Verified badge */}
-                {story.user.verified && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full" />
+      {/* User Stories */}
+      <AnimatePresence>
+        {uniqueUsers.map((userId) => {
+          const userStories = groupedStories[userId];
+          const firstStory = userStories[0];
+          const hasUnviewedStories = userStories.some(story => story.user_id !== user?.id);
+          
+          return (
+            <motion.div
+              key={userId}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="flex-shrink-0 text-center cursor-pointer group"
+            >
+              <div className={`relative w-16 h-16 rounded-full p-0.5 mb-2 ${
+                hasUnviewedStories 
+                  ? 'bg-gradient-to-tr from-pink-500 to-orange-500' 
+                  : 'bg-muted'
+              }`}>
+                <div className="w-full h-full rounded-full bg-background p-0.5">
+                  <Avatar className="w-full h-full">
+                    <AvatarImage 
+                      src={firstStory.user_profiles?.avatar_url || 'https://placehold.co/64'} 
+                      alt={firstStory.user_profiles?.display_name || 'User'} 
+                    />
+                    <AvatarFallback className="text-xs">
+                      {firstStory.user_profiles?.display_name?.substring(0, 2) || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {userStories.length}
+                </div>
+                {firstStory.media_type === 'video' && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Play size={12} className="text-white drop-shadow-lg" />
                   </div>
                 )}
               </div>
-              
-              <span className="text-xs text-gray-400 block truncate w-16">
-                {story.user.username}
-              </span>
+              <p className="text-xs text-muted-foreground truncate w-16">
+                {firstStory.user_profiles?.username || 'user'}
+              </p>
             </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Stories Viewer */}
-      <AnimatePresence>
-        {showViewer && (
-          <StoriesViewer
-            stories={sampleStories}
-            initialIndex={selectedStoryIndex}
-            onClose={() => setShowViewer(false)}
-            onStoryChange={setSelectedStoryIndex}
-          />
-        )}
+          );
+        })}
       </AnimatePresence>
-    </>
+
+      {/* My Active Stories */}
+      {myStories.length > 0 && (
+        <div className="flex-shrink-0 text-center">
+          <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-green-500 to-blue-500 p-0.5 mb-2">
+            <div className="w-full h-full rounded-full bg-background p-0.5">
+              <Avatar className="w-full h-full">
+                <AvatarImage 
+                  src={user?.user_metadata?.avatar_url || 'https://placehold.co/64'} 
+                  alt="Your story" 
+                />
+                <AvatarFallback className="text-xs">
+                  {user?.user_metadata?.full_name?.substring(0, 2) || 'Y'}
+                </AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="absolute -bottom-1 -right-1 bg-green-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {myStories.length}
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Your Story</p>
+        </div>
+      )}
+    </div>
   );
 };
 
