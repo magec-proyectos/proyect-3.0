@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { EmojiPicker } from '@/components/ui/emoji-picker';
 import { 
   MessageCircle, 
   Send, 
@@ -21,7 +22,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
 import { formatDistanceToNow } from 'date-fns';
 
 interface DirectMessage {
@@ -64,6 +65,7 @@ const DirectMessaging: React.FC<DirectMessagingProps> = ({ selectedUserId, onClo
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -456,9 +458,11 @@ const DirectMessaging: React.FC<DirectMessagingProps> = ({ selectedUserId, onClo
                     <Button variant="ghost" size="sm">
                       <Paperclip className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      <Smile className="h-4 w-4" />
-                    </Button>
+                    <EmojiPicker
+                      onEmojiSelect={(emoji) => setNewMessage(prev => prev + emoji)}
+                      isOpen={showEmojiPicker}
+                      onOpenChange={setShowEmojiPicker}
+                    />
                   </div>
                 </div>
                 

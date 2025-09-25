@@ -99,20 +99,24 @@ export const EnhancedNotificationComponent: React.FC<EnhancedNotificationProps> 
         
         <div className="flex-1 min-w-0">
           <motion.h4
-            className="font-semibold text-white mb-1"
+            className="font-semibold text-white mb-1 break-words"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            {notification.title}
+            <span className="inline-block align-middle" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+              {notification.title}
+            </span>
           </motion.h4>
           <motion.p
-            className="text-sm text-gray-300"
+            className="text-sm text-gray-300 break-words"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            {notification.message}
+            <span className="inline-block align-middle" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+              {notification.message}
+            </span>
           </motion.p>
           
           {notification.action && (

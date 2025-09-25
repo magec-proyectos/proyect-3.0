@@ -76,7 +76,7 @@ export const useEnhancedNotifications = (): UseEnhancedNotificationsReturn => {
     if (milestone && count === milestone) {
       addNotification({
         type: 'streak',
-        title: `${count} ${type} Streak!`,
+        title: `🔥 ${count} ${type} Streak!`,
         message: messages[milestone as keyof typeof messages],
         duration: 6000,
       });

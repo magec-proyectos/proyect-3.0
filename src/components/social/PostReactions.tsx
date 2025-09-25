@@ -127,7 +127,8 @@ const PostReactions: React.FC<PostReactionsProps> = ({
             <span
               role="img"
               aria-label={REACTIONS.find(r => r.type === userReactions[0])?.label || 'like'}
-              className="text-[18px] leading-none align-middle"
+              className="text-[18px] leading-none align-middle emoji-font"
+              style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
             >
               {REACTIONS.find(r => r.type === userReactions[0])?.emoji || '👍'}
             </span>
@@ -161,9 +162,16 @@ const PostReactions: React.FC<PostReactionsProps> = ({
                     }`}
                     title={reaction.label}
                     aria-label={reaction.label}
-                  >
-                    <span role="img" aria-label={reaction.label} className="text-[18px] leading-none align-middle">{reaction.emoji}</span>
-                  </motion.button>
+                    >
+                      <span 
+                        role="img" 
+                        aria-label={reaction.label} 
+                        className="text-[18px] leading-none align-middle emoji-font"
+                        style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
+                      >
+                        {reaction.emoji}
+                      </span>
+                    </motion.button>
                 ))}
               </div>
             </motion.div>
@@ -176,7 +184,14 @@ const PostReactions: React.FC<PostReactionsProps> = ({
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           {getTopReactions().map((reaction) => (
             <div key={reaction.type} className="flex items-center gap-0.5">
-              <span role="img" aria-label={reaction.label} className="text-sm leading-none align-middle">{reaction.emoji}</span>
+              <span 
+                role="img" 
+                aria-label={reaction.label} 
+                className="text-sm leading-none align-middle emoji-font"
+                style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
+              >
+                {reaction.emoji}
+              </span>
               <span className="tabular-nums">{currentReactions[reaction.type]}</span>
             </div>
           ))}
