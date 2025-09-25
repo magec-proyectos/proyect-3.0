@@ -1,0 +1,309 @@
+/* Enhanced responsive design and PWA styles */
+
+/* High contrast mode support */
+.high-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --primary: 220 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 90%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 20%;
+  --accent: 0 0% 90%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 80%;
+  --input: 0 0% 80%;
+  --ring: 220 100% 50%;
+}
+
+.high-contrast.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 100%;
+  --primary: 220 100% 70%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 80%;
+  --accent: 0 0% 20%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 100% 70%;
+  --destructive-foreground: 0 0% 0%;
+  --border: 0 0% 30%;
+  --input: 0 0% 30%;
+  --ring: 220 100% 70%;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus management for accessibility */
+.focus-trap:focus-within {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Skip link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Enhanced mobile styles */
+@media (max-width: 768px) {
+  /* Improve touch targets */
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better spacing on mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mobile-first navigation */
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: hsl(var(--background));
+    border-top: 1px solid hsl(var(--border));
+    padding: 0.5rem;
+    z-index: 50;
+  }
+  
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: hsl(var(--muted-foreground));
+    transition: color 0.2s;
+  }
+  
+  .mobile-nav-item.active,
+  .mobile-nav-item:hover {
+    color: hsl(var(--primary));
+  }
+  
+  /* Mobile modal improvements */
+  .mobile-modal {
+    position: fixed;
+    inset: 0;
+    background: hsl(var(--background));
+    z-index: 50;
+    overflow-y: auto;
+  }
+  
+  /* Better scrolling on mobile */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* PWA safe area support for devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top), 1rem);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left), 1rem);
+  }
+  
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right), 1rem);
+  }
+}
+
+/* Touch-friendly hover states */
+@media (hover: hover) and (pointer: fine) {
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsla(var(--muted-foreground), 0.1) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Offline indicator */
+.offline-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+  text-align: center;
+  padding: 0.5rem;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+.offline-indicator.show {
+  transform: translateY(0);
+}
+
+/* Enhanced scrollbar styling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
+
+/* Installation prompt styles */
+.install-prompt {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.install-prompt.show {
+  transform: translateY(0);
+}
+
+/* Enhanced dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+}

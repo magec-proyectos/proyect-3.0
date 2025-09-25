@@ -1,0 +1,81 @@
+{
+  "name": "SmartBet AI Hub",
+  "short_name": "SmartBet",
+  "description": "AI-powered sports betting predictions and social trading platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "categories": ["sports", "finance", "social"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/lovable-uploads/08212846-590e-4578-b016-bf0a01f14455.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/lovable-uploads/096710cc-8897-405e-93b7-5a5659000837.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Social Feed",
+      "short_name": "Feed",
+      "description": "View the latest predictions and social feed",
+      "url": "/social",
+      "icons": [
+        {
+          "src": "/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Sports Predictions",
+      "short_name": "Sports",
+      "description": "Get AI-powered sports predictions",
+      "url": "/sports",
+      "icons": [
+        {
+          "src": "/lovable-uploads/203ad21a-9517-4ce9-9322-87450ea71fef.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+smartbet",
+      "url": "/?action=%s"
+    }
+  ]
+}
