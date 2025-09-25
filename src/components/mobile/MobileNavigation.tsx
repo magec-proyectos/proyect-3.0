@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import { Menu, X, Home, Trophy, TrendingUp, User, Settings, Bell } from 'lucide-react';
+import { Menu, X, Home, Trophy, TrendingUp, User, Settings, Bell, MessageCircle, Wallet } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSwipeGestures } from '@/hooks/useSwipeGestures';
+import { useNotifications } from '@/contexts/NotificationContext';
 import { cn } from '@/lib/utils';
 import { useRef } from 'react';
 
@@ -17,15 +18,15 @@ interface NavItem {
 
 const navigationItems: NavItem[] = [
   { title: 'Home', href: '/', icon: Home },
-  { title: 'Sports', href: '/sports', icon: Trophy },
-  { title: 'Statistics', href: '/stats', icon: TrendingUp },
+  { title: 'Explore', href: '/sports', icon: Trophy },
+  { title: 'Messages', href: '/social', icon: MessageCircle, badge: '1' },
   { title: 'Profile', href: '/profile', icon: User },
-  { title: 'Settings', href: '/settings', icon: Settings },
+  { title: 'Wallet', href: '/wallet', icon: Wallet },
 ];
 
 export const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState(3);
+  const { unreadCount } = useNotifications();
   const location = useLocation();
   const sheetRef = useRef<HTMLDivElement>(null);
 
@@ -64,12 +65,13 @@ export const MobileNavigation = () => {
             {/* Notifications */}
             <Button variant="ghost" size="sm" className="relative p-2">
               <Bell className="h-5 w-5" />
-              {notifications > 0 && (
+              {unreadCount > 0 && (
                 <Badge 
                   variant="destructive" 
-                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs animate-pulse-glow"
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs animate-pulse emoji-font"
+                  style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
                 >
-                  {notifications}
+                  {unreadCount > 9 ? '9+' : unreadCount}
                 </Badge>
               )}
             </Button>
@@ -162,34 +164,46 @@ export const MobileNavigation = () => {
         </div>
       </header>
 
-      {/* Bottom Tab Bar for Mobile */}
+      {/* Bottom Tab Bar for Mobile - Updated for proper social navigation */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border">
         <div className="flex items-center justify-around px-2 py-2">
-          {navigationItems.slice(0, 4).map((item) => {
+          {navigationItems.map((item) => {
             const isItemActive = isActive(item.href);
+            const showBadge = item.title === 'Messages' && item.badge;
             
             return (
               <NavLink
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300",
+                  "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300 relative",
                   "hover:bg-accent/50 min-w-[60px]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isItemActive && "text-primary"
                 )}
               >
-                <item.icon 
-                  className={cn(
-                    "h-5 w-5 transition-all duration-300",
-                    isItemActive && "scale-110 text-primary animate-bounce-subtle"
-                  )} 
-                />
+                <div className="relative">
+                  <item.icon 
+                    className={cn(
+                      "h-5 w-5 transition-all duration-300",
+                      isItemActive && "scale-110 text-primary animate-bounce-subtle"
+                    )} 
+                  />
+                  {showBadge && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center text-xs animate-pulse"
+                    >
+                      {item.badge}
+                    </Badge>
+                  )}
+                </div>
                 <span 
                   className={cn(
-                    "text-xs font-medium transition-all duration-300",
+                    "text-xs font-medium transition-all duration-300 emoji-font",
                     isItemActive ? "text-primary" : "text-muted-foreground"
                   )}
+                  style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}
                 >
                   {item.title}
                 </span>

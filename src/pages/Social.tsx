@@ -4,6 +4,7 @@ import SocialLayout from '@/components/social/layout/SocialLayout';
 import SocialTabContent from '@/components/social/SocialTabContent';
 import { useRealSocialData } from '@/hooks/useRealSocialData';
 import { useUserProfiles } from '@/hooks/useUserProfiles';
+import { EmojiNotificationTester } from '@/components/notifications/EmojiNotificationTester';
 
 const Social = () => {
   const { user } = useAuth();
@@ -42,7 +43,9 @@ const Social = () => {
   ];
 
   return (
-    <SocialLayout
+    <>
+      <EmojiNotificationTester />
+      <SocialLayout
       activeTab={activeTab}
       onTabChange={setActiveTab}
       onCreatePost={() => socialFeedRef.current?.focusComposer()}
@@ -58,7 +61,8 @@ const Social = () => {
         user={user}
         socialFeedRef={socialFeedRef}
       />
-    </SocialLayout>
+      </SocialLayout>
+    </>
   );
 };
 

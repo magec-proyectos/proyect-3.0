@@ -414,7 +414,9 @@ const DirectMessaging: React.FC<DirectMessagingProps> = ({ selectedUserId, onClo
                           ? 'bg-primary text-primary-foreground' 
                           : 'bg-muted'
                       }`}>
-                        <p className="text-sm">{message.message_content}</p>
+                        <p className="text-sm emoji-font" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+                          {message.message_content}
+                        </p>
                       </div>
                       
                       <div className={`flex items-center mt-1 space-x-1 ${

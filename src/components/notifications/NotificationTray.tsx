@@ -33,11 +33,13 @@ const NotificationItem: React.FC<{
       onClick={handleClick}
     >
       <div className="flex justify-between items-start">
-        <h4 className="font-medium text-sm flex items-center gap-2">
+        <h4 className="font-medium text-sm flex items-center gap-2 emoji-font">
           {!notification.read && (
             <span className="w-2 h-2 rounded-full bg-neon-blue"></span>
           )}
-          {notification.title}
+          <span style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+            {notification.title}
+          </span>
         </h4>
         <button 
           className="text-gray-500 hover:text-white text-xs"
@@ -49,7 +51,9 @@ const NotificationItem: React.FC<{
           &times;
         </button>
       </div>
-      <p className="text-gray-400 text-xs mt-1">{notification.message}</p>
+      <p className="text-gray-400 text-xs mt-1 emoji-font" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+        {notification.message}
+      </p>
       <div className="flex justify-between items-center mt-2">
         <span className="text-gray-500 text-xs">
           {format(notification.timestamp, 'MMM d, h:mm a')}
