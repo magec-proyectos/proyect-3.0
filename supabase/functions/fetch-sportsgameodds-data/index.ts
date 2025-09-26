@@ -14,19 +14,21 @@ const sportsGameOddsApiKey = Deno.env.get('SPORTSGAMEODDS_API_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 interface SportsGameOddsMatch {
-  id: string;
-  sport: string;
-  league: string;
-  home_team: string;
-  away_team: string;
-  match_date: string;
-  status: string;
-  home_score?: number;
-  away_score?: number;
+  eventID: string;
+  sportID: string;
+  leagueID: string;
+  homeTeam: string;
+  awayTeam: string;
+  eventDate: string;
+  eventStatus: string;
+  homeScore?: number;
+  awayScore?: number;
   odds?: {
-    home: number;
-    draw?: number;
-    away: number;
+    moneyline?: {
+      home?: number;
+      draw?: number;
+      away?: number;
+    };
   };
   venue?: string;
   country?: string;
@@ -46,6 +48,10 @@ interface DatabaseMatch {
   odds_draw: number | null;
   odds_away: number | null;
   data_source: string;
+  last_updated: string;
+  competition_id: string | null;
+  season: string | null;
+  match_week: number | null;
   venue: string | null;
   country: string | null;
   priority_level: number;
@@ -55,25 +61,22 @@ interface DatabaseMatch {
 }
 
 async function fetchSportsData(sport: string): Promise<SportsGameOddsMatch[]> {
-  const baseUrl = 'https://api.sportsgameodds.com';
-  const endpoints = {
-    football: '/v1/sports/football/fixtures',
-    basketball: '/v1/sports/basketball/fixtures',
-    american_football: '/v1/sports/american-football/fixtures'
+  // Map sport types to SportsGameOdds sport IDs
+  const sportMapping: Record<string, string> = {
+    'football': '1', // Football/Soccer
+    'basketball': '2', // Basketball
+    'american_football': '3' // American Football
   };
 
-  const endpoint = endpoints[sport as keyof typeof endpoints];
-  if (!endpoint) {
-    throw new Error(`Unsupported sport: ${sport}`);
-  }
-
-  const url = `${baseUrl}${endpoint}`;
+  const sportID = sportMapping[sport] || '1';
+  const url = `https://api.sportsgameodds.com/v2/events?sportID=${sportID}&status=upcoming,live`;
+  
   console.log(`Fetching data from: ${url}`);
 
   const response = await fetch(url, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${sportsGameOddsApiKey}`,
+      'x-api-key': sportsGameOddsApiKey,
       'Content-Type': 'application/json',
     },
   });
@@ -87,7 +90,7 @@ async function fetchSportsData(sport: string): Promise<SportsGameOddsMatch[]> {
   const data = await response.json();
   console.log(`Successfully fetched ${data.length || 0} ${sport} matches`);
   
-  return data.fixtures || data.matches || data || [];
+  return Array.isArray(data) ? data : data.events || [];
 }
 
 function transformToDbFormat(apiMatch: SportsGameOddsMatch, sport: string): DatabaseMatch {
@@ -156,26 +159,44 @@ function transformToDbFormat(apiMatch: SportsGameOddsMatch, sport: string): Data
     };
   };
 
+  // Helper function to get league name from ID
+  const getLeagueName = (leagueID: string): string => {
+    const leagueMap: Record<string, string> = {
+      '1': 'Premier League',
+      '2': 'La Liga',
+      '3': 'Bundesliga',
+      '4': 'Serie A',
+      '5': 'Ligue 1',
+      '6': 'UEFA Champions League',
+      '7': 'UEFA Europa League'
+    };
+    return leagueMap[leagueID] || `League ${leagueID}`;
+  };
+
   return {
-    external_id: `sgo-${apiMatch.id}`,
+    external_id: `sgo-${apiMatch.eventID}`,
     sport_type: sportMapping[sport as keyof typeof sportMapping] || sport,
-    league: apiMatch.league,
-    home_team: apiMatch.home_team,
-    away_team: apiMatch.away_team,
-    match_date: apiMatch.match_date,
-    status: apiMatch.status,
-    home_score: apiMatch.home_score || 0,
-    away_score: apiMatch.away_score || 0,
-    odds_home: apiMatch.odds?.home || null,
-    odds_draw: apiMatch.odds?.draw || null,
-    odds_away: apiMatch.odds?.away || null,
+    league: getLeagueName(apiMatch.leagueID) || 'Unknown League',
+    home_team: apiMatch.homeTeam,
+    away_team: apiMatch.awayTeam,
+    match_date: apiMatch.eventDate,
+    status: apiMatch.eventStatus?.toLowerCase() || 'upcoming',
+    home_score: apiMatch.homeScore || 0,
+    away_score: apiMatch.awayScore || 0,
+    odds_home: apiMatch.odds?.moneyline?.home || null,
+    odds_draw: apiMatch.odds?.moneyline?.draw || null,
+    odds_away: apiMatch.odds?.moneyline?.away || null,
     data_source: 'sportsgameodds',
+    last_updated: new Date().toISOString(),
+    competition_id: apiMatch.leagueID || null,
+    season: '2024-25',
+    match_week: null,
     venue: apiMatch.venue || null,
     country: apiMatch.country || null,
-    priority_level: getPriorityLevel(apiMatch.league),
-    market_types: getMarketTypes(sport, apiMatch.status),
-    live_stats: getLiveStats(sport, apiMatch.status),
-    betting_trends: getBettingTrends(apiMatch.odds)
+    priority_level: getPriorityLevel(getLeagueName(apiMatch.leagueID)),
+    market_types: getMarketTypes(sport, apiMatch.eventStatus?.toLowerCase() || 'upcoming'),
+    live_stats: getLiveStats(sport, apiMatch.eventStatus?.toLowerCase() || 'upcoming'),
+    betting_trends: getBettingTrends(apiMatch.odds?.moneyline)
   };
 }
 
