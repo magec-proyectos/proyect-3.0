@@ -60,37 +60,124 @@ interface DatabaseMatch {
   betting_trends: Record<string, any>;
 }
 
+// Helper function to get sport ID from SportsGameOdds API
+async function getSportId(sport: string, apiKey: string): Promise<string | null> {
+  try {
+    const response = await fetch('https://api.sportsgameodds.com/v2/sports', {
+      headers: {
+        'x-api-key': apiKey,
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`Sports API Error (${response.status}): ${await response.text()}`);
+      return null;
+    }
+
+    const sportsData = await response.json();
+    console.log('Available sports:', sportsData);
+
+    // Map our sport names to API sport names
+    const sportMappings: Record<string, string[]> = {
+      'football': ['soccer', 'association football', 'football'],
+      'basketball': ['basketball'],
+      'american_football': ['american football', 'nfl', 'american_football']
+    };
+
+    const searchTerms = sportMappings[sport] || [];
+    
+    for (const term of searchTerms) {
+      const foundSport = sportsData.find((s: any) => 
+        s.name?.toLowerCase().includes(term.toLowerCase()) ||
+        s.slug?.toLowerCase().includes(term.toLowerCase())
+      );
+      
+      if (foundSport) {
+        console.log(`Found sport mapping: ${sport} -> ${foundSport.name} (ID: ${foundSport.id})`);
+        return foundSport.id?.toString() || foundSport.slug;
+      }
+    }
+
+    console.error(`No sport found for: ${sport}`);
+    return null;
+  } catch (error) {
+    console.error('Error fetching sports list:', error);
+    return null;
+  }
+}
+
+// Check rate limiting
+async function shouldSkipDueToRateLimit(sport: string, supabase: any): Promise<boolean> {
+  try {
+    const { data } = await supabase
+      .from('scraping_metadata')
+      .select('last_scraped')
+      .eq('data_source', 'sportsgameodds')
+      .single();
+
+    if (data?.last_scraped) {
+      const lastScraped = new Date(data.last_scraped);
+      const now = new Date();
+      const diffSeconds = (now.getTime() - lastScraped.getTime()) / 1000;
+      
+      if (diffSeconds < 60) {
+        console.log(`Rate limit: Last scraped ${diffSeconds}s ago, skipping external call`);
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.log('No rate limit data found, proceeding with API call');
+    return false;
+  }
+}
+
 async function fetchSportsData(sport: string): Promise<SportsGameOddsMatch[]> {
-  // Map sport types to SportsGameOdds sport IDs
-  const sportMapping: Record<string, string> = {
-    'football': '1', // Football/Soccer
-    'basketball': '2', // Basketball
-    'american_football': '3' // American Football
-  };
-
-  const sportID = sportMapping[sport] || '1';
-  const url = `https://api.sportsgameodds.com/v2/events?sportID=${sportID}&status=upcoming,live`;
-  
-  console.log(`Fetching data from: ${url}`);
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'x-api-key': sportsGameOddsApiKey,
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(`API Error (${response.status}):`, errorText);
-    throw new Error(`Failed to fetch ${sport} data: ${response.status} ${errorText}`);
+  const sportId = await getSportId(sport, sportsGameOddsApiKey);
+  if (!sportId) {
+    throw new Error(`Could not find sport ID for: ${sport}`);
   }
 
-  const data = await response.json();
-  console.log(`Successfully fetched ${data.length || 0} ${sport} matches`);
-  
-  return Array.isArray(data) ? data : data.events || [];
+  // Try with sport parameter first, then fallback to sportID
+  let url = `https://api.sportsgameodds.com/v2/events?sport=${sportId}&status=upcoming,live`;
+  console.log('Fetching data from:', url);
+
+  try {
+    let response = await fetch(url, {
+      headers: {
+        'x-api-key': sportsGameOddsApiKey,
+        'Accept': 'application/json'
+      }
+    });
+
+    // If sport parameter fails, try sportID
+    if (!response.ok && response.status === 400) {
+      url = `https://api.sportsgameodds.com/v2/events?sportID=${sportId}&status=upcoming,live`;
+      console.log('Retrying with sportID parameter:', url);
+      
+      response = await fetch(url, {
+        headers: {
+          'x-api-key': sportsGameOddsApiKey,
+          'Accept': 'application/json'
+        }
+      });
+    }
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`API Error (${response.status}): ${errorText}`);
+      throw new Error(`Failed to fetch ${sport} data: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log(`Fetched ${data.length || 0} matches for ${sport}`);
+    return data || [];
+  } catch (error) {
+    console.error('Fetch error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    throw new Error(`Failed to fetch ${sport} data: ${errorMessage}`);
+  }
 }
 
 function transformToDbFormat(apiMatch: SportsGameOddsMatch, sport: string): DatabaseMatch {
@@ -263,6 +350,22 @@ serve(async (req) => {
     const validSports = ['football', 'basketball', 'american_football'];
     if (!validSports.includes(sport)) {
       throw new Error(`Invalid sport: ${sport}. Valid sports: ${validSports.join(', ')}`);
+    }
+
+    // Check rate limiting
+    if (await shouldSkipDueToRateLimit(sport, supabase)) {
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: 'Skipped due to rate limiting',
+          matches: 0,
+          timestamp: new Date().toISOString() 
+        }),
+        { 
+          status: 200, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
     }
 
     // Fetch data from SportsGameOdds API

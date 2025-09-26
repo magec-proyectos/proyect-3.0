@@ -302,16 +302,28 @@ export const useRealTimeCasinoOdds = (gameType?: string) => {
 
 // Enhanced hook to trigger manual data scraping
 export const useTriggerScraping = () => {
-  const triggerSportsScraping = async () => {
-    console.log('Triggering enhanced sports data scraping...');
+  const triggerSportsScraping = async (sport: string = 'football') => {
+    console.log(`Triggering sports data fetch for: ${sport}`);
     
-    const { data, error } = await supabase.functions.invoke('scrape-sports-data');
+    // Map frontend sport names to API format
+    const sportMapping: Record<string, string> = {
+      'americanFootball': 'american_football',
+      'football': 'football',
+      'basketball': 'basketball'
+    };
+    
+    const mappedSport = sportMapping[sport] || sport;
+    
+    const { data, error } = await supabase.functions.invoke('fetch-sportsgameodds-data', {
+      body: { sport: mappedSport }
+    });
     
     if (error) {
-      console.error('Error triggering sports scraping:', error);
+      console.error('Error triggering sports fetch:', error);
       throw error;
     }
     
+    console.log('Sports fetch triggered successfully:', data);
     return data;
   };
 

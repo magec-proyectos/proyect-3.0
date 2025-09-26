@@ -139,7 +139,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (!matchesQuery.data || matchesQuery.data.length === 0) {
         console.log('No initial data found, triggering enhanced auto-sync...');
         try {
-          await triggerSportsScraping();
+          await triggerSportsScraping(selectedSport);
           setTimeout(() => {
             matchesQuery.refetch();
             competitionsQuery.refetch();
@@ -160,7 +160,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const interval = setInterval(async () => {
       console.log('Performing enhanced periodic auto-sync for sport:', selectedSport);
       try {
-        await triggerSportsScraping();
+        await triggerSportsScraping(selectedSport);
         setTimeout(() => {
           matchesQuery.refetch();
           competitionsQuery.refetch();

@@ -136,14 +136,14 @@ serve(async (req) => {
     await supabase
       .from('scraping_metadata')
       .update({
-        error_count: supabase.sql`error_count + 1`,
-        last_error: error.message,
+        error_count: 1,
+        last_error: error instanceof Error ? error.message : 'Unknown error',
         updated_at: new Date().toISOString()
       })
       .eq('source_name', 'oddschecker')
 
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500 

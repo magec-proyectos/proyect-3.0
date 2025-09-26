@@ -222,36 +222,50 @@ serve(async (req) => {
       throw insertError
     }
 
-    // Update API configuration success count
-    const { error: apiConfigError } = await supabase
+    // Update API configuration with safe increment pattern
+    const { data: existingConfig } = await supabase
       .from('api_configurations')
-      .update({
+      .select('success_count, error_count')
+      .eq('api_name', 'enhanced-sports-api')
+      .single();
+
+    const apiSuccessCount = (existingConfig?.success_count || 0) + 1;
+
+    await supabase
+      .from('api_configurations')
+      .upsert({
+        api_name: 'enhanced-sports-api',
+        api_url: 'internal://enhanced-sports-data',
+        success_count: apiSuccessCount,
+        error_count: 0,
         last_successful_call: now.toISOString(),
-        success_count: supabase.raw('success_count + 1'),
         updated_at: now.toISOString()
-      })
-      .eq('api_name', 'api-football')
+      }, {
+        onConflict: 'api_name'
+      });
 
-    if (apiConfigError) {
-      console.error('API config update error:', apiConfigError)
-    }
+    // Update scraping metadata with safe increment pattern
+    const { data: existingMetadata } = await supabase
+      .from('scraping_metadata')
+      .select('success_count, error_count')
+      .eq('data_source', 'enhanced-sports-api')
+      .single();
 
-    // Update scraping metadata
-    const { error: metadataError } = await supabase
+    const successCount = (existingMetadata?.success_count || 0) + 1;
+
+    await supabase
       .from('scraping_metadata')
       .upsert({
-        source_name: 'api-football',
+        data_source: 'enhanced-sports-api',
         last_scraped: now.toISOString(),
-        success_count: supabase.raw('success_count + 1'),
+        success_count: successCount,
+        error_count: 0,
         is_active: true,
         scrape_interval_minutes: 5,
-        rate_limit_delay_ms: 2000,
-        updated_at: now.toISOString()
-      }, { onConflict: 'source_name' })
-
-    if (metadataError) {
-      console.error('Metadata update error:', metadataError)
-    }
+        rate_limit_delay_ms: 2000
+      }, {
+        onConflict: 'data_source'
+      });
 
     console.log(`Successfully scraped and stored ${insertedMatches?.length || 0} enhanced matches with competition data`)
 
@@ -284,26 +298,50 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
+    // Update error counts with safe increment pattern
+    const { data: existingMetadata } = await supabase
+      .from('scraping_metadata')
+      .select('success_count, error_count')
+      .eq('data_source', 'enhanced-sports-api')
+      .single();
+
+    const errorCount = (existingMetadata?.error_count || 0) + 1;
+
     await supabase
       .from('scraping_metadata')
       .upsert({
-        source_name: 'api-football',
-        error_count: supabase.raw('error_count + 1'),
-        last_error: error.message,
-        updated_at: new Date().toISOString()
-      }, { onConflict: 'source_name' })
+        data_source: 'enhanced-sports-api',
+        last_scraped: new Date().toISOString(),
+        success_count: existingMetadata?.success_count || 0,
+        error_count: errorCount,
+        last_error: error instanceof Error ? error.message : 'Unknown error'
+      }, {
+        onConflict: 'data_source'
+      });
+
+    const { data: existingConfig } = await supabase
+      .from('api_configurations')
+      .select('success_count, error_count')
+      .eq('api_name', 'enhanced-sports-api')
+      .single();
+
+    const apiErrorCount = (existingConfig?.error_count || 0) + 1;
 
     await supabase
       .from('api_configurations')
-      .update({
-        error_count: supabase.raw('error_count + 1'),
+      .upsert({
+        api_name: 'enhanced-sports-api',
+        api_url: 'internal://enhanced-sports-data',
+        success_count: existingConfig?.success_count || 0,
+        error_count: apiErrorCount,
         updated_at: new Date().toISOString()
-      })
-      .eq('api_name', 'api-football')
+      }, {
+        onConflict: 'api_name'
+      });
 
     return new Response(
       JSON.stringify({ 
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
         message: 'Enhanced sync temporarily offline - please try again'
       }),
       { 
