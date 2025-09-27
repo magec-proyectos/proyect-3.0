@@ -78,24 +78,25 @@ async function getSportId(sport: string, apiKey: string): Promise<string | null>
     const sportsData = await response.json();
     console.log('Available sports:', sportsData);
 
-    // Map our sport names to API sport names
+    // Map our sport names to API sport names  
     const sportMappings: Record<string, string[]> = {
-      'football': ['soccer', 'association football', 'football'],
-      'basketball': ['basketball'],
-      'american_football': ['american football', 'nfl', 'american_football']
+      'football': ['SOCCER'],
+      'basketball': ['BASKETBALL'], 
+      'american_football': ['FOOTBALL']
     };
 
     const searchTerms = sportMappings[sport] || [];
     
     for (const term of searchTerms) {
-      const foundSport = sportsData.find((s: any) => 
+      const foundSport = sportsData.data.find((s: any) => 
+        s.sportID?.toUpperCase() === term.toUpperCase() ||
         s.name?.toLowerCase().includes(term.toLowerCase()) ||
         s.slug?.toLowerCase().includes(term.toLowerCase())
       );
       
       if (foundSport) {
-        console.log(`Found sport mapping: ${sport} -> ${foundSport.name} (ID: ${foundSport.id})`);
-        return foundSport.id?.toString() || foundSport.slug;
+        console.log(`Found sport mapping: ${sport} -> ${foundSport.name} (ID: ${foundSport.sportID})`);
+        return foundSport.sportID || foundSport.slug;
       }
     }
 

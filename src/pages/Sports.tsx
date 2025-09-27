@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useMobilePerformance } from '@/hooks/use-mobile-performance';
 import { toast } from '@/components/ui/sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 // Real-time sports data
 import { useRealTimeSportsMatches, useLiveSportsData, useRefreshSportsData } from '@/services/realTimeSportsApi';
@@ -141,6 +142,29 @@ const Sports = () => {
   // Real-time sports data with SportsGameOdds API
   const { data: liveMatches, isLoading, error, refetch } = useLiveSportsData('football');
   const { refreshData } = useRefreshSportsData();
+  
+  // Enable real-time updates
+  React.useEffect(() => {
+    const channel = supabase
+      .channel('sports-matches-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'sports_matches'
+        },
+        (payload) => {
+          console.log('Real-time sports update received:', payload);
+          refetch();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [refetch]);
   
   // Use real data or fallback to sample data
   const matches = liveMatches && liveMatches.length > 0 ? liveMatches : sampleMatches;
