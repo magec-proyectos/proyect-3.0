@@ -108,28 +108,15 @@ async function getSportId(sport: string, apiKey: string): Promise<string | null>
   }
 }
 
-// Check rate limiting
+// Check rate limiting - simplified without scraping_metadata table
 async function shouldSkipDueToRateLimit(sport: string, supabase: any): Promise<boolean> {
   try {
-    const { data } = await supabase
-      .from('scraping_metadata')
-      .select('last_scraped')
-      .eq('data_source', 'sportsgameodds')
-      .single();
-
-    if (data?.last_scraped) {
-      const lastScraped = new Date(data.last_scraped);
-      const now = new Date();
-      const diffSeconds = (now.getTime() - lastScraped.getTime()) / 1000;
-      
-      if (diffSeconds < 60) {
-        console.log(`Rate limit: Last scraped ${diffSeconds}s ago, skipping external call`);
-        return true;
-      }
-    }
+    // For now, return false to allow all requests since scraping_metadata doesn't exist
+    // This can be enhanced later if needed
+    console.log('Rate limiting check skipped - proceeding with API call');
     return false;
   } catch (error) {
-    console.log('No rate limit data found, proceeding with API call');
+    console.log('Rate limit check error, proceeding with API call');
     return false;
   }
 }
@@ -381,23 +368,7 @@ serve(async (req) => {
     // Update API configuration success
     await updateApiConfig('SportsGameOdds', true);
 
-    // Update scraping metadata
-    const { data: currentMeta } = await supabase
-      .from('scraping_metadata')
-      .select('success_count, error_count')
-      .eq('data_source', 'sportsgameodds')
-      .single();
-
-    await supabase
-      .from('scraping_metadata')
-      .upsert({
-        data_source: 'sportsgameodds',
-        last_scraped: new Date().toISOString(),
-        success_count: (currentMeta?.success_count || 0) + 1,
-        error_count: Math.max((currentMeta?.error_count || 0) - 1, 0)
-      }, { 
-        onConflict: 'data_source' 
-      });
+    console.log('SportsGameOdds data fetch completed successfully');
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -417,22 +388,7 @@ serve(async (req) => {
     // Update API configuration error
     await updateApiConfig('SportsGameOdds', false, errorMessage);
 
-    // Update scraping metadata error
-    const { data: currentErrorMeta } = await supabase
-      .from('scraping_metadata')
-      .select('error_count')
-      .eq('data_source', 'sportsgameodds')
-      .single();
-
-    await supabase
-      .from('scraping_metadata')
-      .upsert({
-        data_source: 'sportsgameodds',
-        error_count: (currentErrorMeta?.error_count || 0) + 1,
-        last_error: errorMessage
-      }, { 
-        onConflict: 'data_source' 
-      });
+    console.log('SportsGameOdds data fetch failed:', errorMessage);
 
     return new Response(JSON.stringify({ 
       success: false, 

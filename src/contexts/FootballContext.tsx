@@ -107,7 +107,7 @@ export const FootballProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const sportTypeMap = {
     football: 'football',
     basketball: 'basketball', 
-    americanFootball: 'american-football'
+    americanFootball: 'american_football'
   };
 
   console.log('FootballContext - selectedSport:', selectedSport);

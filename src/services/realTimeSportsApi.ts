@@ -194,8 +194,8 @@ export const useLiveSportsData = (sportType: string = 'football') => {
 
       return transformDatabaseMatches(matchesData || []);
     },
-    staleTime: 1 * 60 * 1000, // 1 minute for live data
-    refetchInterval: 2 * 60 * 1000, // Refresh every 2 minutes for live updates
+    staleTime: 30 * 1000, // 30 seconds for live data
+    refetchInterval: 45 * 1000, // Refresh every 45 seconds for live updates
   });
 };
 
