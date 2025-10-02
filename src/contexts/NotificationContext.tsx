@@ -28,6 +28,8 @@ interface NotificationProviderProps {
   children: ReactNode;
 }
 
+const MAX_NOTIFICATIONS = 50; // Limit to prevent storage quota issues
+
 const NotificationProvider: React.FC<NotificationProviderProps> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   
@@ -36,25 +38,46 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
   
   // Load notifications from localStorage on mount
   useEffect(() => {
-    const savedNotifications = localStorage.getItem('notifications');
-    if (savedNotifications) {
-      try {
+    try {
+      const savedNotifications = localStorage.getItem('notifications');
+      if (savedNotifications) {
         const parsed = JSON.parse(savedNotifications);
-        // Convert string timestamps back to Date objects
-        const convertedNotifications = parsed.map((notification: any) => ({
-          ...notification,
-          timestamp: new Date(notification.timestamp)
-        }));
+        // Convert string timestamps back to Date objects and limit count
+        const convertedNotifications = parsed
+          .map((notification: any) => ({
+            ...notification,
+            timestamp: new Date(notification.timestamp)
+          }))
+          .slice(0, MAX_NOTIFICATIONS);
         setNotifications(convertedNotifications);
-      } catch (e) {
-        console.error('Failed to parse notifications from localStorage:', e);
       }
+    } catch (e) {
+      console.error('Failed to load notifications from localStorage:', e);
+      // Clear corrupted data
+      localStorage.removeItem('notifications');
     }
   }, []);
   
   // Save notifications to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('notifications', JSON.stringify(notifications));
+    try {
+      // Only keep the most recent notifications
+      const limitedNotifications = notifications.slice(0, MAX_NOTIFICATIONS);
+      localStorage.setItem('notifications', JSON.stringify(limitedNotifications));
+    } catch (e) {
+      console.error('Failed to save notifications to localStorage:', e);
+      // If quota exceeded, try to save only the most recent 20
+      try {
+        const reducedNotifications = notifications.slice(0, 20);
+        localStorage.setItem('notifications', JSON.stringify(reducedNotifications));
+        setNotifications(reducedNotifications);
+      } catch (fallbackError) {
+        // Last resort: clear all notifications
+        console.error('Critical storage error, clearing notifications');
+        localStorage.removeItem('notifications');
+        setNotifications([]);
+      }
+    }
   }, [notifications]);
   
   const addNotification = (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
@@ -65,11 +88,8 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
       read: false,
     };
     
-    setNotifications(prev => [newNotification, ...prev]);
-    
-    // Toast disabled to avoid disruptive pop-ups
-    // Previously showed a toast here when a new notification was added.
-
+    // Add new notification and auto-prune to MAX_NOTIFICATIONS
+    setNotifications(prev => [newNotification, ...prev].slice(0, MAX_NOTIFICATIONS));
   };
   
   const markAsRead = (id: string) => {
